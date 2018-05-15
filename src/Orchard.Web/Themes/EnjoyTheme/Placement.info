@@ -14,7 +14,5 @@
     <Place Parts_Common_Metadata="-"/>
   </Match>
 -->
-  <Match Path="/">
-    <Place Parts_Content=""/>
-  </Match>
+
 </Placement>
