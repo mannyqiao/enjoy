@@ -19,23 +19,47 @@ namespace Enjoy.Core
         public IEnumerable<RouteDescriptor> GetRoutes()
         {
             return new[] {
-                new RouteDescriptor {
-                    Route = new Route(
+                CreateRouteDescriptor("Enjoy.Core","Dashboard","Summary"),
+                CreateRouteDescriptor("Enjoy.Core","Access","Sign"),
+                CreateRouteDescriptor("Enjoy.Core","Access","Signin")
+                //new RouteDescriptor {
+                //    Route = new Route(
+                //        "{controller}/{action}",
+                //        new RouteValueDictionary {
+                //            {"area", "Enjoy.Core"},
+                //            {"controller", "Dashboard"},
+                //            {"action", "Summary"}
+                //        },
+                //        new RouteValueDictionary {
+                //            {"area", "Enjoy.Core"},
+                //            {"controller", "Dashboard"},
+                //        },
+                //        new RouteValueDictionary {
+                //            {"area", "Enjoy.Core"}
+                //        },
+                //        new MvcRouteHandler())
+                //}
+            };
+        }
+        static RouteDescriptor CreateRouteDescriptor(string area, string controller, string action)
+        {
+            return new RouteDescriptor
+            {
+                Route = new Route(
                         "{controller}/{action}",
                         new RouteValueDictionary {
-                            {"area", "Enjoy.Core"},
-                            {"controller", "Dashboard"},
-                            {"action", "Summary"}
+                            {"area", area},
+                            {"controller", controller},
+                            {"action", action}
                         },
                         new RouteValueDictionary {
-                            {"area", "Enjoy.Core"},
-                            {"controller", "Dashboard"},
+                            {"area", area},
+                            {"controller",controller},
                         },
                         new RouteValueDictionary {
-                            {"area", "Enjoy.Core"}
+                            {"area",area}
                         },
                         new MvcRouteHandler())
-                }
             };
         }
     }

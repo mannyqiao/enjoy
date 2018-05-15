@@ -83,10 +83,11 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
-    <Compile Include="Controllers\SignController.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
+    <Compile Include="ViewModels\SignViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets.json" />

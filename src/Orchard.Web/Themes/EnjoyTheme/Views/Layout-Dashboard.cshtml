@@ -34,21 +34,6 @@
 
     //Add classes to the wrapper div to toggle aside widget zones on and off
     var asideClass = CalcuClassify(new[] { "AsideFirst", "AsideSecond" }, "aside-"); // for aside-1, aside-2 or aside-12 if any of the aside zones are filled
-    if (httpEquiv: "X-UA-Compatible", content: "IE=edge,chrome=1");
-    Style.Include("//fonts.googleapis.com/css?family=Lobster&subset=latin");
-    Style.Include("default-grid.css");
-    Style.Include("site.css");
-
-    /* Some useful shortcuts or settings
-    ***************************************************************/
-
-    Func<dynamic, dynamic> Zone = x => Display(x); // Zone as an alias for Display to help make it obvious when we're displaying zones
-
-    /* Layout classification based on filled zones
-    ***************************************************************/
-
-    //Add classes to the wrapper div to toggle aside widget zones on and off
-    var asideClass = CalcuClassify(new[] { "AsideFirst", "AsideSecond" }, "aside-"); // for aside-1, aside-2 or aside-12 if any of the aside zones are filled
     if (HasText(asideClass))
     {
         Model.Classes.Add(asideClass);
@@ -81,18 +66,24 @@
     Model.Id = "layout-wrapper";
     var tag = Tag(Model, "div"); // using Tag so the layout div gets the classes, id and other attributes added to the Model
 }
+@tag.StartElement
 <div id="wrapper">
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    @*布局页中显示 Weight时候 容器必须有id *@
+    <nav id="layout-navigation" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         @if (Model.Navigation != null)
         {
-            Zone(Model.Navigation);
+            @Zone(Model.Navigation)
         }
+
     </nav>
     @if (Model.Content != null)
     {
-        Zone(Model.Content);
+        <div id="content" class="group">
+            @Zone(Model.Content)
+        </div>
     }
 </div>
+@tag.EndElement
 @using (Script.Foot())
 {
     <script src="/Themes/EnjoyTheme/Content/scripts/jquery.min.js"></script>
