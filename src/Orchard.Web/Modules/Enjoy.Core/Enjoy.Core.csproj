@@ -83,10 +83,18 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
-    <Compile Include="Controllers\SignController.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Migrations.cs" />
+    <Compile Include="Models\Enums\CardTypes.cs" />
+    <Compile Include="Models\Enums\Gender.cs" />
+    <Compile Include="Models\Records\CardSkin.cs" />
+    <Compile Include="Models\Records\EnjoyUser.cs" />
+    <Compile Include="Models\Records\Merchant.cs" />
+    <Compile Include="Models\Records\MerchantAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
+    <Compile Include="ViewModels\MerchantProfileViewModel.cs" />
+    <Compile Include="ViewModels\SignViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets.json" />
@@ -117,13 +125,24 @@
       <Project>{5531E894-D259-45A3-AA61-26DBE720C1CE}</Project>
       <Name>Orchard.Projections</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orchard.Widgets\Orchard.Widgets.csproj">
+      <Project>{194D3CCC-1153-474D-8176-FDE8D7D0D0BD}</Project>
+      <Name>Orchard.Widgets</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\card\cash.json" />
+    <Content Include="App_Data\card\discount.json" />
+    <Content Include="App_Data\card\general_coupon.json" />
+    <Content Include="App_Data\card\gift.json" />
+    <Content Include="App_Data\card\groupon.json" />
+    <Content Include="App_Data\card\member_card.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

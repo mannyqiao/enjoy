@@ -1,0 +1,12 @@
+﻿
+@model Enjoy.Core.ViewModels.SignViewModel
+<div class="container">
+    @if (Model.Signin)
+    {
+        @Html.Partial("Component/_SignIn")
+    }
+    else
+    {
+        @Html.Partial("Component/_SignUp")
+    }
+</div>

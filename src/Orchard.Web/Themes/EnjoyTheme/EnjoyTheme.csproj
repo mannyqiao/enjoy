@@ -89,13 +89,89 @@
     <Content Include="Assets.json" />
     <Content Include="Assets\Styles.less" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\home\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\home\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\home\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\home\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\home\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\home\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\home\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\home\bootstrap\js\npm.js" />
+    <Content Include="Content\home\css\animate.css" />
+    <Content Include="Content\home\css\form-elements.css" />
+    <Content Include="Content\home\css\magnific-popup.css" />
+    <Content Include="Content\home\css\media-queries.css" />
+    <Content Include="Content\home\css\style.css" />
+    <Content Include="Content\home\elegant-font\code\fonts\ElegantIcons.svg" />
+    <Content Include="Content\home\elegant-font\code\lte-ie7.js" />
+    <Content Include="Content\home\elegant-font\code\style.css" />
+    <Content Include="Content\home\elegant-font\licensing\gpl_license.txt" />
+    <Content Include="Content\home\elegant-font\licensing\mit_license.txt" />
+    <Content Include="Content\home\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\home\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\home\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\home\ico\apple-touch-icon-114-precomposed.png" />
+    <Content Include="Content\home\ico\apple-touch-icon-144-precomposed.png" />
+    <Content Include="Content\home\ico\apple-touch-icon-57-precomposed.png" />
+    <Content Include="Content\home\ico\apple-touch-icon-72-precomposed.png" />
+    <Content Include="Content\home\ico\favicon.png" />
+    <Content Include="Content\home\img\about\1.jpg" />
+    <Content Include="Content\home\img\about\2.jpg" />
+    <Content Include="Content\home\img\about\3.jpg" />
+    <Content Include="Content\home\img\about\4.jpg" />
+    <Content Include="Content\home\img\about\5.jpg" />
+    <Content Include="Content\home\img\backgrounds\1%402x.jpg" />
+    <Content Include="Content\home\img\backgrounds\1.jpg" />
+    <Content Include="Content\home\img\clients\1.png" />
+    <Content Include="Content\home\img\clients\2.png" />
+    <Content Include="Content\home\img\clients\3.png" />
+    <Content Include="Content\home\img\clients\4.png" />
+    <Content Include="Content\home\img\loading.gif" />
+    <Content Include="Content\home\img\logo%402x.png" />
+    <Content Include="Content\home\img\logo.png" />
+    <Content Include="Content\home\img\portfolio\1.jpg" />
+    <Content Include="Content\home\img\portfolio\10.jpg" />
+    <Content Include="Content\home\img\portfolio\11.jpg" />
+    <Content Include="Content\home\img\portfolio\12.jpg" />
+    <Content Include="Content\home\img\portfolio\2.jpg" />
+    <Content Include="Content\home\img\portfolio\3.jpg" />
+    <Content Include="Content\home\img\portfolio\4.jpg" />
+    <Content Include="Content\home\img\portfolio\5.jpg" />
+    <Content Include="Content\home\img\portfolio\6.jpg" />
+    <Content Include="Content\home\img\portfolio\7.jpg" />
+    <Content Include="Content\home\img\portfolio\8.jpg" />
+    <Content Include="Content\home\img\portfolio\9.jpg" />
+    <Content Include="Content\home\img\testimonials\1.jpg" />
+    <Content Include="Content\home\img\testimonials\2.jpg" />
+    <Content Include="Content\home\img\testimonials\3.jpg" />
+    <Content Include="Content\home\img\testimonials\4.jpg" />
+    <Content Include="Content\home\js\jquery-1.11.1.js" />
+    <Content Include="Content\home\js\jquery-1.11.1.min.js" />
+    <Content Include="Content\home\js\jquery.backstretch.js" />
+    <Content Include="Content\home\js\jquery.backstretch.min.js" />
+    <Content Include="Content\home\js\jquery.countTo.js" />
+    <Content Include="Content\home\js\jquery.magnific-popup.js" />
+    <Content Include="Content\home\js\jquery.magnific-popup.min.js" />
+    <Content Include="Content\home\js\masonry.pkgd.js" />
+    <Content Include="Content\home\js\masonry.pkgd.min.js" />
+    <Content Include="Content\home\js\placeholder.js" />
+    <Content Include="Content\home\js\retina-1.1.0.js" />
+    <Content Include="Content\home\js\retina-1.1.0.min.js" />
+    <Content Include="Content\home\js\scripts.js" />
+    <Content Include="Content\home\js\waypoints.js" />
+    <Content Include="Content\home\js\waypoints.min.js" />
+    <Content Include="Content\home\js\wow.js" />
+    <Content Include="Content\home\js\wow.min.js" />
     <Content Include="Content\images\backgrounds\1%402x.jpg" />
     <Content Include="Content\images\backgrounds\1.jpg" />
+    <Content Include="Content\scripts\additional-methods.min.js" />
     <Content Include="Content\scripts\bootstrap.js" />
     <Content Include="Content\scripts\bootstrap.min.js" />
     <Content Include="Content\scripts\jquery.backstretch.js" />
     <Content Include="Content\scripts\jquery.js" />
     <Content Include="Content\scripts\jquery.min.js" />
+    <Content Include="Content\scripts\jquery.validate.min.js" />
+    <Content Include="Content\scripts\logon.js" />
     <Content Include="Content\scripts\metisMenu.js" />
     <Content Include="Content\scripts\metisMenu.min.js" />
     <Content Include="Content\scripts\morris-data.js" />
@@ -136,6 +212,10 @@
       <Name>Orchard.Core</Name>
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Enjoy.Core\Enjoy.Core.csproj">
+      <Project>{c0e95621-aa96-48f3-879e-214104efbb70}</Project>
+      <Name>Enjoy.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Layout.cshtml" />
@@ -152,18 +232,6 @@
     <Content Include="Views\Branding.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\BadgeOfHonor.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Pager.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Pager.First.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Pager.Last.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -173,19 +241,80 @@
     <Content Include="Views\Content.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Footer.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Filters\LayoutFilter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Layout\Dashboard.cshtml" />
+    <Content Include="Views\Layout-Dashboard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Layout-Sign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\home\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\home\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\home\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\home\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\home\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\home\elegant-font\code\fonts\ElegantIcons.eot" />
+    <Content Include="Content\home\elegant-font\code\fonts\ElegantIcons.ttf" />
+    <Content Include="Content\home\elegant-font\code\fonts\ElegantIcons.woff" />
+    <Content Include="Content\home\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\home\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\home\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\home\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\home\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\home\font-awesome\less\core.less" />
+    <Content Include="Content\home\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\home\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\home\font-awesome\less\icons.less" />
+    <Content Include="Content\home\font-awesome\less\larger.less" />
+    <Content Include="Content\home\font-awesome\less\list.less" />
+    <Content Include="Content\home\font-awesome\less\mixins.less" />
+    <Content Include="Content\home\font-awesome\less\path.less" />
+    <Content Include="Content\home\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\home\font-awesome\less\spinning.less" />
+    <Content Include="Content\home\font-awesome\less\stacked.less" />
+    <Content Include="Content\home\font-awesome\less\variables.less" />
+    <Content Include="Content\home\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\home\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\home\font-awesome\scss\_core.scss" />
+    <Content Include="Content\home\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\home\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\home\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\home\font-awesome\scss\_list.scss" />
+    <Content Include="Content\home\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\home\font-awesome\scss\_path.scss" />
+    <Content Include="Content\home\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\home\font-awesome\scss\_spinning.scss" />
+    <Content Include="Content\home\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\home\font-awesome\scss\_variables.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Dashboard\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Layout\Sign.cshtml" />
+    <Content Include="Views\Component\_HeaderPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\BadgeOfHonor.cshtml" />
+    <Content Include="Views\Pager.cshtml" />
+    <Content Include="Views\Pager.First.cshtml" />
+    <Content Include="Views\Pager.Last.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Layout\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Access\Sign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Component\_SignUp.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Component\_SignIn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Merchant\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

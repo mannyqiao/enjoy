@@ -14,14 +14,13 @@ namespace EnjoyTheme.Filters
 
         static string[] LayoutLogOnUrls = new string[]
         {
-            "/Account/SingOut",
-            "/Account/SingIn",
-            "/Account/SingUp"
+            "/Access/Sign",
+            "/Access/SignUp"
         };
         static string[] LayoutDashboardUrls = new string[]
         {
-              "/Dashboard/",
-              ""
+              "/Dashboard/Summary",
+              "/Merchant/Create",
         };
 
         private readonly IWorkContextAccessor _wca;
@@ -35,7 +34,7 @@ namespace EnjoyTheme.Filters
             var WorkContext = _wca.GetContext();
             if (LayoutLogOnUrls.Any(o => WorkContext.HttpContext.Request.Url.PathAndQuery.IndexOf(o, StringComparison.OrdinalIgnoreCase) >= 0))
             {
-                WorkContext.Layout.Metadata.Alternates.Add("Layout__LogOn");
+                WorkContext.Layout.Metadata.Alternates.Add("Layout__Sign");
             }
             if (LayoutDashboardUrls.Any(o => WorkContext.HttpContext.Request.Url.PathAndQuery.IndexOf(o, StringComparison.OrdinalIgnoreCase) >= 0))
             {
