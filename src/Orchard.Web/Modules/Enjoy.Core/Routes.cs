@@ -21,7 +21,8 @@ namespace Enjoy.Core
             return new[] {
                 CreateRouteDescriptor("Enjoy.Core","Dashboard","Summary"),
                 CreateRouteDescriptor("Enjoy.Core","Access","Sign"),
-                CreateRouteDescriptor("Enjoy.Core","Access","Signin")
+                CreateRouteDescriptor("Enjoy.Core","Access","Signin"),
+                CreateRouteDescriptor("Enjoy.Core","Merchant","Create")
                 //new RouteDescriptor {
                 //    Route = new Route(
                 //        "{controller}/{action}",

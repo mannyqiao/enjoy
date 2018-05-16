@@ -19,7 +19,8 @@ namespace EnjoyTheme.Filters
         };
         static string[] LayoutDashboardUrls = new string[]
         {
-              "/Dashboard/Summary",              
+              "/Dashboard/Summary",
+              "/Merchant/Create",
         };
 
         private readonly IWorkContextAccessor _wca;

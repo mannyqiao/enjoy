@@ -164,11 +164,13 @@
     <Content Include="Content\home\js\wow.min.js" />
     <Content Include="Content\images\backgrounds\1%402x.jpg" />
     <Content Include="Content\images\backgrounds\1.jpg" />
+    <Content Include="Content\scripts\additional-methods.min.js" />
     <Content Include="Content\scripts\bootstrap.js" />
     <Content Include="Content\scripts\bootstrap.min.js" />
     <Content Include="Content\scripts\jquery.backstretch.js" />
     <Content Include="Content\scripts\jquery.js" />
     <Content Include="Content\scripts\jquery.min.js" />
+    <Content Include="Content\scripts\jquery.validate.min.js" />
     <Content Include="Content\scripts\logon.js" />
     <Content Include="Content\scripts\metisMenu.js" />
     <Content Include="Content\scripts\metisMenu.min.js" />
@@ -304,6 +306,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Access\Sign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Component\_SignUp.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Component\_SignIn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Merchant\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
