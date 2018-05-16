@@ -19,13 +19,13 @@ namespace Enjoy.Core.Controllers
             this.OS = os;
         }
         // GET: Sign
-        public ActionResult Sign()
+        public ActionResult Sign(bool signin = true)
         {
-            var model = new SignViewModel() { Mobile = "13961576298" };
+            var model = new SignViewModel() { Signin = signin };
             return View(model);
         }
         [HttpPost]
-        public ActionResult Signin(SignViewModel model,string ReturnUrl)
+        public ActionResult Signin(SignViewModel model, string ReturnUrl)
         {
             return this.RedirectLocal("/dashboard/summary");
         }

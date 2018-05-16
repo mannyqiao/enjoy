@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Enjoy.Core.ViewModels;
+using Orchard.Mvc.Extensions;
 
 namespace Enjoy.Core.Controllers
 {
@@ -11,10 +13,17 @@ namespace Enjoy.Core.Controllers
     public class MerchantController : Controller
     {
         // GET: Default
-        [Themed]
-        public ActionResult Index()
+
+        
+        public ActionResult Create()
         {
-            return View();
+            return View(new MerchantProfileViewModel());
+        }
+        [ActionName("Create")]
+        [HttpPost]
+        public ActionResult CreatePost()
+        {
+            return this.RedirectLocal("/dashboard/summary");
         }
     }
 }
