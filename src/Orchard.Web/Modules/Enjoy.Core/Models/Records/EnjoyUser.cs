@@ -17,8 +17,8 @@ namespace Enjoy.Core.Models.Records
         public virtual string Province { get; set; }
         public virtual string City { get; set; }
         public virtual string LastPassword { get; set; }
-        public virtual DateTime LastSign { get; set; }
-        public virtual DateTime LastUpdatedTime { get; set; }
-        public virtual DateTime CreatedTime { get; set; }
+        public virtual long LastSign { get; set; }
+        public virtual long LastUpdatedTime { get; set; }
+        public virtual long CreatedTime { get; set; }
     }
 }

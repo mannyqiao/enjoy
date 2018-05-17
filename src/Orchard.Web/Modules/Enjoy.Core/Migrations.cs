@@ -33,7 +33,6 @@ namespace Enjoy.Core
                 cfg => cfg.WithField("FontAwesome", builder => builder.OfType("TextField").WithDisplayName("FontAwesome"))
                          .WithField("Display", builder => builder.OfType("BooleanField").WithDisplayName("Display"))
                          .Attachable()
-
             );
             return 1;
         }
@@ -45,11 +44,7 @@ namespace Enjoy.Core
             CreateEnjoyDataSchema();
             return 2;
         }
-        public int UpdateFrom2()
-        {
-            CreateEnjoyDataSchema();
-            return 3;
-        }
+
 
         public void CreateEnjoyDataSchema()
         {
@@ -63,23 +58,30 @@ namespace Enjoy.Core
                     .Column("Province", System.Data.DbType.String, column => column.WithLength(50).Nullable())
                     .Column("City", System.Data.DbType.String, column => column.WithLength(50).Nullable())
                     .Column("LastPassword", System.Data.DbType.String, column => column.WithLength(200))
-                    .Column("LastSign", System.Data.DbType.DateTime)
-                    .Column("LastUpdatedTime", System.Data.DbType.DateTime)
-                    .Column("CreatedTime", System.Data.DbType.DateTime)
+                    .Column("LastSign", System.Data.DbType.Int64)
+                    .Column("LastUpdatedTime", System.Data.DbType.Int64)
+                    .Column("CreatedTime", System.Data.DbType.Int64)
             );
 
             SchemaBuilder.CreateTable("Merchant", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("MerchantName", System.Data.DbType.String, column => column.WithLength(100).Unique().NotNull())
-                .Column("Category", System.Data.DbType.String, column => column.WithLength(100))
-                .Column("License", System.Data.DbType.String, column => column.WithLength(50))
-                .Column("LicenseImageUrl", System.Data.DbType.String, column => column.WithLength(200).NotNull())
-                .Column("Contact", System.Data.DbType.String, column => column.WithLength(20))
-                .Column("AppId", System.Data.DbType.String, column => column.WithLength(50).Nullable())
-                .Column("AppSecret", System.Data.DbType.String, column => column.WithLength(100).Nullable())
-                .Column("EnjoyUser_Id", System.Data.DbType.Int32)// foreign key ， reference  EnjoyUser Id
-                .Column("LastUpdatedTime", System.Data.DbType.DateTime, column => column.Nullable())
-                .Column("CreatedTime", System.Data.DbType.DateTime, column => column.NotNull())
+                .Column("MerchantId", System.Data.DbType.Int32)
+                .Column("EnjoyUser_Id", System.Data.DbType.Int32)
+                .Column("BenginTime", System.Data.DbType.Int64)
+                .Column("CreateTime", System.Data.DbType.Int64)
+                .Column("UpdateTime", System.Data.DbType.Int64)
+                .Column("Status", System.Data.DbType.String, column => column.WithLength(36))
+                .Column("AppId", System.Data.DbType.String, column => column.WithLength(26))
+                .Column("BrandName", System.Data.DbType.String, column => column.WithLength(36))
+                .Column("LogoUrl", System.Data.DbType.String, column => column.WithLength(128).NotNull())
+                .Column("Protocol", System.Data.DbType.String, column => column.WithLength(26))
+                .Column("EndTime", System.Data.DbType.Int64)
+                .Column("PrimaryCategoryId", System.Data.DbType.Int32)
+                .Column("SecondaryCategoryId", System.Data.DbType.Int32)
+                .Column("AgreementMediaId", System.Data.DbType.String, column => column.WithLength(36))
+                .Column("OperatorMediaId", System.Data.DbType.String, column => column.WithLength(36))
+                .Column("Contact", System.Data.DbType.String, column => column.WithLength(36).Nullable())
+                .Column("Mobile", System.Data.DbType.String, column => column.WithLength(36).Nullable())
             );
 
             SchemaBuilder.CreateTable("MerchantAdmin", table => table
@@ -93,20 +95,15 @@ namespace Enjoy.Core
         }
         private void CreateLayer()
         {
-            var layer = this.OrchardServices.ContentManager.Create<LayerPart>(typeof(LayerPart).Name);
+            var layer = this.OrchardServices.ContentManager.Create<LayerPart>("Layer");            
             layer.Name = "dashboard";
             layer.Description = "merchant background";
-            layer.LayerRule = string.Join("or", new string[] {
-                string.Format("url{\"0\"}","~/dashboard/*"),
-                string.Format("url{\"0\"}","~/merchant/*")
-            });
-            //url("~/dashboard/*", "~/Merchant/*")
-
-            //layer.LayerRule = string.Format("url({0})", string.Join(",", new string[] 
-            //{
-            //    "~/dashboard/*",
-            //    "~/merchant/*"
-            //}));
+            layer.LayerRule = string.Join(" or ", new string[] {
+                string.Format("url(\"{0}\")","~/dashboard/*"),
+                string.Format("url(\"{0}\")","~/merchant/*"),
+                string.Format("url(\"{0}\")","~/cards/*"),
+                string.Format("url(\"{0}\")","~/marketing/*")
+            });        
 
         }
         private void CreateMenuItem()
