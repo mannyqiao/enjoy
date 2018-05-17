@@ -1,4 +1,5 @@
-﻿@model Enjoy.Core.ViewModels.CreatingSubMerchantViewModel
+﻿
+@model Enjoy.Core.ViewModels.CreatingSubMerchantViewModel
 <div id="page-wrapper">
     <!-- /.row -->
     <div class="row">
@@ -17,26 +18,16 @@
                 <fieldset>
                     <div class="form-group">
                         <label class="control-label">商户名称</label>
-                        @Html.TextBoxFor(o => o.BrandName, new { @class = "form-control", type = "tel", placeholder = "输入商户名称", autofocus = "autofocus" })  @Html.ValidationMessageFor(o => o.BrandName)
+                        @Html.TextBoxFor(o => o.BrandName, new { @class = "form-control", placeholder = "输入商户名称", autofocus = "autofocus" })
+                        @Html.ValidationMessageFor(o => o.BrandName)
                     </div>
-                    <div class="form-group">
-                        @*<label class="control-label">一级分类</label>
-                            <select id="publishActions" name="@Html.NameOf(m => m.PrimaryCategoryId)" class="form-control">
-                                @foreach (var category in Model.ApplyProtocol.Categories)
-                                {
-                                    @Html.SelectOption(Model.PrimaryCategoryId, category.PrimaryCategoryId, category.CategoryName)
-                                }
-                            </select>*@
+
+                    <div class="form-group" id="ApplyProtocol">
+                        <label class="control-label">选择商铺分类</label>
+                        <select class="form-control first" name="@Html.NameOf(m => m.PrimaryCategoryId)"> </select>
+                        <select class="form-control second" name="@Html.NameOf(m => m.SecondaryCategoryId)"></select>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">二级分类</label>
-                        <select id="publishActions" name="@Html.NameOf(m => m.SecondaryCategoryId)" class="form-control">
-                            @foreach (var category in Model.ApplyProtocol.Categories)
-                            {
-                                @Html.SelectOption(Model.PrimaryCategoryId, category.PrimaryCategoryId, category.CategoryName)
-                            }
-                        </select>
-                    </div>
+
                     <div class="form-group">
                         @Html.HiddenFor(o => o.AgreementMediaId)
                         <label>上传营业执照</label>
@@ -48,11 +39,24 @@
                         <input type="file">
                     </div>
                     <div class="form-group">
+                        <label class="control-label">联系人</label>
                         <img src="@Model.Contact" />
-                        @Html.TextBoxFor(o => o.PrimaryCategoryId, new { @class = "form-control", type = "tel", placeholder = "联系人", autofocus = "autofocus" })
+                        @Html.TextBoxFor(o => o.Contact, new { @class = "form-control", placeholder = "联系人" })
                         <label></label>
                     </div>
-                    <button type="submit" class="btn btn-lg btn-success btn-block">保存</button>
+                    <div class="form-group">
+                        <label class="control-label">联系电话</label>
+                        @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "联系人" })
+                        <label></label>
+                    </div>
+
+                    <div class="form-group" id="address">
+                        <label class="control-label">商户地址</label>
+                        <select class="form-control province" name="@Html.NameOf(m => m.Province)"> </select>
+                        <select class="form-control city" name="@Html.NameOf(m => m.City)"></select>
+                        <select class="form-control area" name="@Html.NameOf(m => m.Area)"></select>
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-success btn-block">创建</button>
                 </fieldset>
             }
         </div>
@@ -64,11 +68,30 @@
 
 @using (Script.Foot())
 {
-    <script>        
-        $(document).ready(function () {
-            $.get("/Merchant/GetApplyProtocol", function (result) {
-                
-            });          
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+    <script>
+     $(document).ready(function () {
+
+        $.get("/Merchant/GetApplyProtocol", function (result) {
+           $('#ApplyProtocol').cxSelect({
+              selects: ['first', 'second'],
+                jsonName: 'Text',
+                  jsonValue: 'Id',
+                  jsonSub: 'Items',
+              emptyStyle: 'none',
+              data:result
+            });
+            $.cxSelect.defaults.emptyStyle = 'none';
         });
+
+        $('#address').cxSelect({
+              url: '/themes/enjoytheme/content/data/cityData.min.js',
+              selects:['province', 'city', 'area'],
+              emptyStyle: 'none'
+        });
+
+     });
     </script>
+
 }

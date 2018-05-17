@@ -118,6 +118,7 @@
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultHandler.cs" />
     <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
     <Compile Include="ViewModels\CreatingSubMerchantViewModel.cs" />
+    <Compile Include="ViewModels\SelectNodeViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

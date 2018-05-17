@@ -169,6 +169,7 @@
     <Content Include="Content\scripts\bootstrap.min.js" />
     <Content Include="Content\scripts\global.js" />
     <Content Include="Content\scripts\jquery.backstretch.js" />
+    <Content Include="Content\scripts\jquery.cxselect.min.js" />
     <Content Include="Content\scripts\jquery.js" />
     <Content Include="Content\scripts\jquery.min.js" />
     <Content Include="Content\scripts\jquery.validate.min.js" />
@@ -316,6 +317,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Merchant\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\data\cityData.min.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
