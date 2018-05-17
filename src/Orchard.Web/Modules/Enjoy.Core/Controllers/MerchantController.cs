@@ -12,18 +12,31 @@ namespace Enjoy.Core.Controllers
     [Themed]
     public class MerchantController : Controller
     {
+        private readonly IWeChatApi WeChat;
         // GET: Default
+        public MerchantController(IWeChatApi api)
+        {
+            this.WeChat = api;
+        }
 
-        
         public ActionResult Create()
         {
-            return View(new MerchantProfileViewModel());
+            var model = new CreatingSubMerchantViewModel()
+            {
+                ApplyProtocol = this.WeChat.GetApplyProtocol()
+            };
+            return View(model);
         }
         [ActionName("Create")]
         [HttpPost]
         public ActionResult CreatePost()
         {
             return this.RedirectLocal("/dashboard/summary");
+        }
+
+        public JsonResult GetApplyProtocol()
+        {
+            return Json(this.WeChat.GetApplyProtocol(), JsonRequestBehavior.AllowGet);
         }
     }
 }

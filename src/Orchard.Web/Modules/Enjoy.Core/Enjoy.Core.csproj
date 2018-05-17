@@ -25,6 +25,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,9 @@
       <HintPath>..\..\..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\NHibernate.4.0.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
@@ -61,6 +65,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -78,6 +86,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
+    <Compile Include="Common\Extensions\JsonExtension.cs" />
+    <Compile Include="Contract\IWeChatApi.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -87,13 +97,27 @@
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\Enums\CardTypes.cs" />
     <Compile Include="Models\Enums\Gender.cs" />
+    <Compile Include="Models\Enums\Status.cs" />
     <Compile Include="Models\Records\CardSkin.cs" />
     <Compile Include="Models\Records\EnjoyUser.cs" />
     <Compile Include="Models\Records\Merchant.cs" />
     <Compile Include="Models\Records\MerchantAdmin.cs" />
+    <Compile Include="Models\WeChat\Request\CreateSubMerchant.cs" />
+    <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
+    <Compile Include="Models\WeChat\Response\QRCodeWxResponse.cs" />
+    <Compile Include="Models\WeChat\Response\AccessTokenWxResponse.cs" />
+    <Compile Include="Models\WeChat\Response\WxResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
-    <Compile Include="ViewModels\MerchantProfileViewModel.cs" />
+    <Compile Include="Common\Extensions\HttpExtension.cs" />
+    <Compile Include="Services\WeChat\WeChatApi.cs" />
+    <Compile Include="Utilities\TransientFaultHandler\DefaultHttpTransientFaultDetecter.cs" />
+    <Compile Include="Utilities\TransientFaultHandler\DefaultTransientFaultHandler.cs" />
+    <Compile Include="Utilities\TransientFaultHandler\ExceptionTransientFaultDetecter.cs" />
+    <Compile Include="Utilities\TransientFaultHandler\ITransientFaultDetecter.cs" />
+    <Compile Include="Utilities\TransientFaultHandler\ITransientFaultHandler.cs" />
+    <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
+    <Compile Include="ViewModels\CreatingSubMerchantViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -181,7 +205,7 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://orchard.codeplex.com</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
