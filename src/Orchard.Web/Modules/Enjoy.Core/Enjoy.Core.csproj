@@ -86,8 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
+    <Compile Include="Common\Extensions\DateTimeExtension.cs" />
+    <Compile Include="Common\Extensions\ISessionExtension.cs" />
     <Compile Include="Common\Extensions\JsonExtension.cs" />
+    <Compile Include="Contract\IEnjoyAuthService.cs" />
     <Compile Include="Contract\IWeChatApi.cs" />
+    <Compile Include="Contract\Models\IDataSourceDescriptor.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -95,9 +99,12 @@
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Migrations.cs" />
+    <Compile Include="Models\DataDescriptor.cs" />
+    <Compile Include="Models\EnjoyUserProfile.cs" />
     <Compile Include="Models\Enums\CardTypes.cs" />
     <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Enums\Status.cs" />
+    <Compile Include="Models\Enums\MediaUploadTypes.cs" />
     <Compile Include="Models\Records\CardSkin.cs" />
     <Compile Include="Models\Records\EnjoyUser.cs" />
     <Compile Include="Models\Records\Merchant.cs" />
@@ -106,11 +113,14 @@
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\QRCodeWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\AccessTokenWxResponse.cs" />
+    <Compile Include="Models\WeChat\Response\UploadMediaWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\WxResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Common\Extensions\HttpExtension.cs" />
+    <Compile Include="Services\EnjoyAuthService.cs" />
     <Compile Include="Services\WeChat\WeChatApi.cs" />
+    <Compile Include="Utilities\EnjoyConstant.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultHttpTransientFaultDetecter.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultTransientFaultHandler.cs" />
     <Compile Include="Utilities\TransientFaultHandler\ExceptionTransientFaultDetecter.cs" />
