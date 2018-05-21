@@ -44,7 +44,7 @@ namespace Enjoy.Core.Services
             return result;
         }
 
-        public EnjoyUserProfile SignUp(SignViewModel model)
+        public EnjoyUserProfile SignUp(SignUpViewModel model)
         {
 
             if (string.IsNullOrEmpty(model.Password))

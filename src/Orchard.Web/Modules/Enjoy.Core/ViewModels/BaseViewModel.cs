@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Enjoy.Core.ViewModels
 {
-    public class SignViewModel : BaseViewModel
+    public abstract class BaseViewModel
     {
-        public bool Signin { get; set; }
-        public object Current { get; set; }
+        public bool HasError { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

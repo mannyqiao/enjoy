@@ -29,7 +29,7 @@ namespace Enjoy.Core.Models
         public abstract T GetSigleOrDefault(Func<T, bool> selector);
         protected virtual bool IsEmptyOrNullDataSource()
         {
-            return Records == null && Records.Count() == 0;
+            return Records == null || Records.Count() == 0;
         }
 
     }

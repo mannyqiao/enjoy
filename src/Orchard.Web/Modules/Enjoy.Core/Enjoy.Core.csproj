@@ -116,6 +116,7 @@
     <Compile Include="Models\WeChat\Response\UploadMediaWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\WxResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManifestProvider.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Common\Extensions\HttpExtension.cs" />
     <Compile Include="Services\EnjoyAuthService.cs" />
@@ -127,8 +128,11 @@
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultDetecter.cs" />
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultHandler.cs" />
     <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CreatingSubMerchantViewModel.cs" />
     <Compile Include="ViewModels\SelectNodeViewModel.cs" />
+    <Compile Include="ViewModels\SignInViewModel.cs" />
+    <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

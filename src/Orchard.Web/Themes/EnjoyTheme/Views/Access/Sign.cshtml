@@ -3,10 +3,16 @@
 <div class="container">
     @if (Model.Signin)
     {
-        @Html.Partial("Component/_SignIn")
+        @Html.Partial("Component/_SignIn",Model.Current)
     }
     else
     {
-        @Html.Partial("Component/_SignUp")
+        @Html.Partial("Component/_SignUp",Model.Current)
+    }
+    @if (Model.HasError)
+    {
+        <div class="alert alert-warning">
+            @Model.ErrorMessage
+        </div>
     }
 </div>

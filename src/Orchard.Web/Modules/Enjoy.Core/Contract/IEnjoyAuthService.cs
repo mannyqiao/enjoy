@@ -12,6 +12,6 @@ namespace Enjoy.Core
         EnjoyUserProfile Auth(string mobile, string passowrd);
 
         EnjoyUserProfile QueryByMobile(string mobile);
-        EnjoyUserProfile SignUp(SignViewModel model);
+        EnjoyUserProfile SignUp(SignUpViewModel model);
     }
 }

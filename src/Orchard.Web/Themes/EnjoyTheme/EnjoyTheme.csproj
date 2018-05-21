@@ -189,6 +189,13 @@
     <Content Include="Content\plugs\jquery.fileupload\js\jquery.iframe-transport.js" />
     <Content Include="Content\plugs\jquery.fileupload\js\main.js" />
     <Content Include="Content\plugs\jquery.fileupload\js\vendor\jquery.ui.widget.js" />
+    <None Include="Content\plugs\jquery.validate\jquery.validate-vsdoc.js" />
+    <Content Include="Content\plugs\jquery.validate\jquery.validate.js" />
+    <Content Include="Content\plugs\jquery.validate\jquery.validate.min.js" />
+    <Content Include="Content\plugs\jquery.validate\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\plugs\jquery.validate\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\plugs\jquery\jquery-1.10.2.js" />
+    <Content Include="Content\plugs\jquery\jquery-1.10.2.min.js" />
     <Content Include="Content\scripts\additional-methods.min.js" />
     <Content Include="Content\scripts\ajaxfileupload.js" />
     <Content Include="Content\scripts\bootstrap.js" />
@@ -199,7 +206,6 @@
     <Content Include="Content\scripts\jquery.cxselect.min.js" />
     <Content Include="Content\scripts\jquery.js" />
     <Content Include="Content\scripts\jquery.min.js" />
-    <Content Include="Content\scripts\jquery.validate.min.js" />
     <Content Include="Content\scripts\logon.js" />
     <Content Include="Content\scripts\metisMenu.js" />
     <Content Include="Content\scripts\metisMenu.min.js" />

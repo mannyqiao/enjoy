@@ -14,7 +14,7 @@ namespace Enjoy.Core.Controllers
     {
         private readonly IOrchardServices OS;
         private readonly IEnjoyAuthService Auth;
-        public AccessController(IOrchardServices os,IEnjoyAuthService auth)
+        public AccessController(IOrchardServices os, IEnjoyAuthService auth)
         {
             this.OS = os;
             this.Auth = auth;
@@ -22,17 +22,27 @@ namespace Enjoy.Core.Controllers
         // GET: Sign
         public ActionResult Sign(bool signin = true)
         {
-            var model = new SignViewModel() { Signin = signin };
-            return View(model);
+            // var model = new SignViewModel() { Signin = signin };
+            if (signin)
+                return View(new SignViewModel() { Signin = true, Current = new SignInViewModel() { } });
+            else
+                return View(new SignViewModel() { Signin = false, Current = new SignUpViewModel() { } });
+
         }
         [HttpPost]
-        public ActionResult Signin(SignViewModel model, string ReturnUrl)
+        public ActionResult Signin(SignInViewModel model, string ReturnUrl)
         {
             if (this.Auth.Auth(model.Mobile, model.Password).ErrorCode == EnjoyConstant.Success)
             {
                 return this.RedirectLocal("/dashboard/summary");
             }
-            return View();
+            return View("Sign", new SignViewModel()
+            {
+                Signin = true,
+                HasError = true,
+                ErrorMessage = "登录失败,用户名或密码不正确!",
+                Current = model
+            });
         }
         [HttpPost]
         public string GetverificationCode(string mobile)
@@ -41,11 +51,11 @@ namespace Enjoy.Core.Controllers
             return string.Empty;
         }
         [HttpPost]
-        public ActionResult SignUp(SignViewModel model, string ReturnUrl)
+        public ActionResult SignUp(SignUpViewModel model, string ReturnUrl)
         {
 
             var result = this.Auth.SignUp(model);
-           
+
             return this.RedirectLocal("/dashboard/summary");
         }
     }
