@@ -95,7 +95,7 @@
 
         });
 
-
+        ////TODO 此方法在 Edge上有bug，不能上传
         function upload_cover(target,setback_id) {
             ajax_upload(target,setback_id, function(data) { //function(data)是上传图片的成功后的回调方法
                 var isrc = data.relatPath.replace(/\/\//g, '/'); //获取的图片的绝对路径
@@ -109,18 +109,20 @@
                 $.ajaxFileUpload({
                     fileElementId: target, //需要上传的文件域的ID，即<input type="file">的ID。
                     url: "/Merchant/UploadMaterial", //后台方法的路径
-                    type: 'post', //当要提交自定义参数时，这个参数要设置成post
+                    type: 'POST', //当要提交自定义参数时，这个参数要设置成post
                     dataType: 'json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
                     secureuri: false, //是否启用安全提交，默认为false。
                     async: true, //是否是异步
                     success: function(data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
-                        $("#"+setback_id).val(data.MediaId);
-                        console.log(setback_id);
                         console.log(data);
-                        //$("#"+setback).val(data.mediaid);
+                        $("#"+setback_id).val(data.MediaId);
+
+                        //console.log(data);
+                        $("#"+setback_id).val(data.mediaid);
                     },
                     error: function(data, status, e) { //提交失败自动执行的处理函数。
                         console.error(e);
+                        console.error(data);
                     }
                 });
             }
