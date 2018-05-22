@@ -1,8 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Enjoy.Core.Services
 {
@@ -10,6 +6,8 @@ namespace Enjoy.Core.Services
     using Orchard.Services;
     using Enjoy.Core.Models;
     using System;
+    using System.Text;
+    using System.IO;
     public class WeChatApi : IWeChatApi
     {
         private readonly ICacheManager Cache;
@@ -44,6 +42,40 @@ namespace Enjoy.Core.Services
                 ctx.Monitor(this.Clock.When(TimeSpan.FromDays(15)));//默认过期时间为 7200秒
                 return apply;
             });
+        }
+
+        public UploadMediaWxResponse UploadMaterial(string name, byte[] buffers)
+        {
+            var request = WeChatApiRequestBuilder.GenerateWxUploaMediaUrl(this.GetToken(), MediaUploadTypes.AuthMaterial);
+            return request.GetResponseForJson<UploadMediaWxResponse>((http) =>
+             {
+                 http.Method = "POST";
+                 http.ContentType = "application/x-www-form-urlencoded";
+                 System.Net.CookieContainer cookieContainer = new System.Net.CookieContainer();
+                 http.CookieContainer = cookieContainer;
+                 http.AllowAutoRedirect = true;
+                 http.Method = "POST";
+                 string boundary = System.DateTime.Now.Ticks.ToString("X"); // 随机分隔线
+                 http.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
+                 byte[] itemBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
+                 byte[] endBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
+
+                 //// TODO :need change default filename
+                 var sbHeader = new System.Text.StringBuilder(string.Format(
+                          "Content-Disposition:form-data;name=\"media\";filename=\"{0}\"\r\nContent-Type:application/octet-stream\r\n\r\n",
+                          @"Enjoy.jpg"));
+                 byte[] postHeaderBytes = Encoding.UTF8.GetBytes(sbHeader.ToString());
+
+                 using (Stream postStream = http.GetRequestStream())
+                 {
+                     postStream.Write(itemBoundaryBytes, 0, itemBoundaryBytes.Length);
+                     postStream.Write(postHeaderBytes, 0, postHeaderBytes.Length);
+                     postStream.Write(buffers, 0, buffers.Length);
+                     postStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
+                     postStream.Flush();
+                 }
+                 return http;
+             });
         }
     }
 }

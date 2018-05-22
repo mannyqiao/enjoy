@@ -7,6 +7,9 @@ namespace Enjoy.Core
     public interface IWeChatApi : IDependency
     {
         string GetToken(string appid, string appsecret);
+        string GetToken();
         ApplyProtocolWxResponse GetApplyProtocol();
+
+        UploadMediaWxResponse UploadMaterial(string name,byte[] buffers);
     }
 }

@@ -1,5 +1,4 @@
-﻿
-@model Enjoy.Core.ViewModels.CreatingSubMerchantViewModel
+﻿ @model Enjoy.Core.ViewModels.CreatingSubMerchantViewModel
 <div id="page-wrapper">
     <!-- /.row -->
     <div class="row">
@@ -13,52 +12,49 @@
 
         </div>
         <div class="col-md-4 ">
-            @using (Html.BeginFormAntiForgeryPost(Url.Action("Create", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
-            {
-                <fieldset>
-                    <div class="form-group">
-                        <label class="control-label">商户名称</label>
-                        @Html.TextBoxFor(o => o.BrandName, new { @class = "form-control", placeholder = "输入商户名称", autofocus = "autofocus" })
-                        @Html.ValidationMessageFor(o => o.BrandName)
-                    </div>
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreatePost", new { ReturnUrl = Request.QueryString["ReturnUrl"] }))) {
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">商户名称</label> @Html.TextBoxFor(o => o.BrandName, new { @class = "form-control", placeholder = "输入商户名称", autofocus = "autofocus" }) @Html.ValidationMessageFor(o => o.BrandName)
+                </div>
+                <div class="form-group  input-group" id="ApplyProtocol">
+                    <label class="control-label">选择商铺分类</label>
+                    <select class="form-control first" name="@Html.NameOf(m => m.PrimaryCategoryId)"> </select>
+                    <select class="form-control second" name="@Html.NameOf(m => m.SecondaryCategoryId)"></select>
+                </div>
+                <div class="form-group">
+                    @Html.HiddenFor(o=>o.AgreementMediaId)
+                    <label>上传营业执照</label>
+                    <input type="file" data-target="@Html.NameFor(o=>o.AgreementMediaId)" name="@("input_" + Html.NameOf(o=>o.AgreementMediaId))" id="@("input_" + Html.NameOf(o=>o.AgreementMediaId))" />
+                </div>
+                <div class="form-group input-group ">
+                   @Html.HiddenFor(o => o.OperatorMediaId)
+                    <label>上传身份证</label>
+                    <input type="file" data-target="@Html.NameFor(o=>o.OperatorMediaId)" name="@("input_" + Html.NameOf(o=>o.OperatorMediaId)) " id="@("input_" + Html.NameOf(o=>o.OperatorMediaId))" />
+                </div>
+                <div class="form-group">
 
-                    <div class="form-group" id="ApplyProtocol">
-                        <label class="control-label">选择商铺分类</label>
-                        <select class="form-control first" name="@Html.NameOf(m => m.PrimaryCategoryId)"> </select>
-                        <select class="form-control second" name="@Html.NameOf(m => m.SecondaryCategoryId)"></select>
-                    </div>
+                    <label class="control-label">联系人</label>
+                    <img src="@Model.Contact" /> @Html.TextBoxFor(o => o.Contact, new { @class = "form-control", placeholder = "联系人" })
+                    <label></label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">联系电话</label> @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "联系人" })
+                    <label></label>
+                </div>
 
-                    <div class="form-group">
-                        @Html.HiddenFor(o => o.AgreementMediaId)
-                        <label>上传营业执照</label>
-                        <input type="file">
-                    </div>
-                    <div class="form-group">
-                        @Html.HiddenFor(o => o.OperatorMediaId)
-                        <label>上传所有人身份证</label>
-                        <input type="file">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">联系人</label>
-                        <img src="@Model.Contact" />
-                        @Html.TextBoxFor(o => o.Contact, new { @class = "form-control", placeholder = "联系人" })
-                        <label></label>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">联系电话</label>
-                        @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "联系人" })
-                        <label></label>
-                    </div>
-
-                    <div class="form-group" id="address">
-                        <label class="control-label">商户地址</label>
-                        <select class="form-control province" name="@Html.NameOf(m => m.Province)"> </select>
-                        <select class="form-control city" name="@Html.NameOf(m => m.City)"></select>
-                        <select class="form-control area" name="@Html.NameOf(m => m.Area)"></select>
-                    </div>
-                    <button type="submit" class="btn btn-lg btn-success btn-block">创建</button>
-                </fieldset>
+                <div class="form-group" id="address">
+                    <label class="control-label">商户地址</label>
+                    <select class="form-control province" name="@Html.NameOf(m => m.Province)"> </select>
+                    <select class="form-control city" name="@Html.NameOf(m => m.City)"></select>
+                    <select class="form-control area" name="@Html.NameOf(m => m.Area)"></select>
+                </div>
+                <button type="submit" class="btn btn-lg btn-success btn-block">创建</button>
+            </fieldset>
             }
+
+
+
         </div>
         <div class="col-md-4 ">
 
@@ -66,32 +62,78 @@
     </div>
 </div>
 
-@using (Script.Foot())
-{
-    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
-    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
-    <script>
-     $(document).ready(function () {
+@using (Script.Foot()) {
+<script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+<script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+<script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
+<script>
+    $(document).ready(function() {
 
-        $.get("/Merchant/GetApplyProtocol", function (result) {
-           $('#ApplyProtocol').cxSelect({
-              selects: ['first', 'second'],
+        $.get("/Merchant/GetApplyProtocol", function(result) {
+            $('#ApplyProtocol').cxSelect({
+                selects: ['first', 'second'],
                 jsonName: 'Text',
-                  jsonValue: 'Id',
-                  jsonSub: 'Items',
-              emptyStyle: 'none',
-              data:result
+                jsonValue: 'Id',
+                jsonSub: 'Items',
+                emptyStyle: 'none',
+                data: result
             });
             $.cxSelect.defaults.emptyStyle = 'none';
         });
 
         $('#address').cxSelect({
-              url: '/themes/enjoytheme/content/data/cityData.min.js',
-              selects:['province', 'city', 'area'],
-              emptyStyle: 'none'
+            url: '/themes/enjoytheme/content/data/cityData.min.js',
+            selects: ['province', 'city', 'area'],
+            emptyStyle: 'none'
         });
 
-     });
-    </script>
+        $("input[type='file']").change(function() {
+            var target = $(this).attr("name");
+            var setback_id = $(this).attr("data-target");
+            console.log($("#" + target).val());
+            upload_cover(target,setback_id);
 
+        });
+
+
+        function upload_cover(target,setback_id) {
+            ajax_upload(target,setback_id, function(data) { //function(data)是上传图片的成功后的回调方法
+                var isrc = data.relatPath.replace(/\/\//g, '/'); //获取的图片的绝对路径
+                $('#image').attr('src', basePath + isrc).data('img-src', isrc); //给<input>的src赋值去显示图片
+            });
+        }
+
+        function ajax_upload(target, setback_id,callback) { //具体的上传图片方法
+            var image=$("#"+target).val();
+            if (image_check(image)) { //自己添加的文件后缀名的验证
+                $.ajaxFileUpload({
+                    fileElementId: target, //需要上传的文件域的ID，即<input type="file">的ID。
+                    url: "/Merchant/UploadMaterial", //后台方法的路径
+                    type: 'post', //当要提交自定义参数时，这个参数要设置成post
+                    dataType: 'json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+                    secureuri: false, //是否启用安全提交，默认为false。
+                    async: true, //是否是异步
+                    success: function(data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                        $("#"+setback_id).val(data.MediaId);
+                        console.log(setback_id);
+                        console.log(data);
+                        //$("#"+setback).val(data.mediaid);
+                    },
+                    error: function(data, status, e) { //提交失败自动执行的处理函数。
+                        console.error(e);
+                    }
+                });
+            }
+        }
+
+        function image_check(image) { //自己添加的文件后缀名的验证
+
+            return /.(jpg|png|gif|bmp)$/.test(image.toLowerCase()) ? true : (function() {
+                modals.info('图片格式仅支持jpg、png、gif、bmp格式，且区分大小写。');
+                return false;
+            })();
+        }
+
+    });
+</script>
 }

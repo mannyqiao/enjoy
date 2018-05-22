@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Enjoy.Core.Models
+namespace Enjoy.Core
 {
     public enum Gender
     {

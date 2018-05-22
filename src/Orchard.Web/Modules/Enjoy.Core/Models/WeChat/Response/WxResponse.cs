@@ -10,7 +10,19 @@ namespace Enjoy.Core.Models
 
         [Newtonsoft.Json.JsonProperty("errcode")]
         public virtual int ErrCode { get; set; }
+
+
         [Newtonsoft.Json.JsonProperty("errmsg")]
         public virtual string ErrMsg { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        public virtual bool HasError
+        {
+            get
+            {
+                return ErrCode != 0;
+            }
+        }
+
     }
 }

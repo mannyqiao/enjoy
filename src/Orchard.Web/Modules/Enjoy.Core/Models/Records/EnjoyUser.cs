@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.Models.Records
 {
-    public class EnjoyUser
+    public class EnjoyUser 
     {
         public virtual int Id { get; set; }
         public virtual string Mobile { get; set; }
@@ -20,5 +20,7 @@ namespace Enjoy.Core.Models.Records
         public virtual long LastSign { get; set; }
         public virtual long LastUpdatedTime { get; set; }
         public virtual long CreatedTime { get; set; }
+
+
     }
 }
