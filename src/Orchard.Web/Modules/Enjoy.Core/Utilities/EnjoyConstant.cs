@@ -22,7 +22,7 @@ namespace Enjoy.Core
         public const int Success = 0;
              
         public const int ErrorMessageNotDefined = -1;
-        public const int MobileBeUsed = 1001;
+        public const int MobileExists = 1001;
         public const int MobileNotExists = 1002;
         public const int IncorrectPasword = 1003;
         public const int ConfirPasswordIncorrent = 1004;

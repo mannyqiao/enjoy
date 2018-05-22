@@ -17,7 +17,5 @@ namespace Enjoy.Core.ViewModels
         [Required(ErrorMessage ="不能为空")]
         [Display(Name = "密码")]
         public string Password { get; set; }
-
-
     }
 }

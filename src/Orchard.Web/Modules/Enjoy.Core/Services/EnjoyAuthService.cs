@@ -13,14 +13,28 @@ namespace Enjoy.Core.Services
     using Orchard.Security;
     using System.Text;
     using NHibernate.Linq;
+    using Orchard.Caching;
+    using Orchard.Services;
+
     public class EnjoyAuthService : IEnjoyAuthService
     {
         private readonly IOrchardServices OS;
-        private readonly Orchard.Security.IEncryptionService Encryption;
-        public EnjoyAuthService(IOrchardServices os, Orchard.Security.IEncryptionService encryption)
+        private readonly IEncryptionService Encryption;
+        private readonly ICacheManager Cache;
+        private readonly IVerifyCodeGenerator VerifyCodeGenerator;
+        private readonly IClock Clock;
+        public EnjoyAuthService(
+            IOrchardServices os,
+            IEncryptionService encryption,
+            ICacheManager cache,
+            IVerifyCodeGenerator generator,
+            IClock clock)
         {
             this.OS = os;
             this.Encryption = encryption;
+            this.Cache = cache;
+            this.VerifyCodeGenerator = generator;
+            this.Clock = clock;
         }
 
 
@@ -36,12 +50,35 @@ namespace Enjoy.Core.Services
             return profile;
         }
 
+        public VerificationCodeViewModel GetverificationCode(string mobile)
+        {
+            var result = this.Cache.Get(mobile, ctx =>
+            {
+                var code = new VerificationCodeViewModel(mobile, this.VerifyCodeGenerator.GenerateNewVerifyCode());
+                ctx.Monitor(this.Clock.When(TimeSpan.FromMinutes(2)));
+                return code;
+            });
+            var span = DateTime.UtcNow.Subtract(result.CreatedAt);
+            if (result.Sended == false)
+            {
+                ////发送手机短信
+                result.SetSended();//设置发送状态
+            }
+            return result;
+        }
+
         public EnjoyUserProfile QueryByMobile(string mobile)
         {
             var models = this.OS.TransactionManager.GetSession().QueryOver<EnjoyUser>()
             .Where(o => o.Mobile == mobile).List<EnjoyUser>();
-            var result = new EnjoyUserProfile(models);
-            return result;
+            if (models == null || models.Count.Equals(0))
+            {
+                return new EnjoyUserProfile(EnjoyConstant.MobileNotExists);
+            }
+            else
+            {
+                return new EnjoyUserProfile(EnjoyConstant.MobileExists);
+            }
         }
 
         public EnjoyUserProfile SignUp(SignUpViewModel model)
@@ -61,7 +98,6 @@ namespace Enjoy.Core.Services
                 return result;
             }
 
-
             try
             {
                 var profile = QueryByMobile(model.Mobile);
@@ -80,7 +116,7 @@ namespace Enjoy.Core.Services
                     this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
                     return new EnjoyUserProfile(new List<EnjoyUser>() { record }) { ErrorCode = EnjoyConstant.Success };
                 }
-                return new EnjoyUserProfile(EnjoyConstant.MobileBeUsed, string.Empty);
+                return new EnjoyUserProfile(EnjoyConstant.MobileExists, string.Empty);
             }
             catch (NHibernate.Exceptions.GenericADOException ex)
             {
