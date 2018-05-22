@@ -1,6 +1,6 @@
 ﻿
 @model Enjoy.Core.ViewModels.SignUpViewModel
-<div class="row" >
+<div class="row">
     <div class="col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
@@ -10,10 +10,9 @@
                 @using (Html.BeginFormAntiForgeryPost(Url.Action("Signup", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
                 {
                     <fieldset>
-                        <div class="form-group input-group">
+                        <div class="form-group input-group" id="div_mobile" name="div_mobile">
                             @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "手机号码", type = "tel", autofocus = "autofocus" })
-                            <a href="javascript:void(0)" class="btn btn-lg  btn-block input-group input-group-addon">获取验证码</a>
-                            @Html.ValidationMessage("mobile")
+                            <a id="btn_verify_code" name="btn_verify_code" class="btn btn-lg  btn-block input-group input-group-addon">获取验证码</a>
                         </div>
                         <div class="form-group">
                             @Html.TextBoxFor(o => o.VerificationCode, new { @class = "form-control", placeholder = "手机验证码" })
@@ -25,7 +24,7 @@
                             @Html.PasswordFor(o => o.ConfirmPassword, new { @class = "form-control", placeholder = "确认密码", type = "password" })
                         </div>
                         <button type="submit" class="btn btn-lg btn-success btn-block">提交</button>
-                        <a href="/Access/Sign?signin=true"  class="btn btn-lg  btn-block">使用已经有帐号</a>
+                        <a href="/Access/Sign?signin=true" class="btn btn-lg  btn-block">使用已经有帐号</a>
                     </fieldset>
                 }
             </div>
@@ -40,27 +39,54 @@
     <script src="/Themes/EnjoyTheme/Content/plugs/jquery.validate/jquery.validate.unobtrusive.min.js"></script>
 
     <script type="text/javascript">
-       $(document).ready(function () {
-           $("form").validate({
-               errorClass   :"has-error",
-               rules:{
-                    Mobile          :{required: true},
-                    Password        :{required: true}
-               },
-               messages: {
-                    Mobile          :{required: "手机号码不能为空" },
-                    Password        :{required: "密码不能为空"}
-               },
-               errorPlacement:  function(error, element){
+        $(document).ready(function () {
+            $("form").validate({
+                errorClass: "has-error",
+                rules: {
+                    Mobile: { required: true },
+                    Password: { required: true }
+                },
+                messages: {
+                    Mobile: { required: "手机号码不能为空" },
+                    Password: { required: "密码不能为空" }
+                },
+                errorPlacement: function (error, element) {
                     element.parent().addClass("has-error");
-                    error.appendTo(element.parent());
-               },
-               success: function(label){
+                    //error.appendTo(element.parent());
+                },
+                success: function (label) {
                     label.parent().removeClass("has-error");
-               }
-           });
+                }
+            });
 
-       });
+            $("#btn_verify_code").click(function (e) {
+                var tel = $("#Mobile").val();
+                if (isTelNum(tel) === false) {
+                    $("#Mobile").parent().addClass("has-error");
+                    e.preventDefault();
+                    return;
+                }
+                else {
+                    $("#Mobile").parent().removeClass("has-error");
+                }
+                
+                $.ajax({
+                    type: "GET",
+                    url: "/Access/GetverificationCode?mobile=" + tel,
+                    data: {},
+                    contentType:"application/json",
+                    success: function (data) {
+                        $("#VerificationCode").val(data.Code);
+                    }
+                });
+                e.preventDefault();
+            })
+
+            function isTelNum(tel) {
+                var objRegExp = /^[\d]{5,20}$/; ///^\d+\.\d+$/;
+                return objRegExp.test(tel);
+            }  
+        });
     </script>
 
 }

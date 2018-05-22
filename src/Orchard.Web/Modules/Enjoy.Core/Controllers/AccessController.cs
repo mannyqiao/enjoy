@@ -8,6 +8,7 @@ namespace Enjoy.Core.Controllers
     using Orchard.Themes;
     using Enjoy.Core.Models.Records;
     using System.Web.Mvc;
+    using Orchard.Caching;
     using System;
     [Themed]
     public class AccessController : Controller
@@ -44,11 +45,18 @@ namespace Enjoy.Core.Controllers
                 Current = model
             });
         }
-        [HttpPost]
-        public string GetverificationCode(string mobile)
+
+
+        [HttpGet]
+        public JsonResult GetverificationCode(string mobile)
         {
-            //// security policy 
-            return string.Empty;
+            ////TODO Need use Post method
+            return Json(this.Auth.GetverificationCode(mobile), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult MobileIsAvailable(string mobile)
+        {
+            return Json(this.Auth.QueryByMobile(mobile).ErrorCode == EnjoyConstant.MobileNotExists,
+                JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult SignUp(SignUpViewModel model, string ReturnUrl)

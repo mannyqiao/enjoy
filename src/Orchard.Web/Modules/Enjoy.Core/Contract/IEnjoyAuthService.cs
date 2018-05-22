@@ -13,5 +13,7 @@ namespace Enjoy.Core
 
         EnjoyUserProfile QueryByMobile(string mobile);
         EnjoyUserProfile SignUp(SignUpViewModel model);
+
+        VerificationCodeViewModel GetverificationCode(string mobile);
     }
 }
