@@ -19,16 +19,19 @@ namespace Enjoy.Core.Controllers
     public class MerchantController : Controller
     {
         private readonly IWeChatApi WeChat;
-        private readonly IOrchardServices OrchardServices;
+        private readonly IOrchardServices OS;
+        private readonly IEnjoyAuthService Auth;
         // GET: Default
-        public MerchantController(IWeChatApi api, IOrchardServices os)
+        public MerchantController(IWeChatApi api, IOrchardServices os, IEnjoyAuthService auth)
         {
             this.WeChat = api;
-            this.OrchardServices = os;
+            this.OS = os;
+            this.Auth = auth;
         }
 
         public ActionResult Create()
         {
+            var user = this.Auth.GetAuthenticatedUser();
             var model = new CreatingSubMerchantViewModel()
             {
                 ApplyProtocol = this.WeChat.GetApplyProtocol(),
@@ -47,17 +50,20 @@ namespace Enjoy.Core.Controllers
                 BrandName = model.BrandName,
                 Contact = model.Contact,
                 CreateTime = DateTime.Now.ToUnixStampDateTime(),
-                EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime(),                
-                LogoUrl = model.LogoUrl,
+                EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime(),
+                LogoUrl = string.Empty,// model.LogoUrl,
                 Mobile = model.Mobile,
                 OperatorMediaId = model.OperatorMediaId,
                 PrimaryCategoryId = model.PrimaryCategoryId,
                 Protocol = model.Protocol,
                 SecondaryCategoryId = model.SecondaryCategoryId,
                 Status = MerchantStatus.CHECKING.ToString(),
-                UpdateTime = DateTime.Now.ToUnixStampDateTime()
+                UpdateTime = DateTime.Now.ToUnixStampDateTime(),
+                EnjoyUser = this.Auth.GetAuthenticatedUser(),
+                Address = string.Format("{0}/{1}/{2}", model.Province, model.City, model.Area)
+
             };
-            this.OrchardServices.TransactionManager.GetSession().SaveOrUpdate(record);
+            this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
             return this.RedirectLocal("/dashboard/summary");
         }
 
@@ -87,17 +93,17 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public JsonResult UploadMaterial()
         {
-            var context = this.OrchardServices.WorkContext.HttpContext.Request.Files ?? null;
+            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;
             if (context == null)
             {
-                return Json(new { result = "fail" });
+                return Json(new { result = "fail" }, JsonRequestBehavior.AllowGet);
             }
 
             using (var stream = new BinaryReader(context[0].InputStream))
             {
                 var buffers = stream.ReadBytes(context[0].ContentLength);
                 var result = this.WeChat.UploadMaterial(context[0].FileName, buffers);
-                return Json(result);
+                return Json(result,JsonRequestBehavior.AllowGet);
             }
         }
     }

@@ -74,7 +74,9 @@ namespace Enjoy.Core.Models.Records
         public virtual EnjoyUser EnjoyUser { get; set; }
 
         public virtual string Contact { get; set; }
+
         public virtual string Mobile { get; set; }
+        public virtual string Address { get; set; }
 
         //商户创建传入参数
 
