@@ -6,27 +6,30 @@ namespace Enjoy.Core.Controllers
     using System.Web.Mvc;
     using Enjoy.Core.ViewModels;
     using Orchard.Mvc.Extensions;
-    using Orchard.Themes;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Enjoy.Core.Services;
-    using System.Web;
+    using Orchard.Themes;   
+    using System.Linq;  
     using System.IO;
     using Orchard;
-    using Enjoy.Core.Models.Records;
-    using System;
+   
     [Themed]
     public class MerchantController : Controller
     {
         private readonly IWeChatApi WeChat;
         private readonly IOrchardServices OS;
         private readonly IEnjoyAuthService Auth;
+        private readonly IMerchantService Merchant;
+        private readonly ModelClient client = new ModelClient();
         // GET: Default
-        public MerchantController(IWeChatApi api, IOrchardServices os, IEnjoyAuthService auth)
+        public MerchantController(
+            IWeChatApi api,
+            IOrchardServices os,
+            IEnjoyAuthService auth,
+            IMerchantService merchant)
         {
             this.WeChat = api;
             this.OS = os;
             this.Auth = auth;
+            this.Merchant = merchant;
         }
 
         public ActionResult Create()
@@ -42,28 +45,8 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public ActionResult CreatePost(CreatingSubMerchantViewModel model)
         {
-            var record = new Merchant()
-            {
-                AgreementMediaId = model.AgreementMediaId,
-                AppId = string.Empty,
-                BenginTime = DateTime.Now.ToUnixStampDateTime(),
-                BrandName = model.BrandName,
-                Contact = model.Contact,
-                CreateTime = DateTime.Now.ToUnixStampDateTime(),
-                EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime(),
-                LogoUrl = string.Empty,// model.LogoUrl,
-                Mobile = model.Mobile,
-                OperatorMediaId = model.OperatorMediaId,
-                PrimaryCategoryId = model.PrimaryCategoryId,
-                Protocol = model.Protocol,
-                SecondaryCategoryId = model.SecondaryCategoryId,
-                Status = MerchantStatus.CHECKING.ToString(),
-                UpdateTime = DateTime.Now.ToUnixStampDateTime(),
-                EnjoyUser = this.Auth.GetAuthenticatedUser(),
-                Address = string.Format("{0}/{1}/{2}", model.Province, model.City, model.Area)
-
-            };
-            this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
+            this.Merchant.CreateSubMerchant(model);
+            //Create sub merchant
             return this.RedirectLocal("/dashboard/summary");
         }
 
@@ -103,7 +86,7 @@ namespace Enjoy.Core.Controllers
             {
                 var buffers = stream.ReadBytes(context[0].ContentLength);
                 var result = this.WeChat.UploadMaterial(context[0].FileName, buffers);
-                return Json(result,JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
     }
