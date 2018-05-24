@@ -54,26 +54,7 @@ namespace Enjoy.Core.Controllers
 
         public JsonResult GetApplyProtocol()
         {
-            return Json(this.WeChat.GetApplyProtocol()
-                .Categories.Select((ctx) =>
-                {
-                    return new SelectNodeViewModel()
-                    {
-                        Id = ctx.PrimaryCategoryId.ToString(),
-                        Text = ctx.CategoryName,
-                        Items = ctx.SecondaryCategories.Select((child) =>
-                        {
-                            return new SelectNodeViewModel()
-                            {
-                                Id = child.SecondaryCategoryId.ToString(),
-                                Text = child.CategoryName,
-                                Items = new SelectNodeViewModel[] { }
-                            };
-                        }).ToArray()
-
-                    };
-                })
-                , JsonRequestBehavior.AllowGet);
+            return Json(client.Convert(this.WeChat.GetApplyProtocol()), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult UploadMaterial(MediaUploadTypes type)
@@ -119,9 +100,9 @@ namespace Enjoy.Core.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult Shops()
+        public ActionResult MyShops()
         {
-
+            return View();
         }
     }
 }

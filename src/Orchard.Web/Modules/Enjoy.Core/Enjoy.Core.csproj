@@ -154,6 +154,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CreatingSubMerchantViewModel.cs" />
     <Compile Include="ViewModels\SelectNodeViewModel.cs" />
+    <Compile Include="ViewModels\ShopListViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />

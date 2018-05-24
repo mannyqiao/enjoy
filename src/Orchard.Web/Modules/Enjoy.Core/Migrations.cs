@@ -115,7 +115,7 @@ namespace Enjoy.Core
 
             CreateMenuItem(menu, "商户管理", "1", "javascript:void(0);", "fa fa-magic fa-fw", true);
             CreateMenuItem(menu, "新建商户", "1.1", "/merchant/create", "", false);
-            CreateMenuItem(menu, "门店管理", "1.2", "/merchant/shop;", "", true);
+            CreateMenuItem(menu, "门店管理", "1.2", "/merchant/myshops", "", true);
             CreateMenuItem(menu, "绑定管理员", "1.3", "/merchant/muser;", "", true);
             CreateMenuItem(menu, "我的账户", "1.4", "/merchant/account", "", true);
 

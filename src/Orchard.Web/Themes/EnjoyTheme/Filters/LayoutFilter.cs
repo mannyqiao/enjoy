@@ -14,13 +14,14 @@ namespace EnjoyTheme.Filters
 
         static string[] LayoutLogOnUrls = new string[]
         {
-            "/Access/Sign",
-            "/Access/SignUp"
+            "/Access/",            
         };
         static string[] LayoutDashboardUrls = new string[]
         {
-              "/Dashboard/Summary",
-              "/Merchant/Create",
+              "/Dashboard/",
+              "/Merchant/",
+              "/Cards/",
+              "/Marketing/"
         };
 
         private readonly IWorkContextAccessor _wca;

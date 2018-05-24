@@ -6,7 +6,8 @@ namespace Enjoy.Core
     using Enjoy.Core.Models;
     using Enjoy.Core.ViewModels;
     using System;
-
+    using System.Collections.Generic;
+    using System.Linq;
     public class ModelClient
     {
 
@@ -49,6 +50,27 @@ namespace Enjoy.Core
                     SecondaryCategoryId = merchant.SecondaryCategoryId
                 }
             };
+        }
+        public IEnumerable<SelectNodeViewModel> Convert(ApplyProtocolWxResponse response)
+        {
+            return response.Categories.Select((ctx) =>
+            {
+               return new SelectNodeViewModel()
+               {
+                   Id = ctx.PrimaryCategoryId.ToString(),
+                   Text = ctx.CategoryName,
+                   Items = ctx.SecondaryCategories.Select((child) =>
+                   {
+                       return new SelectNodeViewModel()
+                       {
+                           Id = child.SecondaryCategoryId.ToString(),
+                           Text = child.CategoryName,
+                           Items = new SelectNodeViewModel[] { }
+                       };
+                   }).ToArray()
+
+               };
+            });
         }
     }
 }
