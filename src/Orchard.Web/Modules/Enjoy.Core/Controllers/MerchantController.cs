@@ -6,11 +6,11 @@ namespace Enjoy.Core.Controllers
     using System.Web.Mvc;
     using Enjoy.Core.ViewModels;
     using Orchard.Mvc.Extensions;
-    using Orchard.Themes;   
-    using System.Linq;  
+    using Orchard.Themes;
+    using System.Linq;
     using System.IO;
     using Orchard;
-   
+
     [Themed]
     public class MerchantController : Controller
     {
@@ -35,9 +35,11 @@ namespace Enjoy.Core.Controllers
         public ActionResult Create()
         {
             var user = this.Auth.GetAuthenticatedUser();
+
             var model = new CreatingSubMerchantViewModel()
             {
                 ApplyProtocol = this.WeChat.GetApplyProtocol(),
+                Status = MerchantStatus.NotFond,
             };
             return View(model);
         }
@@ -74,7 +76,7 @@ namespace Enjoy.Core.Controllers
                 , JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult UploadMaterial()
+        public JsonResult UploadMaterial(MediaUploadTypes type)
         {
             var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;
             if (context == null)
@@ -85,9 +87,41 @@ namespace Enjoy.Core.Controllers
             using (var stream = new BinaryReader(context[0].InputStream))
             {
                 var buffers = stream.ReadBytes(context[0].ContentLength);
-                var result = this.WeChat.UploadMaterial(context[0].FileName, buffers);
+                switch (type)
+                {
+                    case MediaUploadTypes.AuthMaterial:
+                        {
+                            var result = this.WeChat.UploadMaterial(context[0].FileName, buffers);
+                            return Json(result, JsonRequestBehavior.AllowGet);
+                        }
+                    default:
+                        {
+                            var result = this.WeChat.UploadMaterialToCDN(buffers);
+                            return Json(result, JsonRequestBehavior.AllowGet);
+                        }
+                }
+
+            }
+        }
+        [HttpPost]
+        public JsonResult UploadMaterialToCDN()
+        {
+            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;
+            if (context == null)
+            {
+                return Json(new { result = "fail" }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var stream = new BinaryReader(context[0].InputStream))
+            {
+                var buffers = stream.ReadBytes(context[0].ContentLength);
+                var result = this.WeChat.UploadMaterialToCDN(buffers);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
+        }
+        public ActionResult Shops()
+        {
+
         }
     }
 }
