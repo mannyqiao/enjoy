@@ -41,8 +41,12 @@ jQuery.extend({
 	{
 		//create form	
 		var formId = 'jUploadForm' + id;
-		var fileId = 'jUploadFile' + id;
-		var form = jQuery('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>');	
+        var fileId = 'jUploadFile' + id;
+        var token = $('[name=__RequestVerificationToken]').val();
+        console.log(token);
+        var form = jQuery('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data">' +
+            '<input name="__RequestVerificationToken" type="hidden" value="' + token + '">' +
+            '</form >');	
 		if(data)
 		{
 			for(var i in data)

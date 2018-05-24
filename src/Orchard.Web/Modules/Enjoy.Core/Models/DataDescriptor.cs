@@ -11,7 +11,7 @@ namespace Enjoy.Core.Models
         protected DataDescriptor() { }
         public DataDescriptor(IEnumerable<T> records)
         {
-            this.Records = records;
+            this.Data = records;
             if (this.IsEmptyOrNullDataSource() == false)
             {
                 this.ErrorCode = EnjoyConstant.Success;
@@ -22,7 +22,7 @@ namespace Enjoy.Core.Models
         {
             this.ErrorCode = errorCode;
             this.ErrorMessage = ErrorMessage;
-            this.Records = records;
+            this.Data = records;
         }
         public DataDescriptor(int errorCode)
             : this(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<T>())
@@ -53,13 +53,13 @@ namespace Enjoy.Core.Models
             protected set;
         }
 
-        public abstract IEnumerable<T> Records { get; protected set; }
+        public abstract IEnumerable<T> Data { get; protected set; }
 
         public virtual T GetSigleOrDefault()
         {
             if (IsEmptyOrNullDataSource() == false)
             {
-                return this.Records.FirstOrDefault();
+                return this.Data.FirstOrDefault();
             }
             return default(T);
         }
@@ -67,13 +67,13 @@ namespace Enjoy.Core.Models
         {
             if (IsEmptyOrNullDataSource() == false)
             {
-                return this.Records.FirstOrDefault(selector);
+                return this.Data.FirstOrDefault(selector);
             }
             return default(T);
         }
         protected virtual bool IsEmptyOrNullDataSource()
         {
-            return Records == null || Records.Count() == 0;
+            return Data == null || Data.Count() == 0;
         }
 
     }

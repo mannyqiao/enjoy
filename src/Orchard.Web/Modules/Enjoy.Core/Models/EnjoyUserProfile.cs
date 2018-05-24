@@ -11,7 +11,7 @@ namespace Enjoy.Core
 
         public EnjoyUserProfile(IEnumerable<EnjoyUser> records)
         {
-            this.Records = records;
+            this.Data = records;
             if (this.IsEmptyOrNullDataSource() == false)
             {
                 this.ErrorCode = EnjoyConstant.Success;
@@ -22,7 +22,7 @@ namespace Enjoy.Core
         {
             this.ErrorCode = errorCode;
             this.ErrorMessage = ErrorMessage;
-            this.Records = records;
+            this.Data = records;
         }
         public EnjoyUserProfile(int errorCode)
             : base(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<EnjoyUser>())
@@ -46,7 +46,7 @@ namespace Enjoy.Core
         }
 
 
-        public override IEnumerable<EnjoyUser> Records { get; protected set; }
+        public override IEnumerable<EnjoyUser> Data { get; protected set; }
       
         //public override EnjoyUser GetSigleOrDefault()
         //{
