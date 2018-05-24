@@ -1,20 +1,37 @@
 
 jQuery.extend({
+    handleError : function(s, xhr, status, e) {
+                // If a local callback was specified, fire it
+                if (s.error) {
+                    s.error.call(s.context || s, xhr, status, e);
+                }
+ 
+                // Fire the global callback
+                if (s.global) {
+                    (s.context ? jQuery(s.context) : jQuery.event).trigger(
+                            "ajaxError", [ xhr, s, e ]);
+                }
+    },
     createUploadIframe: function(id, uri)
 	{
 			//create frame
             var frameId = 'jUploadFrame' + id;
             var iframeHtml = '<iframe id="' + frameId + '" name="' + frameId + '" style="position:absolute; top:-9999px; left:-9999px"';
-			if(window.ActiveXObject)
-			{
-                if(typeof uri== 'boolean'){
-					iframeHtml += ' src="' + 'javascript:false' + '"';
-                }
-                else if(typeof uri== 'string'){
-					iframeHtml += ' src="' + uri + '"';
-
-                }	
-			}
+			if(window.ActiveXObject) {  
+               if(jQuery.browser.version=="9.0" || jQuery.browser.version=="10.0"){  
+                    var io = document.createElement('iframe');  
+                    io.id = frameId;  
+                    io.name = frameId;  
+                }else if(jQuery.browser.version=="6.0" || jQuery.browser.version=="7.0" || jQuery.browser.version=="8.0"){  
+                    var io = document.createElement('<iframe id="' + frameId + '" name="' + frameId + '" />');  
+                    if(typeof uri== 'boolean'){  
+                        io.src = 'javascript:false';  
+                    }  
+                    else if(typeof uri== 'string'){  
+                        io.src = uri;  
+                    }  
+                }  
+            } 
 			iframeHtml += ' />';
 			jQuery(iframeHtml).appendTo(document.body);
 
@@ -24,8 +41,12 @@ jQuery.extend({
 	{
 		//create form	
 		var formId = 'jUploadForm' + id;
-		var fileId = 'jUploadFile' + id;
-		var form = jQuery('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>');	
+        var fileId = 'jUploadFile' + id;
+        var token = $('[name=__RequestVerificationToken]').val();
+        console.log(token);
+        var form = jQuery('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data">' +
+            '<input name="__RequestVerificationToken" type="hidden" value="' + token + '">' +
+            '</form >');	
 		if(data)
 		{
 			for(var i in data)

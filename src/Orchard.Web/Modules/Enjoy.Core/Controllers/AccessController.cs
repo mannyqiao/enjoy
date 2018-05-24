@@ -28,13 +28,13 @@ namespace Enjoy.Core.Controllers
                 return View(new SignViewModel() { Signin = true, Current = new SignInViewModel() { } });
             else
                 return View(new SignViewModel() { Signin = false, Current = new SignUpViewModel() { } });
-
         }
         [HttpPost]
         public ActionResult Signin(SignInViewModel model, string ReturnUrl)
         {
             if (this.Auth.Auth(model.Mobile, model.Password).ErrorCode == EnjoyConstant.Success)
             {
+                this.OS.WorkContext.HttpContext.Session["Mobile"] = model.Mobile;
                 return this.RedirectLocal("/dashboard/summary");
             }
             return View("Sign", new SignViewModel()
@@ -63,7 +63,6 @@ namespace Enjoy.Core.Controllers
         {
 
             var result = this.Auth.SignUp(model);
-
             return this.RedirectLocal("/dashboard/summary");
         }
     }

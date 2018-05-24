@@ -74,15 +74,16 @@ namespace Enjoy.Core
                 .Column("Status", System.Data.DbType.String, column => column.WithLength(36))
                 .Column("AppId", System.Data.DbType.String, column => column.WithLength(26))
                 .Column("BrandName", System.Data.DbType.String, column => column.WithLength(36))
-                .Column("LogoUrl", System.Data.DbType.String, column => column.WithLength(128).NotNull())
+                .Column("LogoUrl", System.Data.DbType.String, column => column.WithLength(128))
                 .Column("Protocol", System.Data.DbType.String, column => column.WithLength(26))
                 .Column("EndTime", System.Data.DbType.Int64)
                 .Column("PrimaryCategoryId", System.Data.DbType.Int32)
                 .Column("SecondaryCategoryId", System.Data.DbType.Int32)
-                .Column("AgreementMediaId", System.Data.DbType.String, column => column.WithLength(36))
-                .Column("OperatorMediaId", System.Data.DbType.String, column => column.WithLength(36))
+                .Column("AgreementMediaId", System.Data.DbType.String, column => column.WithLength(128))
+                .Column("OperatorMediaId", System.Data.DbType.String, column => column.WithLength(128))
                 .Column("Contact", System.Data.DbType.String, column => column.WithLength(36).Nullable())
                 .Column("Mobile", System.Data.DbType.String, column => column.WithLength(36).Nullable())
+                .Column("Address", System.Data.DbType.String, column => column.WithLength(128).Nullable())
             );
 
             SchemaBuilder.CreateTable("MerchantAdmin", table => table
@@ -96,7 +97,7 @@ namespace Enjoy.Core
         }
         private void CreateLayer()
         {
-            var layer = this.OrchardServices.ContentManager.Create<LayerPart>("Layer");            
+            var layer = this.OrchardServices.ContentManager.Create<LayerPart>("Layer");
             layer.Name = "dashboard";
             layer.Description = "merchant background";
             layer.LayerRule = string.Join(" or ", new string[] {
@@ -104,7 +105,7 @@ namespace Enjoy.Core
                 string.Format("url(\"{0}\")","~/merchant/*"),
                 string.Format("url(\"{0}\")","~/cards/*"),
                 string.Format("url(\"{0}\")","~/marketing/*")
-            });        
+            });
 
         }
         private void CreateMenuItem()

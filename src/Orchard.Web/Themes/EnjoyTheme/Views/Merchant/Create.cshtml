@@ -23,12 +23,17 @@
                     <select class="form-control second" name="@Html.NameOf(m => m.SecondaryCategoryId)"></select>
                 </div>
                 <div class="form-group">
-                    @Html.HiddenFor(o=>o.AgreementMediaId)
+                    @Html.HiddenFor(o => o.LogoUrl)
+                    <label>Logo</label>
+                    <input type="file" data-target="@Html.NameFor(o=>o.LogoUrl)" name="@("input_" + Html.NameOf(o=>o.LogoUrl))" id="@("input_" + Html.NameOf(o=>o.LogoUrl))" />
+                </div>
+                <div class="form-group">
+                    @Html.HiddenFor(o => o.AgreementMediaId)
                     <label>上传营业执照</label>
                     <input type="file" data-target="@Html.NameFor(o=>o.AgreementMediaId)" name="@("input_" + Html.NameOf(o=>o.AgreementMediaId))" id="@("input_" + Html.NameOf(o=>o.AgreementMediaId))" />
                 </div>
                 <div class="form-group input-group ">
-                   @Html.HiddenFor(o => o.OperatorMediaId)
+                    @Html.HiddenFor(o => o.OperatorMediaId)
                     <label>上传身份证</label>
                     <input type="file" data-target="@Html.NameFor(o=>o.OperatorMediaId)" name="@("input_" + Html.NameOf(o=>o.OperatorMediaId)) " id="@("input_" + Html.NameOf(o=>o.OperatorMediaId))" />
                 </div>
@@ -50,6 +55,7 @@
                     <select class="form-control area" name="@Html.NameOf(m => m.Area)"></select>
                 </div>
                 <button type="submit" class="btn btn-lg btn-success btn-block">创建</button>
+                <button  class="btn btn-lg  btn-block">提交审核</button>
             </fieldset>
             }
 
@@ -95,7 +101,7 @@
 
         });
 
-
+        ////TODO 此方法在 Edge上有bug，不能上传
         function upload_cover(target,setback_id) {
             ajax_upload(target,setback_id, function(data) { //function(data)是上传图片的成功后的回调方法
                 var isrc = data.relatPath.replace(/\/\//g, '/'); //获取的图片的绝对路径
@@ -103,24 +109,31 @@
             });
         }
 
-        function ajax_upload(target, setback_id,callback) { //具体的上传图片方法
+        function ajax_upload(target, setback_id, callback) { //具体的上传图片方法
+            var materialType = setback_id === "LogoUrl" ? "Material" : "AuthMaterial";
+            console.log(materialType);
             var image=$("#"+target).val();
             if (image_check(image)) { //自己添加的文件后缀名的验证
+                var token = $("#__RequestVerificationToken").val();
                 $.ajaxFileUpload({
                     fileElementId: target, //需要上传的文件域的ID，即<input type="file">的ID。
-                    url: "/Merchant/UploadMaterial", //后台方法的路径
-                    type: 'post', //当要提交自定义参数时，这个参数要设置成post
+                    url: "/Merchant/UploadMaterial?type=" + materialType, //后台方法的路径
+                    type: 'POST', //当要提交自定义参数时，这个参数要设置成post
                     dataType: 'json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
                     secureuri: false, //是否启用安全提交，默认为false。
-                    async: true, //是否是异步
-                    success: function(data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
-                        $("#"+setback_id).val(data.MediaId);
-                        console.log(setback_id);
+                    async: true, //是否是异步，                  
+                    success: function (data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                        if (setback_id === "LogoUrl") {
+                            $("#" + setback_id).val(data.Url);
+                        }
+                        else {
+                            $("#" + setback_id).val(data.MediaId);
+                        }
                         console.log(data);
-                        //$("#"+setback).val(data.mediaid);
                     },
                     error: function(data, status, e) { //提交失败自动执行的处理函数。
                         console.error(e);
+                        console.error(data);
                     }
                 });
             }

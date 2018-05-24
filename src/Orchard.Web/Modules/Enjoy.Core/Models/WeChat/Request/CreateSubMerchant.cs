@@ -8,6 +8,9 @@ namespace Enjoy.Core.Models
         [JsonProperty("brand_name")]
         public string BrandName { get; set; }
 
+        [JsonProperty("logo_url")]
+        public string LogoUrl { get; set; }
+
         [JsonProperty("app_id", NullValueHandling = NullValueHandling.Ignore)]
         public string AppId { get; set; }
 

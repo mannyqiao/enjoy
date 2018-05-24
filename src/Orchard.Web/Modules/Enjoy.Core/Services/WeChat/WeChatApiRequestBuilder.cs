@@ -58,17 +58,18 @@ namespace Enjoy.Core.Services
         public static string GenerateWxUploaMediaUrl(string token)
         {
             return GenerateWxUploaMediaUrl(token, MediaUploadTypes.Material);
-            return string.Format("https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token={0}&type=image", token);
-                                //https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE
+            //return string.Format("https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token={0}&type=image", token);
+            //                    //https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE
         }
         public static string GenerateWxUploaMediaUrl(string token,MediaUploadTypes type)
         {
+           
             switch (type)
             {
                 case MediaUploadTypes.AuthMaterial:
                     return string.Format("https://api.weixin.qq.com/cgi-bin/media/upload?access_token={0}&type=image", token);
                 default: // Image
-                    return string.Format("https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token={0}&type=image", token);
+                    return string.Format("https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token={0}", token);
                     
             }
         }

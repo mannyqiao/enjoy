@@ -88,6 +88,8 @@
   <ItemGroup>
     <Content Include="Assets.json" />
     <Content Include="Assets\Styles.less" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\home\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\home\bootstrap\css\bootstrap-theme.min.css" />
@@ -216,6 +218,7 @@
     <Content Include="Content\scripts\raphael.min.js" />
     <Content Include="Content\scripts\sb-admin-2.js" />
     <Content Include="Content\scripts\sb-admin-2.min.js" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\styles\bootstrap.css" />
     <Content Include="Content\styles\bootstrap.min.css" />
     <Content Include="Content\styles\font-awesome.css" />
@@ -226,15 +229,21 @@
     <Content Include="Content\styles\morris.css" />
     <Content Include="Content\styles\sb-admin-2.css" />
     <Content Include="Content\styles\sb-admin-2.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Styles\Styles.css" />
     <Content Include="Styles\Styles.min.css" />
     <Content Include="Web.config" />
-    <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
     <Content Include="Content\Web.config" />
     <Content Include="Theme.txt" />
     <Content Include="Theme.png" />
     <Content Include="Placement.info" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Merchant\Shops.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
@@ -337,6 +346,7 @@
     <Content Include="Views\Pager.Last.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Scripts\" />
     <Folder Include="Views\Layout\" />
   </ItemGroup>
   <ItemGroup>

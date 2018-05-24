@@ -38,14 +38,21 @@ namespace Enjoy.Core.Services
         }
 
 
-        public EnjoyUserProfile Auth(string mobile, string passowrd)
+        public EnjoyUserProfile Auth(string mobile, string password)
         {
-            var profile = QueryByMobile(mobile);
+            var profile = QueryByMobileForSignin(mobile);
             if (profile.ErrorCode == EnjoyConstant.Success)
             {
-                var pas = Convert.ToBase64String(this.Encryption.Encode(UTF8Encoding.Default.GetBytes(passowrd)));
-                if (profile.GetSigleOrDefault().Password.Equals(pas) == false)
-                    profile.ErrorCode = EnjoyConstant.IncorrectPasword;
+                if (String.Equals(password, Encoding.UTF8.GetString(this.Encryption.Decode(Convert.FromBase64String(profile.GetSigleOrDefault().Password))), StringComparison.Ordinal))
+                {
+                    //Set current user
+                    this.OS.WorkContext.HttpContext.Session["EnjoyCurrentUser"] = profile.GetSigleOrDefault();
+                    return profile;
+                }
+                else
+                {
+                    return new EnjoyUserProfile(EnjoyConstant.UPasswordNotMatch);
+                }
             }
             return profile;
         }
@@ -80,28 +87,35 @@ namespace Enjoy.Core.Services
                 return new EnjoyUserProfile(EnjoyConstant.MobileExists);
             }
         }
-
+        private EnjoyUserProfile QueryByMobileForSignin(string mobile)
+        {
+            var models = this.OS.TransactionManager.GetSession().QueryOver<EnjoyUser>()
+                            .Where(o => o.Mobile == mobile).List<EnjoyUser>();
+            if (models == null || models.Count.Equals(0))
+            {
+                return new EnjoyUserProfile(EnjoyConstant.MobileNotExists);
+            }
+            else
+            {
+                return new EnjoyUserProfile(EnjoyConstant.Success, models);
+            }
+        }
         public EnjoyUserProfile SignUp(SignUpViewModel model)
         {
 
             if (string.IsNullOrEmpty(model.Password))
             {
-                var result = new EnjoyUserProfile();
-                result.ErrorCode = EnjoyConstant.PasswordCantBeNullOrEmpty;
-                return result;
-
+                return new EnjoyUserProfile(EnjoyConstant.PasswordCantBeNullOrEmpty);
             }
             if (model.Password.Equals(model.ConfirmPassword) == false)
             {
-                var result = new EnjoyUserProfile();
-                result.ErrorCode = EnjoyConstant.ConfirPasswordIncorrent;
-                return result;
+                return new EnjoyUserProfile(EnjoyConstant.ConfirPasswordIncorrent);
             }
 
             try
             {
                 var profile = QueryByMobile(model.Mobile);
-                if (profile.ErrorCode == EnjoyConstant.EmptyOrNullDataSource)
+                if (profile.ErrorCode == EnjoyConstant.MobileNotExists)
                 {
                     var record = new EnjoyUser()
                     {
@@ -114,7 +128,7 @@ namespace Enjoy.Core.Services
                         LastUpdatedTime = DateTime.UtcNow.ToUnixStampDateTime()
                     };
                     this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
-                    return new EnjoyUserProfile(new List<EnjoyUser>() { record }) { ErrorCode = EnjoyConstant.Success };
+                    return new EnjoyUserProfile(EnjoyConstant.Success, record);
                 }
                 return new EnjoyUserProfile(EnjoyConstant.MobileExists, string.Empty);
             }
@@ -124,6 +138,9 @@ namespace Enjoy.Core.Services
             }
         }
 
-
+        public EnjoyUser GetAuthenticatedUser()
+        {
+            return this.OS.WorkContext.HttpContext.Session["EnjoyCurrentUser"] as EnjoyUser;
+        }
     }
 }

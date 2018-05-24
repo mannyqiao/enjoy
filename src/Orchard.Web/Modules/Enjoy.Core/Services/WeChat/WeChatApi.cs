@@ -47,35 +47,62 @@ namespace Enjoy.Core.Services
         public UploadMediaWxResponse UploadMaterial(string name, byte[] buffers)
         {
             var request = WeChatApiRequestBuilder.GenerateWxUploaMediaUrl(this.GetToken(), MediaUploadTypes.AuthMaterial);
-            return request.GetResponseForJson<UploadMediaWxResponse>((http) =>
-             {
-                 http.Method = "POST";
-                 http.ContentType = "application/x-www-form-urlencoded";
-                 System.Net.CookieContainer cookieContainer = new System.Net.CookieContainer();
-                 http.CookieContainer = cookieContainer;
-                 http.AllowAutoRedirect = true;
-                 http.Method = "POST";
-                 string boundary = System.DateTime.Now.Ticks.ToString("X"); // 随机分隔线
-                 http.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
-                 byte[] itemBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
-                 byte[] endBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
+            return UploadMaterial(request, name, buffers);
+        }
 
-                 //// TODO :need change default filename
-                 var sbHeader = new System.Text.StringBuilder(string.Format(
-                          "Content-Disposition:form-data;name=\"media\";filename=\"{0}\"\r\nContent-Type:application/octet-stream\r\n\r\n",
-                          @"Enjoy.jpg"));
-                 byte[] postHeaderBytes = Encoding.UTF8.GetBytes(sbHeader.ToString());
+        public UploadMediaWxResponse UploadMaterialToCDN(byte[] buffers)
+        {
+            var request = WeChatApiRequestBuilder.GenerateWxUploaMediaUrl(this.GetToken(), MediaUploadTypes.Material);
+            return UploadMaterial(request, "logo", buffers);
+        }
+        private UploadMediaWxResponse UploadMaterial(string url, string name, byte[] buffers)
+        {
+            return url.GetResponseForJson<UploadMediaWxResponse>((http) =>
+            {
+                http.Method = "POST";
+                http.ContentType = "application/x-www-form-urlencoded";
+                System.Net.CookieContainer cookieContainer = new System.Net.CookieContainer();
+                http.CookieContainer = cookieContainer;
+                http.AllowAutoRedirect = true;
+                http.Method = "POST";
+                string boundary = System.DateTime.Now.Ticks.ToString("X"); // 随机分隔线
+                http.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
+                byte[] itemBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
+                byte[] endBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
 
-                 using (Stream postStream = http.GetRequestStream())
-                 {
-                     postStream.Write(itemBoundaryBytes, 0, itemBoundaryBytes.Length);
-                     postStream.Write(postHeaderBytes, 0, postHeaderBytes.Length);
-                     postStream.Write(buffers, 0, buffers.Length);
-                     postStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
-                     postStream.Flush();
-                 }
-                 return http;
-             });
+                //// TODO :need change default filename
+                var sbHeader = new System.Text.StringBuilder(string.Format(
+                         "Content-Disposition:form-data;name=\"media\";filename=\"{0}\"\r\nContent-Type:application/octet-stream\r\n\r\n",
+                         @"Enjoy.jpg"));
+                byte[] postHeaderBytes = Encoding.UTF8.GetBytes(sbHeader.ToString());
+
+                using (Stream postStream = http.GetRequestStream())
+                {
+                    postStream.Write(itemBoundaryBytes, 0, itemBoundaryBytes.Length);
+                    postStream.Write(postHeaderBytes, 0, postHeaderBytes.Length);
+                    postStream.Write(buffers, 0, buffers.Length);
+                    postStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
+                    postStream.Flush();
+                }
+                return http;
+            });
+        }
+        public WapperWxResponse<CreateSubmerchantResponse> CreateSubmerchant(WapperWxRequest<SubMerchant> submerchant)
+        {
+            var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.GetToken());
+            return request.GetResponseForJson<WapperWxResponse<CreateSubmerchantResponse>>((http) =>
+            {
+                http.Method = "POST";
+                http.ContentType = "application/json; encoding=utf-8";
+                using (var stream = http.GetRequestStream())
+                {
+                    var body = submerchant.ToJson();
+                    var buffers = UTF8Encoding.UTF8.GetBytes(body);
+                    stream.Write(buffers, 0, buffers.Length);
+                    stream.Flush();
+                }
+                return http;
+            });
         }
     }
 }

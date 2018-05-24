@@ -15,8 +15,8 @@ namespace Enjoy.Core
             {1004,"两次密码输入不一致!" },
             {1005,"登录会话已过期,需要从新登录" },
             {1006,"数据源为空"},
-            {1007,"密码不能为空"}
-            
+            {1007,"密码不能为空"},
+            {1008,"用户名和密码不匹配"}
 
         };
         public const int Success = 0;
@@ -29,5 +29,6 @@ namespace Enjoy.Core
         public const int SessionExpired = 1005;
         public const int EmptyOrNullDataSource = 1006;
         public const int PasswordCantBeNullOrEmpty = 1007;
+        public const int UPasswordNotMatch = 1008;
     }
 }
