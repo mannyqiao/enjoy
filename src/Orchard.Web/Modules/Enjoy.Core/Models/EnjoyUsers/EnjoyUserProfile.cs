@@ -46,24 +46,7 @@ namespace Enjoy.Core
         }
 
 
-        public override IEnumerable<EnjoyUser> Data { get; protected set; }
+        public override IEnumerable<EnjoyUser> Data { get; protected set; }      
       
-        //public override EnjoyUser GetSigleOrDefault()
-        //{
-        //    if (IsEmptyOrNullDataSource() == false)
-        //    {
-        //        return Records.FirstOrDefault();
-        //    }
-        //    return null;
-        //}
-
-        //public override EnjoyUser GetSigleOrDefault(Func<EnjoyUser, bool> selector)
-        //{
-        //    if (IsEmptyOrNullDataSource())
-        //    {
-        //        return Records.FirstOrDefault(selector);
-        //    }
-        //    return null;
-        //}
     }
 }

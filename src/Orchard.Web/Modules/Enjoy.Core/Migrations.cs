@@ -48,6 +48,7 @@ namespace Enjoy.Core
 
         public void CreateEnjoyDataSchema()
         {
+            //创建平台用户表
             SchemaBuilder.CreateTable("EnjoyUser", table => table
                     .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
                     .Column("Mobile", System.Data.DbType.String, column => column.WithLength(11).Unique().NotNull())
@@ -64,6 +65,7 @@ namespace Enjoy.Core
                     .Column("CreatedTime", System.Data.DbType.Int64)
             );
 
+            //创建商户
             SchemaBuilder.CreateTable("Merchant", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
                 .Column("MerchantId", System.Data.DbType.Int32)
@@ -86,12 +88,22 @@ namespace Enjoy.Core
                 .Column("Address", System.Data.DbType.String, column => column.WithLength(128).Nullable())
             );
 
+            //创建商户管理员
             SchemaBuilder.CreateTable("MerchantAdmin", table => table
               .Column("Merchant_Id", System.Data.DbType.Int32)
               .Column("EnjoyUser_Id", System.Data.DbType.Int32)
             );
             SchemaBuilder.AlterTable("MerchantAdmin", table => table.AddUniqueConstraint("PK_MerchantAdmin", new string[] { "Merchant_Id", "EnjoyUser_Id" }));
 
+            //创建门店表
+            SchemaBuilder.CreateTable("Shop", table =>table
+                .Column("Id",System.Data.DbType.Int32)
+                .Column("Merchant_Id",System.Data.DbType.Int32)
+                .Column("ShopName",System.Data.DbType.String,column=>column.WithLength(120))                
+                .Column("Coordinate",System.Data.DbType.String,column=>column.WithLength(50))
+                .Column("Leader", System.Data.DbType.String, column => column.WithLength(50))
+                .Column("Address", System.Data.DbType.String, column => column.WithLength(120))
+            );            
 
 
         }
@@ -104,7 +116,8 @@ namespace Enjoy.Core
                 string.Format("url(\"{0}\")","~/dashboard/*"),
                 string.Format("url(\"{0}\")","~/merchant/*"),
                 string.Format("url(\"{0}\")","~/cards/*"),
-                string.Format("url(\"{0}\")","~/marketing/*")
+                string.Format("url(\"{0}\")","~/marketing/*"),
+                string.Format("url(\"{0}\")","~/finance/*")
             });
 
         }
@@ -116,19 +129,20 @@ namespace Enjoy.Core
             CreateMenuItem(menu, "商户管理", "1", "javascript:void(0);", "fa fa-magic fa-fw", true);
             CreateMenuItem(menu, "新建商户", "1.1", "/merchant/create", "", false);
             CreateMenuItem(menu, "门店管理", "1.2", "/merchant/myshops", "", true);
-            CreateMenuItem(menu, "绑定管理员", "1.3", "/merchant/muser;", "", true);
-            CreateMenuItem(menu, "我的账户", "1.4", "/merchant/account", "", true);
-
+           // CreateMenuItem(menu, "绑定管理员", "1.3", "/merchant/muser;", "", true);
+            CreateMenuItem(menu, "商户账户", "1.4", "/finance/myaccount", "", true);
+            CreateMenuItem(menu, "平台账户", "1.5", "/finance/paccount", "", true);
 
             CreateMenuItem(menu, "卡券管理", "2", "javascript:void(0);", "fa fa-exchange fa-fw", true);
-            CreateMenuItem(menu, "会员卡", "2.1", "/cards/menberc", "", false);
-            CreateMenuItem(menu, "优惠券", "2.2", "/cards/coupon", "", true);
-            CreateMenuItem(menu, "领用情况", "2.3", "/cards/muser;", "", true);
+            CreateMenuItem(menu, "创建卡券", "2.1", "/cards/create", "", false);            
+            CreateMenuItem(menu, "卡券库存", "2.2", "/cards/sku", "", true);
+
 
             CreateMenuItem(menu, "营销中心", "3", "javascript:void(0);", "fa fa-exchange fa-fw", true);
-            CreateMenuItem(menu, "消息推送", "3.1", "", "/marketing/message", false);
-            CreateMenuItem(menu, "智能投放", "3.2", "/marketing/ai;", "", true);
-            CreateMenuItem(menu, "推广裂变", "3.3", "/marketing/pyramid;", "", true);
+            CreateMenuItem(menu, "会员中心", "3.1", "", "/marketing/merbers", false);
+            CreateMenuItem(menu, "消息推送", "3.2", "", "/marketing/message", false);            
+            CreateMenuItem(menu, "卡券投放", "3.3", "/marketing/publish", "", true);
+            CreateMenuItem(menu, "推广裂变", "3.4", "/marketing/pyramid;", "", true);
         }
         private void CreateMenuItem(ContentItem owner, string text, string position, string url, string fontAwesome, bool display)
         {

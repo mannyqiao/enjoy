@@ -11,7 +11,7 @@ namespace Enjoy.Core
     public class ModelClient
     {
 
-        public Merchant Convert(CreatingSubMerchantViewModel model, IEnjoyAuthService auth)
+        public Merchant Convert(SubMerchantViewModel model, IEnjoyAuthService auth)
         {
             return new Merchant()
             {
@@ -55,22 +55,31 @@ namespace Enjoy.Core
         {
             return response.Categories.Select((ctx) =>
             {
-               return new SelectNodeViewModel()
-               {
-                   Id = ctx.PrimaryCategoryId.ToString(),
-                   Text = ctx.CategoryName,
-                   Items = ctx.SecondaryCategories.Select((child) =>
-                   {
-                       return new SelectNodeViewModel()
-                       {
-                           Id = child.SecondaryCategoryId.ToString(),
-                           Text = child.CategoryName,
-                           Items = new SelectNodeViewModel[] { }
-                       };
-                   }).ToArray()
+                return new SelectNodeViewModel()
+                {
+                    Id = ctx.PrimaryCategoryId.ToString(),
+                    Text = ctx.CategoryName,
+                    Items = ctx.SecondaryCategories.Select((child) =>
+                    {
+                        return new SelectNodeViewModel()
+                        {
+                            Id = child.SecondaryCategoryId.ToString(),
+                            Text = child.CategoryName,
+                            Items = new SelectNodeViewModel[] { }
+                        };
+                    }).ToArray()
 
-               };
+                };
             });
         }
+        public MerchantAdmin Convert(Merchant merchant, EnjoyUser user)
+        {
+            return new MerchantAdmin()
+            {
+                Merchant = merchant,
+                EnjoyUser = user
+            };
+        }
+
     }
 }

@@ -112,22 +112,25 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FinanceController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\DataDescriptor.cs" />
-    <Compile Include="Models\EnjoyUserProfile.cs" />
+    <Compile Include="Models\EnjoyUsers\EnjoyUserProfile.cs" />
     <Compile Include="Models\Enums\CardTypes.cs" />
     <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Enums\Status.cs" />
     <Compile Include="Models\Enums\MediaUploadTypes.cs" />
     <Compile Include="Models\JsonNetResult.cs" />
+    <Compile Include="Models\PagingCondition.cs" />
     <Compile Include="Models\Records\CardSkin.cs" />
     <Compile Include="Models\Records\EnjoyUser.cs" />
     <Compile Include="Models\Records\Merchant.cs" />
     <Compile Include="Models\Records\MerchantAdmin.cs" />
-    <Compile Include="Models\WeChat\Request\CreateSubMerchant.cs" />
+    <Compile Include="Models\Records\Shop.cs" />
+    <Compile Include="Models\WeChat\Request\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\CreateSubmerchantResponse.cs" />
     <Compile Include="Models\WeChat\Response\QRCodeWxResponse.cs" />
@@ -152,9 +155,10 @@
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultHandler.cs" />
     <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\CreatingSubMerchantViewModel.cs" />
+    <Compile Include="ViewModels\SubMerchantViewModel.cs" />
     <Compile Include="ViewModels\SelectNodeViewModel.cs" />
     <Compile Include="ViewModels\ShopListViewModel.cs" />
+    <Compile Include="ViewModels\ShopViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />
@@ -196,6 +200,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
+    <Folder Include="Models\Cards\" />
+    <Folder Include="Models\Merchant\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
