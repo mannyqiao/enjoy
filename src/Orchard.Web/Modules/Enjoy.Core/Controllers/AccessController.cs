@@ -32,6 +32,9 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public ActionResult Signin(SignInViewModel model, string ReturnUrl)
         {
+            if (this.Auth.GetAuthenticatedUser() != null)
+                return this.RedirectLocal("/dashboard/summary");
+
             if (this.Auth.Auth(model.Mobile, model.Password).ErrorCode == EnjoyConstant.Success)
             {
                 this.OS.WorkContext.HttpContext.Session["Mobile"] = model.Mobile;
@@ -61,6 +64,8 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public ActionResult SignUp(SignUpViewModel model, string ReturnUrl)
         {
+            if (this.Auth.GetAuthenticatedUser() != null)
+                return this.RedirectLocal("/dashboard/summary");
 
             var result = this.Auth.SignUp(model);
             return this.RedirectLocal("/dashboard/summary");

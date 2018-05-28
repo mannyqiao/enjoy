@@ -10,7 +10,7 @@ namespace Enjoy.Core.Controllers
     using System.Linq;
     using System.IO;
     using Orchard;
-
+    using System.Collections.Generic;
     [Themed]
     public class MerchantController : Controller
     {
@@ -36,16 +36,19 @@ namespace Enjoy.Core.Controllers
         {
             var user = this.Auth.GetAuthenticatedUser();
 
-            var model = new CreatingSubMerchantViewModel()
+            var model = new SubMerchantViewModel()
             {
                 ApplyProtocol = this.WeChat.GetApplyProtocol(),
                 Status = MerchantStatus.NotFond,
             };
             return View(model);
         }
-
+        public ActionResult Profile(int merchantId)
+        {            
+            return View(this.Merchant.GetDefaultSubMerchant());
+        }
         [HttpPost]
-        public ActionResult CreatePost(CreatingSubMerchantViewModel model)
+        public ActionResult CreatePost(SubMerchantViewModel model)
         {
             this.Merchant.CreateSubMerchant(model);
             //Create sub merchant
@@ -54,26 +57,7 @@ namespace Enjoy.Core.Controllers
 
         public JsonResult GetApplyProtocol()
         {
-            return Json(this.WeChat.GetApplyProtocol()
-                .Categories.Select((ctx) =>
-                {
-                    return new SelectNodeViewModel()
-                    {
-                        Id = ctx.PrimaryCategoryId.ToString(),
-                        Text = ctx.CategoryName,
-                        Items = ctx.SecondaryCategories.Select((child) =>
-                        {
-                            return new SelectNodeViewModel()
-                            {
-                                Id = child.SecondaryCategoryId.ToString(),
-                                Text = child.CategoryName,
-                                Items = new SelectNodeViewModel[] { }
-                            };
-                        }).ToArray()
-
-                    };
-                })
-                , JsonRequestBehavior.AllowGet);
+            return Json(client.Convert(this.WeChat.GetApplyProtocol()), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult UploadMaterial(MediaUploadTypes type)
@@ -100,7 +84,6 @@ namespace Enjoy.Core.Controllers
                             return Json(result, JsonRequestBehavior.AllowGet);
                         }
                 }
-
             }
         }
         [HttpPost]
@@ -119,9 +102,33 @@ namespace Enjoy.Core.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult Shops()
+        public ActionResult MyShops()
         {
-
+            var viewModel = new ShopListViewModel()
+            {
+                Items = new List<ShopViewModel>()
+                {
+                    new ShopViewModel(){
+                         Id =1,
+                         Address = "眉山市东坡区东坡里步行街",
+                         Coordinate  ="{lat:1.032,lng:3033 }",
+                         Leader = "张三",
+                         Merchant =  new Models.Records.Merchant(){  BrandName="柠檬工坊-01"},
+                         ShopName = "柠檬工坊东坡店"
+                    },
+                    new ShopViewModel(){
+                         Id =1,
+                         Address = "眉山市东坡区东坡里步行街",
+                         Coordinate  ="{lat:1.032,lng:3033 }",
+                         Leader = "张三",
+                         Merchant =  new Models.Records.Merchant(){  BrandName="柠檬工坊-01"},
+                         ShopName = "柠檬工坊东坡店"
+                    }
+                },
+                Paging = new PagingCondition(1, 20)
+            };
+            return View(viewModel);
         }
+       
     }
 }
