@@ -13,5 +13,13 @@ namespace Enjoy.Core.Controllers
         {
             return View();
         }
+        public ActionResult Create()
+        {
+            return View();
+        }
+        public ActionResult Sku()
+        {
+            return View();
+        }
     }
 }

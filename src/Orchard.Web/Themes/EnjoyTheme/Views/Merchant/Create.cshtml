@@ -1,4 +1,4 @@
-﻿ @model Enjoy.Core.ViewModels.CreatingSubMerchantViewModel
+﻿ @model Enjoy.Core.ViewModels.SubMerchantViewModel
 <div id="page-wrapper">
     <!-- /.row -->
     <div class="row">
@@ -44,7 +44,7 @@
                     <label></label>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">联系电话</label> @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "联系人" })
+                    <label class="control-label">联系电话</label> @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "联系电话" })
                     <label></label>
                 </div>
 
@@ -55,7 +55,7 @@
                     <select class="form-control area" name="@Html.NameOf(m => m.Area)"></select>
                 </div>
                 <button type="submit" class="btn btn-lg btn-success btn-block">创建</button>
-                <button  class="btn btn-lg  btn-block">提交审核</button>
+                
             </fieldset>
             }
 

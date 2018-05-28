@@ -1,0 +1,145 @@
+﻿@model Enjoy.Core.ViewModels.SubMerchantViewModel
+<div id="page-wrapper">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">平台账户</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    柠檬工坊
+                </div>
+                <div class="panel-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label>商户名称:</label>
+                            <label>柠檬工坊</label>                            
+                            <label class="col-lg-offset-1">账户金额:</label>
+                            <label >1000.00元</label>
+                            <a>立即充值</a>
+
+                            <label class="col-lg-offset-1">优惠券库存:</label>
+                            <label>1000</label>
+
+                            <label class="col-lg-offset-1">团购券库存:</label>
+                            <label >1000</label>
+
+                            <label class="col-lg-offset-1">折扣券库存:</label>
+                            <label >1000</label>
+
+                            <label class="col-lg-offset-1">会员卡库存:</label>
+                            <label >--</label>                           
+                        </div>      
+                        <div class="form-group">
+                            <label>现金券库存:</label>
+                            <label>--</label>
+                        </div>
+                    </fieldset>
+                </div>               
+            </div>
+        </div>       
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- /.panel -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i>交易流水
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                操作
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a href="#"></a>
+                                </li>
+                                <li>
+                                    <a href="#">Another action</a>
+                                </li>
+                                <li>
+                                    <a href="#">Something else here</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">Separated link</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>交易编号</th>
+                                            <th>交易类型</th>
+                                            <th>交易前账户余额</th>
+                                            <th>交易金额</th>
+                                            <th>交易后账户余额</th>                                            
+                                            <th>交易时间</th>
+                                            <th>关联用户/会员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     <tr>
+                                         <td>0001</td>
+                                         <td>充值</td>
+                                         <td>￥100.00</td>
+                                         <td>￥100.00</td>
+                                         <td>￥200.00</td>
+                                         <td>2018-05-27 18:00</td>
+                                         <td>Joey</td>
+                                     </tr>
+                                        <tr>
+                                            <td>0002</td>
+                                            <td>核销卡券扣款</td>
+                                            <td >￥200.00</td>
+                                            <td>￥0.10</td>
+                                            <td>￥199.90</td>                                          
+                                            <td>2018-05-27 18:00</td>
+                                            <td>微信用户1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.col-lg-4 (nested) -->
+                        <div class="col-lg-8">
+                            <div id="morris-bar-chart"></div>
+                        </div>
+                        <!-- /.col-lg-8 (nested) -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@using (Script.Foot())
+{
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
+    <script>
+    $(document).ready(function() {
+
+
+
+    });
+    </script>
+}

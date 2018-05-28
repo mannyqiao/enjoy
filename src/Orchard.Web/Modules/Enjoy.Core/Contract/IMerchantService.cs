@@ -6,6 +6,8 @@ namespace Enjoy.Core
     using Orchard;
     public interface IMerchantService : IDependency
     {
-        void CreateSubMerchant(CreatingSubMerchantViewModel model);
+        void CreateSubMerchant(SubMerchantViewModel model);
+        SubMerchantViewModel GetDefaultSubMerchant();
+        SubMerchantViewModel GetSubMerchant(int merchantId);
     }
 }
