@@ -133,9 +133,10 @@ namespace Enjoy.Core
             CreateMenuItem(menu, "商户账户", "1.4", "/finance/myaccount", "", true);
             CreateMenuItem(menu, "平台账户", "1.5", "/finance/paccount", "", true);
 
-            CreateMenuItem(menu, "卡券管理", "2", "javascript:void(0);", "fa fa-exchange fa-fw", true);
-            CreateMenuItem(menu, "创建卡券", "2.1", "/cards/create", "", false);            
-            CreateMenuItem(menu, "卡券库存", "2.2", "/cards/sku", "", true);
+            CreateMenuItem(menu, "卡券中心", "2", "javascript:void(0);", "fa fa-exchange fa-fw", true);
+            CreateMenuItem(menu, "优惠券", "2.1", "/cards/dcoupon", "", false);
+            CreateMenuItem(menu, "团购券", "2.2", "/cards/gcoupon", "", false);
+            CreateMenuItem(menu, "会员卡", "2.3", "/cards/mcard", "", true);
 
 
             CreateMenuItem(menu, "营销中心", "3", "javascript:void(0);", "fa fa-exchange fa-fw", true);
