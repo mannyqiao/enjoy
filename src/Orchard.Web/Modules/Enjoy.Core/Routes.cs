@@ -28,7 +28,14 @@ namespace Enjoy.Core
                 CreateRouteDescriptor("Enjoy.Core","Merchant","Shops"),
                 CreateRouteDescriptor("Enjoy.Core","Finance","PAccount"),
                 CreateRouteDescriptor("Enjoy.Core","Finance","MyAccount"),
-                CreateRouteDescriptor("Enjoy.Core","Cards","Create")
+
+                CreateRouteDescriptor("Enjoy.Core","Cards","DCoupon"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","GCoupon"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","MCard"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","CreateDCoupon"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","CreateGConpon"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","CreateMCard")
+                
 
                 //new RouteDescriptor {
                 //    Route = new Route(

@@ -11,17 +11,54 @@ namespace Enjoy.Core.Controllers
     public class CardsController : Controller
     {
         // GET: Cards
-        public ActionResult Index()
+        /// <summary>
+        /// 优惠券a
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DCoupon()
         {
             return View();
         }
-        public ActionResult Create()
+        /// <summary>
+        /// 团购券
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GCoupon()
         {
             return View();
         }
-        public ActionResult Sku()
+        /// <summary>
+        /// 会员卡
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MCard()
         {
             return View();
+        }
+        /// <summary>
+        /// 创建优惠券
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CreateDCoupon()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 创建团购券
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CreateGConpon()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 创建会员卡
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CreateMCard()
+        {
+            return View();
+                 
         }
     }
 }
