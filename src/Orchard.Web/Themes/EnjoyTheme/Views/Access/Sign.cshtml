@@ -3,11 +3,11 @@
 <div class="container">
     @if (Model.Signin)
     {
-        @Html.Partial("Component/_SignIn",Model.Current)
+        @Html.Partial("Component/_SignInPartial", Model.Current)
     }
     else
     {
-        @Html.Partial("Component/_SignUp",Model.Current)
+        @Html.Partial("Component/_SignUpPartial", Model.Current)
     }
     @if (Model.HasError)
     {

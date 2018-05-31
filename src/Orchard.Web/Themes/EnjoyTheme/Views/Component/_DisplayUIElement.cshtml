@@ -1,0 +1,23 @@
+﻿@using Enjoy.Core.UIElements;
+@model Enjoy.Core.UIElements.GroupUIElement
+<fieldset id="group_@Model.Id" name="group_@Model.Id">
+    @foreach (var element in Model.Elements)
+    {
+        switch (element.Type)
+        {
+            case Enjoy.Core.UIType.Text:
+                @Html.Partial("Component/_TextPartial", element as TextUIElement)
+                break;
+            case Enjoy.Core.UIType.TextArea:
+                @Html.Partial("Component/_TextAreaPartial", element as TextAreaUIElement)
+                break;
+            case Enjoy.Core.UIType.Radio:
+                @Html.Partial("Component/_RadioPartial", element as RadioUIElement)
+                break;
+            case Enjoy.Core.UIType.Select:
+                break;
+            case Enjoy.Core.UIType.MultiSelect:
+                break;
+        }
+    }
+</fieldset>

@@ -248,6 +248,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Cards\DCoupon.cshtml" />
     <Content Include="Views\Cards\CreateDCoupon.cshtml" />
+    <Content Include="Views\Component\_TextPartial.cshtml" />
+    <Content Include="Views\Component\_InputGroupSelectPartial.cshtml" />
+    <Content Include="Views\Component\_RadioPartial.cshtml" />
+    <Content Include="Views\Component\_DisplayUIElement.cshtml" />
+    <Content Include="Views\Component\_TextAreaPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
@@ -358,10 +363,10 @@
     <Content Include="Views\Access\Sign.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Component\_SignUp.cshtml" />
+    <Content Include="Views\Component\_SignUpPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Component\_SignIn.cshtml" />
+    <Content Include="Views\Component\_SignInPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Merchant\Create.cshtml" />

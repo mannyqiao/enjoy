@@ -1,0 +1,37 @@
+﻿@using Enjoy.Core
+@model Enjoy.Core.UIElements.RadioUIElement
+<div class="form-group required">
+    @foreach (var radio in Model.Items)
+    {
+        <label class="radio-inline control-label">
+            <input type="radio" name="@Model.Id" id="@radio.Id" @(radio.Value.Equals(Model.Value)?"checked='checked'":"") WhenCheckedShow ="@radio.WhenCheckedShow" >@radio.Text
+        </label>
+    }
+</div>
+<script src="/Themes/EnjoyTheme/Content/plugs/jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var geners =@Html.Raw(Model.GearElements.ToJson());
+        $("input[type='radio']").click(function () {
+            var that = this;
+            $.each(geners, function (index, value) {
+                if (value == $(that).attr("WhenCheckedShow")) {                 
+                    $("#" + value).removeClass("hidden");
+                }
+                else {
+                    $("#" + value).addClass("hidden");
+                }               
+            });                        
+        })
+        var selected = @Html.Raw('"'+ Model.Value+'"') ;
+        $.each(geners, function (index, value) {
+            if (value == selected) {
+                $("#" + value).removeClass("hidden");
+            }
+            else {
+                $("#" + value).addClass("hidden");
+            }
+        });
+    });
+</script>
