@@ -109,6 +109,7 @@
     <Compile Include="Contract\IVerifyCodeGenerator.cs" />
     <Compile Include="Contract\IWeChatApi.cs" />
     <Compile Include="Contract\Models\IDataSourceDescriptor.cs" />
+    <Compile Include="Contract\Models\UIElement\ISegmentOption.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Enums\Status.cs" />
     <Compile Include="Models\Enums\MediaUploadTypes.cs" />
+    <Compile Include="Models\Enums\UIType.cs" />
     <Compile Include="Models\JsonNetResult.cs" />
     <Compile Include="Models\PagingCondition.cs" />
     <Compile Include="Models\Records\CardSkin.cs" />
@@ -130,6 +132,9 @@
     <Compile Include="Models\Records\Merchant.cs" />
     <Compile Include="Models\Records\MerchantAdmin.cs" />
     <Compile Include="Models\Records\Shop.cs" />
+    <Compile Include="Models\UIElement\TabContainerSegment.cs" />
+    <Compile Include="Models\UIElement\TabPaneSegment.cs" />
+    <Compile Include="Models\UIElement\TabNavSegment.cs" />
     <Compile Include="Models\WeChat\Request\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\CreateSubmerchantResponse.cs" />
@@ -155,6 +160,12 @@
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultHandler.cs" />
     <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\UIComponent\GroupUIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\RadioUIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\SegmentOption.cs" />
+    <Compile Include="ViewModels\UIComponent\TextAreaUIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\UIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\InputControlViewModel.cs" />
     <Compile Include="ViewModels\SubMerchantViewModel.cs" />
     <Compile Include="ViewModels\SelectNodeViewModel.cs" />
     <Compile Include="ViewModels\ShopListViewModel.cs" />
@@ -162,6 +173,7 @@
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />
+    <Compile Include="ViewModels\UIComponent\TextUIElement.cs" />
     <Compile Include="ViewModels\VerificationCodeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
