@@ -245,6 +245,9 @@
     <Content Include="Views\Merchant\MyShopEditor.cshtml" />
     <Content Include="Views\Merchant\MyShops.cshtml" />
     <Content Include="Views\Finance\PAccount.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Cards\DCoupon.cshtml" />
+    <Content Include="Views\Cards\CreateDCoupon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
@@ -349,6 +352,7 @@
   <ItemGroup>
     <Folder Include="Scripts\" />
     <Folder Include="Views\Layout\" />
+    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Access\Sign.cshtml" />

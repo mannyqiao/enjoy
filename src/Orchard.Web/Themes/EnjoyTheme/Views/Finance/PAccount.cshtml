@@ -17,38 +17,38 @@
                     <fieldset>
                         <div class="form-group">
                             <label>商户名称:</label>
-                            <label>柠檬工坊</label>                            
+                            <label>柠檬工坊</label>
                             <label class="col-lg-offset-1">账户金额:</label>
-                            <label >1000.00元</label>
+                            <label>￥1000.00元</label>
                             <a>立即充值</a>
 
                             <label class="col-lg-offset-1">优惠券库存:</label>
                             <label>1000</label>
 
                             <label class="col-lg-offset-1">团购券库存:</label>
-                            <label >1000</label>
+                            <label>1000</label>
 
                             <label class="col-lg-offset-1">折扣券库存:</label>
-                            <label >1000</label>
+                            <label>1000</label>
 
                             <label class="col-lg-offset-1">会员卡库存:</label>
-                            <label >--</label>                           
-                        </div>      
+                            <label>--</label>
+                        </div>
                         <div class="form-group">
                             <label>现金券库存:</label>
                             <label>--</label>
                         </div>
                     </fieldset>
-                </div>               
+                </div>
             </div>
-        </div>       
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <!-- /.panel -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i>交易流水
+                    交易记录
                     <div class="pull-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -83,31 +83,49 @@
                                         <tr>
                                             <th>交易编号</th>
                                             <th>交易类型</th>
-                                            <th>交易前账户余额</th>
                                             <th>交易金额</th>
-                                            <th>交易后账户余额</th>                                            
+                                            <th>交易后账户余额</th>
                                             <th>交易时间</th>
                                             <th>关联用户/会员</th>
+                                            <th>备注</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                     <tr>
-                                         <td>0001</td>
-                                         <td>充值</td>
-                                         <td>￥100.00</td>
-                                         <td>￥100.00</td>
-                                         <td>￥200.00</td>
-                                         <td>2018-05-27 18:00</td>
-                                         <td>Joey</td>
-                                     </tr>
+                                        <tr>
+                                            <td>0001</td>
+                                            <td>储值</td>
+                                            <td><p class="word-success">+100.00</p></td>
+                                            <td>200.00</td>
+                                            <td>2018-05-27 18:00</td>
+                                            <td>Joey</td>
+                                            <th>储值到平台</th>
+                                        </tr>
                                         <tr>
                                             <td>0002</td>
-                                            <td>核销卡券扣款</td>
-                                            <td >￥200.00</td>
-                                            <td>￥0.10</td>
-                                            <td>￥199.90</td>                                          
+                                            <td>手续费</td>
+                                            <td><p class="word-danger">+0.50</p></td>
+                                            <td>199.90</td>
                                             <td>2018-05-27 18:00</td>
-                                            <td>微信用户1</td>
+                                            <td>Joey</td>
+                                            <td>核销卡券<a>查看</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>0002</td>
+                                            <td>手续费</td>
+                                            <td><p class="word-danger">+0.50</p></td>
+                                            <td>199.90</td>
+                                            <td>2018-05-27 18:00</td>
+                                            <td>Joey</td>
+                                            <td>会员卡充值<a>查看</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>0002</td>
+                                            <td>手续费</td>
+                                            <td><p class="word-danger">+0.50</p></td>
+                                            <td>199.90</td>
+                                            <td>2018-05-27 18:00</td>
+                                            <td>Joey</td>
+                                            <td>会员卡领取<a>查看</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -123,6 +141,11 @@
                     <!-- /.row -->
                 </div>
                 <!-- /.panel-body -->
+                <div class="panel-footer">
+                    <p>平台账户用于商户预存金额到平台，当发生交易时从平台账户中扣除交易手续费是平台盈利的主要途径。交易类型主要分为两种:</p>
+                    <p>1.储值</p>
+                    <p>2.手续费. 手续费又分为卡券核销、会员卡第一次消费、会员卡充值、卡券投放等组成</p>                  
+                </div>
             </div>
 
         </div>
@@ -136,10 +159,10 @@
     <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
     <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
     <script>
-    $(document).ready(function() {
+        $(document).ready(function () {
 
 
 
-    });
+        });
     </script>
 }
