@@ -15,6 +15,6 @@ namespace Enjoy.Core
         UploadMediaWxResponse UploadMaterial(string name,byte[] buffers);
         UploadMediaWxResponse UploadMaterialToCDN(byte[] buffers);
 
-        WapperWxResponse<CreateSubmerchantResponse> CreateSubmerchant(WapperWxRequest<SubMerchant> submerchant);
+        WxResponseWapper<CreateSubmerchantResponse> CreateSubmerchant(WxRequestWapper<SubMerchant> submerchant);
     }
 }

@@ -11,6 +11,8 @@ namespace Enjoy.Core
         TextArea = 2,
         Select = 3,
         MultiSelect = 4,
-        Radio = 5
+        GRadio = 5,
+        RadioItem = 6,
+        Container = 7
     }
 }

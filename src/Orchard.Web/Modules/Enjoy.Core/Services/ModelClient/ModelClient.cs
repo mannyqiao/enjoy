@@ -34,9 +34,9 @@ namespace Enjoy.Core
                 Address = string.Format("{0}/{1}/{2}", model.Province, model.City, model.Area)
             };
         }
-        public WapperWxRequest<SubMerchant> Convert(Merchant merchant)
+        public WxRequestWapper<SubMerchant> Convert(Merchant merchant)
         {
-            return new WapperWxRequest<SubMerchant>()
+            return new WxRequestWapper<SubMerchant>()
             {
                 Info = new SubMerchant()
                 {

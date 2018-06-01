@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class TabPaneSegment : ISegmentOption
+    public class TabPaneSegment<TModel> : ISegmentOption
     {
         private readonly string text;
         public TabPaneSegment(string id, string text, bool isActived)
@@ -23,6 +23,16 @@ namespace Enjoy.Core.UIElements
             
 
         }
-        public GroupUIElement[] Elements { get; set; }
+        public UIElement<TModel>[] Elements { get; set; }
+
+        public string IdOf<TProperty>()
+        {
+            return this.Id;
+        }
+
+        public string NameOf<TProperty>()
+        {
+            return this.Id;
+        }
     }
 }

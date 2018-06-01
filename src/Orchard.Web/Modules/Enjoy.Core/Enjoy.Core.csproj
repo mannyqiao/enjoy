@@ -120,7 +120,10 @@
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\DataDescriptor.cs" />
     <Compile Include="Models\EnjoyUsers\EnjoyUserProfile.cs" />
+    <Compile Include="Models\Enums\ApplyScopes.cs" />
     <Compile Include="Models\Enums\CardTypes.cs" />
+    <Compile Include="Models\Enums\CodeTypes.cs" />
+    <Compile Include="Models\Enums\DateTimeTypes.cs" />
     <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Enums\Status.cs" />
     <Compile Include="Models\Enums\MediaUploadTypes.cs" />
@@ -135,6 +138,20 @@
     <Compile Include="Models\UIElement\TabContainerSegment.cs" />
     <Compile Include="Models\UIElement\TabPaneSegment.cs" />
     <Compile Include="Models\UIElement\TabNavSegment.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Abstract.cs" />
+    <Compile Include="Models\WeChat\CardEntity\AdvancedInfo.cs" />
+    <Compile Include="Models\WeChat\CardEntity\BaseInfo.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Cards\CashCoupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Cards\Coupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Cards\DiscountCoupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Cards\GeneralCoupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Cards\GiftCoupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\DateInfo.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Cards\Groupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\Sku.cs" />
+    <Compile Include="Models\WeChat\CardEntity\TextImage.cs" />
+    <Compile Include="Models\WeChat\CardEntity\TimeLimit.cs" />
+    <Compile Include="Models\WeChat\CardEntity\UseCondition.cs" />
     <Compile Include="Models\WeChat\Request\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\CreateSubmerchantResponse.cs" />
@@ -159,7 +176,9 @@
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultDetecter.cs" />
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultHandler.cs" />
     <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
+    <Compile Include="Utilities\UIElementHelper.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CardCounponViewModel.cs" />
     <Compile Include="ViewModels\UIComponent\GroupUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\RadioUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\SegmentOption.cs" />
@@ -212,7 +231,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
-    <Folder Include="Models\Cards\" />
     <Folder Include="Models\Merchant\" />
     <Folder Include="Views\" />
   </ItemGroup>
