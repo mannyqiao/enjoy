@@ -166,6 +166,7 @@
     <Content Include="Content\home\js\wow.min.js" />
     <Content Include="Content\images\backgrounds\1%402x.jpg" />
     <Content Include="Content\images\backgrounds\1.jpg" />
+    <Content Include="Content\images\coupon_demo.png" />
     <Content Include="Content\images\upload_img.png" />
     <Content Include="Content\plugs\jquery.fileupload\css\demo-ie8.css" />
     <Content Include="Content\plugs\jquery.fileupload\css\demo.css" />

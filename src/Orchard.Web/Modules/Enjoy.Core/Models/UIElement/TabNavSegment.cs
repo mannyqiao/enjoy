@@ -16,5 +16,15 @@ namespace Enjoy.Core.UIElements
         public bool Actived { get; set; }
         public string Id { get; set; }
         public string Text { get; }
+
+        public string IdOf<TProperty>()
+        {
+            return this.Id;
+        }
+
+        public string NameOf<TProperty>()
+        {
+            return this.Id;
+        }
     }
 }

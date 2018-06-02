@@ -6,17 +6,18 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class TabContainerSegment : ISegmentOption
+    public class TabContainerSegment<TModel> 
     {
         public TabContainerSegment(string id, string text)
         {
             this.Id = id;
             this.Text = text;
         }
+        public TabContainerSegment() { }
         public string Id { get; private set; }
 
         public string Text { get; private set; }
         public TabNavSegment[] TabNavs { get; set; }
-        public TabPaneSegment[] TabPanes { get; set; }
+        public TabPaneSegment<TModel>[] TabPanes { get; set; }
     }
 }

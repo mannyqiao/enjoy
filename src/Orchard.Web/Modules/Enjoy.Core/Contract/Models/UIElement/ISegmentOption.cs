@@ -7,7 +7,8 @@ namespace Enjoy.Core
 {
     public interface ISegmentOption
     {
-        string Id { get; }
+        string IdOf();
+        string NameOf();
         string Text { get;  }
     }
 }

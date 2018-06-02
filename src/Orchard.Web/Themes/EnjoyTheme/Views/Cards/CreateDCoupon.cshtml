@@ -12,12 +12,13 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <form role="form">
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreateDCouponPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            {
                 <ul class="nav nav-tabs">
                     @foreach (var tab in Model.TabNavs)
                     {
-                        <li class="active">
-                            <a href="#@tab.Id" class="@(tab.Actived?"actived":"")" data-toggle="tab">@tab.Text</a>
+                        <li class="@(tab.Actived ? "actived" : "")">
+                            <a href="#@tab.Id"  data-toggle="tab">@tab.Text</a>
                         </li>
                     }
                 </ul>
@@ -25,14 +26,13 @@
                     @foreach (var pane in Model.TabPanes)
                     {
                         <div class="tab-pane fade @(pane.Actived?"in active":"") " id="@pane.Id">
-                             <h4>&nbsp;</h4>
+                            <h4>&nbsp;</h4>
                             @foreach (var group in pane.Elements)
                             {
                                 @Html.Partial("Component/_DisplayUIElement", group)
                             }
                         </div>
                     }
-                   
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
@@ -42,10 +42,12 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            }
+           
         </div>
         <div class="col-lg-6">
-            <p>创建流程说明</p>
+            <p>效果展示</p>
+            <img src="/themes/enjoytheme/content/images/coupon_demo.png"/>
         </div>
     </div>
 </div>

@@ -87,10 +87,10 @@ namespace Enjoy.Core.Services
                 return http;
             });
         }
-        public WapperWxResponse<CreateSubmerchantResponse> CreateSubmerchant(WapperWxRequest<SubMerchant> submerchant)
+        public WxResponseWapper<CreateSubmerchantResponse> CreateSubmerchant(WxRequestWapper<SubMerchant> submerchant)
         {
             var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.GetToken());
-            return request.GetResponseForJson<WapperWxResponse<CreateSubmerchantResponse>>((http) =>
+            return request.GetResponseForJson<WxResponseWapper<CreateSubmerchantResponse>>((http) =>
             {
                 http.Method = "POST";
                 http.ContentType = "application/json; encoding=utf-8";
