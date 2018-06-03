@@ -6,40 +6,33 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class UIElement<TModel, TProperty> : ISegmentOption
+    public abstract class UIElement
     {
-        private readonly Expression<Func<TModel, TProperty>> Expression;
+
         public UIElement(
-            UIType type,
+            string name,
             string text,
-            Expression<Func<TModel, TProperty>> expression = null,
-            UIElement<TModel, TProperty>[] children = null,
+            bool required = false,
             string value = null,
-            bool required = false)
+            string message = null)
         {
-            this.Expression = expression;
+            this.Name = name;
             this.Text = text;
             this.Value = value;
             this.Required = required;
-            this.Children = children;
+            this.Message = message;
         }
-        public virtual UIType Type { get; protected set; }
+        public string Id
+        {
+            get
+            {
+                return this.Name.Replace(".", "_");
+            }
+        }
+        public string Name { get; set; }
         public string Text { get; protected set; }
         public string Value { get; protected set; }
+        public string Message { get; private set; }
         public bool Required { get; protected set; }
-        public UIElement<TModel, TProperty>[] Children { get; protected set; }
-        public virtual string IdOf()
-        {
-            if (this.Expression == null) throw new NullReferenceException(nameof(this.Expression));
-            return UIElementHelper.IdOf(this.Expression);
-        }    
-
-        public virtual string NameOf()
-        {
-            if (this.Expression == null) throw new NullReferenceException(nameof(this.Expression));
-            return UIElementHelper.NameOf(this.Expression);
-        }
-
-      
     }
 }
