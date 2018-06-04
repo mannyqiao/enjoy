@@ -1,13 +1,42 @@
 ﻿
 .word-danger {
-    color: #d9534f
-    ;
+    color: #d9534f;
 }
+
 .word-success {
-    color:#5cb85c;
+    color: #5cb85c;
 }
 
 .form-group .required .control-label:after {
     content: "*";
     color: red;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.color-select_item {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    padding: 2px;
+    margin-right: 10px;
+    border-width: 1px;
+    border-style: solid
+}
+
+ .color-select_item .color-select_content {
+        display: inline-block;
+        width: 24px;
+        height: 24px
+ }
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+ul {
+    list-style-type: none;
 }
