@@ -20,7 +20,7 @@ namespace Enjoy.Core
 
         };
         public const int Success = 0;
-             
+
         public const int ErrorMessageNotDefined = -1;
         public const int MobileExists = 1001;
         public const int MobileNotExists = 1002;
@@ -30,5 +30,14 @@ namespace Enjoy.Core
         public const int EmptyOrNullDataSource = 1006;
         public const int PasswordCantBeNullOrEmpty = 1007;
         public const int UPasswordNotMatch = 1008;
+
+
+        public static readonly Dictionary<string, string> BusinessService = new Dictionary<string, string>()
+        {
+            {"BIZ_SERVICE_DELIVER","外卖服务" },
+            {"BIZ_SERVICE_FREE_PARK","停车位"},
+            {"BIZ_SERVICE_WITH_PET","可带宠物"},
+            {"BIZ_SERVICE_FREE_WIFI","免费WIFI"}
+        };
     }
 }
