@@ -1,0 +1,15 @@
+﻿<div class="form-group">
+    <span class="required">*</span>
+    <label>背景色</label>
+    @foreach(var color in Enjoy.Core.EnjoyConstant.CouponBackgroundColors)
+    {
+   
+    <a>
+        <div style="background:@color.Value" class="col-md-1 col-sm-1">
+            <label></label>
+        </div>
+    </a>
+   
+        
+    }
+</div>

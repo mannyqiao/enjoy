@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class TabContainerSegment<TModel> 
+    public class TabContainerSegment
     {
         public TabContainerSegment(string id, string text)
         {
@@ -18,6 +18,6 @@ namespace Enjoy.Core.UIElements
 
         public string Text { get; private set; }
         public TabNavSegment[] TabNavs { get; set; }
-        public TabPaneSegment<TModel>[] TabPanes { get; set; }
+        public TabPaneSegment[] TabPanes { get; set; }
     }
 }

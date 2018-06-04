@@ -309,6 +309,7 @@
     <Content Include="Views\Component\_SwitchPartial.cshtml" />
     <Content Include="Views\Component\_MultiChoicePartial.cshtml" />
     <Content Include="Views\Component\_DatePickerPartial.cshtml" />
+    <Content Include="Views\Component\_PalettePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
