@@ -17,10 +17,9 @@ namespace Enjoy.Core
         }
         public static string NameOf<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression)
         {
-            var metaData = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(TModel));            
+            var metaData = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(TModel));
             return Expression.Lambda<Func<TModel, TProperty>>(expression.Body, expression.Parameters)
                 .Body.ToString().Replace("o.", string.Empty);
         }
-        
     }
 }
