@@ -123,10 +123,12 @@
     <Compile Include="Models\Enums\CardTypes.cs" />
     <Compile Include="Models\Enums\CodeTypes.cs" />
     <Compile Include="Models\Enums\DateTimeTypes.cs" />
+    <Compile Include="Models\Enums\ExpiryDateTypes.cs" />
     <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Enums\Status.cs" />
     <Compile Include="Models\Enums\MediaUploadTypes.cs" />
     <Compile Include="Models\Enums\UIType.cs" />
+    <Compile Include="Models\Enums\UseLimitTypes.cs" />
     <Compile Include="Models\JsonNetResult.cs" />
     <Compile Include="Models\PagingCondition.cs" />
     <Compile Include="Models\Records\CardSkin.cs" />
@@ -182,7 +184,10 @@
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />
+    <Compile Include="ViewModels\UIComponent\DatePickerUIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\ImageUploadUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\MultiChoiceUIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\PaletteUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\RadioUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\SwitchUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\TextAreaUIElement.cs" />

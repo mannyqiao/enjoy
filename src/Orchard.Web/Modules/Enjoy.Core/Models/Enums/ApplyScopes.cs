@@ -14,7 +14,7 @@ namespace Enjoy.Core
         /// <summary>
         /// 特定的
         /// </summary>
-        Specific,
+        Specified,
     }
 
 }

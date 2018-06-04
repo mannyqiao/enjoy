@@ -15,12 +15,12 @@
 
          var linked = @Html.Raw(Model.Linked.ToJson());
         $("#@Model.Id > input[type='radio']").click(function () {
-            console.log($(this).attr("id"));
+          
             var that = this;
             var linked = @Html.Raw(Model.Linked.ToJson());
-            console.log(linked);
+           
             $.each(linked, function (index, value) {
-                console.log("#" + value);
+                
                 if (value == $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
                 }
@@ -29,9 +29,19 @@
                 }
             });
         })
-        var selected ="group_"+ @Html.Raw('"'+ Model.Value+'"') ;
+        var selected = function () {
+            var result = "";
+            $.each(linked, function (index, value) {
+                if (value.toLowerCase().indexOf( @Html.Raw("'"+ Model.Value.ToLower()+ "'")  ) >= 0) {
+                    result = value;
+                    return;
+                }
+            });
+            return result;
+        };
+        console.log("selected " + selected());
         $.each(linked, function (index, value) {
-            if (value == selected) {
+            if (value == selected()) {
                 $("#" + value).removeClass("hidden");
             }
             else {
