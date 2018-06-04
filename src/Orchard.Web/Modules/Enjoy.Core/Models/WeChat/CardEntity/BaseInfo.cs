@@ -4,20 +4,9 @@ namespace WeChat.Models
 {
     using Newtonsoft.Json;
     using System.ComponentModel;
-    using Enjoy.Core;
-    using System;
 
     public class BaseInfo
     {
-        public BaseInfo()
-        {
-            this.Sku = new Sku() { Quantity = 100 };
-            this.Dateinfo = new DateInfo()
-            {
-                BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
-                EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
-            };
-        }
         [Newtonsoft.Json.JsonProperty("logo_url")]
         public virtual string LogoUrl { get; set; }
 
@@ -63,7 +52,7 @@ namespace WeChat.Models
 
 
         [Newtonsoft.Json.JsonProperty("get_limit")]
-
+        
         public virtual int Getlimit { get; set; }
 
         [Newtonsoft.Json.JsonProperty("use_custom_code")]

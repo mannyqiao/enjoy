@@ -1,7 +1,5 @@
-﻿
-@model Enjoy.Core.UIElements.TextUIElement
-<div id="group_@Model.Id" name="group_@Model.Id" class="form-group required">
-    <span class="required">*</span>
-    <label >@Model.Text</label>    
-    <input id="@Model.Id" name="@Model.Id" type="text" class="form-control required" placeholder="@Model.Placeholder"/>
+﻿@model Enjoy.Core.UIElements.TextUIElement
+<div id="_@Model.Id" name="_@Model.Id" class="form-group ">
+    <label>@Model.Text</label>
+    <input id="@Model.Id" name="@Model.Id" type="text" class="form-control" placeholder="@Model.Placeholder">
 </div>
