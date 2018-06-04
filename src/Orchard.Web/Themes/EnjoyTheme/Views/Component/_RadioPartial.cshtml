@@ -1,37 +1,42 @@
 ﻿@using Enjoy.Core
 @model Enjoy.Core.UIElements.RadioUIElement
-<div class="form-group required">
+<div class="form-group" >
     @foreach (var radio in Model.Items)
     {
-        <label class="radio-inline control-label">
-            <input type="radio" name="@Model.Id" id="@radio.Id" @(radio.Value.Equals(Model.Value)?"checked='checked'":"") WhenCheckedShow ="@radio.WhenCheckedShow" >@radio.Text
+        <label id="@Model.Id" class="radio-inline control-label">
+            <input type="radio" name="@Model.Name" id="@radio.Id" @(radio.Value.Equals(Model.Value) ? "checked=checked" : "") value="@radio.Value" WhenCheckedShow="@radio.WhenCheckedShow">@radio.Text
         </label>
     }
 </div>
 <script src="/Themes/EnjoyTheme/Content/plugs/jquery/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        var geners =@Html.Raw(Model.GearElements.ToJson());
-        $("input[type='radio']").click(function () {
+    $(document).ready(function () {      
+
+         var linked = @Html.Raw(Model.Linked.ToJson());
+        $("#@Model.Id > input[type='radio']").click(function () {
+            console.log($(this).attr("id"));
             var that = this;
-            $.each(geners, function (index, value) {
-                if (value == $(that).attr("WhenCheckedShow")) {                 
+            var linked = @Html.Raw(Model.Linked.ToJson());
+            console.log(linked);
+            $.each(linked, function (index, value) {
+                console.log("#" + value);
+                if (value == $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
                 }
                 else {
                     $("#" + value).addClass("hidden");
-                }               
-            });                        
+                }
+            });
         })
-        var selected = @Html.Raw('"'+ Model.Value+'"') ;
-        $.each(geners, function (index, value) {
+        var selected ="group_"+ @Html.Raw('"'+ Model.Value+'"') ;
+        $.each(linked, function (index, value) {
             if (value == selected) {
                 $("#" + value).removeClass("hidden");
             }
             else {
                 $("#" + value).addClass("hidden");
             }
-        });
+        });      
     });
 </script>
