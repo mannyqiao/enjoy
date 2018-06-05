@@ -11,6 +11,7 @@ namespace WeChat.Models
             this.Abstract = new Abstract();
             this.TextImageList = new TextImage[] { };
             this.BusinessService = new string[] { };
+            
         }
         [Newtonsoft.Json.JsonProperty("use_condition")]
         public UseCondition UseCondition { get; set; }

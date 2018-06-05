@@ -6,7 +6,7 @@ namespace WeChat.Models
     using System.ComponentModel;
     using Enjoy.Core;
     using System;
-
+    using System.Linq;
     public class BaseInfo
     {
         public BaseInfo()
@@ -17,6 +17,8 @@ namespace WeChat.Models
                 BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
                 EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
             };
+            this.Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault();
+            this.Getlimit = 1;
         }
         [Newtonsoft.Json.JsonProperty("logo_url")]
         public virtual string LogoUrl { get; set; }

@@ -10,13 +10,14 @@ namespace Enjoy.Core.UIElements
         public ImageUploadUIElement(
            string name,
            string text,
-           string value = null,           
+           string value = null,
+           string imageUrl = null,
            string message = null,
            bool required = false)
            : base(name, text, required, value, message)
         {
-           
 
         }
+        public string ImageUrl { get; set; }
     }
 }
