@@ -7,7 +7,7 @@
     color: #5cb85c;
 }
 
-.form-group .required .control-label:after {
+ .required {
     content: "*";
     color: red;
 }

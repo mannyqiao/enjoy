@@ -1,7 +1,10 @@
 ﻿
 @model Enjoy.Core.UIElements.TextUIElement
-<div id="group_@Model.Id" name="group_@Model.Id" class="form-group ">
-    <span class="required">*</span>
-    <label >@Model.Text</label>    
-    <input id="@Model.Id" name="@Model.Name" type="text" class="form-control required" value="@Model.Value" placeholder="@Model.Placeholder"/>
-</div>
+<fieldset>
+    <div id="group_@Model.Id" name="group_@Model.Id" class="form-group  form-inline pull-left ">
+
+        <label>@Html.Raw(Model.Text)</label>
+        <input id="@Model.Id" name="@Model.Name" type="text" class="form-control required" value="@Model.Value" placeholder="@Model.Placeholder" />
+        <span class="required">*</span>
+    </div>
+</fieldset>

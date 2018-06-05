@@ -1,17 +1,19 @@
 ﻿@using Enjoy.Core;
 @model Enjoy.Core.UIElements.PaletteUIElement
-<div class="form-group input-group">
-    <label >@Model.Text</label>
-    <ul class="color-select_list ">
-        @foreach(var item in Model.Colors)
-        {
-            <li class="color-select_item" style="@(item.Key==Model.Value?"":"border-color:rgb(227, 226, 229);")" data-color-key="@item.Key" data-color="@item.Value">
-                <div class="color-select_content pointer"  href="javascript:;" style="background-color: @item.Value;"></div>
-            </li>
-        }
-    </ul>
-    <input type="hidden" id="@Model.Id" name="@Model.Name" value="@Model.Value"/>
-</div>
+<fieldset>
+    <div class="form-group input-group form-inline pull-left">
+        <label>@Model.Text</label>
+        <ul class="color-select_list ">
+            @foreach (var item in Model.Colors)
+            {
+                <li class="color-select_item" style="@(item.Key==Model.Value?"":"border-color:rgb(227, 226, 229);")" data-color-key="@item.Key" data-color="@item.Value">
+                    <div class="color-select_content pointer" href="javascript:;" style="background-color: @item.Value;"></div>
+                </li>
+            }
+        </ul>
+        <input type="hidden" id="@Model.Id" name="@Model.Name" value="@Model.Value" />
+    </div>
+</fieldset>
 <script type="text/javascript">
     $(document).ready(function () {
         var border_style = "border-color:rgb(227, 226, 229);"; //Not selected

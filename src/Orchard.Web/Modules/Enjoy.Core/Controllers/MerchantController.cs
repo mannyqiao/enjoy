@@ -63,9 +63,9 @@ namespace Enjoy.Core.Controllers
         public JsonResult UploadMaterial(MediaUploadTypes type)
         {
             var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;
-            if (context == null)
+            if (context == null||context.Count.Equals(0))
             {
-                return Json(new { result = "fail" }, JsonRequestBehavior.AllowGet);
+                return Json(new { result="fail"}, JsonRequestBehavior.AllowGet);
             }
 
             using (var stream = new BinaryReader(context[0].InputStream))
@@ -75,6 +75,7 @@ namespace Enjoy.Core.Controllers
                 {
                     case MediaUploadTypes.AuthMaterial:
                         {
+                            ////TODO 需要返回 url
                             var result = this.WeChat.UploadMaterial(context[0].FileName, buffers);
                             return Json(result, JsonRequestBehavior.AllowGet);
                         }

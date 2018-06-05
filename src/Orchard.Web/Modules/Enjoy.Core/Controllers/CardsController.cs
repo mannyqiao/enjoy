@@ -7,12 +7,23 @@ using System.Web.Mvc;
 using Enjoy.Core.UIElements;
 using Orchard.Mvc.Extensions;
 using Enjoy.Core.ViewModels;
+using Orchard;
+using System.IO;
 
 namespace Enjoy.Core.Controllers
 {
     [Themed]
     public class CardsController : Controller
     {
+        private readonly IOrchardServices OS;
+        private readonly IWeChatApi WeChat;
+        public CardsController(
+            IOrchardServices os,
+            IWeChatApi wechat)
+        {
+            this.OS = os;
+            this.WeChat = wechat;
+        }
         // GET: Cards
         /// <summary>
         /// 优惠券a
@@ -72,5 +83,6 @@ namespace Enjoy.Core.Controllers
             return View();
 
         }
+     
     }
 }

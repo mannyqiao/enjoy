@@ -39,7 +39,7 @@
                                                                                         new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),Html.NameOf(o=>o.CardType),"优惠券",CardTypes.GENERAL_COUPON.ToString()),
                                                                                         new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),Html.NameOf(o=>o.CardType),"团购券",CardTypes.GROUPON.ToString()),
                                                  }, null, CardTypes.DISCOUNT.ToString()))
-                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.BrandName), "券名称", Model.BaseInfo.BrandName, "20以内的中英文字符", string.Empty, true))
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.BrandName), "&nbsp;&nbsp;&nbsp;&nbsp;券名称", Model.BaseInfo.BrandName, "20以内的中英文字符", string.Empty, true))
                             <fieldset id="group_@(CardTypes.DISCOUNT.ToString())">
                                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度", Model.Discount.Discount, "10以内的数字", string.Empty, true))
                             </fieldset>
@@ -48,11 +48,11 @@
                             </fieldset>
                             <fieldset id="group_@(CardTypes.CASH.ToString())">
                                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Cash.DValue), "票面价值", Model.Cash.DValue, "输入票面价值", string.Empty, true))
-                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Cash.SaleValue), "售价", Model.Cash.SaleValue, "输入售价", string.Empty, true))
+                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Cash.SaleValue), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;售价", Model.Cash.SaleValue, "输入售价", string.Empty, true))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GROUPON.ToString())">
                                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Groupon.DValue), "票面价值", Model.Groupon.DValue, "输入票面价值", string.Empty, true))
-                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Groupon.SaleValue), "售价", Model.Groupon.SaleValue, "输入售价", string.Empty, true))
+                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Groupon.SaleValue), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;售价", Model.Groupon.SaleValue, "输入售价", string.Empty, true))
                                 @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Groupon.Detail), "团购详情", Model.Groupon.Detail, "", string.Empty, true))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GENERAL_COUPON.ToString())">
@@ -110,7 +110,7 @@
                                 </div>
                             </fieldset>
                         </div>
-                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity.ToString(), "输入库存量", string.Empty, true))
+                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "&nbsp;&nbsp;&nbsp;&nbsp;库存量", Model.BaseInfo.Sku.Quantity.ToString(), "输入库存量", string.Empty, true))
                         @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit.ToString(), "输入每人限领数量", string.Empty, true))
                         @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Description), "操作提示", Model.BaseInfo.Notice, "", string.Empty, true))
                         @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, "", string.Empty, true))
@@ -173,7 +173,7 @@
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
                         @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o=>o.BaseInfo.LogoUrl),"Logo图片",string.Empty))
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o=>o.BaseInfo.LogoUrl),"Logo图片", MediaUploadTypes.Material,Model.BaseInfo.LogoUrl,Model.BaseInfo.LogoUrl))
                     </div>
                 </div>
                 <div class="row">
