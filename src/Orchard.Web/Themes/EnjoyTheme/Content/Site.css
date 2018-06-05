@@ -23,10 +23,11 @@
     padding: 2px;
     margin-right: 10px;
     border-width: 1px;
-    border-style: solid
+    border-style: solid;
+    float:left;
 }
 
- .color-select_item .color-select_content {
+.color-select_item .color-select_content {
         display: inline-block;
         width: 24px;
         height: 24px
@@ -39,4 +40,18 @@ li {
 
 ul {
     list-style-type: none;
+}
+
+.img-thumbnail-enjoy {
+    display: inline-block;
+    height: auto;
+    width:100px;
+    height:100px;
+    padding: 4px;
+    line-height: 1.428571429;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }

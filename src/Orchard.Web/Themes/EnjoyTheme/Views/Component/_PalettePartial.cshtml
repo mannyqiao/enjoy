@@ -1,52 +1,35 @@
-﻿<div class="form-group">
-    <label for="" class="col-sm-2 control-label must">卡面颜色</label>
-    <div class="col-sm-10 m-b-none padder-l-sm p-r-none clearfix">
-        <div class="pull-left lh-30px">
-            <div class="color-select tab-new ng-isolate-scope" color-select="" select-color="entity.colorType">
-                <ul class="color-select_list">
-                    <!-- ngRepeat: item in colorList -->
-                    <li class="color-select_item  pull-left ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#77BC70'}" href="javascript:;" style="background-color: rgb(119, 188, 112);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#3CAB7C'}" href="javascript:;" style="background-color: rgb(60, 171, 124);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#64B0D1'}" href="javascript:;" style="background-color: rgb(100, 176, 209);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#6C9BD7'}" href="javascript:;" style="background-color: rgb(108, 155, 215);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#A17DCA'}" href="javascript:;" style="background-color: rgb(161, 125, 202);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#D9A95F'}" href="javascript:;" style="background-color: rgb(217, 169, 95);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#E9BC56'}" href="javascript:;" style="background-color: rgb(233, 188, 86);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(241, 161, 87);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#F1A157'}" href="javascript:;" style="background-color: rgb(241, 161, 87);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#E47B60'}" href="javascript:;" style="background-color: rgb(228, 123, 96);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                    <li ng-repeat="item in colorList" ng-click="changeColor(item)" class="color-select_item ng-scope" ng-style="borderColor(item)" style="border-color: rgb(227, 226, 229);">
-                        <div class="color-select_content pointer" ng-click="onColorChange()" ng-style="{'background-color':'#D65D52'}" href="javascript:;" style="background-color: rgb(214, 93, 82);"></div>
-                    </li>
-                    <!-- end ngRepeat: item in colorList -->
-                </ul>
-            </div>
-        </div>
-    </div>
+﻿@using Enjoy.Core;
+@model Enjoy.Core.UIElements.PaletteUIElement
+<div class="form-group input-group">
+    <label >@Model.Text</label>
+    <ul class="color-select_list ">
+        @foreach(var item in Model.Colors)
+        {
+            <li class="color-select_item" style="@(item.Key==Model.Value?"":"border-color:rgb(227, 226, 229);")" data-color-key="@item.Key" data-color="@item.Value">
+                <div class="color-select_content pointer"  href="javascript:;" style="background-color: @item.Value;"></div>
+            </li>
+        }
+    </ul>
+    <input type="hidden" id="@Model.Id" name="@Model.Name" value="@Model.Value"/>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var border_style = "border-color:rgb(227, 226, 229);"; //Not selected
+        $("li").mousemove(function () {
+            var that = $(this);
+           
+        });
+        $("li.color-select_item").click(function () {         
+            var that = $(this);
+            $("li.color-select_item").each(function () {
+                if ($(that).attr("data-color") === $(this).attr("data-color")) {
+                    $(that).attr("style", "border-color:" + $(this).attr("data-color") + ";");
+                    $("#@Model.Id").val($(this).attr("data-color-key"));
+                }
+                else {
+                    $(this).attr("style", border_style);
+                }
+            });
+        });
+    });
+</script>

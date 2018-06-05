@@ -11,7 +11,7 @@ namespace Enjoy.Core.ViewModels
             this.BaseInfo = new BaseInfo();
             this.Cash = new CashSpecific();
             this.Discount = new DiscountSpecific();
-            this.Gift = new GiftSpecific();
+            this.Gift = new GiftSpecific() ;
             this.General = new GeneralCouponSpecific();
             this.Groupon = new GrounponSpecific();
             this.FixedExpiryDateDescriptor = new string[] { string.Empty, string.Empty };
