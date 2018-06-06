@@ -312,6 +312,7 @@
     <Content Include="Views\Component\_DatePickerPartial.cshtml" />
     <Content Include="Views\Component\_PalettePartial.cshtml" />
     <Content Include="Views\Component\_ImgageUploadUIelement.cshtml" />
+    <Content Include="Views\Component\_TextImageContainer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

@@ -191,6 +191,7 @@
     <Compile Include="ViewModels\UIComponent\RadioUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\SwitchUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\TextAreaUIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\TextImageContainerUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\TextUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\UIElement.cs" />
     <Compile Include="ViewModels\VerificationCodeViewModel.cs" />
