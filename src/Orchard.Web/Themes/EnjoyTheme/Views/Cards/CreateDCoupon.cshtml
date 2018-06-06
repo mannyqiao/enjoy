@@ -31,14 +31,14 @@
                         <h4>&nbsp;</h4>
                         <div class="form-group ">
                             @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), "",
-                                                 new RadioUIElement.RadioItem[]
-                                                 {
-                                                                                        new RadioUIElement.RadioItem(CardTypes.DISCOUNT.ToString(),Html.NameOf(o=>o.CardType),"折扣券",CardTypes.DISCOUNT.ToString()),
-                                                                                        new RadioUIElement.RadioItem(CardTypes.GIFT.ToString(),Html.NameOf(o=>o.CardType),"礼品券",CardTypes.GIFT.ToString()),
-                                                                                        new RadioUIElement.RadioItem(CardTypes.CASH.ToString(),Html.NameOf(o=>o.CardType),"代金券",CardTypes.CASH.ToString()),
-                                                                                        new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),Html.NameOf(o=>o.CardType),"优惠券",CardTypes.GENERAL_COUPON.ToString()),
-                                                                                        new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),Html.NameOf(o=>o.CardType),"团购券",CardTypes.GROUPON.ToString()),
-                                                 }, null, CardTypes.DISCOUNT.ToString()))
+                                                                new RadioUIElement.RadioItem[]
+                                                                {
+                                                                                                                            new RadioUIElement.RadioItem(CardTypes.DISCOUNT.ToString(),Html.NameOf(o=>o.CardType),"折扣券",CardTypes.DISCOUNT.ToString()),
+                                                                                                                            new RadioUIElement.RadioItem(CardTypes.GIFT.ToString(),Html.NameOf(o=>o.CardType),"礼品券",CardTypes.GIFT.ToString()),
+                                                                                                                            new RadioUIElement.RadioItem(CardTypes.CASH.ToString(),Html.NameOf(o=>o.CardType),"代金券",CardTypes.CASH.ToString()),
+                                                                                                                            new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),Html.NameOf(o=>o.CardType),"优惠券",CardTypes.GENERAL_COUPON.ToString()),
+                                                                                                                            new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),Html.NameOf(o=>o.CardType),"团购券",CardTypes.GROUPON.ToString()),
+                                                                }, null, CardTypes.DISCOUNT.ToString()))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.BrandName), "&nbsp;&nbsp;&nbsp;&nbsp;券名称", Model.BaseInfo.BrandName, "20以内的中英文字符", string.Empty, true))
                             <fieldset id="group_@(CardTypes.DISCOUNT.ToString())">
                                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度", Model.Discount.Discount, "10以内的数字", string.Empty, true))
@@ -62,12 +62,12 @@
                         <div class="form-group">
                             <label>使用门槛</label>
                             @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.UseLimitType), "",
-                                                     new RadioUIElement.RadioItem[]
-                                                     {
-                                                                                      new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.None.ToString(),"uselimit_"+ Html.NameOf(o=>o.UseLimitType),"无门槛",UseLimitTypes.None.ToString(),"abbc"),
-                                                                                      new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.Specified.ToString(),"uselimit_"+ Html.NameOf(o=>o.UseLimitType),"消费满",UseLimitTypes.Specified.ToString()
-                                                                                                                         ,"group_uselimit_specific")
-                                                    }, null, UseLimitTypes.None.ToString()))
+                                                                    new RadioUIElement.RadioItem[]
+                                                                    {
+                                                                                                                          new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.None.ToString(),"uselimit_"+ Html.NameOf(o=>o.UseLimitType),"无门槛",UseLimitTypes.None.ToString(),"abbc"),
+                                                                                                                          new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.Specified.ToString(),"uselimit_"+ Html.NameOf(o=>o.UseLimitType),"消费满",UseLimitTypes.Specified.ToString()
+                                                                                                                                                             ,"group_uselimit_specific")
+                                                                   }, null, UseLimitTypes.None.ToString()))
                             <fieldset id="group_uselimit_specific">
                                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.CostMoneyCanUse), "消费金额", Model.CostMoneyCanUse, "输入消费金额", string.Empty, true))
                             </fieldset>
@@ -75,12 +75,12 @@
                         <div class="form-group">
                             <label>券有效期</label>
                             @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.ExpiryDateType), "",
-                                                  new RadioUIElement.RadioItem[]
-                                                  {
-                                                                                  new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.Fixed.ToString(),"expiry_"+ Html.NameOf(o=>o.UseLimitType),"固定时间",ExpiryDateTypes.Fixed.ToString(),"group_expiry_fixed"),
-                                                                                  new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.Specified.ToString(),"expiry_"+ Html.NameOf(o=>o.UseLimitType),"指定时间",ExpiryDateTypes.Specified.ToString()
-                                                                                                                             ,"group_expiry_specified")
-                                                 }, null, ExpiryDateTypes.Fixed.ToString()))
+                                                                 new RadioUIElement.RadioItem[]
+                                                                 {
+                                                                                                                      new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.Fixed.ToString(),"expiry_"+ Html.NameOf(o=>o.UseLimitType),"固定时间",ExpiryDateTypes.Fixed.ToString(),"group_expiry_fixed"),
+                                                                                                                      new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.Specified.ToString(),"expiry_"+ Html.NameOf(o=>o.UseLimitType),"指定时间",ExpiryDateTypes.Specified.ToString()
+                                                                                                                                                                 ,"group_expiry_specified")
+                                                                }, null, ExpiryDateTypes.Fixed.ToString()))
                             <fieldset id="group_expiry_fixed">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -120,12 +120,12 @@
                         <div class="form-group ">
                             <label>适用商品</label>
                             @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.UseProductScope), "",
-                                        new RadioUIElement.RadioItem[]
-                                        {
-                                                                                     new RadioUIElement.RadioItem("product_"+ApplyScopes.All.ToString(),"product_"+ Html.NameOf(o=>o.UseProductScope),"全部商品",ApplyScopes.All.ToString(),"abbc"),
-                                                                                     new RadioUIElement.RadioItem("product_"+ApplyScopes.Specified.ToString(),"product_"+ Html.NameOf(o=>o.UseProductScope),"特定商品",ApplyScopes.Specified.ToString()
-                                                                                     ,"group_product_specific")
-                                       }, null, ApplyScopes.All.ToString()))
+                                                       new RadioUIElement.RadioItem[]
+                                                       {
+                                                                                                                         new RadioUIElement.RadioItem("product_"+ApplyScopes.All.ToString(),"product_"+ Html.NameOf(o=>o.UseProductScope),"全部商品",ApplyScopes.All.ToString(),"abbc"),
+                                                                                                                         new RadioUIElement.RadioItem("product_"+ApplyScopes.Specified.ToString(),"product_"+ Html.NameOf(o=>o.UseProductScope),"特定商品",ApplyScopes.Specified.ToString()
+                                                                                                                         ,"group_product_specific")
+                                                      }, null, ApplyScopes.All.ToString()))
                             <fieldset id="group_product_specific">
 
                                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.AcceptCategory), "可以用商品", Model.AdvancedInfo.UseCondition.AcceptCategory, "", string.Empty, false))
@@ -136,18 +136,18 @@
                         <div class="form-group ">
                             <label>适用门店</label>
                             @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.UseShopScope), "",
-                                        new RadioUIElement.RadioItem[]
-                                        {
-                                                                                     new RadioUIElement.RadioItem("shop_"+ApplyScopes.All.ToString(),Html.NameOf(o=>o.UseShopScope),"全部门店",ApplyScopes.All.ToString(),"xxdd"),
-                                                                                     new RadioUIElement.RadioItem("shop_"+ApplyScopes.Specified.ToString(),Html.NameOf(o=>o.UseShopScope),"特定门店",ApplyScopes.Specified.ToString(),"group_shop_specific")
-                                       }, null, ApplyScopes.All.ToString()))
+                                                       new RadioUIElement.RadioItem[]
+                                                       {
+                                                                                                                         new RadioUIElement.RadioItem("shop_"+ApplyScopes.All.ToString(),Html.NameOf(o=>o.UseShopScope),"全部门店",ApplyScopes.All.ToString(),"xxdd"),
+                                                                                                                         new RadioUIElement.RadioItem("shop_"+ApplyScopes.Specified.ToString(),Html.NameOf(o=>o.UseShopScope),"特定门店",ApplyScopes.Specified.ToString(),"group_shop_specific")
+                                                      }, null, ApplyScopes.All.ToString()))
                             <fieldset id="group_shop_specific">
                                 @Html.Partial("Component/_MultiChoicePartial", new MultiChoiceUIElement(Html.NameOf(o => o.AllowShops), "选择门店", new MultiChoiceUIElement.ChoiceItem[] {
-                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"1","门店一",true),
-                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"2","门店二",true),
-                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"3","门店三",true),
-                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"3","门店四",true)
-                                                                                                          }))
+                                                                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"1","门店一",true),
+                                                                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"2","门店二",true),
+                                                                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"3","门店三",true),
+                                                                                                                                                                new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"3","门店四",true)
+                                                                                                                                                          }))
                             </fieldset>
                         </div>
 
@@ -161,11 +161,11 @@
                                  }, null, CardTypes.GROUPON.ToString()))
                             </div>*@
                         @Html.Partial("Component/_MultiChoicePartial", new MultiChoiceUIElement(Html.NameOf(o => o.AdvancedInfo.BusinessService), "商家服务", new MultiChoiceUIElement.ChoiceItem[] {
-                                                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_DELIVER",EnjoyConstant.BusinessService["BIZ_SERVICE_DELIVER"],true),
-                                                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_PARK",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_PARK"],true),
-                                                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_WITH_PET",EnjoyConstant.BusinessService["BIZ_SERVICE_WITH_PET"],true),
-                                                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_WIFI",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_WIFI"],true)
-                                                      }))
+                                                                                    new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_DELIVER",EnjoyConstant.BusinessService["BIZ_SERVICE_DELIVER"],true),
+                                                                                    new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_PARK",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_PARK"],true),
+                                                                                    new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_WITH_PET",EnjoyConstant.BusinessService["BIZ_SERVICE_WITH_PET"],true),
+                                                                                    new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_WIFI",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_WIFI"],true)
+                                                                              }))
                         @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanGivefriend), "可否赠送好友", Model.BaseInfo.CanGivefriend))
                         @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanShare), "与他人共享", Model.BaseInfo.CanShare))
                         @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.CanUseWithOtherDiscount), "可与其他优惠共享", Model.AdvancedInfo.UseCondition.CanUseWithOtherDiscount))
@@ -173,7 +173,12 @@
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
                         @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o=>o.BaseInfo.LogoUrl),"Logo图片", MediaUploadTypes.Material,Model.BaseInfo.LogoUrl,Model.BaseInfo.LogoUrl))
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.BaseInfo.LogoUrl), "Logo图片", MediaUploadTypes.Material, Model.BaseInfo.LogoUrl, Model.BaseInfo.LogoUrl))
+                        @*@Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterTitle), "入口标题", Model.BaseInfo.CenterTitle, "", string.Empty, true))
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@
+                        @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.AdvancedInfo.TextImageList), Model.AdvancedInfo.TextImageList.ToArray()))
+
                     </div>
                 </div>
                 <div class="row">

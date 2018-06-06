@@ -11,14 +11,7 @@ namespace WeChat.Models
     {
         public BaseInfo()
         {
-            this.Sku = new Sku() { Quantity = 100 };
-            this.Dateinfo = new DateInfo()
-            {
-                BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
-                EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
-            };
-            this.Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault();
-            this.Getlimit = 1;
+         
         }
         [Newtonsoft.Json.JsonProperty("logo_url")]
         public virtual string LogoUrl { get; set; }

@@ -1,0 +1,121 @@
+﻿@using Enjoy.Core;
+@using Enjoy.Core.UIElements;
+@model Enjoy.Core.UIElements.TextImageContainerUIElement
+@{
+    var index = 0;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        图文介绍
+    </div>
+    <!-- .panel-heading -->
+    <div class="panel-body">
+        <div class="panel-group" id="accordion">
+            @foreach (var item in Model.Items)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_@index" class="">@Html.Raw(string.Format("图文介绍{0}", index))</a>
+                        </h4>
+                    </div>
+                    <div id="collapse_@index" class="panel-collapse collapse " aria-expanded="true" style="">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <fieldset>
+                                        <div class="form-group input-group pull-left">
+                                            <input type="file" class="hidden" id="text_image_@index" name="text_image_@index" />
+                                            <img id="image_@index" class="img-thumbnail-enjoy pointer"
+                                                 src="@(string.IsNullOrEmpty(item.ImageUrl)?"/themes/enjoytheme/content/images/default.jpg":item.ImageUrl)" data-target="@index" />
+                                            <input name="@string.Concat(Model.Name,string.Format("[{0}].",index),"ImageUrl")" type="hidden" />
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-10">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <textarea name="@string.Concat(Model.Name,string.Format("[{0}].",index),"Text")" class="form-control " style="height:100px;" placeholder="输入文本介绍">@item.Text</textarea>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                index++;
+            }
+
+        </div>
+    </div>
+    <!-- .panel-body -->
+</div>
+@using (Script.Foot())
+{
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+
+    <script>
+ $(document).ready(function () {
+            var blocks = @Html.Raw(Model.Items.Count());
+
+            for (var block = 0; block < blocks; block++) {
+                $("#" + "image_" + block).click(function () {
+                    var index = $(this).attr("data-target");
+                    var input_value = "@Model.Name" + "[" + index + "]" + ".ImageUrl";
+                    var input_file = "text_image_" + index;
+                    var image = $(this).attr("id");
+                    $("#" + input_file).change(function () {
+                        upload_cover_image(input_file, image, input_value);
+                    });
+                    $("#" + input_file).click();
+                });
+            }
+
+        function upload_cover_image(input_file,image,input_value) {
+            ajax_upload(input_file, image, input_value, function (data) { //function(data)是上传图片的成功后的回调方法
+                var isrc = data.relatPath.replace(/\/\//g, '/'); //获取的图片的绝对路径
+                //$('#image').attr('src', basePath + isrc).data('img-src', isrc); //给<input>的src赋值去显示图片
+            });
+        }
+            function ajax_upload(input_file, image, input_value, callback) { //具体的上传图片方法
+            var materialType = "@MediaUploadTypes.Material.ToString()"; //setback_id === "LogoUrl" ? "Material" : "AuthMaterial";
+                var image_src = $("#" + input_file).val();
+
+                if (image_check(image_src)) { //自己添加的文件后缀名的验证
+                            $.ajaxFileUpload({
+                                fileElementId: input_file, //需要上传的文件域的ID，即<input type="file">的ID。
+                                url: "/Merchant/UploadMaterial?type=" + materialType, //后台方法的路径
+                                type: 'POST', //当要提交自定义参数时，这个参数要设置成post
+                                dataType: 'application/json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+                                secureuri: false, //是否启用安全提交，默认为false。
+                                async: true, //是否是异步，
+                                success: function (data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                                    var result = $.parseJSON(data.replace(/<.*?>/ig, ""));
+                                    $("#" + image).attr("src", result.Url);
+                                    console.log($("input[name='" + input_value + "']"));
+                                    console.log(result.Value);
+                                    $("input[name='" + input_value+"']").val(result.Value);
+                                },
+                                error: function (data, status, e) { //提交失败自动执行的处理函数。
+                                    console.error(e);
+                                    console.error(data);
+                                },
+                                complete: function (xmlHttpRequest) {
+                                    $("#" + input_file).replaceWith("<input type='file' id=" + input_file+" name='upFile' style='display:none;'/>");
+                                    $("#" + input_file).on("change", function () {
+                                        upload_cover_image(input_file, image, input_value);
+                                    });
+                                }
+                            });
+                    }
+                }
+            function image_check(image) { //自己添加的文件后缀名的验证
+                console.log("dd"+ image);
+                return /.(jpg|png|gif|bmp)$/.test(image.toLowerCase()) ? true : (function () {
+                    modals.info('图片格式仅支持jpg、png、gif、bmp格式，且区分大小写。');
+                    return false;
+            })();
+        }
+});
+    </script>
+}

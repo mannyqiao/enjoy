@@ -52,8 +52,10 @@ namespace Enjoy.Core.Services
 
         public UploadMediaWxResponse UploadMaterialToCDN(byte[] buffers)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxUploaMediaUrl(this.GetToken(), MediaUploadTypes.Material);
-            return UploadMaterial(request, "logo", buffers);
+            var response = UploadMaterial(WeChatApiRequestBuilder.GenerateWxUploaMediaUrl(this.GetToken(), MediaUploadTypes.Material)
+                , "logo", buffers);
+            response.Value = response.Url;
+            return response;            
         }
         private UploadMediaWxResponse UploadMaterial(string url, string name, byte[] buffers)
         {
