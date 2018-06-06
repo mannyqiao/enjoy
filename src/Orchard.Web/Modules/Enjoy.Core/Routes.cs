@@ -36,6 +36,7 @@ namespace Enjoy.Core
                 CreateRouteDescriptor("Enjoy.Core","Cards","CreateGConpon"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","CreateMCard")
                 
+                
 
                 //new RouteDescriptor {
                 //    Route = new Route(

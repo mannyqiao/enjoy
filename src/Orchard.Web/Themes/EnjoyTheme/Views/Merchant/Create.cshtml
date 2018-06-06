@@ -1,4 +1,6 @@
-﻿ @model Enjoy.Core.ViewModels.SubMerchantViewModel
+﻿@using Enjoy.Core.UIElements;
+@using Enjoy.Core;
+@model Enjoy.Core.ViewModels.SubMerchantViewModel
 <div id="page-wrapper">
     <!-- /.row -->
     <div class="row">
@@ -12,51 +14,54 @@
 
         </div>
         <div class="col-md-4 ">
-            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreatePost", new { ReturnUrl = Request.QueryString["ReturnUrl"] }))) {
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label">商户名称</label> @Html.TextBoxFor(o => o.BrandName, new { @class = "form-control", placeholder = "输入商户名称", autofocus = "autofocus" }) @Html.ValidationMessageFor(o => o.BrandName)
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreatePost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            {
+                
+                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BrandName), "商户名称", Model.BrandName, "输入商户名称", string.Empty, true))
+                
+                <fieldset>
+                    <div class="form-group " id="ApplyProtocol">
+                        <div class="form-group form-inline pull-left">
+                            <label class="control-label  ">商户分类</label>
+                            <select class="form-control  first " name="@Html.NameOf(m => m.PrimaryCategoryId)"> </select>
+                            <select class="form-control second" name="@Html.NameOf(m => m.SecondaryCategoryId)"></select>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="row">
+                    <div class="col-lg-4">
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.LogoUrl), "上传Logo", Enjoy.Core.MediaUploadTypes.Material, string.Empty, string.Empty))
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.AgreementMediaId), "上传营业执照", Enjoy.Core.MediaUploadTypes.AuthMaterial, string.Empty, string.Empty))
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.OperatorMediaId), "上传身份证", Enjoy.Core.MediaUploadTypes.AuthMaterial, string.Empty, string.Empty))
+                    </div>
                 </div>
-                <div class="form-group  input-group" id="ApplyProtocol">
-                    <label class="control-label">选择商铺分类</label>
-                    <select class="form-control first" name="@Html.NameOf(m => m.PrimaryCategoryId)"> </select>
-                    <select class="form-control second" name="@Html.NameOf(m => m.SecondaryCategoryId)"></select>
-                </div>
-                <div class="form-group">
-                    @Html.HiddenFor(o => o.LogoUrl)
-                    <label>Logo</label>
-                    <input type="file" data-target="@Html.NameFor(o=>o.LogoUrl)" name="@("input_" + Html.NameOf(o=>o.LogoUrl))" id="@("input_" + Html.NameOf(o=>o.LogoUrl))" />
-                </div>
-                <div class="form-group">
-                    @Html.HiddenFor(o => o.AgreementMediaId)
-                    <label>上传营业执照</label>
-                    <input type="file" data-target="@Html.NameFor(o=>o.AgreementMediaId)" name="@("input_" + Html.NameOf(o=>o.AgreementMediaId))" id="@("input_" + Html.NameOf(o=>o.AgreementMediaId))" />
-                </div>
-                <div class="form-group input-group ">
-                    @Html.HiddenFor(o => o.OperatorMediaId)
-                    <label>上传身份证</label>
-                    <input type="file" data-target="@Html.NameFor(o=>o.OperatorMediaId)" name="@("input_" + Html.NameOf(o=>o.OperatorMediaId)) " id="@("input_" + Html.NameOf(o=>o.OperatorMediaId))" />
-                </div>
-                <div class="form-group">
 
-                    <label class="control-label">联系人</label>
-                    <img src="@Model.Contact" /> @Html.TextBoxFor(o => o.Contact, new { @class = "form-control", placeholder = "联系人" })
-                    <label></label>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">联系电话</label> @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "联系电话" })
-                    <label></label>
-                </div>
+
+
+
+                
+                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Contact), "&nbsp;&nbsp;&nbsp;&nbsp;联系人", Model.Contact, "输入联系人", string.Empty, true))
+                
+                
+                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Mobile), "联系电话", Model.Contact, "输入联系电话", string.Empty, true))
+                
 
                 <div class="form-group" id="address">
-                    <label class="control-label">商户地址</label>
-                    <select class="form-control province" name="@Html.NameOf(m => m.Province)"> </select>
-                    <select class="form-control city" name="@Html.NameOf(m => m.City)"></select>
-                    <select class="form-control area" name="@Html.NameOf(m => m.Area)"></select>
+                    <div class="form-group form-inline pull-left">
+                        <label class="control-label">商户地址</label>
+                        <select class="form-control province" name="@Html.NameOf(m => m.Province)"> </select>
+                        <select class="form-control city" name="@Html.NameOf(m => m.City)"></select>
+                        <select class="form-control area" name="@Html.NameOf(m => m.Area)"></select>
+                    </div>
+
                 </div>
                 <button type="submit" class="btn btn-lg btn-success btn-block">创建</button>
-                
-            </fieldset>
+
+
             }
 
 
@@ -68,87 +73,88 @@
     </div>
 </div>
 
-@using (Script.Foot()) {
-<script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
-<script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
-<script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
-<script>
-    $(document).ready(function() {
+@using (Script.Foot())
+{
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
+    <script>
+        $(document).ready(function () {
 
-        $.get("/Merchant/GetApplyProtocol", function(result) {
-            $('#ApplyProtocol').cxSelect({
-                selects: ['first', 'second'],
-                jsonName: 'Text',
-                jsonValue: 'Id',
-                jsonSub: 'Items',
-                emptyStyle: 'none',
-                data: result
-            });
-            $.cxSelect.defaults.emptyStyle = 'none';
-        });
-
-        $('#address').cxSelect({
-            url: '/themes/enjoytheme/content/data/cityData.min.js',
-            selects: ['province', 'city', 'area'],
-            emptyStyle: 'none'
-        });
-
-        $("input[type='file']").change(function() {
-            var target = $(this).attr("name");
-            var setback_id = $(this).attr("data-target");
-            console.log($("#" + target).val());
-            upload_cover(target,setback_id);
-
-        });
-
-        ////TODO 此方法在 Edge上有bug，不能上传
-        function upload_cover(target,setback_id) {
-            ajax_upload(target,setback_id, function(data) { //function(data)是上传图片的成功后的回调方法
-                var isrc = data.relatPath.replace(/\/\//g, '/'); //获取的图片的绝对路径
-                $('#image').attr('src', basePath + isrc).data('img-src', isrc); //给<input>的src赋值去显示图片
-            });
-        }
-
-        function ajax_upload(target, setback_id, callback) { //具体的上传图片方法
-            var materialType = setback_id === "LogoUrl" ? "Material" : "AuthMaterial";
-            console.log(materialType);
-            var image=$("#"+target).val();
-            if (image_check(image)) { //自己添加的文件后缀名的验证
-                var token = $("#__RequestVerificationToken").val();
-                $.ajaxFileUpload({
-                    fileElementId: target, //需要上传的文件域的ID，即<input type="file">的ID。
-                    url: "/Merchant/UploadMaterial?type=" + materialType, //后台方法的路径
-                    type: 'POST', //当要提交自定义参数时，这个参数要设置成post
-                    dataType: 'application/json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
-                    secureuri: false, //是否启用安全提交，默认为false。
-                    async: true, //是否是异步，                  
-                    success: function (data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。                        
-                        var result = $.parseJSON(data.replace(/<.*?>/ig, ""));
-                        console.log(result);
-                        if (setback_id === "LogoUrl") {
-                            $("#" + setback_id).val(result.Url);
-                        }
-                        else {
-                            $("#" + setback_id).val(result.MediaId);
-                        }
-                        //console.log(result);
-                    },
-                    error: function(data, status, e) { //提交失败自动执行的处理函数。
-                        console.error(e);
-                        console.error(data);
-                    }
+            $.get("/Merchant/GetApplyProtocol", function (result) {
+                $('#ApplyProtocol').cxSelect({
+                    selects: ['first', 'second'],
+                    jsonName: 'Text',
+                    jsonValue: 'Id',
+                    jsonSub: 'Items',
+                    emptyStyle: 'none',
+                    data: result
                 });
-            }
-        }
+                $.cxSelect.defaults.emptyStyle = 'none';
+            });
 
-        function image_check(image) { //自己添加的文件后缀名的验证
+            $('#address').cxSelect({
+                url: '/themes/enjoytheme/content/data/cityData.min.js',
+                selects: ['province', 'city', 'area'],
+                emptyStyle: 'none'
+            });
 
-            return /.(jpg|png|gif|bmp)$/.test(image.toLowerCase()) ? true : (function() {
-                modals.info('图片格式仅支持jpg、png、gif、bmp格式，且区分大小写。');
-                return false;
-            })();
-        }
+            $("input[type='file']").change(function (sender) {
+                var target = $(this).attr("name");
+                var setback_id = $(sender).attr("data-target");
+                console.log($("#" + target).val());
+                upload_cover(target, setback_id);
 
-    });
-</script>
+            });
+
+            //////TODO 此方法在 Edge上有bug，不能上传
+            //function upload_cover(target,setback_id) {
+            //    ajax_upload(target,setback_id, function(data) { //function(data)是上传图片的成功后的回调方法
+            //        var isrc = data.relatPath.replace(/\/\//g, '/'); //获取的图片的绝对路径
+            //        $('#image').attr('src', basePath + isrc).data('img-src', isrc); //给<input>的src赋值去显示图片
+            //    });
+            //}
+
+            //function ajax_upload(target, setback_id, callback) { //具体的上传图片方法
+            //    var materialType = setback_id === "LogoUrl" ? "Material" : "AuthMaterial";
+            //    console.log(materialType);
+            //    var image=$("#"+target).val();
+            //    if (image_check(image)) { //自己添加的文件后缀名的验证
+            //        var token = $("#__RequestVerificationToken").val();
+            //        $.ajaxFileUpload({
+            //            fileElementId: target, //需要上传的文件域的ID，即<input type="file">的ID。
+            //            url: "/Merchant/UploadMaterial?type=" + materialType, //后台方法的路径
+            //            type: 'POST', //当要提交自定义参数时，这个参数要设置成post
+            //            dataType: 'application/json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+            //            secureuri: false, //是否启用安全提交，默认为false。
+            //            async: true, //是否是异步，
+            //            success: function (data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+            //                var result = $.parseJSON(data.replace(/<.*?>/ig, ""));
+            //                console.log(result);
+            //                if (setback_id === "LogoUrl") {
+            //                    $("#" + setback_id).val(result.Url);
+            //                }
+            //                else {
+            //                    $("#" + setback_id).val(result.MediaId);
+            //                }
+            //                //console.log(result);
+            //            },
+            //            error: function(data, status, e) { //提交失败自动执行的处理函数。
+            //                console.error(e);
+            //                console.error(data);
+            //            }
+            //        });
+            //    }
+            //}
+
+            //function image_check(image) { //自己添加的文件后缀名的验证
+
+            //    return /.(jpg|png|gif|bmp)$/.test(image.toLowerCase()) ? true : (function() {
+            //        modals.info('图片格式仅支持jpg、png、gif、bmp格式，且区分大小写。');
+            //        return false;
+            //    })();
+            //}
+
+        });
+    </script>
 }

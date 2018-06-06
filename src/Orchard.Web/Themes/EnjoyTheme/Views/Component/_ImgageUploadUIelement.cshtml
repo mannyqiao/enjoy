@@ -1,25 +1,29 @@
 ﻿@model Enjoy.Core.UIElements.ImageUploadUIElement
-<div class="form-group input-group">
-    <label>背景图片</label>
-    <input id="file_@Model.Id" type="file" data-target="" style="display:none" />
-    <br />
-    <img id="img_@Model.Id" class="img-thumbnail-enjoy pointer" src="@(string.IsNullOrEmpty(Model.ImageUrl)?"/themes/enjoytheme/content/images/default.jpg":Model.ImageUrl)" />
-    <input id="@Model.Id" name="@Model.Name" value="@Model.Value" type="hidden" />
-</div>
+<fieldset>
+    <div class="form-group input-group pull-left">
+        <label>@Model.Text</label>
+        <input id="file_@Model.Id" name="file_@Model.Id" type="file" class="hidden" />
+        <br />
+        <img id="img_@Model.Id" class="img-thumbnail-enjoy pointer" src="@(string.IsNullOrEmpty(Model.ImageUrl)?"/themes/enjoytheme/content/images/default.jpg":Model.ImageUrl)" />
+        <input id="@Model.Id" name="@Model.Name" value="@Model.Value" type="hidden" />
+    </div>
+</fieldset>
 
-<script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
-<script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
-<script>
+@using (Script.Foot())
+{
+  
+    <script  type="text/javascript" src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
     $(document).ready(function () {
-        var img_selector = "#img_@Model.Id";
-        var file_selector = "#file_@Model.Id";
-        var value_selector = "#@Model.Id";
+        var img_selector = "img_@Model.Id";
+        var file_selector = "file_@Model.Id";
+        var value_selector = "@Model.Id";
 
-        $(img_selector).click(function () {
-            $(file_selector).click();
+        $("#"+img_selector).click(function () {
+            $("#"+file_selector).click();
         });
 
-        $(file_selector).change(function () {            
+        $("#"+file_selector).change(function () {            
             upload_cover(file_selector, value_selector);
         });
 
@@ -27,20 +31,21 @@
 
 
         function upload_cover(target, setback_id) {
+            console.log("chage");
             ajax_upload(target, setback_id, function (data) { //function(data)是上传图片的成功后的回调方法
                 var isrc = data.relatPath.replace(/\/\//g, '/'); //获取的图片的绝对路径
-                $('#image').attr('src', basePath + isrc).data('img-src', isrc); //给<input>的src赋值去显示图片
+                //$('#image').attr('src', basePath + isrc).data('img-src', isrc); //给<input>的src赋值去显示图片
             });
         }
 
         function ajax_upload(target, setback_id, callback) { //具体的上传图片方法
-            var materialType = setback_id === "LogoUrl" ? "Material" : "AuthMaterial";
-            console.log(materialType);
-            var image = $(target).val();
+            var materialType = "@Model.MediaUploadTypes.ToString()"; //setback_id === "LogoUrl" ? "Material" : "AuthMaterial";
+            var image = $("#" +target).val();
+            
             if (image_check(image)) { //自己添加的文件后缀名的验证
-                var token = $("#__RequestVerificationToken").val();
+                
                 $.ajaxFileUpload({
-                    fileElementId: target.replace("#",""), //需要上传的文件域的ID，即<input type="file">的ID。
+                    fileElementId: target, //需要上传的文件域的ID，即<input type="file">的ID。
                     url: "/Merchant/UploadMaterial?type=" + materialType, //后台方法的路径
                     type: 'POST', //当要提交自定义参数时，这个参数要设置成post
                     dataType: 'application/json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
@@ -48,28 +53,28 @@
                     async: true, //是否是异步，
                     success: function (data) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
                         var result = $.parseJSON(data.replace(/<.*?>/ig, ""));
-                        console.log(result);
-                        if (setback_id === "LogoUrl") {
-                            $("#" + setback_id).val(result.Url);
-                        }
-                        else {
-                            $("#" + setback_id).val(result.MediaId);
-                        }
-                        console.log(result);
+                        $("#" + img_selector).attr("src", result.Url);
+                        $("#" + value_selector).val(result.Value);
                     },
                     error: function (data, status, e) { //提交失败自动执行的处理函数。
                         console.error(e);
                         console.error(data);
-                    }
+                    },
+                    complete: function (xmlHttpRequest) {
+                        $("#" + file_selector).replaceWith("<input type='file' id=" + file_selector+" name='upFile' style='display:none;'/>");
+                        $("#" + file_selector).on("change", function () {
+                            upload_cover(file_selector, value_selector);
+                        });
+                    }  
                 });
             }
         }
         function image_check(image) { //自己添加的文件后缀名的验证
-            console.log(image);
             return /.(jpg|png|gif|bmp)$/.test(image.toLowerCase()) ? true : (function () {
                 modals.info('图片格式仅支持jpg、png、gif、bmp格式，且区分大小写。');
                 return false;
             })();
         }
     });
-</script>
+    </script>
+}
