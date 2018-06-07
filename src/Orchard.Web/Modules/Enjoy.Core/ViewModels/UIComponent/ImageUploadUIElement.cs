@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class ImageUploadUIElement : UIElement
+    public class ImageUploadUIElement : UIElement<string>
     {
         public ImageUploadUIElement(
            string name,
@@ -15,7 +15,7 @@ namespace Enjoy.Core.UIElements
            string imageUrl = null,
            string message = null,
            bool required = false)
-           : base(name, text, required, value, message)
+           : base(name, text, value, required, message)
         {
             this.MediaUploadTypes = type;
         }

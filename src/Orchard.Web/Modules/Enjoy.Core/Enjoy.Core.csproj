@@ -119,6 +119,7 @@
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\DataDescriptor.cs" />
     <Compile Include="Models\EnjoyUsers\EnjoyUserProfile.cs" />
+    <Compile Include="Models\EnjoyUsers\UIElementContentTypes.cs" />
     <Compile Include="Models\Enums\ApplyScopes.cs" />
     <Compile Include="Models\Enums\CardTypes.cs" />
     <Compile Include="Models\Enums\CodeTypes.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\SignViewModel.cs" />
     <Compile Include="ViewModels\UIComponent\DatePickerUIElement.cs" />
+    <Compile Include="ViewModels\UIComponent\DecimalUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\ImageUploadUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\MultiChoiceUIElement.cs" />
     <Compile Include="ViewModels\UIComponent\PaletteUIElement.cs" />

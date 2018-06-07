@@ -7,7 +7,7 @@
     color: #5cb85c;
 }
 
- .required {
+span .required {
     content: "*";
     color: red;
 }

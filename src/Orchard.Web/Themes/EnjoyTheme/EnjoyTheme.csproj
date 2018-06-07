@@ -220,6 +220,9 @@
     <Content Include="Content\plugs\bootstrap.datetimepicker\js\locales\bootstrap-datetimepicker.uk.js" />
     <Content Include="Content\plugs\bootstrap.datetimepicker\js\locales\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Content\plugs\bootstrap.datetimepicker\js\locales\bootstrap-datetimepicker.zh-TW.js" />
+    <Content Include="Content\plugs\jquery-html5Validate\common.css" />
+    <Content Include="Content\plugs\jquery-html5Validate\jquery-html5Validate-min.js" />
+    <Content Include="Content\plugs\jquery-html5Validate\jquery-html5Validate.js" />
     <Content Include="Content\plugs\jquery.fileupload\css\demo-ie8.css" />
     <Content Include="Content\plugs\jquery.fileupload\css\demo.css" />
     <Content Include="Content\plugs\jquery.fileupload\css\jquery.fileupload-noscript.css" />

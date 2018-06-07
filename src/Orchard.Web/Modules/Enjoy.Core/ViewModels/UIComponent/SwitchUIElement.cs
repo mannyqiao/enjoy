@@ -6,10 +6,10 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class SwitchUIElement : UIElement
+    public class SwitchUIElement : UIElement<bool>
     {
         public SwitchUIElement(string name, string text, bool value = false)
-            : base(name, text, false, value.ToString().ToLower(), string.Empty)
+            : base(name, text, value)
         {
 
         }

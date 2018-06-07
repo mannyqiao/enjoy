@@ -6,14 +6,14 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public abstract class UIElement
+    public abstract class UIElement<TValue>
     {
 
         public UIElement(
             string name,
             string text,
-            bool required = false,
-            string value = null,
+            TValue value,
+            bool required = false,            
             string message = null)
         {
             this.Name = name;
@@ -31,7 +31,7 @@ namespace Enjoy.Core.UIElements
         }
         public string Name { get; set; }
         public string Text { get; protected set; }
-        public string Value { get; protected set; }
+        public TValue Value { get; protected set; }
         public string Message { get; private set; }
         public bool Required { get; protected set; }
     }

@@ -1,6 +1,6 @@
 ﻿@model Enjoy.Core.UIElements.SwitchUIElement
 <fieldset>
-    <div class="form-group   form-inline pull-left ">
+    <div class="form-group  ">
         <label>@Model.Text</label>
         <div class="switch" data-on="primary" data-off="info">
             <input id="@Model.Id" name="@Model.Name" type="checkbox" @(Model.Value.Equals("false") ? "" : "checked='checked'") />

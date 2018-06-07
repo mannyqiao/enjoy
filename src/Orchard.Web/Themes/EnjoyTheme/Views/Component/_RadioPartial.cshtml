@@ -23,9 +23,19 @@
                 
                 if (value == $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
+                    $("#" + value + ">fieldset>div>input[type='text']").each(function () {
+
+                        $(this).attr("required","true");  
+                        //console.log("set required to true");
+                    });
                 }
                 else {
                     $("#" + value).addClass("hidden");
+                   // console.log($("#" + value + ">fieldset>div>input[type='text']"));
+                    $("#" + value + ">fieldset>div>input[type='text']").each(function () {
+                        $(this).removeAttr("required");      
+                        //console.log("set required to false");
+                    });
                 }
             });
         })

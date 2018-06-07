@@ -6,7 +6,7 @@ using WeChat.Models;
 
 namespace Enjoy.Core.UIElements
 {
-    public class TextImageContainerUIElement : UIElement
+    public class TextImageContainerUIElement : UIElement<string>
     {
         public TextImageContainerUIElement(
             string name,
@@ -14,7 +14,7 @@ namespace Enjoy.Core.UIElements
             string placeholder = null,
             string message = null,
             bool required = false)
-            : base(name, string.Empty, required, string.Empty, message)
+            : base(name, string.Empty, null)
         {
             this.Placeholder = placeholder;
             this.Items = items;
