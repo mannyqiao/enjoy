@@ -220,6 +220,9 @@
     <Content Include="Content\plugs\bootstrap.datetimepicker\js\locales\bootstrap-datetimepicker.uk.js" />
     <Content Include="Content\plugs\bootstrap.datetimepicker\js\locales\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Content\plugs\bootstrap.datetimepicker\js\locales\bootstrap-datetimepicker.zh-TW.js" />
+    <Content Include="Content\plugs\jquery-html5Validate\common.css" />
+    <Content Include="Content\plugs\jquery-html5Validate\jquery-html5Validate-min.js" />
+    <Content Include="Content\plugs\jquery-html5Validate\jquery-html5Validate.js" />
     <Content Include="Content\plugs\jquery.fileupload\css\demo-ie8.css" />
     <Content Include="Content\plugs\jquery.fileupload\css\demo.css" />
     <Content Include="Content\plugs\jquery.fileupload\css\jquery.fileupload-noscript.css" />
@@ -302,8 +305,8 @@
     <Content Include="Views\Merchant\MyShops.cshtml" />
     <Content Include="Views\Finance\PAccount.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Cards\DCoupon.cshtml" />
-    <Content Include="Views\Cards\CreateDCoupon.cshtml" />
+    <Content Include="Views\Cards\Coupon.cshtml" />
+    <Content Include="Views\Cards\CreateCoupon.cshtml" />
     <Content Include="Views\Component\_RadioPartial.cshtml" />
     <Content Include="Views\Component\_TextAreaPartial.cshtml" />
     <Content Include="Views\Component\_TextPartial.cshtml" />
@@ -313,6 +316,7 @@
     <Content Include="Views\Component\_PalettePartial.cshtml" />
     <Content Include="Views\Component\_ImgageUploadUIelement.cshtml" />
     <Content Include="Views\Component\_TextImageContainer.cshtml" />
+    <Content Include="Views\Component\_DecimalPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

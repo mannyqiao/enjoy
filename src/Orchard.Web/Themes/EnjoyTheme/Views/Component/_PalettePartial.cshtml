@@ -1,7 +1,7 @@
 ﻿@using Enjoy.Core;
 @model Enjoy.Core.UIElements.PaletteUIElement
 <fieldset>
-    <div class="form-group input-group form-inline pull-left">
+    <div class="form-group input-group">
         <label>@Model.Text</label>
         <ul class="color-select_list ">
             @foreach (var item in Model.Colors)
@@ -11,7 +11,7 @@
                 </li>
             }
         </ul>
-        <input type="hidden" id="@Model.Id" name="@Model.Name" value="@Model.Value" />
+        <input type="hidden" id="@Model.Id" name="@Model.Name" value="@Model.Value" required="@Model.Required" />
     </div>
 </fieldset>
 <script type="text/javascript">

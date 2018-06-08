@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class MultiChoiceUIElement : UIElement
+    public class MultiChoiceUIElement : UIElement<string>
     {
         public MultiChoiceUIElement(string name, string text, ChoiceItem[] items)
-            : base(name, text, false, "", "")
+            : base(name, text, null)
         {
             this.Items = items;
         }

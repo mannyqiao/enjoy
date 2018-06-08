@@ -1,8 +1,8 @@
 ﻿@model Enjoy.Core.UIElements.TextAreaUIElement
 <fieldset>
-    <div id="group_@Model.Id" name="group_@Model.Id" class="form-group  form-inline pull-left">
+    <div id="group_@Model.Id" name="group_@Model.Id" class="form-group ">
+        <span class="@(Model.Required?"required":"hidden") ">*</span>
         <label>@Model.Text</label>
-        <textarea id="@Model.Id" name="@Model.Id" type="text" class="form-control" placeholder="@Model.Placeholder">@Model.Value</textarea>
-        <span class="required">*</span>
+        <textarea id="@Model.Id" name="@Model.Id" type="text" class="form-control" required="@Model.Required" placeholder="@Model.Placeholder">@Model.Value</textarea>        
     </div>
 </fieldset>

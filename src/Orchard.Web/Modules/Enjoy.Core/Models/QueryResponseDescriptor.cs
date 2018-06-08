@@ -6,40 +6,40 @@ namespace Enjoy.Core.Models
     using System.Collections.Generic;
     using Enjoy.Core;
     using System.Linq;
-    public abstract class DataDescriptor<T> : IDataSourceDescriptor<T>
+    public abstract class QueryResponseDescriptor<T> : IQueryResponseDescriptor<T>
     {
-        protected DataDescriptor() { }
-        public DataDescriptor(IEnumerable<T> records)
+        protected QueryResponseDescriptor() { }
+        public QueryResponseDescriptor(IEnumerable<T> records)
         {
-            this.Data = records;
+            this.Items = records;
             if (this.IsEmptyOrNullDataSource() == false)
             {
                 this.ErrorCode = EnjoyConstant.Success;
                 this.ErrorMessage = EnjoyConstant.ErrorrCodeDescriptor[this.ErrorCode];
             }
         }
-        public DataDescriptor(int errorCode, string errorMessage, IEnumerable<T> records)
+        public QueryResponseDescriptor(int errorCode, string errorMessage, IEnumerable<T> records)
         {
             this.ErrorCode = errorCode;
             this.ErrorMessage = ErrorMessage;
-            this.Data = records;
+            this.Items = records;
         }
-        public DataDescriptor(int errorCode)
+        public QueryResponseDescriptor(int errorCode)
             : this(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<T>())
         {
 
         }
-        public DataDescriptor(int errorCode, T record)
+        public QueryResponseDescriptor(int errorCode, T record)
             : this(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], new List<T>() { record })
         {
 
         }
-        public DataDescriptor(int errorCode, string errorMessage)
+        public QueryResponseDescriptor(int errorCode, string errorMessage)
             : this(errorCode, errorMessage, Enumerable.Empty<T>())
         {
 
         }
-        public DataDescriptor(int errorCode, IEnumerable<T> records)
+        public QueryResponseDescriptor(int errorCode, IEnumerable<T> records)
             : this(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], records)
         {
 
@@ -53,13 +53,21 @@ namespace Enjoy.Core.Models
             protected set;
         }
 
-        public abstract IEnumerable<T> Data { get; protected set; }
+        public virtual IEnumerable<T> Items { get;  set; }
+
+        public bool HasError
+        {
+            get
+            {
+                return !this.ErrorCode.Equals(EnjoyConstant.Success);
+            }
+        }
 
         public virtual T GetSigleOrDefault()
         {
             if (IsEmptyOrNullDataSource() == false)
             {
-                return this.Data.FirstOrDefault();
+                return this.Items.FirstOrDefault();
             }
             return default(T);
         }
@@ -67,13 +75,13 @@ namespace Enjoy.Core.Models
         {
             if (IsEmptyOrNullDataSource() == false)
             {
-                return this.Data.FirstOrDefault(selector);
+                return this.Items.FirstOrDefault(selector);
             }
             return default(T);
         }
         protected virtual bool IsEmptyOrNullDataSource()
         {
-            return Data == null || Data.Count() == 0;
+            return Items == null || Items.Count() == 0;
         }
 
     }

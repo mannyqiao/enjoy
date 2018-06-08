@@ -10,10 +10,15 @@
                 {
                     <fieldset>
                         <div class="form-group">
-                            @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", type = "tel", placeholder = "手机号码", autofocus = "autofocus" }) 
+                            <label for="@Html.NameOf(o=>o.Mobile)">手机号码</label>
+                            @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", type = "tel|email", placeholder = "", required = "true", autofocus = "autofocus" })
+
                         </div>
+                    </fieldset>
+                    <fieldset>
                         <div class="form-group">
-                            @Html.TextBoxFor(o => o.Password, new { @class = "form-control", placeholder = "输入密码", type = "password" })                            
+                            <label for="@Html.NameOf(o=>o.Password)">密码</label>
+                            @Html.TextBoxFor(o => o.Password, new { @class = "form-control", placeholder = "", type = "password", required = "required" })
                         </div>
                         <button type="submit" class="btn btn-lg btn-success btn-block">登陆</button>
                         <a href="/Access/Sign?signin=false" class="btn btn-lg  btn-block">立即注册</a>
@@ -27,31 +32,21 @@
 {
     <script src="/Themes/EnjoyTheme/Content/plugs/jquery/jquery-1.10.2.min.js"></script>
     <script src="/Themes/EnjoyTheme/Content/scripts/bootstrap.min.js"></script>
-    <script src="/Themes/EnjoyTheme/Content/plugs/jquery.validate/jquery.validate.min.js"></script>
-    <script src="/Themes/EnjoyTheme/Content/plugs/jquery.validate/jquery.validate.unobtrusive.min.js"></script>
+    @*<script src="/Themes/EnjoyTheme/Content/plugs/jquery.validate/jquery.validate.min.js"></script>*@
+    <script src="/Themes/EnjoyTheme/Content/plugs/jquery-html5Validate/jquery-html5Validate.js"></script>
+    @*<script src="/Themes/EnjoyTheme/Content/plugs/jquery.validate/jquery.validate.min.js"></script>
+        <script src="/Themes/EnjoyTheme/Content/plugs/jquery.validate/jquery.validate.unobtrusive.min.js"></script>*@
 
     <script type="text/javascript">
-       $(document).ready(function () {
-           $("form").validate({               
-               errorClass   :"has-error",
-               rules:{
-                    Mobile          :{required: true},
-                    Password        :{required: true}
-               },
-               messages: {
-                    Mobile          :{required: "手机号码不能为空" },
-                    Password        :{required: "密码不能为空"}
-               },
-               errorPlacement:  function(error, element){
-                    element.parent().addClass("has-error");
-                    error.appendTo(element.parent());                    
-               },
-               success: function(label){
-                    label.parent().removeClass("has-error");                    
-               }
-           });
+        $(document).ready(function () {
+            $("form").html5Validate(function () {
+                //alert("全部通过！");
+                this.submit();
+            }, {
+                    // novalidate: false
+            });
 
-       });
+        });
     </script>
 
 }

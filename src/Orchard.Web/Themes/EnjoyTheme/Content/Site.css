@@ -7,9 +7,9 @@
     color: #5cb85c;
 }
 
- .required {
-    content: "*";
+span .required {
     color: red;
+    content: "*";
 }
 
 .pointer {

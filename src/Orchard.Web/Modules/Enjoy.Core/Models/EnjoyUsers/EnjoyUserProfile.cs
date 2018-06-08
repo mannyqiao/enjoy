@@ -6,12 +6,12 @@ namespace Enjoy.Core
     using Enjoy.Core.Models;
     using Enjoy.Core.Models.Records;
     using System.Linq;
-    public class EnjoyUserProfile : DataDescriptor<EnjoyUser>
+    public class EnjoyUserProfile : QueryResponseDescriptor<EnjoyUser>
     {
 
         public EnjoyUserProfile(IEnumerable<EnjoyUser> records)
         {
-            this.Data = records;
+            this.Items = records;
             if (this.IsEmptyOrNullDataSource() == false)
             {
                 this.ErrorCode = EnjoyConstant.Success;
@@ -22,7 +22,7 @@ namespace Enjoy.Core
         {
             this.ErrorCode = errorCode;
             this.ErrorMessage = ErrorMessage;
-            this.Data = records;
+            this.Items = records;
         }
         public EnjoyUserProfile(int errorCode)
             : base(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<EnjoyUser>())
@@ -46,7 +46,7 @@ namespace Enjoy.Core
         }
 
 
-        public override IEnumerable<EnjoyUser> Data { get; protected set; }      
-      
+
+
     }
 }

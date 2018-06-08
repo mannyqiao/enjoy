@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace Enjoy.Core
+namespace Enjoy.Core.Services
 {
     using System;
     using Enjoy.Core.ViewModels;

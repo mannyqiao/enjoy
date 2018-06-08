@@ -1,10 +1,10 @@
 ﻿
 @model Enjoy.Core.UIElements.TextUIElement
 <fieldset>
-    <div id="group_@Model.Id" name="group_@Model.Id" class="form-group  form-inline pull-left ">
-
+    <div id="group_@Model.Id" name="group_@Model.Id" class="form-group ">
+        <span class="@(Model.Required?"required":"hidden") ">*</span>
         <label>@Html.Raw(Model.Text)</label>
-        <input id="@Model.Id" name="@Model.Name" type="text" class="form-control required" value="@Model.Value" placeholder="@Model.Placeholder" />
-        <span class="required">*</span>
+        <input id="@Model.Id" name="@Model.Name" type="text" class="form-control" 
+               value="@Model.Value" required="@Model.Required" placeholder="@Model.Placeholder" />
     </div>
 </fieldset>

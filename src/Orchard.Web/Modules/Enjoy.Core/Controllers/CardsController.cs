@@ -29,18 +29,12 @@ namespace Enjoy.Core.Controllers
         /// 优惠券a
         /// </summary>
         /// <returns></returns>
-        public ActionResult DCoupon()
+        public ActionResult Coupon()
         {
+
             return View();
         }
-        /// <summary>
-        /// 团购券
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult GCoupon()
-        {
-            return View();
-        }
+      
         /// <summary>
         /// 会员卡
         /// </summary>
@@ -53,27 +47,17 @@ namespace Enjoy.Core.Controllers
         /// 创建优惠券
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateDCoupon()
+        public ActionResult CreateCoupon()
         {
             var viewModel = new CardCounponViewModel();
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult CreateDCouponPost(CardCounponViewModel segment, string ReturnUrl)
+        public ActionResult CreateCouponPost(CardCounponViewModel segment, string ReturnUrl)
         {
-            //var metaData = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(SomeViewModel));
             
             return this.RedirectLocal(ReturnUrl);
-        }
-        /// <summary>
-        /// 创建团购券
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult CreateGConpon()
-        {
-
-            return View();
-        }
+        }      
         /// <summary>
         /// 创建会员卡
         /// </summary>

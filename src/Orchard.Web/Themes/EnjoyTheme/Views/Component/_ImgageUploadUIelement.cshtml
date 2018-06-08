@@ -5,7 +5,7 @@
         <input id="file_@Model.Id" name="file_@Model.Id" type="file" class="hidden" />
         <br />
         <img id="img_@Model.Id" class="img-thumbnail-enjoy pointer" src="@(string.IsNullOrEmpty(Model.ImageUrl)?"/themes/enjoytheme/content/images/default.jpg":Model.ImageUrl)" />
-        <input id="@Model.Id" name="@Model.Name" value="@Model.Value" type="hidden" />
+        <input id="@Model.Id" name="@Model.Name" value="@Model.Value" required="@Model.Required" type="hidden" />
     </div>
 </fieldset>
 

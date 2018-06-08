@@ -23,9 +23,25 @@
                 
                 if (value == $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
+                    $("#" + value + ">fieldset>div>input").each(function () {
+                        console.log($(this).attr("name"));
+                        $(this).attr("required","true");  
+                    });
+                    $("#" + value + ">fieldset>div>textarea").each(function () {
+                        console.log($(this).attr("name"));
+                        $(this).attr("required", "true");
+                    });
                 }
                 else {
-                    $("#" + value).addClass("hidden");
+                    $("#" + value).addClass("hidden");                    
+                    $("#" + value + ">fieldset>div>input").each(function () {
+                        console.log($(this).attr("name"));
+                        $(this).removeAttr("required");  
+                    });
+                    $("#" + value + ">fieldset>div>textarea").each(function () {
+                        console.log($(this).attr("name"));
+                        $(this).removeAttr("required");
+                    });
                 }
             });
         })

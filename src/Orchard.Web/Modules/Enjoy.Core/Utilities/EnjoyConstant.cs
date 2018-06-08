@@ -58,5 +58,6 @@ namespace Enjoy.Core
             {"Color101","#cf3e36"},
             {"Color102","#5E6671"}
         };
+        public const int DefaultPageSize = 20;
     }
 }

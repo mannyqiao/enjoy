@@ -5,6 +5,6 @@ namespace WeChat.Models
     public class Sku
     {
         [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
     }
 }

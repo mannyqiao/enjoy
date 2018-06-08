@@ -5,22 +5,23 @@ using System.Linq.Expressions;
 
 namespace Enjoy.Core.UIElements
 {
-    public class TextAreaUIElement : UIElement
+    public class TextAreaUIElement : UIElement<string>
     {
 
-        public TextAreaUIElement(            
+        public TextAreaUIElement(
             string name,
             string text,
             string value = null,
+            int length = 100,
+            bool required = false,
             string placeholder = null,
-            string message = null,
-            bool required = false)
-            : base(name, text, required, value, message)
+            string message = null)
+            : base(name, text, value, required, message)
         {
-            this.Placeholder = placeholder;
-
+            this.Length = length;
+            this.Placeholder = placeholder;            
         }
-        public string Placeholder { get; set; }
-
+        public string Placeholder { get;protected set; }
+        public int Length { get; protected set; }
     }
 }

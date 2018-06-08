@@ -6,20 +6,20 @@ using System.Web;
 
 namespace Enjoy.Core.UIElements
 {
-    public class RadioUIElement : UIElement
+    public class RadioUIElement : UIElement<string>
     {
 
         public RadioUIElement(
-               string name,
-               string text,
+               string name,               
+               string value,
                RadioItem[] items,
-               string[] linked,
-               string value = null,
-               bool required = false)
-            : base(name, text, required, value, null)
+               string[] linked = null)
+            : base(name, null, value)
         {
             this.Items = items;
             this.Linked = linked ?? items.Select(o => o.WhenCheckedShow).ToArray();
+            if (items.Any(o => o.Value.Equals(value)) == false)
+                throw new TypeInitializationException(typeof(RadioUIElement).FullName, new IndexOutOfRangeException("value must included in radio items"));
         }
         public RadioItem[] Items { get; set; }
         public string[] Linked { get; private set; }

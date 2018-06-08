@@ -7,10 +7,7 @@
     
     ApplyProtocol = {}
     Portal.GetApplyProtocol = function () {
-        
-      
-        
-       
+               
     }
     Portal.GetApplyProtocol();
 
