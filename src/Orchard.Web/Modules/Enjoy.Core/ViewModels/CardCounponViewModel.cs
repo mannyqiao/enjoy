@@ -57,7 +57,7 @@ namespace Enjoy.Core.ViewModels
         /// 使用限制 (使用条件)
         /// </summary>
         public UseLimitTypes UseLimitType { get; set; }
-        public string CostMoneyCanUse { get; set; }
+        public decimal CostMoneyCanUse { get; set; }
         public ExpiryDateTypes ExpiryDateType { get; set; }
         //Fixed = 1,
         //Specified = 2,
@@ -68,12 +68,12 @@ namespace Enjoy.Core.ViewModels
     }
     public class CashSpecific
     {
-        public string DValue { get; set; }
-        public string SaleValue { get; set; }
+        public decimal? DValue { get; set; }
+        public decimal? SaleValue { get; set; }
     }
     public class DiscountSpecific
     {
-        public string Discount { get; set; }
+        public decimal? Discount { get; set; }
     }
     public class GiftSpecific
     {
@@ -81,12 +81,12 @@ namespace Enjoy.Core.ViewModels
     }
     public class GrounponSpecific
     {
-        public string DValue { get; set; }
-        public string SaleValue { get; set; }
+        public decimal? DValue { get; set; }
+        public decimal? SaleValue { get; set; }
         public string Detail { get; set; }
     }
     public class GeneralCouponSpecific
     {
-        public string ReduceMoney { get; set; }
+        public decimal? ReduceMoney { get; set; }
     }
 }

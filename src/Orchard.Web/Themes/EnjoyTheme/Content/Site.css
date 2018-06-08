@@ -8,8 +8,8 @@
 }
 
 span .required {
-    content: "*";
     color: red;
+    content: "*";
 }
 
 .pointer {

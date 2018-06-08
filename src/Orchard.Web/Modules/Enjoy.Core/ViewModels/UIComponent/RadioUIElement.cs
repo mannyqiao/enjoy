@@ -10,12 +10,11 @@ namespace Enjoy.Core.UIElements
     {
 
         public RadioUIElement(
-               string name,
-               string text,
+               string name,               
                string value,
                RadioItem[] items,
-               string[] linked)
-            : base(name, text, value)
+               string[] linked = null)
+            : base(name, null, value)
         {
             this.Items = items;
             this.Linked = linked ?? items.Select(o => o.WhenCheckedShow).ToArray();

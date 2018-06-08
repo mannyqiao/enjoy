@@ -305,8 +305,8 @@
     <Content Include="Views\Merchant\MyShops.cshtml" />
     <Content Include="Views\Finance\PAccount.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Cards\DCoupon.cshtml" />
-    <Content Include="Views\Cards\CreateDCoupon.cshtml" />
+    <Content Include="Views\Cards\Coupon.cshtml" />
+    <Content Include="Views\Cards\CreateCoupon.cshtml" />
     <Content Include="Views\Component\_RadioPartial.cshtml" />
     <Content Include="Views\Component\_TextAreaPartial.cshtml" />
     <Content Include="Views\Component\_TextPartial.cshtml" />
@@ -316,6 +316,7 @@
     <Content Include="Views\Component\_PalettePartial.cshtml" />
     <Content Include="Views\Component\_ImgageUploadUIelement.cshtml" />
     <Content Include="Views\Component\_TextImageContainer.cshtml" />
+    <Content Include="Views\Component\_DecimalPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

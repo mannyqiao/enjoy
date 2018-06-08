@@ -13,9 +13,9 @@ namespace Enjoy.Core.UIElements
             string text,
             string value = null,
             int length = 20,
+            bool required = false,
             string placeholder = null,
-            string message = null,
-            bool required = false)
+            string message = null)
             : base(name, text, value,required, message)
         {
             this.Placeholder = placeholder;

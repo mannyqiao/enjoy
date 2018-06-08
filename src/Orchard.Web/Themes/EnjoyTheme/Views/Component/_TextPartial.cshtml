@@ -4,6 +4,7 @@
     <div id="group_@Model.Id" name="group_@Model.Id" class="form-group ">
         <span class="@(Model.Required?"required":"hidden") ">*</span>
         <label>@Html.Raw(Model.Text)</label>
-        <input id="@Model.Id" name="@Model.Name" type="text" class="form-control required" value="@Model.Value" required="@(Model.Required?"true":"false")" placeholder="@Model.Placeholder" />
+        <input id="@Model.Id" name="@Model.Name" type="text" class="form-control" 
+               value="@Model.Value" required="@Model.Required" placeholder="@Model.Placeholder" />
     </div>
 </fieldset>

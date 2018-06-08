@@ -105,14 +105,14 @@ namespace Enjoy.Core
                 .Column("Address", System.Data.DbType.String, column => column.WithLength(120))
             );
 
-            SchemaBuilder.CreateTable("CardCouponDescriptor", table => table
+            SchemaBuilder.CreateTable("CardCoupon", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
                 .Column("Merchant_Id", System.Data.DbType.Int64)
-                .Column("Type", System.Data.DbType.String, column => column.WithLength(20).Unique())//卡券类型
+                .Column("Type", System.Data.DbType.String, column => column.WithLength(20))//卡券类型
                 .Column("WxNo", System.Data.DbType.String, column => column.WithLength(40).Unique())//WeChat编号                
                 .Column("Quantity", System.Data.DbType.Int32, column => column.WithDefault(100))               
                 .Column("CreatedTime", System.Data.DbType.Int64)
-                .Column("Metadata", System.Data.DbType.String, column => column.Unlimited())
+                .Column("JsonMetadata", System.Data.DbType.String, column => column.Unlimited())
             );
             
 
@@ -144,9 +144,8 @@ namespace Enjoy.Core
             CreateMenuItem(menu, "平台账户", "1.5", "/finance/paccount", "", true);
 
             CreateMenuItem(menu, "卡券中心", "2", "javascript:void(0);", "fa fa-exchange fa-fw", true);
-            CreateMenuItem(menu, "优惠券", "2.1", "/cards/dcoupon", "", false);
-            CreateMenuItem(menu, "团购券", "2.2", "/cards/gcoupon", "", false);
-            CreateMenuItem(menu, "会员卡", "2.3", "/cards/mcard", "", true);
+            CreateMenuItem(menu, "优惠券", "2.1", "/cards/coupon", "", false);            
+            CreateMenuItem(menu, "会员卡", "2.2", "/cards/mcard", "", true);
 
 
             CreateMenuItem(menu, "营销中心", "3", "javascript:void(0);", "fa fa-exchange fa-fw", true);
