@@ -10,11 +10,14 @@ namespace Enjoy.Core.Services
     using NHibernate;
     using NHibernate.Criterion;
     using System.Linq;
+    using System.Reflection;
     public abstract class QueryBaseService<R, M> : IQueryService<R, M>
+        where R : class
+        where M : class
     {
         private readonly IOrchardServices OS;
 
-        public abstract string ModelTypeName { get; }
+        public abstract Type ModelType { get; }
 
 
         public QueryBaseService(IOrchardServices os)
@@ -63,16 +66,16 @@ namespace Enjoy.Core.Services
                 .UniqueResult<R>());
         }
 
-        public DbWriteResponse<M> SaveOrUpdate(M model, Func<M, IResponse> validate, Func<M, R> convert)
+        public ActionResponse<M> SaveOrUpdate(M model, Func<M, IResponse> validate, Func<M, R> convert)
         {
             var check = validate(model);
             if (check.HasError)
-                return new DbWriteResponse<M>(check.ErrorCode);
+                return new ActionResponse<M>(check.ErrorCode);
 
             var session = this.OS.TransactionManager.GetSession();
             var record = convert(model);
             session.SaveOrUpdate(record);
-            return new DbWriteResponse<M>(EnjoyConstant.Success, model);
+            return new ActionResponse<M>(EnjoyConstant.Success, model);
         }
 
         public BaseResponse Delete(int id)
@@ -85,6 +88,21 @@ namespace Enjoy.Core.Services
         public BaseResponse Delete(ISQLQuery query)
         {
             return new BaseResponse(0);
+        }
+
+        public R GetRecord(int id)
+        {
+            var session = this.OS.TransactionManager.GetSession();
+            return session.Get<R>(id);
+
+        }
+
+        public R ConvertToRecord<TKeyType>(M model, Func<R, M, R> convert)
+        {
+            var session = this.OS.TransactionManager.GetSession();
+            var id = (model as IEntityKey<TKeyType>).Id;
+            var record = session.Get<R>(id);//make sure record is query from NHibrate
+            return convert(record, model);
         }
     }
 }

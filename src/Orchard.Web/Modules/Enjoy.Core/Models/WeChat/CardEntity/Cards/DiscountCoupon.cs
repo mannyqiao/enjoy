@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
-    public class DiscountCoupon
+    public class DiscountCoupon: ICardCoupon
     {
         [JsonProperty("card_type")]
         public string CardType
@@ -10,8 +10,7 @@
             get
             {
                 return CardTypes.DISCOUNT.ToString();
-            }
-            set { }
+            }           
         }
 
 
@@ -19,6 +18,6 @@
         public Coupon Coupon { get; set; }
 
         [JsonProperty("discount")]
-        public int Discount { get; set; }
+        public decimal Discount { get; set; }
     }
 }

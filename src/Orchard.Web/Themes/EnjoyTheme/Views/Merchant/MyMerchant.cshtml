@@ -1,0 +1,120 @@
+﻿@using Enjoy.Core.UIElements;
+@using Enjoy.Core.Models;
+@using Enjoy.Core;
+
+@model Enjoy.Core.Models.PagingData<MerchantModel>
+<div id="page-wrapper">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">商户列表</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @if (Model.TotalCount == 0)
+            {
+                <div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <a href="/merchant/create" class="btn btn-lg btn-default btn-block">立即创建</a>
+                    </div>
+                    <div class="col-lg-4"></div>
+                </div>
+            }
+            else
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> 商户列表
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    操作
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+
+                                    <li>
+                                        <a href="#">提交审核</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#">同步商户状态</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden">商户编号</th>
+                                                <th>商户编号</th>
+                                                <th>商户名称</th>
+                                                <th>AppId</th>
+                                                <th>商户分类</th>
+                                                <th>商户地址</th>
+                                                <th>商户状态</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Items != null && Model.Items.Count() > 0)
+                                            {
+                                                foreach (var item in Model.Items)
+                                                {
+                                                    <tr>
+                                                        <td class="hidden">@item.Id</td>
+                                                        <td>@(item.MerchantId.Equals(0) ? "--" : item.MerchantId.ToString())</td>
+                                                        <td>@item.BrandName</td>
+                                                        <td>@item.AppId</td>
+                                                        <td>@item.CategoryName</td>
+                                                        <td>@item.Address</td>
+                                                        <td>@item.Status.WithDisplayName()</td>
+                                                        <td>
+                                                            <a href="/merchant/view?id=@item.Id">详情</a>
+                                                            <a href="/merchant/myshops?id=@item.Id">门店</a>
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                        </div>
+
+
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.panel-body -->
+
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@using (Script.Foot())
+{
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+        });
+    </script>
+}

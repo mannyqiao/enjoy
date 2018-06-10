@@ -9,5 +9,9 @@
 
         [JsonProperty("advanced_info")]
         public AdvancedInfo AdvancedInfo { get; set; }
+
+      
+
+        
     }
 }

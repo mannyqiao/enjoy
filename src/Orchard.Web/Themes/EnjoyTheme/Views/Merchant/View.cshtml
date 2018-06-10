@@ -52,7 +52,13 @@
                         <select class="form-control area" name="@Html.NameOf(m => m.Area)" data-value="@Model.Area"></select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-lg btn-success btn-block">创建</button>
+                @{
+                    if ((Model.Status == Enjoy.Core.AuditStatus.APPROVED) == false)
+                    {
+                        <button type="submit" class="btn btn-lg btn-success btn-block">保持并提交审核</button>
+                    }
+                }
+
             }
 
 
@@ -97,9 +103,6 @@
                 console.log($("#" + target).val());
                 upload_cover(target, setback_id);
             });
-
-          
-
         });
     </script>
 }

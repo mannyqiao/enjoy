@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.Models.Records
 {
-    public class Shop
+    public class Shop : IEntityKey<int>
     {
         public virtual int Id { get; set; }
         public virtual Merchant Merchant { get; set; }

@@ -317,6 +317,8 @@
     <Content Include="Views\Component\_ImgageUploadUIelement.cshtml" />
     <Content Include="Views\Component\_TextImageContainer.cshtml" />
     <Content Include="Views\Component\_DecimalPartial.cshtml" />
+    <Content Include="Views\Merchant\MyMerchant.cshtml" />
+    <Content Include="Views\Merchant\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

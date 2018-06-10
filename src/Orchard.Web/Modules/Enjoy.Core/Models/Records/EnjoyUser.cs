@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.Models.Records
 {
-    public class EnjoyUser 
+    public class EnjoyUser : IEntityKey<int>
     {
         public virtual int Id { get; set; }
         public virtual string Mobile { get; set; }

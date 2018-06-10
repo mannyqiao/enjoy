@@ -13,8 +13,10 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreateDCouponPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreateCouponPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
+                @Html.HiddenFor(o => o.Id)
+                @Html.HiddenFor(o => o.CreatedTime)
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a href="#profile" data-toggle="tab">基本信息</a>
@@ -46,8 +48,8 @@
                                 @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Gift.Detail), "兑换详情", Model.Gift.Detail, 120, false))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.CASH.ToString())">
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.DValue), "票面价值", Model.Cash.DValue, false))
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.SaleValue), "售价", Model.Cash.SaleValue, false))
+                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.LeastCost), "启用金额", Model.Cash.LeastCost, false))
+                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.ReduceCost), "减免金额", Model.Cash.ReduceCost, false))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GROUPON.ToString())">
                                 @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Groupon.DValue), "票面价值", Model.Groupon.DValue, false))
@@ -55,7 +57,7 @@
                                 @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Groupon.Detail), "团购详情", Model.Groupon.Detail, 120))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GENERAL_COUPON.ToString())">
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.General.ReduceMoney), "优惠金额", Model.General.ReduceMoney, false))
+                                @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.General.DefaultDetail), "使用详情", Model.General.DefaultDetail, 102, false))
                             </fieldset>
                         </div>
                         <div class="form-group">
@@ -92,15 +94,15 @@
                                         <div class="form-group row">
                                             <label class="col-md-2 control-label">领券后</label>
                                             <div class="col-md-2">
-                                                <input type="text" class="form-control pull-left" 
-                                                       id="@Html.IdFor(o=>o.SpecifiedExpiryDateDescriptor)" 
+                                                <input type="text" class="form-control pull-left"
+                                                       id="@Html.IdFor(o=>o.SpecifiedExpiryDateDescriptor)"
                                                        name="@Html.NameOf(o=>o.SpecifiedExpiryDateDescriptor)">
                                             </div>
                                             <label for="inputValue" class="col-md-2 control-label  pull-left">天</label>
                                             <label for="inputValue" class="col-md-2 control-label  pull-left">有效期</label>
                                             <div class="col-md-2  pull-left">
-                                                <input type="text" class="form-control  pull-left" 
-                                                       id="@Html.IdFor(o=>o.SpecifiedExpiryDateDescriptor)" 
+                                                <input type="text" class="form-control  pull-left"
+                                                       id="@Html.IdFor(o=>o.SpecifiedExpiryDateDescriptor)"
                                                        name="@Html.NameOf(o=>o.SpecifiedExpiryDateDescriptor)">
                                             </div>
                                             <label class="col-md-2 control-label">天</label>
@@ -111,8 +113,8 @@
                         </div>
                         @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true))
                         @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
-                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Description), "操作提示", Model.BaseInfo.Notice, 100,true))
-                        @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description,100,true))
+                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Description), "操作提示", Model.BaseInfo.Notice, 100, true))
+                        @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))
                     </div>
                     <div class="tab-pane fade" id="userule">
                         <h4>&nbsp;</h4>
@@ -125,8 +127,8 @@
 
                               }))
                             <fieldset id="group_product_specific">
-                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.AcceptCategory), "可以用商品", Model.AdvancedInfo.UseCondition.AcceptCategory,120))
-                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.RejectCategory), "不可用商品", Model.AdvancedInfo.UseCondition.RejectCategory,120))
+                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.AcceptCategory), "可以用商品", Model.AdvancedInfo.UseCondition.AcceptCategory, 120))
+                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.RejectCategory), "不可用商品", Model.AdvancedInfo.UseCondition.RejectCategory, 120))
                             </fieldset>
                         </div>
 
@@ -172,7 +174,8 @@
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
                         @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.BaseInfo.LogoUrl), "Logo图片", MediaUploadTypes.Material, Model.BaseInfo.LogoUrl, Model.BaseInfo.LogoUrl))
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.BaseInfo.LogoUrl),
+                       "Logo图片", MediaUploadTypes.Material, Model.BaseInfo.LogoUrl,true, Model.BaseInfo.LogoUrl))
                         @*@Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterTitle), "入口标题", Model.BaseInfo.CenterTitle, "", string.Empty, true))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@
@@ -211,9 +214,9 @@
                 this.submit();
             },
                 {
-                // novalidate: false
-                
-            });
+                    // novalidate: false
+
+                });
         });
     </script>
 }

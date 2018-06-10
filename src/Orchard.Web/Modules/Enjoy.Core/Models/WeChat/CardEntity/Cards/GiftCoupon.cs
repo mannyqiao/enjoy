@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
-    public class GiftCoupon
+    public class GiftCoupon: ICardCoupon
     {
 
         [JsonProperty("card_type")]

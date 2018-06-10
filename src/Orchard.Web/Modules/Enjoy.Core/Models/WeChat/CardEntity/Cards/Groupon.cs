@@ -5,7 +5,7 @@
     /// <summary>
     /// 团购券
     /// </summary>
-    public class Groupon
+    public class Groupon: ICardCoupon
     {
         [JsonProperty("card_type")]
         public string CardType

@@ -8,7 +8,7 @@ namespace Enjoy.Core.Models.Records
     /// <summary>
     /// 
     /// </summary>
-    public class Merchant
+    public class Merchant : IEntityKey<int>
     {
         public virtual int Id { get; set; }
         /// <summary>
@@ -67,7 +67,7 @@ namespace Enjoy.Core.Models.Records
         public virtual long UpdateTime { get; set; }
 
 
-        public virtual string Status { get; set; }
+        public virtual AuditStatus Status { get; set; }
         /// <summary>
         /// 商户创建者
         /// </summary>

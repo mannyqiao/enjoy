@@ -10,14 +10,16 @@ namespace Enjoy.Core.UIElements
         public ImageUploadUIElement(
            string name,
            string text,
-           MediaUploadTypes type,
+           MediaUploadTypes type,           
            string value = null,
+           bool required = false,
            string imageUrl = null,
-           string message = null,
-           bool required = false)
+           string message = null)
            : base(name, text, value, required, message)
         {
             this.MediaUploadTypes = type;
+            this.Value = value;
+            this.ImageUrl = imageUrl;            
         }
         public string ImageUrl { get; set; }
         public MediaUploadTypes MediaUploadTypes { get; set; }

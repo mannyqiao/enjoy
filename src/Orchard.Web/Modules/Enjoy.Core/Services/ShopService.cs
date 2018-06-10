@@ -15,11 +15,11 @@ namespace Enjoy.Core.Services
         {
 
         }
-        public override string ModelTypeName
+        public override Type ModelType
         {
             get
             {
-                return typeof(Models::ShopModel).Name;
+                return typeof(Models::ShopModel);
             }
         }
         public Models.PagingData<Models.ShopModel> QueryShops(int merchantid, int page)

@@ -73,7 +73,7 @@ namespace Enjoy.Core
                 .Column("BenginTime", System.Data.DbType.Int64)
                 .Column("CreateTime", System.Data.DbType.Int64)
                 .Column("UpdateTime", System.Data.DbType.Int64)
-                .Column("Status", System.Data.DbType.String, column => column.WithLength(36))
+                .Column("Status", System.Data.DbType.String, column => column.WithLength(36).WithDefault(AuditStatus.UnCommitted.ToString()))
                 .Column("AppId", System.Data.DbType.String, column => column.WithLength(26))
                 .Column("BrandName", System.Data.DbType.String, column => column.WithLength(36))
                 .Column("LogoUrl", System.Data.DbType.String, column => column.WithLength(128))
@@ -107,14 +107,16 @@ namespace Enjoy.Core
 
             SchemaBuilder.CreateTable("CardCoupon", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("Merchant_Id", System.Data.DbType.Int64)
+                .Column("BrandName", System.Data.DbType.String, column => column.WithLength(20))//卡券类型
+                .Column("Merchant_Id", System.Data.DbType.Int32)
                 .Column("Type", System.Data.DbType.String, column => column.WithLength(20))//卡券类型
                 .Column("WxNo", System.Data.DbType.String, column => column.WithLength(40).Unique())//WeChat编号                
-                .Column("Quantity", System.Data.DbType.Int32, column => column.WithDefault(100))               
+                .Column("Quantity", System.Data.DbType.Int32, column => column.WithDefault(100))
                 .Column("CreatedTime", System.Data.DbType.Int64)
+                .Column("LastUpdateTime", System.Data.DbType.Int64)
                 .Column("JsonMetadata", System.Data.DbType.String, column => column.Unlimited())
             );
-            
+
 
         }
         private void CreateLayer()
@@ -137,14 +139,14 @@ namespace Enjoy.Core
             CreateMenuItem(menu, "商户概况", "0", "/dashboard/summary", "fa fa-dashboard fa-fw", true);
 
             CreateMenuItem(menu, "商户管理", "1", "javascript:void(0);", "fa fa-magic fa-fw", true);
-            CreateMenuItem(menu, "新建商户", "1.1", "/merchant/create", "", false);
+            CreateMenuItem(menu, "我的商户", "1.1", "/merchant/mymerchant", "", false);
             CreateMenuItem(menu, "门店管理", "1.2", "/merchant/myshops", "", true);
             // CreateMenuItem(menu, "绑定管理员", "1.3", "/merchant/muser;", "", true);
             CreateMenuItem(menu, "商户账户", "1.4", "/finance/myaccount", "", true);
             CreateMenuItem(menu, "平台账户", "1.5", "/finance/paccount", "", true);
 
             CreateMenuItem(menu, "卡券中心", "2", "javascript:void(0);", "fa fa-exchange fa-fw", true);
-            CreateMenuItem(menu, "优惠券", "2.1", "/cards/coupon", "", false);            
+            CreateMenuItem(menu, "优惠券", "2.1", "/cards/coupon", "", false);
             CreateMenuItem(menu, "会员卡", "2.2", "/cards/mcard", "", true);
 
 

@@ -7,6 +7,7 @@ namespace Enjoy.Core
 {
     public enum CardTypes
     {
+        None = 0,
         CASH = 1,
         DISCOUNT = 2,
         GENERAL_COUPON = 3,

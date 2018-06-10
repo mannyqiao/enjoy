@@ -42,6 +42,7 @@ namespace Enjoy.Core.ViewModels
             this.BaseInfo.CanGivefriend = true;
 
         }
+        public int Id { get; set; }
         public CardTypes CardType { get; set; }
         public BaseInfo BaseInfo { get; set; }
         public AdvancedInfo AdvancedInfo { get; set; }
@@ -52,7 +53,7 @@ namespace Enjoy.Core.ViewModels
         public GeneralCouponSpecific General { get; set; }
         public ApplyScopes UseProductScope { get; set; }
         public ApplyScopes UseShopScope { get; set; }
-
+        public long CreatedTime { get; set; }
         /// <summary>
         /// 使用限制 (使用条件)
         /// </summary>
@@ -68,8 +69,8 @@ namespace Enjoy.Core.ViewModels
     }
     public class CashSpecific
     {
-        public decimal? DValue { get; set; }
-        public decimal? SaleValue { get; set; }
+        public decimal? LeastCost { get; set; }
+        public decimal? ReduceCost { get; set; }
     }
     public class DiscountSpecific
     {
@@ -87,6 +88,6 @@ namespace Enjoy.Core.ViewModels
     }
     public class GeneralCouponSpecific
     {
-        public decimal? ReduceMoney { get; set; }
+        public string DefaultDetail { get; set; }
     }
 }
