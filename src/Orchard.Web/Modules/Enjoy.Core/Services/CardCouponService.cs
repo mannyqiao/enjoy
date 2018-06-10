@@ -11,6 +11,7 @@ namespace Enjoy.Core.Services
 
     public class CardCouponService : QueryBaseService<Records::CardCoupon, Models::CardCounponModel>, ICardCouponService
     {
+
         public CardCouponService(IOrchardServices os)
             : base(os)
         {
@@ -93,7 +94,7 @@ namespace Enjoy.Core.Services
                 if (r == null) r = new Records.CardCoupon();
                 r.CreatedTime = m.CreatedTime;
                 r.BrandName = m.BrandName;
-                r.Merchant = new Records.Merchant() { Id = model.Id };
+                r.Merchant = this.OS.TransactionManager.GetSession().Get<Records::Merchant>(model.Merchant.Id);
                 r.Quantity = m.Quantity;
                 r.WxNo = m.WxNo;
                 r.Type = m.Type;

@@ -110,7 +110,7 @@ namespace Enjoy.Core
                 .Column("BrandName", System.Data.DbType.String, column => column.WithLength(20))//卡券类型
                 .Column("Merchant_Id", System.Data.DbType.Int32)
                 .Column("Type", System.Data.DbType.String, column => column.WithLength(20))//卡券类型
-                .Column("WxNo", System.Data.DbType.String, column => column.WithLength(40).Unique())//WeChat编号                
+                .Column("WxNo", System.Data.DbType.String, column => column.WithLength(40))//WeChat编号                
                 .Column("Quantity", System.Data.DbType.Int32, column => column.WithDefault(100))
                 .Column("CreatedTime", System.Data.DbType.Int64)
                 .Column("LastUpdateTime", System.Data.DbType.Int64)

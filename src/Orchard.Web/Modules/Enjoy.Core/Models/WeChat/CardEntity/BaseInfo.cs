@@ -25,9 +25,10 @@ namespace WeChat.Models
         [Newtonsoft.Json.JsonProperty("title")]
         public virtual string Title { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("color")]
+        
 
         [DefaultValue("Color010")]
+        [Newtonsoft.Json.JsonProperty("color")]
         public virtual string Color { get; set; }
 
 

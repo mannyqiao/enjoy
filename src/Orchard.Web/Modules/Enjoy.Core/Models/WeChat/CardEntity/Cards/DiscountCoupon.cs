@@ -14,7 +14,7 @@
         }
 
 
-        [JsonProperty("discount")]
+        [JsonProperty("card")]
         public Coupon Coupon { get; set; }
 
         [JsonProperty("discount")]

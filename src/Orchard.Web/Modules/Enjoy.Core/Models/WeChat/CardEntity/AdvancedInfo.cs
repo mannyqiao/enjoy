@@ -20,7 +20,7 @@ namespace WeChat.Models
         [Newtonsoft.Json.JsonProperty("text_image_list")]
         public List<TextImage> TextImageList { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("text_image_list")]
+        [Newtonsoft.Json.JsonProperty("business_service")]
         public string[] BusinessService { get; set; }
     }
 }

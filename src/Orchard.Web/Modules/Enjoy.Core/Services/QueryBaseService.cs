@@ -15,7 +15,7 @@ namespace Enjoy.Core.Services
         where R : class
         where M : class
     {
-        private readonly IOrchardServices OS;
+        protected readonly IOrchardServices OS;
 
         public abstract Type ModelType { get; }
 

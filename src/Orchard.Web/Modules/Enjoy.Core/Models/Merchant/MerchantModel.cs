@@ -9,26 +9,31 @@ namespace Enjoy.Core.Models
         public MerchantModel() { }
         public MerchantModel(Records::Merchant record)
         {
+            if (record != null)
+            {
+                this.Address = record.Address;
+                this.AgreementMediaId = record.AgreementMediaId;
+                this.AppId = record.AppId;
+                this.BenginTime = record.BenginTime;
+                this.BrandName = record.BrandName;
+                this.Contact = record.Contact;
+                this.CreateTime = record.CreateTime;
+                this.EndTime = record.EndTime;
+                this.EnjoyUser = record.EnjoyUser;
+                this.Id = record.Id;
+                this.LogoUrl = record.LogoUrl;
+                this.MerchantId = record.MerchantId;
+                this.Mobile = record.Mobile;
+                this.OperatorMediaId = record.OperatorMediaId;
+                this.PrimaryCategoryId = record.PrimaryCategoryId;
+                this.Protocol = record.Protocol;
+                this.SecondaryCategoryId = record.SecondaryCategoryId;
+                this.UpdateTime = record.UpdateTime;
+                this.Status = record.Status;
+                
+            }
 
-            this.Address = record.Address;
-            this.AgreementMediaId = record.AgreementMediaId;
-            this.AppId = record.AppId;
-            this.BenginTime = record.BenginTime;
-            this.BrandName = record.BrandName;
-            this.Contact = record.Contact;
-            this.CreateTime = record.CreateTime;
-            this.EndTime = record.EndTime;
-            this.EnjoyUser = record.EnjoyUser;
-            this.Id = record.Id;
-            this.LogoUrl = record.LogoUrl;
-            this.MerchantId = record.MerchantId;
-            this.Mobile = record.Mobile;
-            this.OperatorMediaId = record.OperatorMediaId;
-            this.PrimaryCategoryId = record.PrimaryCategoryId;
-            this.Protocol = record.Protocol;
-            this.SecondaryCategoryId = record.SecondaryCategoryId;
-            this.UpdateTime = record.UpdateTime;
-            this.Status = record.Status;
+            
         }
         public int Id { get; set; }
         /// <summary>

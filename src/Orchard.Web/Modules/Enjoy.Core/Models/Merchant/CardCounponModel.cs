@@ -4,7 +4,7 @@ namespace Enjoy.Core.Models
     using Enjoy.Core.Models;
     using WeChat.Models;
     using Records = Enjoy.Core.Models.Records;
-    public class CardCounponModel
+    public class CardCounponModel: IEntityKey<int>
     {
         public CardCounponModel(Records::CardCoupon record)
         {

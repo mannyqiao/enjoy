@@ -34,7 +34,8 @@ namespace Enjoy.Core.Services
         public Models.MerchantModel GetDefaultMerchant()
         {
             var active_user = this.Auth.GetAuthenticatedUser();
-            return this.QueryFirstOrDefaut((builder) =>
+            if (active_user == null) throw new NullReferenceException(); 
+            var merchart = this.QueryFirstOrDefaut((builder) =>
             {
                 builder.Add(Expression.Eq("EnjoyUser.Id", active_user.Id));
             }, (record) =>
@@ -47,6 +48,7 @@ namespace Enjoy.Core.Services
                 else
                     return new Models.MerchantModel(record);
             });
+            return merchart;
         }
 
         public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(Models.MerchantModel model)

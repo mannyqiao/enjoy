@@ -48,6 +48,8 @@ namespace Enjoy.Core
             model.Quantity = (int)viewModel.BaseInfo.Sku.Quantity;
             model.Type = viewModel.CardType;
             model.WxNo = string.Empty;
+            model.BrandName = viewModel.BaseInfo.BrandName;
+         
             switch (viewModel.CardType)
             {
                 case CardTypes.CASH:
@@ -124,7 +126,7 @@ namespace Enjoy.Core
                     break;
                 case CardTypes.MEMBER_CARD:
                     break;
-            }         
+            }
             return model;
         }
 

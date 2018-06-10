@@ -87,7 +87,7 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public JsonResult UploadMaterial(MediaUploadTypes type)
         {
-            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;
+            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;            
             if (context == null || context.Count.Equals(0))
             {
                 return Json(new { result = "fail" }, JsonRequestBehavior.AllowGet);
