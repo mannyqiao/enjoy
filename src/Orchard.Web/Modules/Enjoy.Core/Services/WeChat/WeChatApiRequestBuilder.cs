@@ -109,5 +109,10 @@ namespace Enjoy.Core.Services
         {
             return string.Format("https://api.weixin.qq.com/card/submerchant/submit?access_token={0}", token);
         }
+        public static string GenrateImageUrlByMediaId(string mediaid)
+        {
+            ////Enjoy TODO: need return the true url by media id 
+            return "/Themes/EnjoyTheme/Content/images/backgrounds/1.jpg";
+        }
     }
 }

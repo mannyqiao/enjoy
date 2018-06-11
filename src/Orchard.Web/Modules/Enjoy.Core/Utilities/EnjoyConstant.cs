@@ -16,7 +16,8 @@ namespace Enjoy.Core
             {1005,"登录会话已过期,需要从新登录" },
             {1006,"数据源为空"},
             {1007,"密码不能为空"},
-            {1008,"用户名和密码不匹配"}
+            {1008,"用户名和密码不匹配"},
+            {1009,"输入有效性验证失败"}
 
         };
         public const int Success = 0;
@@ -30,8 +31,7 @@ namespace Enjoy.Core
         public const int EmptyOrNullDataSource = 1006;
         public const int PasswordCantBeNullOrEmpty = 1007;
         public const int UPasswordNotMatch = 1008;
-
-
+        public const int VerifyFailed = 1009;
         public static readonly Dictionary<string, string> BusinessService = new Dictionary<string, string>()
         {
             {"BIZ_SERVICE_DELIVER","外卖服务" },

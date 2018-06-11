@@ -11,6 +11,8 @@ namespace Enjoy.Core.Controllers
     using System.IO;
     using Orchard;
     using System.Collections.Generic;
+    using System;
+
     [Themed]
     public class MerchantController : Controller
     {
@@ -32,27 +34,50 @@ namespace Enjoy.Core.Controllers
             this.Merchant = merchant;
         }
 
+        public ActionResult MyMerchant(int page = 1)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign");
+
+            var viewModel = this.Merchant.QueryMyMerchants(this.Auth.GetAuthenticatedUser().Id, page);
+            return View(viewModel);
+        }
         public ActionResult Create()
         {
-            var user = this.Auth.GetAuthenticatedUser();
-
-            var model = new SubMerchantViewModel()
-            {
-                ApplyProtocol = this.WeChat.GetApplyProtocol(),
-                Status = MerchantStatus.NotFond,
-            };
-            return View(model);
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign");
+            var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(), this.WeChat.GetApplyProtocol());
+            return View(viewModel);
         }
-        public ActionResult Profile(int merchantId)
-        {            
-            return View(this.Merchant.GetDefaultSubMerchant());
+        public ActionResult View(int id)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign");
+
+            var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(), this.WeChat.GetApplyProtocol());
+            return View(this.Merchant.GetDefaultMerchant());
         }
         [HttpPost]
-        public ActionResult CreatePost(SubMerchantViewModel model)
+        public ActionResult CreatePost(MerchantViewModel model)
         {
-            this.Merchant.CreateSubMerchant(model);
-            //Create sub merchant
-            return this.RedirectLocal("/dashboard/summary");
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign");
+
+
+            model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser();
+            model.Merchant.Address = string.Join("/", new string[] { model.Province, model.City, model.Area });
+            model.Merchant.Status = AuditStatus.UnCommitted;
+            this.Merchant.SaveOrUpdate(model.Merchant);
+            return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
+        }
+        [HttpPost]
+        public ActionResult Audit(MerchantViewModel model)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign");
+            ////Enjoy TODO: Need add code that audit by wechat.
+            return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
+
         }
 
         public JsonResult GetApplyProtocol()
@@ -62,10 +87,10 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public JsonResult UploadMaterial(MediaUploadTypes type)
         {
-            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;
-            if (context == null||context.Count.Equals(0))
+            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;            
+            if (context == null || context.Count.Equals(0))
             {
-                return Json(new { result="fail"}, JsonRequestBehavior.AllowGet);
+                return Json(new { result = "fail" }, JsonRequestBehavior.AllowGet);
             }
 
             using (var stream = new BinaryReader(context[0].InputStream))
@@ -95,7 +120,7 @@ namespace Enjoy.Core.Controllers
             {
                 return Json(new { result = "fail" }, JsonRequestBehavior.AllowGet);
             }
-            
+
             using (var stream = new BinaryReader(context[0].InputStream))
             {
                 var buffers = stream.ReadBytes(context[0].ContentLength);
@@ -130,6 +155,6 @@ namespace Enjoy.Core.Controllers
             };
             return View(viewModel);
         }
-       
+
     }
 }

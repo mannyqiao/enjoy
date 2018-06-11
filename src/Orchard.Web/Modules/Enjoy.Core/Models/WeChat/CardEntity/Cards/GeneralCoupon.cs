@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
-    public class GeneralCoupon
+    public class GeneralCoupon: ICardCoupon
     {
         [JsonProperty("card_type")]
         public string CardType
@@ -11,7 +11,7 @@
             {
                 return CardTypes.GENERAL_COUPON.ToString();
             }
-            set { }
+            
         }
 
         [JsonProperty("groupon")]

@@ -24,15 +24,21 @@ namespace Enjoy.Core
                 CreateRouteDescriptor("Enjoy.Core","Access","Signin"),
                 CreateRouteDescriptor("Enjoy.Core","Access","GetverificationCode"),
                 CreateRouteDescriptor("Enjoy.Core","Merchant","Create"),
+                CreateRouteDescriptor("Enjoy.Core","Merchant","View"),
                 CreateRouteDescriptor("Enjoy.Core","Merchant","UploadMaterial"),
                 CreateRouteDescriptor("Enjoy.Core","Merchant","Shops"),
+                CreateRouteDescriptor("Enjoy.Core","Merchant","Audit"),
+                CreateRouteDescriptor("Enjoy.Core","Merchant","MyMerchant"),
+
                 CreateRouteDescriptor("Enjoy.Core","Finance","PAccount"),
                 CreateRouteDescriptor("Enjoy.Core","Finance","MyAccount"),
 
-                CreateRouteDescriptor("Enjoy.Core","Cards","Coupon"),                
+                CreateRouteDescriptor("Enjoy.Core","Cards","Coupon"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","MCard"),
-                CreateRouteDescriptor("Enjoy.Core","Cards","CreateCoupon"),                
-                CreateRouteDescriptor("Enjoy.Core","Cards","CreateMCard")
+                CreateRouteDescriptor("Enjoy.Core","Cards","CreateCoupon"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","CreateMCard"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","CreateCouponPost")
+                
                 
                 
 

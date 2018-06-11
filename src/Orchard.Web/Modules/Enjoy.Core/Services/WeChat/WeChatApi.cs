@@ -52,14 +52,12 @@ namespace Enjoy.Core.Services
 
         public UploadMediaWxResponse UploadMaterialToCDN(byte[] buffers)
         {
-            var response = UploadMaterial(WeChatApiRequestBuilder.GenerateWxUploaMediaUrl(this.GetToken(), MediaUploadTypes.Material)
-                , "logo", buffers);
-            response.Value = response.Url;
-            return response;            
+            return UploadMaterial(WeChatApiRequestBuilder.GenerateWxUploaMediaUrl(this.GetToken(), MediaUploadTypes.Material)
+                 , "logo", buffers);
         }
         private UploadMediaWxResponse UploadMaterial(string url, string name, byte[] buffers)
         {
-            return url.GetResponseForJson<UploadMediaWxResponse>((http) =>
+            var response = url.GetResponseForJson<UploadMediaWxResponse>((http) =>
             {
                 http.Method = "POST";
                 http.ContentType = "application/x-www-form-urlencoded";
@@ -88,6 +86,9 @@ namespace Enjoy.Core.Services
                 }
                 return http;
             });
+            response.Value = response.MediaId ?? response.Url;
+            response.Url = string.IsNullOrEmpty(response.MediaId) ? response.Url : WeChatApiRequestBuilder.GenrateImageUrlByMediaId(response.MediaId);
+            return response;
         }
         public WxResponseWapper<CreateSubmerchantResponse> CreateSubmerchant(WxRequestWapper<SubMerchant> submerchant)
         {

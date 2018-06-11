@@ -1,28 +1,19 @@
 ﻿
+
 namespace Enjoy.Core
 {
     using Enjoy.Core.Models;
-    using NHibernate;
     using Orchard;
-    using System;
-    public interface IQueryService<TRecord, TModel> : IDependency
+
+    public interface ICardCouponService : IDependency
     {
-        PagingData<TModel> QueryByPaging(int page,
-            Action<ICriteria> builder,
-            Func<TRecord, TModel> convert);
+        WxCardCouponWapper<ICardCoupon> CreateCardCouponInstance(CardTypes type);
 
-        PagingData<TModel> Query(Action<ICriteria> builder,
-            Func<TRecord, TModel> convert);
+        ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model);
 
-        TModel QueryFirstOrDefaut(Action<ICriteria> builder,
-            Func<TRecord, TModel> convert);
+        PagingData<CardCounponModel> QueryCardCounpon(int page, CardTypes type);
 
-        string ModelTypeName { get; }
+        CardCounponModel GetCardCounpon(int id);
 
-        DbWriteResponse<TModel> SaveOrUpdate(TModel model, Func<TModel, IResponse> validate, Func<TModel, TRecord> convert);
-
-        BaseResponse Delete(int id);
-
-        BaseResponse Delete(ISQLQuery query);
     }
 }

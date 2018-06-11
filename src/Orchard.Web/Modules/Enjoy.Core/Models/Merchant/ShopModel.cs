@@ -3,7 +3,7 @@
 namespace Enjoy.Core.Models
 {
     using Records = Enjoy.Core.Models.Records;
-    public class ShopModel
+    public class ShopModel : IEntityKey<int>
     {
         public ShopModel(Records::Shop shop)
         {

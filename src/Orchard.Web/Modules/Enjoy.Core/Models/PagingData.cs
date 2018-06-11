@@ -11,24 +11,29 @@ namespace Enjoy.Core.Models
         {
 
         }
+        public PagingData(IEnumerable<E> items)
+            : base(items)
+        {
+
+        }
         public int TotalCount { get; set; }
         public Paging Paging { get; set; }
     }
     public class Paging
     {
-        public Paging(int page,int size)
+        public Paging(int page, int size)
         {
             this.Page = page;
-            this.PageSize = size; 
+            this.PageSize = size;
         }
         public Paging(int page)
-            :this(page,EnjoyConstant.DefaultPageSize)
+            : this(page, EnjoyConstant.DefaultPageSize)
         {
 
         }
         public int PageSize { get; set; }
         public int Page { get; set; }
         public int PageCount { get; set; }
-      
+
     }
 }

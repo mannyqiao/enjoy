@@ -5,11 +5,16 @@ using System.Web;
 
 namespace Enjoy.Core
 {
-    public enum MerchantStatus
+    public enum AuditStatus
     {
+        /// <summary>
+        /// 
+        /// </summary>
         NotFond = 0,
-
-        NotSubmit = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        UnCommitted = 1,
         /// <summary>
         /// 审核中
         /// </summary>
