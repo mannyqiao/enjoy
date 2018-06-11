@@ -114,5 +114,9 @@ namespace Enjoy.Core.Services
             ////Enjoy TODO: need return the true url by media id 
             return "/Themes/EnjoyTheme/Content/images/backgrounds/1.jpg";
         }
+        public static string GenreateWxQueryGetCardList(string token)
+        {
+            return string.Format("https://api.weixin.qq.com/card/user/getcardlist?access_token={0}", token);
+        }
     }
 }

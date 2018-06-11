@@ -53,9 +53,9 @@ namespace WeChat.Models
         [Newtonsoft.Json.JsonProperty("location_id_list")]
         public virtual long[] LocationIdList { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("use_limit")]
-        [DefaultValue(1)]
-        public virtual int Uselimit { get; set; }
+        //[Newtonsoft.Json.JsonProperty("use_limit")]
+        //[DefaultValue(1)]
+        //public virtual int Uselimit { get; set; }
 
 
         [Newtonsoft.Json.JsonProperty("get_limit")]

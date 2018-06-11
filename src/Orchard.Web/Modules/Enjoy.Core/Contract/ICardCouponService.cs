@@ -15,5 +15,10 @@ namespace Enjoy.Core
 
         CardCounponModel GetCardCounpon(int id);
 
+        NormalWxResponse TestwhiteList(string[] wechatids);
+
+        QRCodeWxResponse CreateQRCode(string cardid);
+        CreateCouponWxResponse Publish(int id);
+
     }
 }

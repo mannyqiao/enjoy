@@ -21,13 +21,14 @@ namespace Enjoy.Core.ViewModels
                 Sku = new Sku() { Quantity = 1000 },
                 Dateinfo = new DateInfo()
                 {
-                    BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
-                    EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
+                    Type = ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
+                    //BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
+                    //EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
                 },
-                Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault(),
+                Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault(),               
                 Getlimit = 1,
                 CenterTitle = "立即使用",
-                CenterUrl = "http://wwww.baidu.com"//打开商户小程序的Url
+                CenterUrl = "http://wwww.baidu.com",//打开商户小程序的Url,
             };
 
             this.Cash = new CashSpecific();
@@ -35,8 +36,11 @@ namespace Enjoy.Core.ViewModels
             this.Gift = new GiftSpecific();
             this.General = new GeneralCouponSpecific();
             this.Groupon = new GrounponSpecific();
-            this.FixedExpiryDateDescriptor = new string[] { string.Empty, string.Empty };
-            this.SpecifiedExpiryDateDescriptor = new string[] { string.Empty, string.Empty };
+            this.FixedExpiryDateDescriptor = new string[] {
+              string.Empty,
+              string.Empty
+            };
+            this.BaseInfo.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
             this.AdvancedInfo.UseCondition.CanUseWithOtherDiscount = false;
             this.BaseInfo.CanShare = true;
             this.BaseInfo.CanGivefriend = true;
@@ -59,11 +63,11 @@ namespace Enjoy.Core.ViewModels
         /// </summary>
         public UseLimitTypes UseLimitType { get; set; }
         public decimal CostMoneyCanUse { get; set; }
-        public ExpiryDateTypes ExpiryDateType { get; set; }
+        //public ExpiryDateTypes ExpiryDateType { get; set; }
         //Fixed = 1,
         //Specified = 2,
         public string[] FixedExpiryDateDescriptor { get; set; }
-        public string[] SpecifiedExpiryDateDescriptor { get; set; }
+        public decimal?[] SpecifiedExpiryDateDescriptor { get; set; }
         //public ApplyScopes SpendScope { get; set; }
         public string[] AllowShops { get; set; }
     }
