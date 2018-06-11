@@ -25,4 +25,8 @@ namespace Enjoy.Core.Models
         }
 
     }
+    public class NormalWxResponse : WxResponse
+    {
+
+    }
 }

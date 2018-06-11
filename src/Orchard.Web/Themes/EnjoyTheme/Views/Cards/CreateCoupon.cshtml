@@ -39,8 +39,8 @@
                                                 new RadioUIElement.RadioItem(CardTypes.CASH.ToString(),Html.NameOf(o=>o.CardType),"代金券",CardTypes.CASH.ToString()),
                                                 new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),Html.NameOf(o=>o.CardType),"优惠券",CardTypes.GENERAL_COUPON.ToString()),
                                                 new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),Html.NameOf(o=>o.CardType),"团购券",CardTypes.GROUPON.ToString()),
-                                         }))
-                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.BrandName), "券名称", Model.BaseInfo.BrandName, 20, true))
+                                         }))                            
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "标题", Model.BaseInfo.Title, 20, true))
                             <fieldset id="group_@(CardTypes.DISCOUNT.ToString())">
                                 @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度", Model.Discount.Discount, true))
                             </fieldset>
@@ -73,18 +73,21 @@
                         </div>
                         <div class="form-group">
                             <label>券有效期</label>
-                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.ExpiryDateType), ExpiryDateTypes.Fixed.ToString(),
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.Type), ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
                                     new RadioUIElement.RadioItem[]{
-                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.Fixed.ToString(),"expiry_"+ Html.NameOf(o=>o.UseLimitType),"固定时间",ExpiryDateTypes.Fixed.ToString(),"group_expiry_fixed"),
-                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.Specified.ToString(),"expiry_"+ Html.NameOf(o=>o.UseLimitType),"指定时间",ExpiryDateTypes.Specified.ToString(),"group_expiry_specified")
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"固定时间",ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"group_expiry_fixed"),
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"指定时间",ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"group_expiry_specified")
                                     }))
                             <fieldset id="group_expiry_fixed">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.FixedExpiryDateDescriptor), "开始时间", Model.FixedExpiryDateDescriptor[0]))
+                                        @Html.Partial("Component/_DatePickerPartial",
+                                       new DatePickerUIElement(Html.NameOf(o=>o.FixedExpiryDateDescriptor),
+                                       "开始时间", Model.FixedExpiryDateDescriptor[0]))
                                     </div>
                                     <div class="col-lg-6">
-                                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.FixedExpiryDateDescriptor), "结束时间", Model.FixedExpiryDateDescriptor[1]))
+                                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.FixedExpiryDateDescriptor),
+                                       "结束时间", Model.FixedExpiryDateDescriptor[1]))
                                     </div>
                                 </div>
                             </fieldset>
@@ -94,16 +97,16 @@
                                         <div class="form-group row">
                                             <label class="col-md-2 control-label">领券后</label>
                                             <div class="col-md-2">
-                                                <input type="text" class="form-control pull-left"
-                                                       id="@Html.IdFor(o=>o.SpecifiedExpiryDateDescriptor)"
-                                                       name="@Html.NameOf(o=>o.SpecifiedExpiryDateDescriptor)">
+                                                @Html.Partial("Component/_DecimalPartial",
+                                               new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedBeginTerm), "",Model.BaseInfo.Dateinfo.FixedBeginTerm, false))
+                                            
                                             </div>
                                             <label for="inputValue" class="col-md-2 control-label  pull-left">天</label>
                                             <label for="inputValue" class="col-md-2 control-label  pull-left">有效期</label>
                                             <div class="col-md-2  pull-left">
-                                                <input type="text" class="form-control  pull-left"
-                                                       id="@Html.IdFor(o=>o.SpecifiedExpiryDateDescriptor)"
-                                                       name="@Html.NameOf(o=>o.SpecifiedExpiryDateDescriptor)">
+                                                @Html.Partial("Component/_DecimalPartial",
+                                               new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedTerm), "",
+                                               Model.BaseInfo.Dateinfo.FixedTerm, false))
                                             </div>
                                             <label class="col-md-2 control-label">天</label>
                                         </div>
@@ -113,7 +116,7 @@
                         </div>
                         @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true))
                         @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
-                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Description), "操作提示", Model.BaseInfo.Notice, 100, true))
+                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Notice), "操作提示", Model.BaseInfo.Notice, 100, true))
                         @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))
                     </div>
                     <div class="tab-pane fade" id="userule">

@@ -319,6 +319,7 @@
     <Content Include="Views\Component\_DecimalPartial.cshtml" />
     <Content Include="Views\Merchant\MyMerchant.cshtml" />
     <Content Include="Views\Merchant\View.cshtml" />
+    <Content Include="Views\Cards\ShowQR.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

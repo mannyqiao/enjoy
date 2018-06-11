@@ -1,0 +1,27 @@
+﻿@using Enjoy.Core.UIElements
+@using Enjoy.Core;
+
+@model Enjoy.Core.ViewModels.QRCodeViewModel
+
+<div id="page-wrapper">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">卡券投放</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+       
+
+        </div>
+        <div class="col-lg-4">
+            <img  src="@Model.QRCodeUrl"/>
+        </div>
+        <div class="col-lg-4">
+           <p>扫描二维码投放卡券</p>
+        </div>
+    </div>
+</div>
+

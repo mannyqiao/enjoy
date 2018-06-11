@@ -166,6 +166,7 @@
     <Compile Include="Models\WeChat\CardEntity\UseCondition.cs" />
     <Compile Include="Models\WeChat\Request\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
+    <Compile Include="Models\WeChat\Response\CreateCouponWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\CreateSubmerchantResponse.cs" />
     <Compile Include="Models\WeChat\Response\QRCodeWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\AccessTokenWxResponse.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="ViewModels\CardCounponViewModel.cs" />
     <Compile Include="ViewModels\CardCouponWithoutWapperViewModel.cs" />
     <Compile Include="ViewModels\MerchantViewModel.cs" />
+    <Compile Include="ViewModels\QRCodeViewModel.cs" />
     <Compile Include="ViewModels\SelectNodeViewModel.cs" />
     <Compile Include="ViewModels\ShopListViewModel.cs" />
     <Compile Include="ViewModels\ShopViewModel.cs" />

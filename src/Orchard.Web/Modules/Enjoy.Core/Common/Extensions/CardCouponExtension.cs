@@ -5,23 +5,54 @@ namespace Enjoy.Core
     using Enjoy.Core;
     using System;
     using WeChat.Models;
-
+    using Enjoy.Core.Models;
     public static class CardCouponExtension
     {
-        public static ICardCoupon DeserializeSpecificCardCoupon(this string json, CardTypes type)
+        public static WxCardCouponWapper<ICardCoupon> DeserializeSpecificCardCoupon(this string json, CardTypes type)
         {
             switch (type)
             {
                 case CardTypes.CASH:
-                    return json.DeserializeToObject<CashCoupon>();
+                    {
+                        var cash = json.DeserializeToObject<WxCardCouponWapper<CashCoupon>>();
+                        return new WxCardCouponWapper<ICardCoupon>()
+                        {
+                            Card = cash.Card
+                        };
+                    }                   
                 case CardTypes.DISCOUNT:
-                    return json.DeserializeToObject<DiscountCoupon>();                    
+                    {
+                        var discount = json.DeserializeToObject<WxCardCouponWapper<DiscountCoupon>>();
+                        return new WxCardCouponWapper<ICardCoupon>()
+                        {
+                            Card = discount.Card
+                        };
+                    }                    
                 case CardTypes.GENERAL_COUPON:
-                    return json.DeserializeToObject<GeneralCoupon>();                    
+                    {
+                        var general = json.DeserializeToObject<WxCardCouponWapper<GeneralCoupon>>();
+                        return new WxCardCouponWapper<ICardCoupon>()
+                        {
+                            Card = general.Card
+                        };
+                    }                    
                 case CardTypes.GIFT:
-                    return json.DeserializeToObject<GiftCoupon>();                
+                    {
+                        var gift = json.DeserializeToObject<WxCardCouponWapper<GiftCoupon>>();
+                        return new WxCardCouponWapper<ICardCoupon>()
+                        {
+                            Card = gift.Card
+                        };
+                    }
+                //return json.DeserializeToObject<GiftCoupon>();
                 case CardTypes.GROUPON:
-                    return json.DeserializeToObject<Groupon>();
+                    {
+                        var groupon = json.DeserializeToObject<WxCardCouponWapper<Groupon>>();
+                        return new WxCardCouponWapper<ICardCoupon>()
+                        {
+                            Card = groupon.Card
+                        };
+                    }
                 case CardTypes.MEMBER_CARD:
                     throw new NotImplementedException();
             }

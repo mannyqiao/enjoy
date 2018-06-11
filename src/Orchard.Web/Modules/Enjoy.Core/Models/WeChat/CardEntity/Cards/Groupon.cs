@@ -2,6 +2,8 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
+    using System;
+
     /// <summary>
     /// 团购券
     /// </summary>
@@ -22,5 +24,12 @@
 
         [JsonProperty("deal_detail")]
         public string DealDetail { get; set; }
+
+
+
+        public void Specific(Action<BaseInfo, AdvancedInfo> action)
+        {
+            action(Coupon.BaseInfo, Coupon.AdvancedInfo);
+        }
     }
 }

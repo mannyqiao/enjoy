@@ -22,5 +22,8 @@ namespace WeChat.Models
 
         [Newtonsoft.Json.JsonProperty("business_service")]
         public string[] BusinessService { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("time_limit",NullValueHandling = NullValueHandling.Ignore)]
+        public TimeLimit[] TimeLimits { get; set; }
     }
 }

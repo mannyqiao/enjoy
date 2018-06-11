@@ -2,6 +2,8 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
+    using System;
+
     public class GiftCoupon: ICardCoupon
     {
 
@@ -20,5 +22,9 @@
 
         [JsonProperty("gift")]
         public string Gift { get; set; }
+        public void Specific(Action<BaseInfo, AdvancedInfo> action)
+        {
+            action(Coupon.BaseInfo, Coupon.AdvancedInfo);
+        }
     }
 }

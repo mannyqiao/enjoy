@@ -74,7 +74,10 @@
                                                     <td>@item.CreatedTime??""</td>
                                                     <td>@item.LastUpdateTime??""</td>
                                                     <td>@item.Quantity</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <a href="/cards/publish?id=@item.Id">发布</a>
+                                                        <a href="/cards/showqr?id=@item.Id">投放</a>
+                                                    </td>
                                                     <td></td>
                                                 </tr>
                                             }

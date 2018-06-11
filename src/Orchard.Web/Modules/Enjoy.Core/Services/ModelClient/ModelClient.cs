@@ -40,16 +40,19 @@ namespace Enjoy.Core
         }
         public CardCounponModel Convert(CardCounponViewModel viewModel, MerchantModel merchant)
         {
+
             var model = new CardCounponModel();
-            model.CreatedTime = viewModel.CreatedTime;
+            model.CreatedTime = viewModel.Id.Equals(0) ? DateTime.UtcNow.ToUnixStampDateTime() : viewModel.CreatedTime;
             model.Id = viewModel.Id;
             model.Merchant = merchant;
+            //// Enjoy TOOD :need change model.BarandName to model.Title
+            model.BrandName = viewModel.BaseInfo.Title;
             model.LastUpdateTime = DateTime.UtcNow.ToUnixStampDateTime();
             model.Quantity = (int)viewModel.BaseInfo.Sku.Quantity;
             model.Type = viewModel.CardType;
             model.WxNo = string.Empty;
             model.BrandName = viewModel.BaseInfo.BrandName;
-         
+            
             switch (viewModel.CardType)
             {
                 case CardTypes.CASH:
@@ -127,32 +130,46 @@ namespace Enjoy.Core
                 case CardTypes.MEMBER_CARD:
                     break;
             }
+            model.CardCouponWapper.Card.Specific((baseInfo, advanceInfo) =>
+            {
+
+                if (Enum.TryParse<ExpiryDateTypes>(baseInfo.Dateinfo.Type, out ExpiryDateTypes type))
+                {
+                    switch (type)
+                    {
+                        case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
+                            
+
+                            break;
+                        case ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE:
+                            if (DateTime.TryParse(viewModel.FixedExpiryDateDescriptor[0], out DateTime beginTime))
+                            {
+                                baseInfo.Dateinfo.BeginTimestamp = beginTime.ToUnixStampDateTime();
+                            }
+
+                            if (DateTime.TryParse(viewModel.FixedExpiryDateDescriptor[1], out DateTime endTime))
+                            {
+                                baseInfo.Dateinfo.EndTimestamp = endTime.ToUnixStampDateTime();
+                            }
+                            
+                            break;
+                        case ExpiryDateTypes.DATE_TYPE_PERMANENT://会员卡 专用
+                            break;
+                    }
+                }
+                baseInfo.BrandName = merchant.BrandName;
+                baseInfo.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
+                baseInfo.ServicePhone = merchant.Mobile;
+                baseInfo.Source = "微信卡券营销平台";
+
+                advanceInfo.TextImageList = advanceInfo.TextImageList.Where(o => o.ImageUrl != null).ToList();
+
+
+            });
             return model;
         }
 
-        //public Merchant Convert(MerchantViewModel model, IEnjoyAuthService auth)
-        //{
-        //    return new Merchant()
-        //    {
-        //        AgreementMediaId = model.AgreementMediaId,
-        //        AppId = string.Empty,
-        //        BenginTime = DateTime.Now.ToUnixStampDateTime(),
-        //        BrandName = model.BrandName,
-        //        Contact = model.Contact,
-        //        CreateTime = DateTime.Now.ToUnixStampDateTime(),
-        //        EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime(),
-        //        LogoUrl = model.LogoUrl,// model.LogoUrl,
-        //        Mobile = model.Mobile,
-        //        OperatorMediaId = model.OperatorMediaId,
-        //        PrimaryCategoryId = model.PrimaryCategoryId,
-        //        Protocol = model.Protocol,
-        //        SecondaryCategoryId = model.SecondaryCategoryId,
-        //        Status = MerchantStatus.CHECKING.ToString(),
-        //        UpdateTime = DateTime.Now.ToUnixStampDateTime(),
-        //        EnjoyUser = auth.GetAuthenticatedUser(),
-        //        Address = string.Format("{0}/{1}/{2}", model.Province, model.City, model.Area)
-        //    };
-        //}
+
         public WxRequestWapper<SubMerchant> Convert(Merchant merchant)
         {
             return new WxRequestWapper<SubMerchant>()
