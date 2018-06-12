@@ -14,7 +14,7 @@
 
         </div>
         <div class="col-md-4 ">
-            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreatePost", new {   ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("CreatePost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
                 @Html.HiddenFor(m => m.Merchant.Id)
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.BrandName), "商户名称", Model.Merchant.BrandName, 20, true))
@@ -52,13 +52,10 @@
                         <select class="form-control area" name="@Html.NameOf(m => m.Area)" data-value="@Model.Area"></select>
                     </div>
                 </div>
-                @{
-                    if ((Model.Status == Enjoy.Core.AuditStatus.APPROVED) == false)
-                    {
-                        <button type="submit" class="btn btn-lg btn-success btn-block">保持并提交审核</button>
-                    }
-                }
-
+                if ((Model.Status == Enjoy.Core.AuditStatus.APPROVED) == false)
+                {
+                    <button type="submit" class="btn btn-lg btn-success btn-block">保存并提交审核</button>
+                }                
             }
 
 

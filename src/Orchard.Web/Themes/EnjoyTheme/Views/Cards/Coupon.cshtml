@@ -71,14 +71,14 @@
                                                     <td>@item.MerchantName</td>
                                                     <td>@item.BrandName</td>
                                                     <td>@item.TypeName</td>
-                                                    <td>@(item.CreatedTime.HasValue? item.CreatedTime.Value.ToString("yyyy-MM-dd HH:mm"):"")</td>
+                                                    <td>@(item.CreatedTime.HasValue ? item.CreatedTime.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                                                     <td>@(item.LastUpdateTime.HasValue ? item.LastUpdateTime.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                                                     <td>@item.Quantity</td>
+                                                    <td>未发布</td>
                                                     <td>
                                                         <a href="/cards/publish?id=@item.Id">发布</a>
                                                         <a href="/cards/showqr?id=@item.Id">投放</a>
                                                     </td>
-                                                    <td></td>
                                                 </tr>
                                             }
                                         }

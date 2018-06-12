@@ -79,7 +79,7 @@ namespace Enjoy.Core.Controllers
         public ActionResult Publish(int id)
         {
             var result = this.CardCoupon.Publish(id);
-            this.CardCoupon.TestwhiteList(new string[] { "s66822351","ebying"});
+            this.CardCoupon.TestwhiteList(new string[] { "s66822351","ebyinglw"});
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
         public ActionResult ShowQR(int id)
