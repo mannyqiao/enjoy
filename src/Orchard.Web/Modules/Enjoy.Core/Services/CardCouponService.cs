@@ -79,7 +79,7 @@ namespace Enjoy.Core.Services
                         card = new
                         {
                             card_id = cardid,
-                            code = "",
+                            code = CodeTypes.CODE_TYPE_QRCODE.ToString(),
                             openid = "",
                             is_unique_code = false,
                             outer_str = "13b",
@@ -151,7 +151,8 @@ namespace Enjoy.Core.Services
             });
             if (result.HasError == false)
             {
-
+                model.WxNo = result.CardId;
+                this.SaveOrUpdate(model);
             }
             return result;
         }

@@ -11,11 +11,11 @@ namespace Enjoy.Core.ViewModels
     {
         public MerchantViewModel()
         {
-            
-        }
-     
-        public MerchantModel Merchant { get; set; }
 
+        }
+
+        public MerchantModel Merchant { get; set; }
+        
         public int OwnerId { get; set; }
         public string Province { get; set; }
         public string City { get; set; }

@@ -21,11 +21,7 @@
         [JsonProperty("cash")]
         public Coupon Coupon { get; set; }
 
-        [JsonProperty("least_cost")]
-        public decimal LeastCost { get; set; }
-
-        [JsonProperty("reduce_cost")]
-        public decimal ReduceCost { get; set; }
+    
 
         public void Specific(Action<BaseInfo, AdvancedInfo> action)
         {

@@ -32,6 +32,7 @@
                     <div class="tab-pane fade in active" id="profile">
                         <h4>&nbsp;</h4>
                         <div class="form-group ">
+                            @Html.HiddenFor(o=>o.WxNo)
                             @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), CardTypes.DISCOUNT.ToString(),
                                     new RadioUIElement.RadioItem[]{
                                                 new RadioUIElement.RadioItem(CardTypes.DISCOUNT.ToString(),Html.NameOf(o=>o.CardType),"折扣券",CardTypes.DISCOUNT.ToString()),
@@ -39,7 +40,7 @@
                                                 new RadioUIElement.RadioItem(CardTypes.CASH.ToString(),Html.NameOf(o=>o.CardType),"代金券",CardTypes.CASH.ToString()),
                                                 new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),Html.NameOf(o=>o.CardType),"优惠券",CardTypes.GENERAL_COUPON.ToString()),
                                                 new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),Html.NameOf(o=>o.CardType),"团购券",CardTypes.GROUPON.ToString()),
-                                         }))                            
+                                         }))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "标题", Model.BaseInfo.Title, 20, true))
                             <fieldset id="group_@(CardTypes.DISCOUNT.ToString())">
                                 @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度", Model.Discount.Discount, true))
@@ -99,7 +100,7 @@
                                             <div class="col-md-2">
                                                 @Html.Partial("Component/_DecimalPartial",
                                                new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedBeginTerm), "",Model.BaseInfo.Dateinfo.FixedBeginTerm, false))
-                                            
+
                                             </div>
                                             <label for="inputValue" class="col-md-2 control-label  pull-left">天</label>
                                             <label for="inputValue" class="col-md-2 control-label  pull-left">有效期</label>
@@ -115,6 +116,7 @@
                             </fieldset>
                         </div>
                         @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true))
+                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Uselimit), "可核销次数限制", Model.BaseInfo.Uselimit, true,"不填默认为50次"))
                         @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
                         @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Notice), "操作提示", Model.BaseInfo.Notice, 100, true))
                         @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))

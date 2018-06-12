@@ -20,8 +20,7 @@
         [JsonProperty("groupon")]
         public Coupon Coupon { get; set; }
 
-        [JsonProperty("gift")]
-        public string Gift { get; set; }
+      
         public void Specific(Action<BaseInfo, AdvancedInfo> action)
         {
             action(Coupon.BaseInfo, Coupon.AdvancedInfo);

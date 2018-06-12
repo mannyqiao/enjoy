@@ -71,8 +71,8 @@
                                                     <td>@item.MerchantName</td>
                                                     <td>@item.BrandName</td>
                                                     <td>@item.TypeName</td>
-                                                    <td>@item.CreatedTime??""</td>
-                                                    <td>@item.LastUpdateTime??""</td>
+                                                    <td>@(item.CreatedTime.HasValue? item.CreatedTime.Value.ToString("yyyy-MM-dd HH:mm"):"")</td>
+                                                    <td>@(item.LastUpdateTime.HasValue ? item.LastUpdateTime.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                                                     <td>@item.Quantity</td>
                                                     <td>
                                                         <a href="/cards/publish?id=@item.Id">发布</a>

@@ -47,6 +47,7 @@ namespace Enjoy.Core.ViewModels
 
         }
         public int Id { get; set; }
+        public string WxNo { get; set; }
         public CardTypes CardType { get; set; }
         public BaseInfo BaseInfo { get; set; }
         public AdvancedInfo AdvancedInfo { get; set; }

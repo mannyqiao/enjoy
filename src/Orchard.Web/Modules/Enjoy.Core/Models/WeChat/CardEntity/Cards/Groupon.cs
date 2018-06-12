@@ -22,8 +22,7 @@
         [JsonProperty("groupon")]
         public Coupon Coupon { get; set; }
 
-        [JsonProperty("deal_detail")]
-        public string DealDetail { get; set; }
+ 
 
 
 
