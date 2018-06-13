@@ -1,6 +1,7 @@
 ﻿
 @using Enjoy.Core.Models;
 @using Enjoy.Core.ViewModels;
+@using Enjoy.Core;     
 @model Enjoy.Core.Models.PagingData<CardCouponWithoutWapperViewModel>
 <div id="page-wrapper">
     <!-- /.row -->
@@ -15,7 +16,8 @@
             <!-- /.panel -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a type="button" class="btn btn-primary btn-sm" href="/cards/createcoupon"><i class="fa fa-plus fa-fw"></i>新增</a>
+                    <a type="button" class="btn btn-primary btn-sm" href="/cards/createcoupon"><i class="fa fa-plus fa-fw"></i>新增券</a>
+                    <a type="button" class="btn btn-primary btn-sm" href="/cards/createmcard"><i class="fa fa-plus fa-fw"></i>新增会员卡</a>
                     <div class="pull-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -48,7 +50,7 @@
                                 <table class="table table-bordered table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th class="hidden"> 系统编号</th>
+                                            
                                             <th>卡券编号</th>
                                             <th>所属商户</th>
                                             <th>卡券名称</th>
@@ -66,7 +68,7 @@
                                             foreach (var item in Model.Items)
                                             {
                                                 <tr>
-                                                    <td class="hidden"> @item.Id</td>
+                                                    
                                                     <td>@item.WxNo</td>
                                                     <td>@item.MerchantName</td>
                                                     <td>@item.BrandName</td>
@@ -74,8 +76,9 @@
                                                     <td>@(item.CreatedTime.HasValue ? item.CreatedTime.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                                                     <td>@(item.LastUpdateTime.HasValue ? item.LastUpdateTime.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                                                     <td>@item.Quantity</td>
-                                                    <td>未发布</td>
+                                                    <td>@item.Status.TextOf()</td>
                                                     <td>
+                                                        <a href="/cards/publish?id=@item.Id">查看/编辑</a>
                                                         <a href="/cards/publish?id=@item.Id">发布</a>
                                                         <a href="/cards/showqr?id=@item.Id">投放</a>
                                                     </td>

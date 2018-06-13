@@ -114,6 +114,7 @@ namespace Enjoy.Core
                 .Column("Quantity", System.Data.DbType.Int32, column => column.WithDefault(100))
                 .Column("CreatedTime", System.Data.DbType.Int64)
                 .Column("LastUpdateTime", System.Data.DbType.Int64)
+                .Column("Status", System.Data.DbType.String, column => column.WithLength(100))
                 .Column("JsonMetadata", System.Data.DbType.String, column => column.Unlimited())
             );
 
@@ -146,7 +147,7 @@ namespace Enjoy.Core
             CreateMenuItem(menu, "平台账户", "1.5", "/finance/paccount", "", true);
 
             CreateMenuItem(menu, "卡券中心", "2", "javascript:void(0);", "fa fa-exchange fa-fw", true);
-            CreateMenuItem(menu, "优惠券", "2.1", "/cards/coupon", "", false);
+            CreateMenuItem(menu, "卡券管理", "2.1", "/cards/coupon", "", false);
             CreateMenuItem(menu, "会员卡", "2.2", "/cards/mcard", "", true);
 
 

@@ -42,6 +42,7 @@ namespace Enjoy.Core
         {
 
             var model = new CardCounponModel();
+            viewModel.BaseInfo.LogoUrl = merchant.LogoUrl;
             model.CreatedTime = viewModel.Id.Equals(0) ? DateTime.UtcNow.ToUnixStampDateTime() : viewModel.CreatedTime;
             model.Id = viewModel.Id;
             model.Merchant = merchant;
@@ -51,7 +52,7 @@ namespace Enjoy.Core
             model.Quantity = (int)viewModel.BaseInfo.Sku.Quantity;
             model.Type = viewModel.CardType;
             model.WxNo = viewModel.WxNo;
-            
+            model.Status = viewModel.CCStatus;
 
             switch (viewModel.CardType)
             {
@@ -60,11 +61,11 @@ namespace Enjoy.Core
                     {
                         Card = new WeChat::CashCoupon()
                         {
-                            Coupon = new WeChat.Coupon()
+                            CardCoupon = new WeChat.CashWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
-                                LeastCost = viewModel.Cash.LeastCost ,
+                                LeastCost = viewModel.Cash.LeastCost,
                                 ReduceCost = viewModel.Cash.ReduceCost
                             }
                         }
@@ -75,13 +76,13 @@ namespace Enjoy.Core
                     {
                         Card = new WeChat::DiscountCoupon()
                         {
-                            Coupon = new WeChat.Coupon()
+                            CardCoupon = new WeChat.DiscountWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
-                                Discount = viewModel.Discount.Discount ,
+                                Discount = viewModel.Discount.Discount,
                             },
-                            
+
                         }
                     };
                     break;
@@ -90,13 +91,13 @@ namespace Enjoy.Core
                     {
                         Card = new WeChat::GeneralCoupon()
                         {
-                            Coupon = new WeChat.Coupon()
+                            CardCoupon = new WeChat.GeneralWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
                                 DefaultDetail = viewModel.General.DefaultDetail
                             }
-                            
+
                         }
                     };
                     break;
@@ -105,13 +106,13 @@ namespace Enjoy.Core
                     {
                         Card = new WeChat::GiftCoupon()
                         {
-                            Coupon = new WeChat.Coupon()
+                            CardCoupon = new WeChat.GiftWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
                                 Gift = viewModel.Gift.Detail
                             }
-                            
+
                         }
                     };
                     break;
@@ -120,7 +121,7 @@ namespace Enjoy.Core
                     {
                         Card = new WeChat::Groupon()
                         {
-                            Coupon = new WeChat.Coupon()
+                            CardCoupon = new WeChat.GrouponWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
@@ -130,6 +131,33 @@ namespace Enjoy.Core
                     };
                     break;
                 case CardTypes.MEMBER_CARD:
+                    model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
+                    {
+                        Card = new WeChat::MemberCard()
+                        {
+                            CardCoupon = new WeChat::MerberCardWapper()
+                            {
+                                BaseInfo = viewModel.BaseInfo,
+                                AdvancedInfo = viewModel.AdvancedInfo,
+                                BackgroundPicUrl = viewModel.MerberCard.BackgroundPicUrl,
+                                SupplyBanlance = true,
+                                SupplyBonus = true,
+                                ActivateUrl = "www.baidu.com",
+                                CustomCell = new WeChat.CustomCell()
+                                {
+                                    Name = "直定义入口",
+                                    Tips = "直定义提示",
+                                    Url = "www.baidu.com"
+                                },
+                                CustomField1 = new WeChat.CustomField()
+                                {
+                                    NameType = "FIELD_NAME_TYPE_LEVEL",
+                                    Url = "www.baidu.com"
+                                }
+                                
+                            }
+                        }
+                    };
                     break;
             }
             model.CardCouponWapper.Card.Specific((baseInfo, advanceInfo) =>
@@ -175,7 +203,7 @@ namespace Enjoy.Core
 
                 advanceInfo.Abstract = new WeChat.Abstract()
                 {
-                     AbstractX ="柠檬工坊推出更多东西，期待你的光临"
+                    AbstractX = "柠檬工坊推出更多东西，期待你的光临"
                 };
                 advanceInfo.TimeLimits = null;
 

@@ -4,10 +4,10 @@
     using Enjoy.Core;
     using System;
 
-    public class DiscountCoupon: ICardCoupon
+    public class DiscountCoupon: BaseCardCoupon<DiscountWapper>
     {
         [JsonProperty("card_type")]
-        public string CardType
+        public override string CardType
         {
             get
             {
@@ -15,15 +15,8 @@
             }           
         }
 
-
         [JsonProperty("discount")]
-        public Coupon Coupon { get; set; }
+        public override DiscountWapper CardCoupon { get; set; }
 
-      
-
-        public void Specific(Action<BaseInfo, AdvancedInfo> action)
-        {
-            action(Coupon.BaseInfo, Coupon.AdvancedInfo);
-        }
     }
 }

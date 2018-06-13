@@ -7,28 +7,20 @@
     /// <summary>
     /// 团购券
     /// </summary>
-    public class Groupon: ICardCoupon
+    public class Groupon : BaseCardCoupon<GrouponWapper>
     {
         [JsonProperty("card_type")]
-        public string CardType
+        public override string CardType
         {
             get
             {
                 return CardTypes.GROUPON.ToString();
             }
-            set { }
+
         }
 
         [JsonProperty("groupon")]
-        public Coupon Coupon { get; set; }
-
- 
-
-
-
-        public void Specific(Action<BaseInfo, AdvancedInfo> action)
-        {
-            action(Coupon.BaseInfo, Coupon.AdvancedInfo);
-        }
+        public override GrouponWapper CardCoupon { get; set; }
+       
     }
 }

@@ -7,7 +7,7 @@ namespace Enjoy.Core
 
     public interface ICardCouponService : IDependency
     {
-        WxCardCouponWapper<ICardCoupon> CreateCardCouponInstance(CardTypes type);
+        //WxCardCouponWapper<ICardCoupon> CreateCardCouponInstance(CardTypes type);
 
         ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model);
 

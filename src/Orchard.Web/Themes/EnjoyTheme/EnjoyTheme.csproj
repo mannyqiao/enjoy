@@ -320,6 +320,8 @@
     <Content Include="Views\Merchant\MyMerchant.cshtml" />
     <Content Include="Views\Merchant\View.cshtml" />
     <Content Include="Views\Cards\ShowQR.cshtml" />
+    <Content Include="Views\Cards\View.cshtml" />
+    <Content Include="Views\Cards\CreateMCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
