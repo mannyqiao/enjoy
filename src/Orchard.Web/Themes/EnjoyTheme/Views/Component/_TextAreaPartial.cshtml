@@ -3,6 +3,6 @@
     <div id="group_@Model.Id" name="group_@Model.Id" class="form-group ">
         <span class="@(Model.Required?"required":"hidden") ">*</span>
         <label>@Model.Text</label>
-        <textarea id="@Model.Id" name="@Model.Id" type="text" class="form-control" required="@Model.Required" placeholder="@Model.Placeholder">@Model.Value</textarea>        
+        <textarea id="@Model.Id" name="@Model.Name" type="text" class="form-control" required="@Model.Required" placeholder="@Model.Placeholder">@Model.Value</textarea>        
     </div>
 </fieldset>

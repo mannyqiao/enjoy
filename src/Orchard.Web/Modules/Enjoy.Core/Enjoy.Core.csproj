@@ -153,6 +153,7 @@
     <Compile Include="Models\WeChat\CardEntity\Abstract.cs" />
     <Compile Include="Models\WeChat\CardEntity\AdvancedInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\BaseInfo.cs" />
+    <Compile Include="Models\WeChat\CardEntity\BonusRule.cs" />
     <Compile Include="Models\WeChat\CardEntity\Cards\CashCoupon.cs" />
     <Compile Include="Models\WeChat\CardEntity\Cards\Coupon.cs" />
     <Compile Include="Models\WeChat\CardEntity\Cards\DiscountCoupon.cs" />

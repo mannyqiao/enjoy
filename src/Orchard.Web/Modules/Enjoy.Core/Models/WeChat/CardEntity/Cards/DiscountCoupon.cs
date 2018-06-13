@@ -16,11 +16,10 @@
         }
 
 
-        [JsonProperty("card")]
+        [JsonProperty("discount")]
         public Coupon Coupon { get; set; }
 
-        [JsonProperty("discount")]
-        public decimal Discount { get; set; }
+      
 
         public void Specific(Action<BaseInfo, AdvancedInfo> action)
         {

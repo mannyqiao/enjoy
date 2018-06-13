@@ -19,8 +19,7 @@
         [JsonProperty("groupon")]
         public Coupon Coupon { get; set; }
 
-        [JsonProperty("default_detail")]
-        public string DefaultDetail { get; set; }
+      
 
         public void Specific(Action<BaseInfo, AdvancedInfo> action)
         {

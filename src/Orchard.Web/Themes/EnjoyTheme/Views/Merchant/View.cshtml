@@ -5,7 +5,7 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">创建商户</h1>
+            <h1 class="page-header">查看商户</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -52,13 +52,10 @@
                         <select class="form-control area" name="@Html.NameOf(m => m.Area)" data-value="@Model.Area"></select>
                     </div>
                 </div>
-                @{
-                    if ((Model.Status == Enjoy.Core.AuditStatus.APPROVED) == false)
-                    {
-                        <button type="submit" class="btn btn-lg btn-success btn-block">保持并提交审核</button>
-                    }
-                }
-
+                if ((Model.Status == Enjoy.Core.AuditStatus.APPROVED) == false)
+                {
+                    <button type="submit" class="btn btn-lg btn-success btn-block">保存并提交审核</button>
+                }                
             }
 
 

@@ -55,7 +55,7 @@ namespace Enjoy.Core.Controllers
                 return this.RedirectLocal("/access/sign");
 
             var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(), this.WeChat.GetApplyProtocol());
-            return View(this.Merchant.GetDefaultMerchant());
+            return View(viewModel);
         }
         [HttpPost]
         public ActionResult CreatePost(MerchantViewModel model)

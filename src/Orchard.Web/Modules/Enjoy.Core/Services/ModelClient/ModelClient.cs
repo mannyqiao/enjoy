@@ -50,9 +50,9 @@ namespace Enjoy.Core
             model.LastUpdateTime = DateTime.UtcNow.ToUnixStampDateTime();
             model.Quantity = (int)viewModel.BaseInfo.Sku.Quantity;
             model.Type = viewModel.CardType;
-            model.WxNo = string.Empty;
-            model.BrandName = viewModel.BaseInfo.BrandName;
+            model.WxNo = viewModel.WxNo;
             
+
             switch (viewModel.CardType)
             {
                 case CardTypes.CASH:
@@ -63,11 +63,10 @@ namespace Enjoy.Core
                             Coupon = new WeChat.Coupon()
                             {
                                 BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo
-                            },
-                            LeastCost = viewModel.Cash.LeastCost ?? 0,
-                            ReduceCost = viewModel.Cash.ReduceCost ?? 0
-
+                                AdvancedInfo = viewModel.AdvancedInfo,
+                                LeastCost = viewModel.Cash.LeastCost ,
+                                ReduceCost = viewModel.Cash.ReduceCost
+                            }
                         }
                     };
                     break;
@@ -79,9 +78,10 @@ namespace Enjoy.Core
                             Coupon = new WeChat.Coupon()
                             {
                                 BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo
+                                AdvancedInfo = viewModel.AdvancedInfo,
+                                Discount = viewModel.Discount.Discount ,
                             },
-                            Discount = viewModel.Discount.Discount ?? 0,
+                            
                         }
                     };
                     break;
@@ -93,9 +93,10 @@ namespace Enjoy.Core
                             Coupon = new WeChat.Coupon()
                             {
                                 BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo
-                            },
-                            DefaultDetail = viewModel.General.DefaultDetail
+                                AdvancedInfo = viewModel.AdvancedInfo,
+                                DefaultDetail = viewModel.General.DefaultDetail
+                            }
+                            
                         }
                     };
                     break;
@@ -107,9 +108,10 @@ namespace Enjoy.Core
                             Coupon = new WeChat.Coupon()
                             {
                                 BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo
-                            },
-                            Gift = viewModel.Gift.Detail
+                                AdvancedInfo = viewModel.AdvancedInfo,
+                                Gift = viewModel.Gift.Detail
+                            }
+                            
                         }
                     };
                     break;
@@ -121,9 +123,9 @@ namespace Enjoy.Core
                             Coupon = new WeChat.Coupon()
                             {
                                 BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo
-                            },
-                            DealDetail = viewModel.Groupon.Detail,
+                                AdvancedInfo = viewModel.AdvancedInfo,
+                                DealDetail = viewModel.Groupon.Detail,
+                            }
                         }
                     };
                     break;
@@ -138,7 +140,7 @@ namespace Enjoy.Core
                     switch (type)
                     {
                         case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
-                            
+
 
                             break;
                         case ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE:
@@ -151,7 +153,7 @@ namespace Enjoy.Core
                             {
                                 baseInfo.Dateinfo.EndTimestamp = endTime.ToUnixStampDateTime();
                             }
-                            
+
                             break;
                         case ExpiryDateTypes.DATE_TYPE_PERMANENT://会员卡 专用
                             break;
@@ -161,9 +163,21 @@ namespace Enjoy.Core
                 baseInfo.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
                 baseInfo.ServicePhone = merchant.Mobile;
                 baseInfo.Source = "微信卡券营销平台";
-
                 advanceInfo.TextImageList = advanceInfo.TextImageList.Where(o => o.ImageUrl != null).ToList();
+                //未设置的属性
+                baseInfo.LocationIdList = new long[] { 3233, 333 };
+                baseInfo.CenterSubTitle = "立即使用subtitle";
+                baseInfo.CustomUrlName = "CustomUrlName";
+                baseInfo.CustomUrl = "http://www.qq.com";
+                baseInfo.CustomUrlSubTitle = "customUrlSubTitle";
+                baseInfo.PromotionUrlName = "更多优惠";
+                baseInfo.PromotionUrl = "http://www.badiuc.om";
 
+                advanceInfo.Abstract = new WeChat.Abstract()
+                {
+                     AbstractX ="柠檬工坊推出更多东西，期待你的光临"
+                };
+                advanceInfo.TimeLimits = null;
 
             });
             return model;
