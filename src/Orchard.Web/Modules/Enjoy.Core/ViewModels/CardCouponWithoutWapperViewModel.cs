@@ -13,7 +13,7 @@ namespace Enjoy.Core.ViewModels
             this.CreatedTime = model.CreatedTime.ToDateTimeFromUnixStamp();
             this.LastUpdateTime = model.CreatedTime.ToDateTimeFromUnixStamp();
             this.Quantity = model.Quantity;
-            this.TypeName = model.Type.ToDisplayName();
+            this.TypeName = model.Type.TextOf();
             this.WxNo = model.WxNo;
         }
 
@@ -29,5 +29,6 @@ namespace Enjoy.Core.ViewModels
 
         public DateTime? CreatedTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
+        public CCStatus Status { get; set; }
     }
 }

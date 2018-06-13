@@ -26,41 +26,41 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public Models::WxCardCouponWapper<ICardCoupon> CreateCardCouponInstance(CardTypes type)
-        {
-            switch (type)
-            {
-                case CardTypes.CASH:
-                    return new Models::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new CashCoupon()
-                    };
-                case CardTypes.DISCOUNT:
-                    return new Models::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new DiscountCoupon()
-                    };
-                case CardTypes.GENERAL_COUPON:
-                    return new Models::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new GeneralCoupon()
-                    };
-                case CardTypes.GIFT:
-                    return new Models::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new GiftCoupon()
-                    };
-                case CardTypes.GROUPON:
-                    return new Models::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new Groupon()
-                    };
+        //public Models::WxCardCouponWapper<ICardCoupon> CreateCardCouponInstance(CardTypes type)
+        //{
+        //    switch (type)
+        //    {
+        //        case CardTypes.CASH:
+        //            return new Models::WxCardCouponWapper<ICardCoupon>()
+        //            {
+        //                Card = new CashCoupon()
+        //            };
+        //        case CardTypes.DISCOUNT:
+        //            return new Models::WxCardCouponWapper<ICardCoupon>()
+        //            {
+        //                Card = new DiscountCoupon()
+        //            };
+        //        case CardTypes.GENERAL_COUPON:
+        //            return new Models::WxCardCouponWapper<ICardCoupon>()
+        //            {
+        //                Card = new GeneralCoupon()
+        //            };
+        //        case CardTypes.GIFT:
+        //            return new Models::WxCardCouponWapper<ICardCoupon>()
+        //            {
+        //                Card = new GiftCoupon()
+        //            };
+        //        case CardTypes.GROUPON:
+        //            return new Models::WxCardCouponWapper<ICardCoupon>()
+        //            {
+        //                Card = new Groupon()
+        //            };
 
-                case CardTypes.MEMBER_CARD:
-                    break;
-            }
-            throw new NotSupportedException("No supported with type:" + type.ToString());
-        }
+        //        case CardTypes.MEMBER_CARD:
+        //            break;
+        //    }
+        //    throw new NotSupportedException("No supported with type:" + type.ToString());
+        //}
 
         public Models.QRCodeWxResponse CreateQRCode(string cardid)
         {
@@ -241,6 +241,7 @@ namespace Enjoy.Core.Services
                 r.Quantity = m.Quantity;
                 r.WxNo = m.WxNo;
                 r.Type = m.Type;
+                r.Status = m.Status;
                 r.JsonMetadata = m.CardCouponWapper.ToJson();
                 return r;
             });

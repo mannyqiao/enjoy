@@ -4,10 +4,10 @@
     using Enjoy.Core;
     using System;
 
-    public class GeneralCoupon: ICardCoupon
+    public class GeneralCoupon: BaseCardCoupon<GeneralWapper>
     {
         [JsonProperty("card_type")]
-        public string CardType
+        public override string CardType
         {
             get
             {
@@ -17,14 +17,11 @@
         }
 
         [JsonProperty("groupon")]
-        public Coupon Coupon { get; set; }
+        public override GeneralWapper CardCoupon { get; set; }
 
       
 
-        public void Specific(Action<BaseInfo, AdvancedInfo> action)
-        {
-            action(Coupon.BaseInfo, Coupon.AdvancedInfo);
-        }
+        
         //default_detail":"优惠券专用，填写优惠详情"
     }
 }

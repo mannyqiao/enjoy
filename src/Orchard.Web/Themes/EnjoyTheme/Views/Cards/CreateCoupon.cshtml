@@ -178,9 +178,7 @@
                     </div>
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
-                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.BaseInfo.LogoUrl),
-                       "Logo图片", MediaUploadTypes.Material, Model.BaseInfo.LogoUrl,true, Model.BaseInfo.LogoUrl))
+                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))                        
                         @*@Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterTitle), "入口标题", Model.BaseInfo.CenterTitle, "", string.Empty, true))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@

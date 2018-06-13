@@ -6,6 +6,7 @@ namespace Enjoy.Core
     using System;
     using WeChat.Models;
     using Enjoy.Core.Models;
+    using System.Linq;
     public static class CardCouponExtension
     {
         public static WxCardCouponWapper<ICardCoupon> DeserializeSpecificCardCoupon(this string json, CardTypes type)
@@ -19,7 +20,7 @@ namespace Enjoy.Core
                         {
                             Card = cash.Card
                         };
-                    }                   
+                    }
                 case CardTypes.DISCOUNT:
                     {
                         var discount = json.DeserializeToObject<WxCardCouponWapper<DiscountCoupon>>();
@@ -27,7 +28,7 @@ namespace Enjoy.Core
                         {
                             Card = discount.Card
                         };
-                    }                    
+                    }
                 case CardTypes.GENERAL_COUPON:
                     {
                         var general = json.DeserializeToObject<WxCardCouponWapper<GeneralCoupon>>();
@@ -35,7 +36,7 @@ namespace Enjoy.Core
                         {
                             Card = general.Card
                         };
-                    }                    
+                    }
                 case CardTypes.GIFT:
                     {
                         var gift = json.DeserializeToObject<WxCardCouponWapper<GiftCoupon>>();
@@ -54,11 +55,17 @@ namespace Enjoy.Core
                         };
                     }
                 case CardTypes.MEMBER_CARD:
-                    throw new NotImplementedException();
+                    {
+                        var membercard = json.DeserializeToObject<WxCardCouponWapper<MemberCard>>();
+                        return new WxCardCouponWapper<ICardCoupon>()
+                        {
+                            Card = membercard.Card 
+                        };
+                    }
             }
             throw new NotSupportedException("No support with type " + type.ToString());
         }
-        public static string ToDisplayName(this CardTypes type)
+        public static string TextOf(this CardTypes type)
         {
             switch (type)
             {
@@ -76,6 +83,27 @@ namespace Enjoy.Core
                     return "会员卡";
             }
             throw new NotSupportedException("No support with type " + type.ToString());
+        }
+        public static string TextOf(this CCStatus status)
+        {
+            var text = status.ToString();
+            return string.Join("|", text.Split(',').Select((o) =>
+            {
+                switch (o)
+                {
+                    case "Editing":
+                        return "编辑中";
+                    case "Published":
+                        return "已发布";
+                    case "Expired":
+                        return "已过期";
+                    case "RunOut":
+                        return "已领完";
+                    case "UseCompleted":
+                        return "核销完毕";
+                }
+                return o;
+            }));
         }
     }
 }

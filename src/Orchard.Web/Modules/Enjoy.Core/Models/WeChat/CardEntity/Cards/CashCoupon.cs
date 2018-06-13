@@ -7,10 +7,10 @@
     /// <summary>
     /// 现金券
     /// </summary>
-    public class CashCoupon : ICardCoupon
+    public class CashCoupon : BaseCardCoupon<CashWapper>
     {
         [JsonProperty("card_type")]
-        public string CardType
+        public override string CardType
         {
             get
             {
@@ -18,14 +18,9 @@
             }
         }
 
+
         [JsonProperty("cash")]
-        public Coupon Coupon { get; set; }
-
-    
-
-        public void Specific(Action<BaseInfo, AdvancedInfo> action)
-        {
-            action(Coupon.BaseInfo, Coupon.AdvancedInfo); 
-        }
+        
+        public override CashWapper CardCoupon { get; set; }
     }
 }

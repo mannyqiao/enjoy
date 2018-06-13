@@ -16,6 +16,7 @@ namespace Enjoy.Core.Models.Records
         public virtual int Quantity { get; set; }
         public virtual long CreatedTime { get; set; }
         public virtual long LastUpdateTime { get; set; }
+        public virtual CCStatus Status { get; set; }
         public virtual string JsonMetadata { get; set; }
     }
 }

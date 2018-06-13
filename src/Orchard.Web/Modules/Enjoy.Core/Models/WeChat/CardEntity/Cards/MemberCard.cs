@@ -3,21 +3,20 @@
     using Newtonsoft.Json;
     using Enjoy.Core;
     using System;
-
-    public class GiftCoupon: BaseCardCoupon<GiftWapper>
+    public class MemberCard : BaseCardCoupon<MerberCardWapper>
     {
-
         [JsonProperty("card_type")]
         public override string CardType
         {
             get
             {
-                return CardTypes.GIFT.ToString();
+                return CardTypes.MEMBER_CARD.ToString();
             }
         }
 
-        [JsonProperty("groupon")]
-        public override GiftWapper CardCoupon { get; set; }
-        
-    }
+        [JsonProperty("member_card")]
+        public override MerberCardWapper CardCoupon { get; set; }
+
+
+}
 }

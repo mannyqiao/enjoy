@@ -25,7 +25,7 @@ namespace Enjoy.Core.ViewModels
                     //BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
                     //EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
                 },
-                Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault(),               
+                Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault(),
                 Getlimit = 1,
                 CenterTitle = "立即使用",
                 CenterUrl = "http://wwww.baidu.com",//打开商户小程序的Url,
@@ -44,7 +44,7 @@ namespace Enjoy.Core.ViewModels
             this.AdvancedInfo.UseCondition.CanUseWithOtherDiscount = false;
             this.BaseInfo.CanShare = true;
             this.BaseInfo.CanGivefriend = true;
-
+            this.MerberCard = new MerberCardWapper() { };
         }
         public int Id { get; set; }
         public string WxNo { get; set; }
@@ -56,6 +56,7 @@ namespace Enjoy.Core.ViewModels
         public GiftSpecific Gift { get; set; }
         public GrounponSpecific Groupon { get; set; }
         public GeneralCouponSpecific General { get; set; }
+        public MerberCardWapper MerberCard{ get; set; }
         public ApplyScopes UseProductScope { get; set; }
         public ApplyScopes UseShopScope { get; set; }
         public long CreatedTime { get; set; }
@@ -71,6 +72,7 @@ namespace Enjoy.Core.ViewModels
         public decimal?[] SpecifiedExpiryDateDescriptor { get; set; }
         //public ApplyScopes SpendScope { get; set; }
         public string[] AllowShops { get; set; }
+        public CCStatus CCStatus { get; set; }
     }
     public class CashSpecific
     {
