@@ -131,6 +131,7 @@ namespace Enjoy.Core
                     };
                     break;
                 case CardTypes.MEMBER_CARD:
+                    viewModel.BaseInfo.Dateinfo.Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString();
                     model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
                     {
                         Card = new WeChat::MemberCard()
@@ -153,8 +154,10 @@ namespace Enjoy.Core
                                 {
                                     NameType = "FIELD_NAME_TYPE_LEVEL",
                                     Url = "www.baidu.com"
-                                }
-                                
+                                },
+                                Prerogative = "Prerogative",
+                                AutoActivate = false,
+                                Discount = 90
                             }
                         }
                     };
@@ -196,7 +199,7 @@ namespace Enjoy.Core
                 baseInfo.LocationIdList = new long[] { 3233, 333 };
                 baseInfo.CenterSubTitle = "立即使用subtitle";
                 baseInfo.CustomUrlName = "CustomUrlName";
-                baseInfo.CustomUrl = "http://www.qq.com";
+                baseInfo.CustomUrl = "gh_86a091e50ad4@app";
                 baseInfo.CustomUrlSubTitle = "customUrlSubTitle";
                 baseInfo.PromotionUrlName = "更多优惠";
                 baseInfo.PromotionUrl = "http://www.badiuc.om";
