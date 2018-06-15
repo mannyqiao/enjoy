@@ -1,7 +1,7 @@
 ﻿@model Enjoy.Core.UIElements.DatePickerUIElement
-<div class="form-group">
-    <label for="@Model.Id" class="col-md-2 control-label">@Model.Text</label>
-    <div class="input-group date form_date col-md-6" data-date="" data-date-format="yyyy-M-dd" data-link-field="_@Model.Id" data-link-format="yyyy-M-dd">
+<div class="form-group @(Model.Required?"required":"")">
+    <label for="@Model.Id" class="col-md-4 control-label">@Model.Text</label>
+    <div class="input-group date form_date col-md-6 pull-left" data-date="" data-date-format="yyyy-M-dd" data-link-field="_@Model.Id" data-link-format="yyyy-M-dd">
         <input id="@Model.Id" name="@Model.Name" class="form-control" size="16" type="text" value="@Model.Value" readonly>
         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>

@@ -14,8 +14,8 @@ namespace Enjoy.Core.UIElements
             string message = null)
             : base(name, text, value, required, message)
         {
-
+            this.PlaceHolder = placeholder;
         }
-        
+     public string PlaceHolder { get; set; }
     }
 }

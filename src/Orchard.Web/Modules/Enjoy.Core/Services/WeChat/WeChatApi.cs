@@ -8,6 +8,8 @@ namespace Enjoy.Core.Services
     using System;
     using System.Text;
     using System.IO;
+    using System.Security.Cryptography;
+
     public class WeChatApi : IWeChatApi
     {
         private readonly ICacheManager Cache;
@@ -31,7 +33,7 @@ namespace Enjoy.Core.Services
         }
         public string GetToken()
         {
-            return GetToken("wx0c644f8027d78c74", "f1681068dfcd75ef2d7dff14cb3b5fae");
+            return GetToken(EnjoyConstant.Miniprogram.AppId , EnjoyConstant.Miniprogram.AppSecrect);
         }
         public ApplyProtocolWxResponse GetApplyProtocol()
         {
@@ -107,5 +109,81 @@ namespace Enjoy.Core.Services
                 return http;
             });
         }
+
+        public WxSession CreateWxSession(IWxLoginUser loginUseer)
+        {            
+            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(EnjoyConstant.Miniprogram.AppId, loginUseer.Code, EnjoyConstant.Miniprogram.AppSecrect);
+            var auth = request.GetResponseForJson<WeChatAuthorization>();
+            var wechatUser = Decrypt(loginUseer.Data, loginUseer.IV, auth.SessionKey);
+            return new WxSession() { LoginUser = loginUseer, Miniprogram = EnjoyConstant.Miniprogram, WeCharUser = wechatUser, Authorization = auth };
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rawData">公开的用户资料</param>
+        /// <param name="signature"></param>
+        /// <param name="sessionKey"></param>
+        /// <returns></returns>
+        private bool VaildateSignature(string rawData, string signature, string sessionKey)
+        {
+            //创建SHA1签名类  
+            SHA1 sha1 = new SHA1CryptoServiceProvider();
+            //编码用于SHA1验证的源数据  
+            byte[] source = Encoding.UTF8.GetBytes(rawData + sessionKey);
+            //生成签名  
+            byte[] target = sha1.ComputeHash(source);
+            //转化为string类型，注意此处转化后是中间带短横杠的大写字母，需要剔除横杠转小写字母  
+            string result = BitConverter.ToString(target).Replace("-", "").ToLower();
+            //比对，输出验证结果  
+            return signature == result;
+        }
+        public string GetOpenId(IWxLoginUser loginUser)
+        {
+            return this.CreateWxSession(loginUser).WeCharUser.OpenId;
+        }
+        private WxUser Decrypt(string encryptedData, string iv, string sessionKey)
+        {
+#pragma warning disable IDE0017 // Simplify object initialization
+            AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
+#pragma warning restore IDE0017 // Simplify object initialization
+            //设置解密器参数  
+            aes.Mode = CipherMode.CBC;
+            aes.BlockSize = 128;
+            aes.Padding = PaddingMode.PKCS7;
+            //格式化待处理字符串  
+            byte[] byte_encryptedData = Convert.FromBase64String(encryptedData);
+            byte[] byte_iv = Convert.FromBase64String(iv);
+            byte[] byte_sessionKey = Convert.FromBase64String(sessionKey);
+
+            aes.IV = byte_iv;
+            aes.Key = byte_sessionKey;
+            //根据设置好的数据生成解密器实例  
+            ICryptoTransform transform = aes.CreateDecryptor();
+
+            //解密  
+            byte[] final = transform.TransformFinalBlock(byte_encryptedData, 0, byte_encryptedData.Length);
+
+            //生成结果  
+            string result = Encoding.UTF8.GetString(final);
+
+            //反序列化结果，生成用户信息实例  
+            return result.DeserializeToObject<WxUser>();
+        }
+
+        public IWxAuthorization GetWxAuth(IWxLoginUser loginUser)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IWxAccessToken GetWxAccessToken(string appid, string secret)
+        {
+            var request = WeChatApiRequestBuilder.GenerateWxTokenRequestUrl(appid, secret);
+            return request.GetResponseForJson<WxAccessToken>();
+        }
+
+
     }
 }

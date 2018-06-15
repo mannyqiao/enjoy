@@ -11,7 +11,7 @@ namespace WeChat.Models
     {
         public BaseInfo()
         {
-         
+
         }
         [Newtonsoft.Json.JsonProperty("logo_url")]
         public virtual string LogoUrl { get; set; }
@@ -25,7 +25,7 @@ namespace WeChat.Models
         [Newtonsoft.Json.JsonProperty("title")]
         public virtual string Title { get; set; }
 
-        
+
 
         [DefaultValue("Color010")]
         [Newtonsoft.Json.JsonProperty("color")]
@@ -53,31 +53,31 @@ namespace WeChat.Models
         [Newtonsoft.Json.JsonProperty("location_id_list")]
         public virtual long[] LocationIdList { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("use_limit")]
+        [Newtonsoft.Json.JsonProperty("use_limit", NullValueHandling = NullValueHandling.Ignore)]
         [DefaultValue(1)]
-        public virtual int Uselimit { get; set; }
+        public virtual int? Uselimit { get; set; }
 
 
-        [Newtonsoft.Json.JsonProperty("get_limit")]
+        [Newtonsoft.Json.JsonProperty("get_limit", NullValueHandling = NullValueHandling.Ignore)]
 
-        public virtual int Getlimit { get; set; }
+        public virtual int? Getlimit { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("use_custom_code")]
+        [Newtonsoft.Json.JsonProperty("use_custom_code", NullValueHandling = NullValueHandling.Ignore)]
         public virtual bool UseCustomCode { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("bind_openid")]
-        public virtual bool BindOpenid { get; set; }
+        [Newtonsoft.Json.JsonProperty("bind_openid", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual bool? BindOpenid { get; set; }
 
         [Newtonsoft.Json.JsonProperty("can_share")]
-        public virtual bool CanShare { get; set; }
+        public virtual bool? CanShare { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("can_give_friend")]
-        public virtual bool CanGivefriend { get; set; }
+        [Newtonsoft.Json.JsonProperty("can_give_friend",NullValueHandling = NullValueHandling.Ignore)]
+        public virtual bool? CanGivefriend { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("center_title")]
+        [Newtonsoft.Json.JsonProperty("center_title",NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CenterTitle { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("center_sub_title")]
+        [Newtonsoft.Json.JsonProperty("center_sub_title",NullValueHandling =  NullValueHandling.Ignore)]
         public virtual string CenterSubTitle { get; set; }
 
         [Newtonsoft.Json.JsonProperty("center_url")]

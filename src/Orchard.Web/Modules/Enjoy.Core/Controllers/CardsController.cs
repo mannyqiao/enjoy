@@ -73,14 +73,14 @@ namespace Enjoy.Core.Controllers
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
-            
+
             var result = this.CardCoupon.SaveOrUpdate(client.Convert(viewModel, this.Merchant.GetDefaultMerchant()));
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
         public ActionResult Publish(int id)
         {
             var result = this.CardCoupon.Publish(id);
-            this.CardCoupon.TestwhiteList(new string[] { "s66822351", "ebyinglw" });
+            //this.CardCoupon.TestwhiteList(new string[] { "s66822351", "ebyinglw" });
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
         public ActionResult ShowQR(int id)
@@ -105,5 +105,12 @@ namespace Enjoy.Core.Controllers
             return View(viewModel);
         }
 
+        public ActionResult Query(int id)
+        {
+            var model = this.CardCoupon.GetCardCounpon(id);
+            
+
+            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
+        }
     }
 }

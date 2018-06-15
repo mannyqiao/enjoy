@@ -1,8 +1,8 @@
 ﻿@using Enjoy.Core;
 @model Enjoy.Core.UIElements.PaletteUIElement
 <fieldset>
-    <div class="form-group input-group">
-        <label>@Model.Text</label>
+    <div class="form-group input-group @(Model.Required?"required":"")">
+        <label class="control-label">@Model.Text</label>
         <ul class="color-select_list ">
             @foreach (var item in Model.Colors)
             {

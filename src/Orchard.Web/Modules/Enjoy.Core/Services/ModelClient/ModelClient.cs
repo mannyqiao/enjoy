@@ -132,6 +132,10 @@ namespace Enjoy.Core
                     break;
                 case CardTypes.MEMBER_CARD:
                     viewModel.BaseInfo.Dateinfo.Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString();
+                    viewModel.BaseInfo.CenterTitle = "快速买单";
+                    viewModel.BaseInfo.CustomUrlName = "分享赚积分";
+                    viewModel.BaseInfo.CustomUrlSubTitle = "戳我";
+                    viewModel.BaseInfo.CustomUrl = "";
                     model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
                     {
                         Card = new WeChat::MemberCard()
@@ -143,20 +147,15 @@ namespace Enjoy.Core
                                 BackgroundPicUrl = viewModel.MerberCard.BackgroundPicUrl,
                                 SupplyBanlance = true,
                                 SupplyBonus = true,
-                                ActivateUrl = "www.baidu.com",
-                                CustomCell = new WeChat.CustomCell()
-                                {
-                                    Name = "直定义入口",
-                                    Tips = "直定义提示",
-                                    Url = "www.baidu.com"
-                                },
-                                CustomField1 = new WeChat.CustomField()
-                                {
-                                    NameType = "FIELD_NAME_TYPE_LEVEL",
-                                    Url = "www.baidu.com"
-                                },
-                                Prerogative = "Prerogative",
-                                AutoActivate = false,
+                                ActivateUrl = "",
+                                CustomCell = null,
+                                //CustomField1 = new WeChat.CustomField()
+                                //{
+                                //    NameType = "FIELD_NAME_TYPE_LEVEL",
+                                //    Url = "www.baidu.com"
+                                //},
+                                Prerogative = viewModel.MerberCard.Prerogative,
+                                AutoActivate = true,
                                 Discount = 90
                             }
                         }

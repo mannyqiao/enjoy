@@ -117,6 +117,11 @@
     <Compile Include="Contract\Models\IEntityKey.cs" />
     <Compile Include="Contract\Models\IQueryResponseDescriptor.cs" />
     <Compile Include="Contract\Models\IResponse.cs" />
+    <Compile Include="Contract\Models\WeChat\IMiniprogram.cs" />
+    <Compile Include="Contract\Models\WeChat\IWxAccessToken.cs" />
+    <Compile Include="Contract\Models\WeChat\IWxCard.cs" />
+    <Compile Include="Contract\Models\WeChat\IWxLoginUser.cs" />
+    <Compile Include="Contract\Models\WeChat\IWxtAuthorization.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -176,6 +181,7 @@
     <Compile Include="Models\WeChat\CardEntity\TextImage.cs" />
     <Compile Include="Models\WeChat\CardEntity\TimeLimit.cs" />
     <Compile Include="Models\WeChat\CardEntity\UseCondition.cs" />
+    <Compile Include="Models\WeChat\Miniprogram.cs" />
     <Compile Include="Models\WeChat\Request\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\CreateCouponWxResponse.cs" />
@@ -185,6 +191,11 @@
     <Compile Include="Models\WeChat\Response\UploadMediaWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\WxResponse.cs" />
     <Compile Include="Models\WeChat\Wapper.cs" />
+    <Compile Include="Models\WeChat\WxAccessToken.cs" />
+    <Compile Include="Models\WeChat\WxAuthorization.cs" />
+    <Compile Include="Models\WeChat\WxLoginUser.cs" />
+    <Compile Include="Models\WeChat\WxSession.cs" />
+    <Compile Include="Models\WeChat\WxUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManifestProvider.cs" />
     <Compile Include="Routes.cs" />
