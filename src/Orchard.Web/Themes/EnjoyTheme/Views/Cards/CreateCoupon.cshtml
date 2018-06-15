@@ -7,7 +7,7 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">创建券</h1>
+            <h1 class="page-header">创建/需改券</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -41,9 +41,10 @@
                                                 new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),Html.NameOf(o=>o.CardType),"优惠券",CardTypes.GENERAL_COUPON.ToString()),
                                                 new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),Html.NameOf(o=>o.CardType),"团购券",CardTypes.GROUPON.ToString())
                                          }))
-                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "标题", Model.BaseInfo.Title, 20, true))
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "卡券标题", Model.BaseInfo.Title, 12, true, "12以内的中文字符"))
                             <fieldset id="group_@(CardTypes.DISCOUNT.ToString())">
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度", Model.Discount.Discount, true))
+                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度", Model.Discount.Discount, true,
+                               "输入折扣百分比,如9折输入90"))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GIFT.ToString())">
                                 @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Gift.Detail), "兑换详情", Model.Gift.Detail, 120, false))
@@ -59,7 +60,7 @@
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GENERAL_COUPON.ToString())">
                                 @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.General.DefaultDetail), "使用详情", Model.General.DefaultDetail, 102, false))
-                            </fieldset>                           
+                            </fieldset>
                         </div>
                         <div class="form-group">
                             <label>使用门槛</label>
@@ -76,50 +77,47 @@
                             <label>券有效期</label>
                             @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.Type), ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
                                     new RadioUIElement.RadioItem[]{
-                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"固定时间",ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"group_expiry_fixed"),
-                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"指定时间",ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"group_expiry_specified")
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"固定时间",ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"group_date_type_fix_time_range"),
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"指定时间",ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"group_date_type_fix_term")
                                     }))
-                            <fieldset id="group_expiry_fixed">
+                            <fieldset id="group_date_type_fix_time_range">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         @Html.Partial("Component/_DatePickerPartial",
                                        new DatePickerUIElement(Html.NameOf(o=>o.FixedExpiryDateDescriptor),
-                                       "开始时间", Model.FixedExpiryDateDescriptor[0]))
+                                       "开始时间", Model.FixedExpiryDateDescriptor[0],"",true))
                                     </div>
                                     <div class="col-lg-6">
                                         @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.FixedExpiryDateDescriptor),
-                                       "结束时间", Model.FixedExpiryDateDescriptor[1]))
+                                       "结束时间", Model.FixedExpiryDateDescriptor[1],"", true))
                                     </div>
                                 </div>
                             </fieldset>
-                            <fieldset id="group_expiry_specified">
-                                <div class="form-group">
-                                    <div class="col-md-10">
-                                        <div class="form-group row">
-                                            <label class="col-md-2 control-label">领券后</label>
-                                            <div class="col-md-2">
-                                                @Html.Partial("Component/_DecimalPartial",
-                                               new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedBeginTerm), "",Model.BaseInfo.Dateinfo.FixedBeginTerm, false))
+                            <fieldset id="group_date_type_fix_term">
+                                @Html.Partial("Component/_DecimalPartial",
+                                         new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedBeginTerm), "领券后",Model.BaseInfo.Dateinfo.FixedBeginTerm, false,"输入领取后多少天开始有效"))
 
-                                            </div>
-                                            <label for="inputValue" class="col-md-2 control-label  pull-left">天</label>
-                                            <label for="inputValue" class="col-md-2 control-label  pull-left">有效期</label>
-                                            <div class="col-md-2  pull-left">
-                                                @Html.Partial("Component/_DecimalPartial",
-                                               new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedTerm), "",
-                                               Model.BaseInfo.Dateinfo.FixedTerm, false))
-                                            </div>
-                                            <label class="col-md-2 control-label">天</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                @Html.Partial("Component/_DecimalPartial",
+                                          new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedTerm), "有效期",
+                                          Model.BaseInfo.Dateinfo.FixedTerm, false,"输入有效期天数"))
+
                             </fieldset>
                         </div>
-                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true))
-                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Uselimit), "可核销次数限制", Model.BaseInfo.Uselimit, true,"不填默认为50次"))
-                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
-                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Notice), "操作提示", Model.BaseInfo.Notice, 100, true))
-                        @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))
+                        <fieldset>
+                            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true, "输入库存量"))
+                        </fieldset>
+                        <fieldset>
+                            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Uselimit), "可核销次数限制", Model.BaseInfo.Uselimit, true, "不填默认为50次"))
+                        </fieldset>
+                        <fieldset>
+                            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
+                        </fieldset>
+                        <fieldset>
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Notice), "操作提示", Model.BaseInfo.Notice, 100, true))
+                        </fieldset>
+                        <fieldset>
+                            @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))
+                        </fieldset>
                     </div>
                     <div class="tab-pane fade" id="userule">
                         <h4>&nbsp;</h4>
@@ -172,13 +170,13 @@
                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_WITH_PET",EnjoyConstant.BusinessService["BIZ_SERVICE_WITH_PET"],true),
                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_WIFI",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_WIFI"],true)
                            }))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanGivefriend), "可否赠送好友", Model.BaseInfo.CanGivefriend))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanShare), "与他人共享", Model.BaseInfo.CanShare))
+                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanGivefriend), "可否赠送好友", Model.BaseInfo.CanGivefriend??false))
+                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanShare), "与他人共享", Model.BaseInfo.CanShare??false))
                         @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.CanUseWithOtherDiscount), "可与其他优惠共享", Model.AdvancedInfo.UseCondition.CanUseWithOtherDiscount))
                     </div>
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
-                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))                        
+                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
                         @*@Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterTitle), "入口标题", Model.BaseInfo.CenterTitle, "", string.Empty, true))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@

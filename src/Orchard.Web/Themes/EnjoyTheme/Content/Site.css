@@ -7,11 +7,10 @@
     color: #5cb85c;
 }
 
-span .required {
-    color: red;
+.form-group .required .control-label:before {
     content: "*";
+    color: red;
 }
-
 .pointer {
     cursor: pointer;
 }

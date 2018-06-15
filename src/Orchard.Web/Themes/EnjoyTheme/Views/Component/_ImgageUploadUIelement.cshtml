@@ -1,7 +1,7 @@
 ﻿@model Enjoy.Core.UIElements.ImageUploadUIElement
 <fieldset>
-    <div class="form-group input-group pull-left">
-        <label>@Model.Text</label>
+    <div class="form-group input-group pull-left @(Model.Required?"required":"")">
+        <label class="control-label">@Model.Text</label>
         <input id="file_@Model.Id" name="file_@Model.Id" type="file" class="hidden" />
         <br />
         <img id="img_@Model.Id" class="img-thumbnail-enjoy pointer" src="@(string.IsNullOrEmpty(Model.ImageUrl)?"/themes/enjoytheme/content/images/default.jpg":Model.ImageUrl)" />

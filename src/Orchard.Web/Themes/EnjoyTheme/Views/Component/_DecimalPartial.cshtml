@@ -1,10 +1,13 @@
 ﻿
 @model Enjoy.Core.UIElements.DecimalUIElement
 <fieldset>
-    <div id="group_@Model.Id" name="group_@Model.Id" class="form-group ">
-        <span class="required"></span>
-        <label>@Html.Raw(Model.Text)</label>
-        <input id="@Model.Id" name="@Model.Name" type="number" class="form-control" 
-               value="@(Model.Value==null?"":Model.Value.Value.ToString())" required="@Model.Required" />
+    <div class="form-group @(Model.Required?"required":"")">
+        <label class="control-label">@Html.Raw(Model.Text)</label>
+        <input id="@Model.Id" name="@Model.Name" type="number" class="form-control "
+               value="@(Model.Value==null?"":Model.Value.Value.ToString())"
+               placeholder="@Model.PlaceHolder"
+               required="@Model.Required" />
+        @*<p class="help-block">@Model.PlaceHolder</p>*@
     </div>
+
 </fieldset>

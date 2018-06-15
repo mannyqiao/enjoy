@@ -1,6 +1,6 @@
 ﻿@using Enjoy.Core
 @model Enjoy.Core.UIElements.RadioUIElement
-<div class="form-group" >
+<div class="form-group @(Model.Required?"required":"")" >
     @foreach (var radio in Model.Items)
     {
         <label id="@Model.Id" class="radio-inline control-label">
@@ -13,7 +13,8 @@
 
     $(document).ready(function () {      
 
-         var linked = @Html.Raw(Model.Linked.ToJson());
+        var linked = @Html.Raw(Model.Linked.ToJson());
+       
         $("#@Model.Id > input[type='radio']").click(function () {
           
             var that = this;
@@ -24,23 +25,26 @@
                 if (value == $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
                     $("#" + value + ">fieldset>div>input").each(function () {
-                        console.log($(this).attr("name"));
+                        $(this).parent().addClass("required");
                         $(this).attr("required","true");  
                     });
                     $("#" + value + ">fieldset>div>textarea").each(function () {
-                        console.log($(this).attr("name"));
+                        
                         $(this).attr("required", "true");
+                        $(this).parent().addClass("required");
                     });
                 }
                 else {
                     $("#" + value).addClass("hidden");                    
                     $("#" + value + ">fieldset>div>input").each(function () {
-                        console.log($(this).attr("name"));
+                        $(this).parent().removeClass("required");
                         $(this).removeAttr("required");  
                     });
                     $("#" + value + ">fieldset>div>textarea").each(function () {
-                        console.log($(this).attr("name"));
+
+                        $(this).parent().removeClass("required");
                         $(this).removeAttr("required");
+
                     });
                 }
             });
@@ -48,7 +52,8 @@
         var selected = function () {
             var result = "";
             $.each(linked, function (index, value) {
-                if (value.toLowerCase().indexOf( @Html.Raw("'"+ Model.Value.ToLower()+ "'")  ) >= 0) {
+                console.log("Model.Value="+ "@Html.Raw(Model.Value.ToLower())");
+                if (value.toLowerCase().indexOf(@Html.Raw("'"+ Model.Value.ToLower()+ "'")  ) >= 0) {
                     result = value;
                     return;
                 }
@@ -57,6 +62,7 @@
         };
         
         $.each(linked, function (index, value) {
+            //console.log("value " + selected());
             if (value == selected()) {
                 $("#" + value).removeClass("hidden");
             }
