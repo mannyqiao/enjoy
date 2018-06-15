@@ -196,12 +196,13 @@ namespace Enjoy.Core
                 advanceInfo.TextImageList = advanceInfo.TextImageList.Where(o => o.ImageUrl != null).ToList();
                 //未设置的属性
                 baseInfo.LocationIdList = new long[] { 3233, 333 };
-                baseInfo.CenterSubTitle = "立即使用subtitle";
-                baseInfo.CustomUrlName = "CustomUrlName";
-                baseInfo.CustomUrl = "gh_86a091e50ad4@app";
+                baseInfo.CenterSubTitle = "xxxxx";
+                baseInfo.CenterUrl = "wx6647cb456db305dd@app";
+                baseInfo.CustomUrlName = "xxx";
+                baseInfo.CustomUrl = "wx6647cb456db305dd@app";
                 baseInfo.CustomUrlSubTitle = "customUrlSubTitle";
                 baseInfo.PromotionUrlName = "更多优惠";
-                baseInfo.PromotionUrl = "http://www.badiuc.om";
+                baseInfo.PromotionUrl = "wx6647cb456db305dd@app";
 
                 advanceInfo.Abstract = new WeChat.Abstract()
                 {
@@ -213,7 +214,27 @@ namespace Enjoy.Core
             return model;
         }
 
-
+        public CardCounponViewModel Convert(CardCounponModel model)
+        {
+            var viewModel = new CardCounponViewModel();
+            switch (model.Type)
+            {
+                case CardTypes.CASH:
+                    
+                    break;
+                case CardTypes.DISCOUNT:
+                    break;
+                case CardTypes.GENERAL_COUPON:
+                    break;
+                case CardTypes.GIFT:
+                    break;
+                case CardTypes.GROUPON:
+                    break;
+                case CardTypes.MEMBER_CARD:
+                    break;
+            }
+            return new CardCounponViewModel();
+        }
         public WxRequestWapper<SubMerchant> Convert(Merchant merchant)
         {
             return new WxRequestWapper<SubMerchant>()
