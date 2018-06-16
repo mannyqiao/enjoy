@@ -208,6 +208,7 @@
     <Compile Include="Services\ShopService.cs" />
     <Compile Include="Services\VerifyCodeGenerator.cs" />
     <Compile Include="Services\WeChat\WeChatApi.cs" />
+    <Compile Include="Utilities\Cryptography.cs" />
     <Compile Include="Utilities\EnjoyConstant.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultHttpTransientFaultDetecter.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultTransientFaultHandler.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Utilities\TransientFaultHandler\ITransientFaultHandler.cs" />
     <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
     <Compile Include="Utilities\UIElementHelper.cs" />
+    <Compile Include="Utilities\WXBizMsgCrypt.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CardCounponViewModel.cs" />
     <Compile Include="ViewModels\CardCouponWithoutWapperViewModel.cs" />

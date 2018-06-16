@@ -15,12 +15,13 @@ namespace Enjoy.Core.ViewModels
             this.Quantity = model.Quantity;
             this.TypeName = model.Type.TextOf();
             this.WxNo = model.WxNo;
+            this.Type = model.Type;
         }
 
         public int Id { get; set; }
         public string BrandName { get; set; }
         public string MerchantName { get; set; }
-
+        public CardTypes Type { get; set; }
         public string TypeName { get; set; }
 
         public int Quantity { get; set; }

@@ -78,7 +78,11 @@
                                                     <td>@item.Quantity</td>
                                                     <td>@item.Status.TextOf()</td>
                                                     <td>
-                                                        <a href="/cards/publish?id=@item.Id">查看/编辑</a>
+                                                        <a href="@(item.Type== CardTypes.MEMBER_CARD
+                                                    ?"/cards/createmcard?id="+item.Id.ToString()
+                                                    :"/cards/createcoupon?id="+item.Id.ToString())">
+                                                            
+                                                        </a>
                                                         <a href="/cards/publish?id=@item.Id">发布</a>
                                                         <a href="/cards/showqr?id=@item.Id">投放</a>
                                                     </td>

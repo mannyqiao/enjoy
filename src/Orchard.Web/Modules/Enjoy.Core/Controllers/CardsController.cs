@@ -63,9 +63,22 @@ namespace Enjoy.Core.Controllers
         /// 创建优惠券
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateCoupon()
+        public ActionResult CreateCoupon(int? id = null)
         {
-            var viewModel = new CardCounponViewModel();
+            var viewModel = id == null
+                ? new CardCounponViewModel() { CardType = CardTypes.DISCOUNT }
+                : client.Convert(this.CardCoupon.GetCardCounpon(id.Value));
+
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                this.CardCoupon.GetCardCounpon(id.Value);
+            }
+
+           
             return View(viewModel);
         }
         [HttpPost]
@@ -108,7 +121,7 @@ namespace Enjoy.Core.Controllers
         public ActionResult Query(int id)
         {
             var model = this.CardCoupon.GetCardCounpon(id);
-            
+
 
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }

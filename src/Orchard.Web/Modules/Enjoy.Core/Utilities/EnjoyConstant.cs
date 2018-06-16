@@ -60,6 +60,8 @@ namespace Enjoy.Core
         };
         public const int DefaultPageSize = 20;
         //  return GetToken("wx0c644f8027d78c74", "f1681068dfcd75ef2d7dff14cb3b5fae");
-        public static IMiniprogram Miniprogram = new Models.Miniprogram("wx0c644f8027d78c74", "f1681068dfcd75ef2d7dff14cb3b5fae");
-}
+        public static IMiniprogram Miniprogram = new Models.Miniprogram("wx0c644f8027d78c74", "f1681068dfcd75ef2d7dff14cb3b5fae"); //wechat sand box test 
+        //
+        //public static IMiniprogram Miniprogram = new Models.Miniprogram("wx6647cb456db305dd", "a152e548d43c4f8e99198bf7cf17f014");
+    }
 }
