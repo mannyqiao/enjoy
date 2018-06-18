@@ -197,7 +197,7 @@ namespace Enjoy.Core
                 //未设置的属性
                 baseInfo.LocationIdList = new long[] { 3233, 333 };
                 baseInfo.CenterSubTitle = "xxxxx";
-                baseInfo.CenterUrl = "wx6647cb456db305dd@app";
+                baseInfo.CenterUrl = "gh_63766b0fcc93@app";
                 baseInfo.CustomUrlName = "xxx";
                 baseInfo.CustomUrl = "wx6647cb456db305dd@app";
                 baseInfo.CustomUrlSubTitle = "customUrlSubTitle";
@@ -220,7 +220,7 @@ namespace Enjoy.Core
             switch (model.Type)
             {
                 case CardTypes.CASH:
-                    
+
                     break;
                 case CardTypes.DISCOUNT:
                     break;
@@ -282,5 +282,21 @@ namespace Enjoy.Core
             };
         }
 
+        public PagingData<ShopViewModel> Convert(PagingData<ShopModel> pagingData)
+        {
+            if (pagingData == null || pagingData.Items.Count().Equals(0))
+            {
+                return new PagingData<ShopViewModel>()
+                {
+                    Items = new List<ShopViewModel>()
+                };
+            }
+            return new PagingData<ShopViewModel>()
+            {
+                Items = pagingData.Items.Select(o => new ShopViewModel(o)),
+                Paging = pagingData.Paging,
+                TotalCount = pagingData.TotalCount
+            };
+        }
     }
 }

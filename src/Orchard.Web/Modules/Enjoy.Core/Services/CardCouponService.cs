@@ -108,9 +108,9 @@ namespace Enjoy.Core.Services
 
 
 
-        public Models.PagingData<Models::CardCounponModel> QueryCardCounpon(int page, CardTypes type)
+        public Models.PagingData<Models::CardCounponModel> QueryCardCounpon(PagingCondition condition, CardTypes type)
         {
-            return this.QueryByPaging(page, (builder) =>
+            return this.QueryByPaging(condition, (builder) =>
              {
                  if (type != CardTypes.None)
                      builder.Add(Expression.Eq("CardType", type));

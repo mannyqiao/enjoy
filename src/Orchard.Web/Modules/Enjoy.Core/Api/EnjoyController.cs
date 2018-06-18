@@ -8,6 +8,8 @@ namespace Enjoy.Core.Api
     using Enjoy.Core.Models;
     using Orchard.Logging;
     using Enjoy.Core;
+    using System.IO;
+
     //[Authorize]
     public class EnjoyController : ApiController
     {
@@ -40,13 +42,13 @@ namespace Enjoy.Core.Api
             return this.WeChat.CreateWxSession(new WxLoginUser(code, iv, encryptedData, signature));
         }
 
-        [Route("api/enjoy/test")]
-        [HttpGet]
-        public IMiniprogram Test()
-        {
-            Logger.Error("Tesxxx");
-            return EnjoyConstant.Miniprogram;
-        }
+        //[Route("api/enjoy/test")]
+        //[HttpGet]
+        //public IMiniprogram Test()
+        //{
+        //    Logger.Error("Tesxxx");
+        //    return EnjoyConstant.Miniprogram;
+        //}
         /// <summary>
         /// 
         /// </summary>
@@ -60,25 +62,48 @@ namespace Enjoy.Core.Api
         ///nonce 随机数
         ///echostr 随机字符串
         /// </remarks>
-        [Route("api/enjoy/WxBizMsg")]        
-        [HttpGet]
+        [Route("api/enjoy/WxBizMsg")]
         [HttpPost]
-        public void WxBizMsg(string signature, long timestamp, decimal nonce, string echostr)
+        [HttpGet]
+        public void WxBizMsg(string msg_signature, string timestamp = null, string nonce = null, string echostr = null, string signature = null)
         {
-            //https://www.yourc.club/api/enjoy/WxBizMsg/?signature=2dacca8c007705eb0405b30e3fc1ac65d62637ed&echostr=15107807748897636285&timestamp=1529048324&nonce=1809598692
+            //https://www.yourc.club/api/enjoy/WxBizMsg?signature=2dacca8c007705eb0405b30e3fc1ac65d62637ed&echostr=15107807748897636285&timestamp=1529048324&nonce=1809598692
             //https://www.yourc.club/api/enjoy/WxBizMsg?signature=a6b21563f68a6f8042a81363799ff9f2f5656055&echostr=7077494231949635310&timestamp=1529048742&nonce=1832270831
             //echostr: 7077494231949635310 
-            //公众平台上开发者设置的token, appID, EncodingAESKey
+            //公众平台上开发者设置的token, appID, EncodingAESKey          
+
             string sToken = "EnjoyVip";
             string sAppID = EnjoyConstant.Miniprogram.AppId;// "wx5823bf96d3bd56c7";
-            string sEncodingAESKey = "YRNr812O9yoWbhCpR3YkvHiz7YtYg894pqbodbOUBoT";
+            string sEncodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
             WXBizMsgCrypt crypt = new WXBizMsgCrypt(sToken, sEncodingAESKey, sAppID);
+            var sReqData = ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream);
+            this.Logger.Error("ReqData:\r\n" + sReqData);
+            var sDecryptText = string.Empty;
+            var ret = crypt.DecryptMsg(signature, timestamp, nonce, sReqData, ref sDecryptText);
+            if (ret != 0)
+            {
+                this.OS.WorkContext.HttpContext.Response.Write("decrypt fail");
+                this.OS.WorkContext.HttpContext.Response.End();
+                return;
+            }
 
-            //var body = (string)arg.ToJson();
-            Logger.Error(string.Concat("From EventHandler ", signature, ",",timestamp.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd HH:mm")));
-            //Logger.Error(this.Request.ToJson());
-            Logger.Error("echost:" + echostr);
-        }       
+            this.Logger.Error("sDecryptText:\r\n" + sDecryptText);
+            this.OS.WorkContext.HttpContext.Response.Write(echostr);
+            this.OS.WorkContext.HttpContext.Response.End();
+        }
+        public string ReadStream2String(Stream stream)
+        {
+            if (null == stream)
+            {
+                return string.Empty;
+            }
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+
+
     }
 }
 

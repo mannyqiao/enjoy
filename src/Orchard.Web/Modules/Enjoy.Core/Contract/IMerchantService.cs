@@ -35,5 +35,6 @@ namespace Enjoy.Core
 
 
         Models::PagingData<Models::MerchantModel> QueryMyMerchants(int userid, int page);
+        
     }
 }
