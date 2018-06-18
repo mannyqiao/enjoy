@@ -11,6 +11,9 @@ namespace Enjoy.Core.Services
     using NHibernate.Criterion;
     using System.Linq;
     using System.Reflection;
+    using Enjoy.Core.ViewModels;
+    using System.Collections.Generic;
+
     public abstract class QueryBaseService<R, M> : IQueryService<R, M>
         where R : class
         where M : class
@@ -30,29 +33,28 @@ namespace Enjoy.Core.Services
             return Query(null, builder, convert);
         }
 
-        public virtual PagingData<M> QueryByPaging(int page, Action<ICriteria> builder, Func<R, M> convert)
+        public virtual PagingData<M> QueryByPaging(PagingCondition condition, Action<ICriteria> builder, Func<R, M> convert)
         {
-            return Query(page, builder, convert);
+            return Query(condition, builder, convert);
         }
 
-        public PagingData<M> Query(int? page, Action<ICriteria> builder, Func<R, M> convert)
+        public PagingData<M> Query(PagingCondition condition, Action<ICriteria> builder, Func<R, M> convert)
         {
             var session = this.OS.TransactionManager.GetSession();
             var criteria = session.CreateCriteria(typeof(R));
             builder(criteria);
 
             var pageCriteria = CriteriaTransformer.Clone(criteria);
-            var pagingc = PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize);
-
+            var page = (condition.Skip / condition.Take) - 1;
             return new PagingData<M>()
             {
                 TotalCount = Convert.ToInt32(criteria.SetProjection(Projections.RowCount()).UniqueResult()),
-                Items = pageCriteria.SetFirstResult(pagingc.Skip)
-               .SetMaxResults(pagingc.Take)
+                Items = pageCriteria.SetFirstResult(condition.Skip)
+               .SetMaxResults(condition.Take)
                .List<R>()
                .Select(o => convert(o))
                .ToList(),
-                Paging = new Paging(page ?? 1)
+                Paging = new Paging(page, condition.Take)
             };
         }
 
@@ -103,6 +105,28 @@ namespace Enjoy.Core.Services
             var id = (model as IEntityKey<TKeyType>).Id;
             var record = session.Get<R>(id);//make sure record is query from NHibrate
             return convert(record, model);
+        }
+
+        public virtual IEnumerable<ICriterion> Criterias(QueryFilter filter)
+        {
+            foreach (var column in filter.Columns)
+            {
+                if (column.Searchable && object.Equals(null, column.Search.Value) == false)
+                {
+                    yield return Expression.Eq(column.Data, column.Search.Value);
+                }
+            }
+        }
+
+        public virtual IEnumerable<Order> Orders(QueryFilter filter)
+        {
+            return filter.Columns != null && filter.Columns.Any() && filter.Order != null && filter.Order.Any()
+                    ? filter.Order.Select((order) =>
+                    {
+                        return new Order(filter.Columns[order.Column].Data, order.Dir == Direction.Asc);
+
+                    }).ToList()
+                    : new List<Order>();
         }
     }
 }

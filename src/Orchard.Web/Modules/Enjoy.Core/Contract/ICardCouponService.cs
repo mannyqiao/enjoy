@@ -11,7 +11,7 @@ namespace Enjoy.Core
 
         ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model);
 
-        PagingData<CardCounponModel> QueryCardCounpon(int page, CardTypes type);
+        PagingData<CardCounponModel> QueryCardCounpon(PagingCondition condition, CardTypes type);
 
         CardCounponModel GetCardCounpon(int id);
 

@@ -20,18 +20,21 @@ namespace Enjoy.Core.Controllers
         private readonly IOrchardServices OS;
         private readonly IEnjoyAuthService Auth;
         private readonly IMerchantService Merchant;
+        private readonly IShopService Shop;
         private readonly ModelClient client = new ModelClient();
         // GET: Default
         public MerchantController(
             IWeChatApi api,
             IOrchardServices os,
             IEnjoyAuthService auth,
+            IShopService shop,
             IMerchantService merchant)
         {
             this.WeChat = api;
             this.OS = os;
             this.Auth = auth;
             this.Merchant = merchant;
+            this.Shop = shop;
         }
 
         public ActionResult MyMerchant(int page = 1)
@@ -87,7 +90,7 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public JsonResult UploadMaterial(MediaUploadTypes type)
         {
-            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;            
+            var context = this.OS.WorkContext.HttpContext.Request.Files ?? null;
             if (context == null || context.Count.Equals(0))
             {
                 return Json(new { result = "fail" }, JsonRequestBehavior.AllowGet);
@@ -130,30 +133,28 @@ namespace Enjoy.Core.Controllers
         }
         public ActionResult MyShops()
         {
-            var viewModel = new ShopListViewModel()
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign");
+            var merchant = this.Merchant.GetDefaultMerchant();
+            if (merchant == null)
+                return this.RedirectLocal("/merchant/create");
+            return View();
+        }
+        [HttpPost]
+        public JsonResult QueryMyShops(QueryFilter filter)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return Json(new { });
+            var merchant = this.Merchant.GetDefaultMerchant();
+            filter.Columns.Add(new QueryColumnFilter()
             {
-                Items = new List<ShopViewModel>()
-                {
-                    new ShopViewModel(){
-                         Id =1,
-                         Address = "眉山市东坡区东坡里步行街",
-                         Coordinate  ="{lat:1.032,lng:3033 }",
-                         Leader = "张三",
-                         Merchant =  new Models.Records.Merchant(){  BrandName="柠檬工坊-01"},
-                         ShopName = "柠檬工坊东坡店"
-                    },
-                    new ShopViewModel(){
-                         Id =1,
-                         Address = "眉山市东坡区东坡里步行街",
-                         Coordinate  ="{lat:1.032,lng:3033 }",
-                         Leader = "张三",
-                         Merchant =  new Models.Records.Merchant(){  BrandName="柠檬工坊-01"},
-                         ShopName = "柠檬工坊东坡店"
-                    }
-                },
-                Paging = new PagingCondition(1, 20)
-            };
-            return View(viewModel);
+                Data = "Merchant.Id",
+                Searchable = true,
+                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
+            });
+
+            var condition = new PagingCondition(filter.Start, filter.Length);
+            return Json(client.Convert(this.Shop.QueryShops(filter, condition)));
         }
 
     }

@@ -16,25 +16,26 @@ namespace Enjoy.Core.Services
         private readonly IEnjoyAuthService Auth;
         private readonly IOrchardServices OS;
         public readonly IWeChatApi WeChat;
+        private readonly IShopService Shop;
         private ModelClient client = new ModelClient();
 
         public override Type ModelType { get { return typeof(Models::MerchantModel); } }
 
         public MerchantService(
             IOrchardServices os,
-            IEnjoyAuthService auth,
+            IEnjoyAuthService auth,            
             IWeChatApi wechat) :
             base(os)
         {
             this.Auth = auth;
             this.OS = os;
-            this.WeChat = wechat;
+            this.WeChat = wechat;            
         }
 
         public Models.MerchantModel GetDefaultMerchant()
         {
             var active_user = this.Auth.GetAuthenticatedUser();
-            if (active_user == null) throw new NullReferenceException(); 
+            if (active_user == null) throw new NullReferenceException();
             var merchart = this.QueryFirstOrDefaut((builder) =>
             {
                 builder.Add(Expression.Eq("EnjoyUser.Id", active_user.Id));
@@ -120,8 +121,9 @@ namespace Enjoy.Core.Services
         public Models.PagingData<Models.MerchantModel> QueryMyMerchants(int userid, int page)
         {
             var apply = this.WeChat.GetApplyProtocol();
+            var condition = PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize);
 
-            return this.QueryByPaging(page, (builder) =>
+            return this.QueryByPaging(condition, (builder) =>
             {
                 builder.Add(Expression.Eq("EnjoyUser.Id", userid));
             },
@@ -139,5 +141,7 @@ namespace Enjoy.Core.Services
                 return model;
             });
         }
+
+      
     }
 }

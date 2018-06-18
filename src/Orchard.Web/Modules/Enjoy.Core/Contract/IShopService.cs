@@ -2,13 +2,17 @@
 
 namespace Enjoy.Core
 {
+    using Enjoy.Core.ViewModels;
     using Orchard;
-    using Enjoy.Core.Models;
+    using Models = Enjoy.Core.Models;
     using Records = Enjoy.Core.Models.Records;
     public interface IShopService : IDependency
     {
-        PagingData<ShopModel> QueryShops(int merchantid, int page);
+        Models::PagingData<Models::ShopModel> QueryMyShops(int merchantid, PagingCondition paging);
 
-        PagingData<ShopModel> QueryShops(int page);        
+        Models::ShopModel GetDefaultShop(int shopid);
+
+        Models::PagingData<Models::ShopModel> QueryShops(QueryFilter filter, PagingCondition paging);
+
     }
 }

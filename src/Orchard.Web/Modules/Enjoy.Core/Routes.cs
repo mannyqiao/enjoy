@@ -29,6 +29,7 @@ namespace Enjoy.Core
                 CreateRouteDescriptor("Enjoy.Core","Merchant","Shops"),
                 CreateRouteDescriptor("Enjoy.Core","Merchant","Audit"),
                 CreateRouteDescriptor("Enjoy.Core","Merchant","MyMerchant"),
+                CreateRouteDescriptor("Enjoy.Core","Merchant","QueryMyShops"),
 
                 CreateRouteDescriptor("Enjoy.Core","Finance","PAccount"),
                 CreateRouteDescriptor("Enjoy.Core","Finance","MyAccount"),

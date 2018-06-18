@@ -41,7 +41,7 @@ namespace Enjoy.Core.Controllers
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
 
-            var result = this.CardCoupon.QueryCardCounpon(page, CardTypes.None);
+            var result = this.CardCoupon.QueryCardCounpon(PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize), CardTypes.None);
             var viewModel = new Models.PagingData<CardCouponWithoutWapperViewModel>(result.Items.Select(o => new CardCouponWithoutWapperViewModel(o)))
             {
                 Paging = result.Paging,
@@ -78,7 +78,7 @@ namespace Enjoy.Core.Controllers
                 this.CardCoupon.GetCardCounpon(id.Value);
             }
 
-           
+
             return View(viewModel);
         }
         [HttpPost]
