@@ -10,6 +10,7 @@ namespace Enjoy.Core
     public class JsonNetResult : JsonResult
     {
         public JsonNetResult()
+            : base()
         {
         }
         public override void ExecuteResult(ControllerContext context)

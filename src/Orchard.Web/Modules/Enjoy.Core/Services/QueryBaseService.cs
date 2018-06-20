@@ -45,6 +45,8 @@ namespace Enjoy.Core.Services
             builder(criteria);
 
             var pageCriteria = CriteriaTransformer.Clone(criteria);
+
+            criteria.ClearOrders();
             var page = (condition.Skip / condition.Take) - 1;
             return new PagingData<M>()
             {
@@ -63,6 +65,8 @@ namespace Enjoy.Core.Services
             var session = this.OS.TransactionManager.GetSession();
             var criteria = session.CreateCriteria(typeof(R));
             builder(criteria);
+
+
             return convert(criteria.SetFirstResult(0)
                 .SetMaxResults(1)
                 .UniqueResult<R>());
@@ -111,9 +115,29 @@ namespace Enjoy.Core.Services
         {
             foreach (var column in filter.Columns)
             {
-                if (column.Searchable && object.Equals(null, column.Search.Value) == false)
+                var type = column.Search.Value.PredictDbTypeBySearchColumeValue();
+                if (column.Searchable == false || type == null)
                 {
-                    yield return Expression.Eq(column.Data, column.Search.Value);
+                    continue;
+                }
+                var values = column.Search.Value as string[];
+                switch (type)
+                {
+                    case System.Data.DbType.DateTime:
+                        yield return Expression.Eq(column.Data, DateTime.Parse(column.Search.Value.ToString()));
+                        break;
+                    case System.Data.DbType.Int32:
+                        yield return Expression.Eq(column.Data, Int32.Parse(column.Search.Value.ToString()));
+                        break;
+                    case System.Data.DbType.Int64:
+                        yield return Expression.Eq(column.Data, Int64.Parse(column.Search.Value.ToString()));
+                        break;
+                    case System.Data.DbType.Decimal:
+                        yield return Expression.Eq(column.Data, decimal.Parse(column.Search.Value.ToString()));
+                        break;
+                    case System.Data.DbType.String:
+                        yield return Expression.Eq(column.Data, column.Search.Value.ToString());
+                        break;
                 }
             }
         }

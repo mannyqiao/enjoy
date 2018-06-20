@@ -11,7 +11,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    门店列表
+                    <a type="button" class="btn btn-primary btn-sm" href="/merchant/editshop"><i class="fa fa-plus fa-fw"></i>新增门店</a>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -32,7 +32,6 @@
                     <div class="well">
                         <h4>DataTables Usage Information</h4>
                         <p>DataTables is a very flexible, advanced tables plugin for jQuery. In SB Admin, we are using a specialized version of DataTables built for Bootstrap 3. We have also customized the table headings to use Font Awesome icons in place of images. For complete documentation on DataTables, visit their website at <a target="_blank" href="https://datatables.net/">https://datatables.net/</a>.</p>
-                        @*<a class="btn btn-default btn-lg btn-block" target="_blank" href="https://datatables.net/">View DataTables Documentation</a>*@
                     </div>
                 </div>
                 <!-- /.panel-body -->
@@ -41,7 +40,10 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
+    @using (Html.BeginFormAntiForgeryPost(Url.Action("querymyshops", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+    {
 
+    }
 
     @using (Script.Foot())
     {
@@ -49,7 +51,7 @@
         <script src="/Themes/EnjoyTheme/Content/plugins/datatables/js/jquery.dataTables.min.js"></script>
         <script src="/Themes/EnjoyTheme/Content/plugins/datatables-plugins/dataTables.bootstrap.min.js"></script>
         <script src="/Themes/EnjoyTheme/Content/plugins/datatables-responsive/dataTables.responsive.js"></script>
-        <script>
+        <script type="text/javascript">
             $(document).ready(function () {
                 $('#myshoplist').DataTable({
                     "paging": true,
@@ -74,7 +76,8 @@
                         "type": "POST",
                         "dataType": "application/json",
                         "data": function (data) {
-                            console.log(data);
+                            data.__RequestVerificationToken = $("input[name='__RequestVerificationToken']").val();
+                            console.log(data)
                             return data;
                         }
                     },
@@ -92,6 +95,14 @@
                             },
                             name: "操作"
                         }
+                    ],
+                    "columnDefs": [
+                        { "searchable": false, "targets": 0 },
+                        { "searchable": false, "targets": 1 },
+                        { "searchable": true, "targets": 2 },
+                        { "searchable": false, "targets": 3 },
+                        { "searchable": false, "targets": 4 },
+                        { "searchable": false, "targets": 5 }
                     ]
                 });
             });

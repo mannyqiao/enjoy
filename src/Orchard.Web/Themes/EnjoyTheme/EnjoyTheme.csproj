@@ -349,7 +349,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\Finance\MyAccount.cshtml" />
-    <Content Include="Views\Merchant\MyShopEditor.cshtml" />
+    <Content Include="Views\Merchant\EditShop.cshtml" />
     <Content Include="Views\Merchant\MyShops.cshtml" />
     <Content Include="Views\Finance\PAccount.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />

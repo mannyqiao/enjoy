@@ -8,14 +8,18 @@ namespace Enjoy.Core.Models
         public ShopModel(Records::Shop shop)
         {
             this.ShopName = shop.ShopName;
-            this.Merchant = shop.Merchant;
+            this.Merchant = new MerchantModel(shop.Merchant);
             this.Id = shop.Id;
             this.Leader = shop.Leader;
             this.Address = shop.Address;
-            this.Coordinate = shop.Coordinate;            
+            this.Coordinate = shop.Coordinate;
+        }
+        public ShopModel(MerchantModel merchant)
+        {
+            this.Merchant = merchant;
         }
         public int Id { get; set; }
-        public Records::Merchant Merchant { get; set; }
+        public MerchantModel Merchant { get; set; }
         public string ShopName { get; set; }
         public string Leader { get; set; }
         public string Address { get; set; }
