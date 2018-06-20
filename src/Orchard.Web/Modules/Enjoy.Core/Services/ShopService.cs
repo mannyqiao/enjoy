@@ -9,7 +9,7 @@ namespace Enjoy.Core.Services
     using NHibernate.Criterion;
     using Enjoy.Core.ViewModels;
     using System.Collections.Generic;
-
+    using System.Linq;
     public class ShopService : QueryBaseService<Records::Shop, Models::ShopModel>, IShopService
     {
         public ShopService(IOrchardServices os)
@@ -57,25 +57,21 @@ namespace Enjoy.Core.Services
             return base.Query(condition, builder =>
             {
                 foreach (var criteria in this.Criterias(filter))
-                    builder.Add(criteria);
-
-
-
-                foreach (var order in this.Orders(filter))
-                    builder.AddOrder(order);
+                    builder.Add(criteria);                
             },
             record => new Models.ShopModel(record));
         }
         public override IEnumerable<ICriterion> Criterias(QueryFilter filter)
         {
-            
-            if (string.IsNullOrEmpty(filter.Search.Value == null
-                ? ""
-                : filter.Search.Value.ToString()
-                ) == false)
+            var names = filter.Search.Value as string[];
+            if (names != null && names.Count(o => !string.IsNullOrWhiteSpace(o)) > 0)
             {
-                yield return Expression.Like("ShopName", filter.Search.Value) as ICriterion;
+                foreach(var name in names)
+                {
+                    yield return Expression.Like("ShopName", name) as ICriterion;
+                }
             }
+         
             foreach (var criteria in base.Criterias(filter))
             {
                 yield return criteria;

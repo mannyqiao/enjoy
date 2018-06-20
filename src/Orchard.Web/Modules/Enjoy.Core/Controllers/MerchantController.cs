@@ -141,10 +141,10 @@ namespace Enjoy.Core.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult QueryMyShops(QueryFilter filter)
+        public JsonNetResult QueryMyShops(QueryFilter filter)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
-                return Json(new { });
+                return new JsonNetResult() { Data = new { } };
             var merchant = this.Merchant.GetDefaultMerchant();
             filter.Columns.Add(new QueryColumnFilter()
             {
@@ -154,8 +154,29 @@ namespace Enjoy.Core.Controllers
             });
 
             var condition = new PagingCondition(filter.Start, filter.Length);
-            return Json(client.Convert(this.Shop.QueryShops(filter, condition)));
+            var model = client.Convert(this.Shop.QueryShops(filter, condition));
+            model.Draw = filter.Draw;
+            return new JsonNetResult() { Data = model };
         }
 
+        public ActionResult EditShop(int? shopId = null)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign");
+            var merchant = this.Merchant.GetDefaultMerchant();
+
+            var viewModel = shopId == null
+                ? new ShopViewModel(new Models.ShopModel(merchant))
+                : new ShopViewModel(this.Shop.GetDefaultShop(shopId.Value));
+            viewModel.Protocol = this.WeChat.GetApplyProtocol();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditShopPost(ShopViewModel model, string returnUrl)
+        {
+
+            return this.RedirectLocal(returnUrl);
+        }
     }
 }

@@ -3,7 +3,7 @@ namespace Enjoy.Core.Models
 {
     using Enjoy.Core;
     using System.Collections.Generic;
-
+    using Newtonsoft.Json;
     public class PagingData<E> : QueryResponseDescriptor<E>
     {
         public PagingData() :
@@ -16,7 +16,11 @@ namespace Enjoy.Core.Models
         {
 
         }
+        [JsonProperty("recordsTotal")]
         public int TotalCount { get; set; }
+
+        [JsonProperty("recordsFiltered")]
+        public int RecordsFiltered { get; set; }
         public Paging Paging { get; set; }
     }
     public class Paging

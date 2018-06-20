@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 
 namespace Enjoy.Core.ViewModels
 {
+    using System.Data;
     public class QueryColumnFilter
     {
         /// <summary>
@@ -22,6 +20,7 @@ namespace Enjoy.Core.ViewModels
         /// </summary>
         public bool Searchable { get; set; }
 
+        public DbType DbType { get; set; }
         /// <summary>
         ///     是否可以排序
         /// </summary>

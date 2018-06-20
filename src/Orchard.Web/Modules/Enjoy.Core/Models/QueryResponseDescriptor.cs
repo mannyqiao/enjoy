@@ -6,8 +6,10 @@ namespace Enjoy.Core.Models
     using System.Collections.Generic;
     using Enjoy.Core;
     using System.Linq;
+    using Newtonsoft.Json;
     public abstract class QueryResponseDescriptor<T> : IQueryResponseDescriptor<T>
     {
+
         protected QueryResponseDescriptor() { }
         public QueryResponseDescriptor(IEnumerable<T> records)
         {
@@ -52,8 +54,11 @@ namespace Enjoy.Core.Models
             get;
             protected set;
         }
+        [JsonProperty("draw")]
+        public int Draw { get; set; }
 
-        public virtual IEnumerable<T> Items { get;  set; }
+        [JsonProperty("data")]
+        public virtual IEnumerable<T> Items { get; set; }
 
         public bool HasError
         {

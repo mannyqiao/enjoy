@@ -238,6 +238,7 @@
     <Compile Include="Services\WeChat\WeChatApiRequestBuilder.cs" />
     <Compile Include="Utilities\UIElementHelper.cs" />
     <Compile Include="Utilities\WXBizMsgCrypt.cs" />
+    <Compile Include="ViewModels\AddressViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CardCounponViewModel.cs" />
     <Compile Include="ViewModels\CardCouponWithoutWapperViewModel.cs" />

@@ -13,6 +13,23 @@ namespace Enjoy.Core.Models
     {
         [JsonProperty("category")]
         public PrimaryCategory[] Categories { get; set; }
+        public PrimaryCategory this[int primaryid]
+        {
+            get
+            {
+                return this.Categories.FirstOrDefault(o => o.PrimaryCategoryId == primaryid)
+                    ?? new PrimaryCategory() { SecondaryCategories = new SecondaryCategory[] { } };
+            }
+        }
+        public SecondaryCategory this[int primary, int secondary]
+        {
+            get
+            {
+                var p = this[primary];
+                return p.SecondaryCategories.FirstOrDefault(o => o.SecondaryCategoryId == secondary)
+                    ?? new SecondaryCategory();
+            }
+        }
         //        {
         //   "category": [
         //       {
