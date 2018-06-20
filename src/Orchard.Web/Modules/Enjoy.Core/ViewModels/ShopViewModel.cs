@@ -15,16 +15,19 @@ namespace Enjoy.Core.ViewModels
             this.Address = new AddressViewModel(model.Address);
             this.Coordinate = model.Coordinate;
             this.Leader = model.Leader;
+            this.MerchantId = model.Merchant.Id;
 
         }
         public ShopViewModel(string merchant)
         {
             this.Merchant = merchant;
         }
+        public ShopViewModel() { }
         public int Id { get; set; }
         public string Merchant { get; set; }
         public string ShopName { get; set; }
         public string Leader { get; set; }
+        public int MerchantId { get; set; }
         //public string Address { get; set; }
         public string Coordinate { get; set; }
         public string AddressInfo

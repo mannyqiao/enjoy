@@ -18,12 +18,12 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="myshoplist">
                         <thead>
                             <tr>
-                                <th >门店编号</th>
-                                <th >商户名称</th>
-                                <th >门店名称</th>
-                                <th >门店地址</th>
-                                <th >店长</th>
-                                <th >操作</th>
+                                <th>门店编号</th>
+                                <th>商户名称</th>
+                                <th>门店名称</th>
+                                <th>门店地址</th>
+                                <th>店长</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -72,11 +72,11 @@
                         "search": "搜索:",
                         "infoFiltered": "",
                         "lengthMenu": "每页显示 _MENU_ 条记录",
-                        "processing":"玩命加载中..."
+                        "processing": "玩命加载中..."
                     },
                     "ajax": {
                         "url": "/merchant/querymyshops",
-                        "type": "POST",                        
+                        "type": "POST",
                         "data": function (data) {
                             data.__RequestVerificationToken = $("input[name='__RequestVerificationToken']").val();
                             console.log(data)
@@ -84,15 +84,15 @@
                         }
                     },
                     "columns": [
-                        { data: "Id"},
-                        { data: "Merchant"},
+                        { data: "Id" },
+                        { data: "Merchant" },
                         { data: "ShopName" },
                         { data: "AddressInfo" },
-                        { data: "Leader"},
+                        { data: "Leader" },
                         {
                             data: "Id", "render": function (data) {
                                 var innerHtml = "<a class='btn  btn-primary  btn-xs' href='/merchant/editshop?Id=" + data + "'>查看</a>      " +
-                                    "<a class='btn btn-outline btn-default btn-xs' href='/merchant/editshop?Id=" + data + "'>删除</a>";
+                                    "<a id='delete' class='btn btn-outline btn-default btn-xs delete' href='/merchant/editshop?Id=" + data + "'>删除</a>";
                                 return innerHtml;
                             },
                             name: "操作"
@@ -107,6 +107,15 @@
                         { "searchable": false, orderable: false, "targets": 5 }
                     ]
                 });
+
+                $("a.delete").click(function (e) {
+                    console.log("click delete");
+                    e.preventDefault();
+                    if (confirm("真的要删除吗?")) {
+                        window.location.url = $(this).attr("href");
+                    }
+                });
+              
             });
 
         </script>

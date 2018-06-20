@@ -7,7 +7,7 @@ namespace Enjoy.Core.ViewModels
 {
     public class AddressViewModel
     {
-        public AddressViewModel(string province,string city,string area)
+        public AddressViewModel(string province, string city, string area)
         {
             this.Province = province;
             this.City = city;
@@ -15,8 +15,26 @@ namespace Enjoy.Core.ViewModels
         }
         public AddressViewModel(string strAddresss)
         {
-
+            var idx = 0;
+            (strAddresss ?? "").Split('/').Select((name) =>
+            {
+                switch (idx)
+                {
+                    case 0:
+                        this.Province = name;
+                        break;
+                    case 1:
+                        this.City = name;
+                        break;
+                    case 2:
+                        this.Area = name;
+                        break;
+                }
+                idx++;
+                return name;
+            }).ToList();
         }
+        public AddressViewModel() { }
         public string Province { get; set; }
         public string City { get; set; }
         public string Area { get; set; }

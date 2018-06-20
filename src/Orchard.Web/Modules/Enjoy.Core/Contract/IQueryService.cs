@@ -36,5 +36,7 @@ namespace Enjoy.Core
         TRecord ConvertToRecord<TKeyType>(
             TModel model, 
             Func<TRecord, TModel, TRecord> convert);
+
+        
     }
 }
