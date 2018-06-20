@@ -154,7 +154,7 @@ namespace Enjoy.Core.Controllers
             });
 
             var condition = new PagingCondition(filter.Start, filter.Length);
-            var model = client.Convert(this.Shop.QueryShops(filter, condition));
+            var model = client.Convert(this.Shop.QueryShops(filter, condition));            
             model.Draw = filter.Draw;
             return new JsonNetResult() { Data = model };
         }
@@ -168,7 +168,7 @@ namespace Enjoy.Core.Controllers
             var viewModel = shopId == null
                 ? new ShopViewModel(new Models.ShopModel(merchant))
                 : new ShopViewModel(this.Shop.GetDefaultShop(shopId.Value));
-            viewModel.Protocol = this.WeChat.GetApplyProtocol();
+            viewModel.Protocol = this.WeChat.GetApplyProtocol();            
             return View(viewModel);
         }
 

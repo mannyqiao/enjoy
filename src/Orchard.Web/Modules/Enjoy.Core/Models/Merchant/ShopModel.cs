@@ -24,5 +24,17 @@ namespace Enjoy.Core.Models
         public string Leader { get; set; }
         public string Address { get; set; }
         public string Coordinate { get; set; }
+
+        public object[] GetPropertyValues()
+        {
+            return new object[] {
+                this.Id,
+                this.Merchant.BrandName,
+                this.ShopName,
+                this.Address,
+                this.Leader,
+                this.Id,
+            };
+        }
     }
 }

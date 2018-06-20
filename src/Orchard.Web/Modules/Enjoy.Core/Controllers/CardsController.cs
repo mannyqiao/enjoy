@@ -121,8 +121,6 @@ namespace Enjoy.Core.Controllers
         public ActionResult Query(int id)
         {
             var model = this.CardCoupon.GetCardCounpon(id);
-
-
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
     }

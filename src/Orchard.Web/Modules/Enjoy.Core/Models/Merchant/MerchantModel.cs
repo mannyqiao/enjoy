@@ -3,7 +3,7 @@
 namespace Enjoy.Core.Models
 {
     using Records = Enjoy.Core.Models.Records;
-
+    using Newtonsoft.Json;
     public class MerchantModel : IEntityKey<int>
     {
         public MerchantModel() { }
@@ -96,6 +96,7 @@ namespace Enjoy.Core.Models
         /// <summary>
         /// 商户创建者
         /// </summary>
+        [JsonIgnore]
         public Records::EnjoyUser EnjoyUser { get; set; }
 
         public string Contact { get; set; }

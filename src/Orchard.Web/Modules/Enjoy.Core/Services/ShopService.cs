@@ -57,7 +57,15 @@ namespace Enjoy.Core.Services
             return base.Query(condition, builder =>
             {
                 foreach (var criteria in this.Criterias(filter))
-                    builder.Add(criteria);                
+                {
+                    builder.Add(criteria);
+                }
+
+                foreach (var order in this.Orders(filter))
+                {
+                    builder.AddOrder(order);
+                }
+
             },
             record => new Models.ShopModel(record));
         }
@@ -66,12 +74,12 @@ namespace Enjoy.Core.Services
             var names = filter.Search.Value as string[];
             if (names != null && names.Count(o => !string.IsNullOrWhiteSpace(o)) > 0)
             {
-                foreach(var name in names)
+                foreach (var name in names)
                 {
                     yield return Expression.Like("ShopName", name) as ICriterion;
                 }
             }
-         
+
             foreach (var criteria in base.Criterias(filter))
             {
                 yield return criteria;
