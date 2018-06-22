@@ -354,7 +354,7 @@
     <Content Include="Views\Finance\PAccount.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Cards\Coupon.cshtml" />
-    <Content Include="Views\Cards\CreateCoupon.cshtml" />
+    <Content Include="Views\Cards\EditCoupon.cshtml" />
     <Content Include="Views\Component\_RadioPartial.cshtml" />
     <Content Include="Views\Component\_TextAreaPartial.cshtml" />
     <Content Include="Views\Component\_TextPartial.cshtml" />
@@ -369,7 +369,8 @@
     <Content Include="Views\Merchant\View.cshtml" />
     <Content Include="Views\Cards\ShowQR.cshtml" />
     <Content Include="Views\Cards\View.cshtml" />
-    <Content Include="Views\Cards\CreateMCard.cshtml" />
+    <Content Include="Views\Cards\EditMCard.cshtml" />
+    <Content Include="Views\Component\_ModalDialogPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

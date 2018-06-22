@@ -60,6 +60,7 @@ namespace Enjoy.Core.Services
             };
         }
 
+
         public virtual M QueryFirstOrDefaut(Action<ICriteria> builder, Func<R, M> convert)
         {
             var session = this.OS.TransactionManager.GetSession();
@@ -124,19 +125,35 @@ namespace Enjoy.Core.Services
                 switch (type)
                 {
                     case System.Data.DbType.DateTime:
-                        yield return Expression.Eq(column.Data, DateTime.Parse(column.Search.Value.ToString()));
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    //>=
+                                    yield return Expression.Ge(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
+                                    break;
+                                case 1:
+                                    //<
+                                    yield return Expression.Lt(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                        }
                         break;
                     case System.Data.DbType.Int32:
-                        yield return Expression.Eq(column.Data, Int32.Parse(column.Search.Value.ToString()));
+                        yield return Expression.Eq(column.Data, Int32.Parse(values[0]));
                         break;
                     case System.Data.DbType.Int64:
-                        yield return Expression.Eq(column.Data, Int64.Parse(column.Search.Value.ToString()));
+                        yield return Expression.Eq(column.Data, Int64.Parse(values[0]));
                         break;
                     case System.Data.DbType.Decimal:
-                        yield return Expression.Eq(column.Data, decimal.Parse(column.Search.Value.ToString()));
+                        yield return Expression.Eq(column.Data, decimal.Parse(values[0]));
                         break;
                     case System.Data.DbType.String:
-                        yield return Expression.Eq(column.Data, column.Search.Value.ToString());
+                        yield return Expression.Eq(column.Data, values[0]);
                         break;
                 }
             }

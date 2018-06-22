@@ -9,6 +9,8 @@ namespace Enjoy.Core
     using System.Collections.Generic;
     using System.Linq;
     using WeChat = WeChat.Models;
+    using WeChat.Models;
+
     public class ModelClient
     {
         public MerchantViewModel Convert(MerchantModel model, ApplyProtocolWxResponse apply_protocol)
@@ -217,23 +219,28 @@ namespace Enjoy.Core
         public CardCounponViewModel Convert(CardCounponModel model)
         {
             var viewModel = new CardCounponViewModel();
+            var card = model.CardCouponWapper.Card as BaseCardCoupon<CardCouponWapper>;
             switch (model.Type)
             {
                 case CardTypes.CASH:
-
+                    var cash = model.CardCouponWapper.Card as CashCoupon;
                     break;
                 case CardTypes.DISCOUNT:
                     break;
                 case CardTypes.GENERAL_COUPON:
+
                     break;
                 case CardTypes.GIFT:
+
                     break;
                 case CardTypes.GROUPON:
+
                     break;
                 case CardTypes.MEMBER_CARD:
+                    var member = model.CardCouponWapper.Card as MemberCard;
                     break;
             }
-            return new CardCounponViewModel();
+            return viewModel;
         }
         public WxRequestWapper<SubMerchant> Convert(Merchant merchant)
         {

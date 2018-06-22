@@ -9,27 +9,29 @@ namespace Enjoy.Core.ViewModels
         {
             this.Id = model.Id;
             this.BrandName = model.BrandName;
-            this.MerchantName = model.Merchant.BrandName;
-            this.CreatedTime = model.CreatedTime.ToDateTimeFromUnixStamp();
-            this.LastUpdateTime = model.CreatedTime.ToDateTimeFromUnixStamp();
+            this.Merchant = model.Merchant.BrandName;
+            this.CreatedTime = model.CreatedTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd HH:mm");
+            this.LastUpdateTime = model.LastUpdateTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd HH:mm");
             this.Quantity = model.Quantity;
-            this.TypeName = model.Type.TextOf();
+            this.Type = model.Type.TextOf();
             this.WxNo = model.WxNo;
-            this.Type = model.Type;
+            this.Status = model.Status.TextOf();
+            this.CardType = model.Type;
         }
 
         public int Id { get; set; }
         public string BrandName { get; set; }
-        public string MerchantName { get; set; }
-        public CardTypes Type { get; set; }
-        public string TypeName { get; set; }
+        public string Merchant { get; set; }
+
+        public string Type { get; set; }
+        public CardTypes CardType { get; set; }
 
         public int Quantity { get; set; }
 
         public string WxNo { get; set; }
 
-        public DateTime? CreatedTime { get; set; }
-        public DateTime? LastUpdateTime { get; set; }
-        public CCStatus Status { get; set; }
+        public string CreatedTime { get; set; }
+        public string LastUpdateTime { get; set; }
+        public string Status { get; set; }
     }
 }

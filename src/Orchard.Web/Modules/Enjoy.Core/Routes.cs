@@ -38,12 +38,11 @@ namespace Enjoy.Core
 
                 CreateRouteDescriptor("Enjoy.Core","Cards","Coupon"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","MCard"),
-                CreateRouteDescriptor("Enjoy.Core","Cards","CreateCoupon"),
-                CreateRouteDescriptor("Enjoy.Core","Cards","CreateMCard"),
-                CreateRouteDescriptor("Enjoy.Core","Cards","CreateCouponPost"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","Edit"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","EditPost"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","Publish"),
-                CreateRouteDescriptor("Enjoy.Core","Cards","ShowQR")
-                
+                CreateRouteDescriptor("Enjoy.Core","Cards","ShowQR"),
+                CreateRouteDescriptor("Enjoy.Core","Cards","QueryCouponCard")
                 
 
                 //new RouteDescriptor {

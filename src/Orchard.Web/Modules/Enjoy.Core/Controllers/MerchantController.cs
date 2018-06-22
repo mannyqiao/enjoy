@@ -12,6 +12,7 @@ namespace Enjoy.Core.Controllers
     using Orchard;
     using System.Collections.Generic;
     using System;
+    using Enjoy.Core.Models;
 
     [Themed]
     public class MerchantController : Controller
@@ -180,11 +181,15 @@ namespace Enjoy.Core.Controllers
             this.Shop.SaveOrUpdate(model);
             return this.RedirectLocal(returnUrl);
         }
-        public ActionResult Delete(int? id = null, string returnUrl = "/merchant/myshops")
+        [HttpPost]
+        public JsonNetResult Delete(int? id = null, string returnUrl = "/merchant/myshops")
         {
-            if (id == null) return this.RedirectLocal(returnUrl);
+            if (id == null) return new JsonNetResult() { Data = new { result = "fail" } };
             this.Shop.DeleteShop(id.Value);
-            return this.RedirectLocal(returnUrl);
+            return new JsonNetResult()
+            {
+                Data = new BaseResponse(EnjoyConstant.Success)                
+            };
         }
     }
 }

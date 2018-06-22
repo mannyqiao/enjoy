@@ -8,10 +8,10 @@ namespace Enjoy.Core
 {
     public interface IResponse
     {
-        [JsonProperty("error_code")]
+        [JsonProperty("errcode")]
         int ErrorCode { get; }
 
-        [JsonProperty("error_message")]
+        [JsonProperty("errmsg")]
         string ErrorMessage { get; }
 
         bool HasError { get;}
