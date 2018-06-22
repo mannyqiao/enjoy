@@ -40,20 +40,22 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
+
+
     @using (Html.BeginFormAntiForgeryPost(Url.Action("querymyshops", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
     {
 
     }
-
     @using (Script.Foot())
     {
         <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+        <script src="/Themes/EnjoyTheme/Content/scripts/bootstrap.min.js"></script>
         <script src="/Themes/EnjoyTheme/Content/plugins/datatables/js/jquery.dataTables.min.js"></script>
         <script src="/Themes/EnjoyTheme/Content/plugins/datatables-plugins/dataTables.bootstrap.min.js"></script>
         <script src="/Themes/EnjoyTheme/Content/plugins/datatables-responsive/dataTables.responsive.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#myshoplist').DataTable({
+                var table = $('#myshoplist').DataTable({
                     "paging": true,
                     "responsive": true,
                     "serverSide": true,
@@ -92,7 +94,7 @@
                         {
                             data: "Id", "render": function (data) {
                                 var innerHtml = "<a class='btn  btn-primary  btn-xs' href='/merchant/editshop?Id=" + data + "'>查看</a>      " +
-                                    "<a id='delete' class='btn btn-outline btn-default btn-xs delete' href='/merchant/editshop?Id=" + data + "'>删除</a>";
+                                    "<button name='remove_levels' class='btn btn-outline btn-default btn-xs delete' data-data='" + data + "'>删除</button>";
                                 return innerHtml;
                             },
                             name: "操作"
@@ -108,14 +110,21 @@
                     ]
                 });
 
-                $("a.delete").click(function (e) {
-                    console.log("click delete");
-                    e.preventDefault();
-                    if (confirm("真的要删除吗?")) {
-                        window.location.url = $(this).attr("href");
-                    }
+
+                $('#myshoplist').on('draw.dt', function () {
+                    $('button[name="remove_levels"]').on('click', function (e) {
+                        e.preventDefault();
+                        $.post("/merchant/delete",
+                            {
+                                id: $(this).attr("data-data"),
+                                __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                            }, function (result) {
+                                if (result.error_code == 0) {
+                                    table.ajax.reload();
+                                }
+                            });
+                    });
                 });
-              
             });
 
         </script>

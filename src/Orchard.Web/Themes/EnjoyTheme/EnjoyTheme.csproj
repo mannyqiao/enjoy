@@ -370,6 +370,7 @@
     <Content Include="Views\Cards\ShowQR.cshtml" />
     <Content Include="Views\Cards\View.cshtml" />
     <Content Include="Views\Cards\CreateMCard.cshtml" />
+    <Content Include="Views\Component\_ModalDialogPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
