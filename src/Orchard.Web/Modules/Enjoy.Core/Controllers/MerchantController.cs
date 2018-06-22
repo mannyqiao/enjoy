@@ -159,23 +159,31 @@ namespace Enjoy.Core.Controllers
             return new JsonNetResult() { Data = model };
         }
 
-        public ActionResult EditShop(int? shopId = null)
+        public ActionResult EditShop(int? id = null)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
             var merchant = this.Merchant.GetDefaultMerchant();
 
-            var viewModel = shopId == null
+            var viewModel = id == null
                 ? new ShopViewModel(new Models.ShopModel(merchant))
-                : new ShopViewModel(this.Shop.GetDefaultShop(shopId.Value));
+                : new ShopViewModel(this.Shop.GetDefaultShop(id.Value));
             viewModel.Protocol = this.WeChat.GetApplyProtocol();
             return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult EditShopPost(ShopViewModel model, string returnUrl)
+        public ActionResult EditShopPost(ShopViewModel viewModel, string returnUrl)
         {
-
+            //var merchant = this.Merchant.GetDefaultMerchant();
+            var model = new Models.ShopModel(viewModel);
+            this.Shop.SaveOrUpdate(model);
+            return this.RedirectLocal(returnUrl);
+        }
+        public ActionResult Delete(int? id = null, string returnUrl = "/merchant/myshops")
+        {
+            if (id == null) return this.RedirectLocal(returnUrl);
+            this.Shop.DeleteShop(id.Value);
             return this.RedirectLocal(returnUrl);
         }
     }

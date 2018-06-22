@@ -20,7 +20,9 @@ namespace Enjoy.Core.Models
         public int TotalCount { get; set; }
 
         [JsonProperty("recordsFiltered")]
-        public int RecordsFiltered { get; set; }
+        public int RecordsFiltered { get { return this.TotalCount; } }
+
+        [JsonIgnore]
         public Paging Paging { get; set; }
     }
     public class Paging

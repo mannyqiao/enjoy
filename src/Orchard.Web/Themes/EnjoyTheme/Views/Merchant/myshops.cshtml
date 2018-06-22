@@ -18,12 +18,12 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="myshoplist">
                         <thead>
                             <tr>
-                                <th data-data="Id">门店编号</th>
-                                <th data-data="Merchant.BrandName">商户名称</th>
-                                <th data-data="ShopName">门店名称</th>
-                                <th data-data="Address">门店地址</th>
-                                <th data-data="Leader">店长</th>
-                                <th data-data="Id" data-orderable="false">操作</th>
+                                <th>门店编号</th>
+                                <th>商户名称</th>
+                                <th>门店名称</th>
+                                <th>门店地址</th>
+                                <th>店长</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -57,6 +57,8 @@
                     "paging": true,
                     "responsive": true,
                     "serverSide": true,
+                    "processing": true,//加载中
+                    "pagingType": "full_numbers",//分页模式
                     "language": {
                         "paginate": {
                             "first": "第一页",
@@ -69,12 +71,12 @@
                         "infoEmpty": "显示 0 到 0 记录,共 0 记录",
                         "search": "搜索:",
                         "infoFiltered": "",
-                        "lengthMenu": "每页显示 _MENU_ 条记录"
+                        "lengthMenu": "每页显示 _MENU_ 条记录",
+                        "processing": "玩命加载中..."
                     },
                     "ajax": {
                         "url": "/merchant/querymyshops",
                         "type": "POST",
-                        "dataType": "application/json",
                         "data": function (data) {
                             data.__RequestVerificationToken = $("input[name='__RequestVerificationToken']").val();
                             console.log(data)
@@ -82,15 +84,15 @@
                         }
                     },
                     "columns": [
-                        { data: "Id", name: "编号" },
-                        { data: "Merchant.BrandName", name: "商户名称" },
-                        { data: "ShopName", name: "门店名称" },
-                        { data: "Address", name: "地址" },
-                        { data: "Leader", name: "店长" },
+                        { data: "Id" },
+                        { data: "Merchant" },
+                        { data: "ShopName" },
+                        { data: "AddressInfo" },
+                        { data: "Leader" },
                         {
-                            data: "Id", "render": function () {
-                                var innerHtml = "<a>编辑/查看</a>" +
-                                    "<a>删除</a>";
+                            data: "Id", "render": function (data) {
+                                var innerHtml = "<a class='btn  btn-primary  btn-xs' href='/merchant/editshop?Id=" + data + "'>查看</a>      " +
+                                    "<a id='delete' class='btn btn-outline btn-default btn-xs delete' href='/merchant/editshop?Id=" + data + "'>删除</a>";
                                 return innerHtml;
                             },
                             name: "操作"
@@ -100,11 +102,20 @@
                         { "searchable": false, "targets": 0 },
                         { "searchable": false, "targets": 1 },
                         { "searchable": true, "targets": 2 },
-                        { "searchable": false, "targets": 3 },
+                        { "searchable": false, orderable: false, "targets": 3 },
                         { "searchable": false, "targets": 4 },
-                        { "searchable": false, "targets": 5 }
+                        { "searchable": false, orderable: false, "targets": 5 }
                     ]
                 });
+
+                $("a.delete").click(function (e) {
+                    console.log("click delete");
+                    e.preventDefault();
+                    if (confirm("真的要删除吗?")) {
+                        window.location.url = $(this).attr("href");
+                    }
+                });
+              
             });
 
         </script>

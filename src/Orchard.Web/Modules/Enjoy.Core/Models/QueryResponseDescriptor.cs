@@ -46,9 +46,10 @@ namespace Enjoy.Core.Models
         {
 
         }
-
+        [JsonIgnore]
         public int ErrorCode { get; protected set; }
 
+        [JsonIgnore]
         public string ErrorMessage
         {
             get;
@@ -60,6 +61,7 @@ namespace Enjoy.Core.Models
         [JsonProperty("data")]
         public virtual IEnumerable<T> Items { get; set; }
 
+        [JsonIgnore]
         public bool HasError
         {
             get

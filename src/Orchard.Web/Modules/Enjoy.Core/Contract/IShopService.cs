@@ -14,5 +14,9 @@ namespace Enjoy.Core
 
         Models::PagingData<Models::ShopModel> QueryShops(QueryFilter filter, PagingCondition paging);
 
+        void SaveOrUpdate(Models::ShopModel model);
+
+        void DeleteShop(int id);
+
     }
 }
