@@ -114,15 +114,17 @@
                 $('#myshoplist').on('draw.dt', function () {
                     $('button[name="remove_levels"]').on('click', function (e) {
                         e.preventDefault();
-                        $.post("/merchant/delete",
-                            {
-                                id: $(this).attr("data-data"),
-                                __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
-                            }, function (result) {
-                                if (result.error_code == 0) {
-                                    table.ajax.reload();
-                                }
-                            });
+                        if (confirm("真的要删除吗?")) {
+                            $.post("/merchant/delete",
+                                {
+                                    id: $(this).attr("data-data"),
+                                    __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                                }, function (result) {
+                                    if (result.error_code == 0) {
+                                        table.ajax.reload();
+                                    }
+                                });
+                        }
                     });
                 });
             });
