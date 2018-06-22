@@ -9,6 +9,9 @@ namespace Enjoy.Core.Services
     using Orchard;
     using NHibernate.Criterion;
     using System.Text;
+    using Enjoy.Core.ViewModels;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class CardCouponService : QueryBaseService<Records::CardCoupon, Models::CardCounponModel>, ICardCouponService
     {
@@ -25,42 +28,6 @@ namespace Enjoy.Core.Services
                 return typeof(ICardCoupon);
             }
         }
-
-        //public Models::WxCardCouponWapper<ICardCoupon> CreateCardCouponInstance(CardTypes type)
-        //{
-        //    switch (type)
-        //    {
-        //        case CardTypes.CASH:
-        //            return new Models::WxCardCouponWapper<ICardCoupon>()
-        //            {
-        //                Card = new CashCoupon()
-        //            };
-        //        case CardTypes.DISCOUNT:
-        //            return new Models::WxCardCouponWapper<ICardCoupon>()
-        //            {
-        //                Card = new DiscountCoupon()
-        //            };
-        //        case CardTypes.GENERAL_COUPON:
-        //            return new Models::WxCardCouponWapper<ICardCoupon>()
-        //            {
-        //                Card = new GeneralCoupon()
-        //            };
-        //        case CardTypes.GIFT:
-        //            return new Models::WxCardCouponWapper<ICardCoupon>()
-        //            {
-        //                Card = new GiftCoupon()
-        //            };
-        //        case CardTypes.GROUPON:
-        //            return new Models::WxCardCouponWapper<ICardCoupon>()
-        //            {
-        //                Card = new Groupon()
-        //            };
-
-        //        case CardTypes.MEMBER_CARD:
-        //            break;
-        //    }
-        //    throw new NotSupportedException("No supported with type:" + type.ToString());
-        //}
 
         public Models.QRCodeWxResponse CreateQRCode(string cardid)
         {
@@ -108,7 +75,7 @@ namespace Enjoy.Core.Services
 
 
 
-        public Models.PagingData<Models::CardCounponModel> QueryCardCounpon(PagingCondition condition, CardTypes type)
+        public Models.PagingData<Models::CardCounponModel> QueryCardCoupon(PagingCondition condition, CardTypes type)
         {
             return this.QueryByPaging(condition, (builder) =>
              {
@@ -156,40 +123,6 @@ namespace Enjoy.Core.Services
             }
             return result;
         }
-        //public static QRCodeWxResponse CreateWxQRCode(string token, string cardid)
-        //{
-        //    var request = WxUtil.GenerateWxQRCodeUrl(token);
-
-        //    var qrcode = request.GetResponseForJson<QRCodeWxResponse>((http) =>
-        //    {
-        //        http.Method = "POST";
-        //        http.ContentType = "application/json; encoding=utf-8";
-        //        var data = new
-        //        {
-        //            action_name = "QR_CARD",
-        //            expire_seconds = 1800,
-        //            action_info = new
-        //            {
-        //                card = new
-        //                {
-        //                    card_id = cardid,
-        //                    code = "",
-        //                    openid = "",
-        //                    is_unique_code = false,
-        //                    outer_str = "13b",
-        //                }
-        //            }
-        //        };
-        //        using (var stream = http.GetRequestStream())
-        //        {
-        //            var buffers = UTF8Encoding.UTF8.GetBytes(data.ToJson());
-        //            stream.Write(buffers, 0, buffers.Length);
-        //            stream.Flush();
-        //        }
-        //        return http;
-        //    });
-        //    return qrcode;
-        //}
         public Models.NormalWxResponse TestwhiteList(string[] wechatids)
         {
             var request = WeChatApiRequestBuilder.GenerateWxtestwhitelist(this.WeChat.GetToken());
@@ -252,5 +185,20 @@ namespace Enjoy.Core.Services
             return new Models::BaseResponse(EnjoyConstant.Success);
         }
 
+        public Models.PagingData<Models.CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition)
+        {
+            return base.Query(condition, builder =>
+            {
+                foreach (var criteria in this.Criterias(filter))
+                {
+                    builder.Add(criteria);
+                }
+                foreach (var order in this.Orders(filter))
+                {
+                    builder.AddOrder(order);
+                }
+            },
+            record => new Models.CardCounponModel(record));
+        }     
     }
 }

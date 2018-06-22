@@ -93,11 +93,11 @@
                         { data: "Leader" },
                         {
                             data: "Id", "render": function (data) {
-                                var innerHtml = "<a class='btn  btn-primary  btn-xs' href='/merchant/editshop?Id=" + data + "'>查看</a>      " +
+                                var innerHtml = "<a class='btn btn-outline  btn-primary  btn-xs' href='/merchant/editshop?Id=" + data + "'>查看</a>      " +
                                     "<button name='remove_levels' class='btn btn-outline btn-default btn-xs delete' data-data='" + data + "'>删除</button>";
+
                                 return innerHtml;
-                            },
-                            name: "操作"
+                            }
                         }
                     ],
                     "columnDefs": [
@@ -120,7 +120,7 @@
                                     id: $(this).attr("data-data"),
                                     __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
                                 }, function (result) {
-                                    if (result.error_code == 0) {
+                                    if (result.errcode == 0) {
                                         table.ajax.reload();
                                     }
                                 });

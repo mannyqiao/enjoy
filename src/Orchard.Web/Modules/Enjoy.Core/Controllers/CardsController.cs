@@ -7,6 +7,7 @@ namespace Enjoy.Core.Controllers
     using System.Web.Mvc;
     using Orchard.Mvc.Extensions;
     using Enjoy.Core.ViewModels;
+
     using Orchard;
     using System.Linq;
     [Themed]
@@ -23,6 +24,7 @@ namespace Enjoy.Core.Controllers
             ICardCouponService cardcoupn,
             IMerchantService merchant,
             IEnjoyAuthService auth,
+
             IWeChatApi wechat)
         {
             this.OS = os;
@@ -36,53 +38,53 @@ namespace Enjoy.Core.Controllers
         /// 优惠券a
         /// </summary>
         /// <returns></returns>
-        public ActionResult Coupon(int page = 1, CardTypes type = CardTypes.None)
+
+        public ActionResult Coupon()
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
-
-            var result = this.CardCoupon.QueryCardCounpon(PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize), CardTypes.None);
-            var viewModel = new Models.PagingData<CardCouponWithoutWapperViewModel>(result.Items.Select(o => new CardCouponWithoutWapperViewModel(o)))
-            {
-                Paging = result.Paging,
-                TotalCount = result.TotalCount
-            };
-
-            return View(viewModel);
-        }
-
-        /// <summary>
-        /// 会员卡
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult MCard()
-        {
             return View();
+        }
+        [HttpPost]
+        public JsonNetResult QueryCouponCard(QueryFilter filter)
+        {
+
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return new JsonNetResult() { Data = new { } };
+            var merchant = this.Merchant.GetDefaultMerchant();
+            filter.Columns.Add(new QueryColumnFilter()
+            {
+                Data = "Merchant.Id",
+                Searchable = true,
+                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
+            });
+            var model = this.CardCoupon.QueryCardCoupon(filter, new PagingCondition(filter.Start, filter.Length));
+            var viewModel = new Models.PagingData<CardCouponWithoutWapperViewModel>(model.Items.Select(o => new CardCouponWithoutWapperViewModel(o)))
+            {
+                Paging = model.Paging,
+                TotalCount = model.TotalCount
+            };
+            return new JsonNetResult() { Data = viewModel };
         }
         /// <summary>
         /// 创建优惠券
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateCoupon(int? id = null)
+        public ActionResult Edit(int? id = null, CardTypes type = CardTypes.DISCOUNT)
         {
             var viewModel = id == null
                 ? new CardCounponViewModel() { CardType = CardTypes.DISCOUNT }
                 : client.Convert(this.CardCoupon.GetCardCounpon(id.Value));
-
-            if (id == null)
+            switch (type)
             {
-
-            }
-            else
-            {
-                this.CardCoupon.GetCardCounpon(id.Value);
-            }
-
-
-            return View(viewModel);
+                case CardTypes.MEMBER_CARD:
+                    return View("EditMCard", viewModel);
+                default:
+                    return View("EditCoupon", viewModel);
+            }            
         }
         [HttpPost]
-        public ActionResult CreateCouponPost(CardCounponViewModel viewModel, string ReturnUrl)
+        public ActionResult EditPost(CardCounponViewModel viewModel, string ReturnUrl)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
@@ -90,11 +92,11 @@ namespace Enjoy.Core.Controllers
             var result = this.CardCoupon.SaveOrUpdate(client.Convert(viewModel, this.Merchant.GetDefaultMerchant()));
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
-        public ActionResult Publish(int id)
+        [HttpPost]
+        public JsonNetResult Publish(int id)
         {
             var result = this.CardCoupon.Publish(id);
-            //this.CardCoupon.TestwhiteList(new string[] { "s66822351", "ebyinglw" });
-            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
+            return new JsonNetResult() { Data = result };
         }
         public ActionResult ShowQR(int id)
         {
@@ -102,12 +104,8 @@ namespace Enjoy.Core.Controllers
             var qrcode = this.CardCoupon.CreateQRCode(model.WxNo);
             var viewModel = new QRCodeViewModel() { QRCodeUrl = qrcode.ShowQRCodeUrl };
             return View(viewModel);
-            //return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
-        public ActionResult View(int id)
-        {
-            return View();
-        }
+
         /// <summary>
         /// 创建会员卡
         /// </summary>
