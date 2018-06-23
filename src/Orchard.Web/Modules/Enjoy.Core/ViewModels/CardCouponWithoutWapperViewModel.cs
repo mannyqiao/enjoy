@@ -10,13 +10,14 @@ namespace Enjoy.Core.ViewModels
             this.Id = model.Id;
             this.BrandName = model.BrandName;
             this.Merchant = model.Merchant.BrandName;
-            this.CreatedTime = model.CreatedTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd HH:mm");
-            this.LastUpdateTime = model.LastUpdateTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd HH:mm");
+            this.CreatedTime = model.CreatedTime.ToDateTimeString();
+            this.LastUpdateTime = model.LastUpdateTime.ToDateTimeString();
             this.Quantity = model.Quantity;
             this.Type = model.Type.TextOf();
             this.WxNo = model.WxNo;
             this.Status = model.Status.TextOf();
             this.CardType = model.Type;
+            //this.DelAble = !((model.Status & CCStatus.Published) == CCStatus.Published);
         }
 
         public int Id { get; set; }
@@ -33,5 +34,6 @@ namespace Enjoy.Core.ViewModels
         public string CreatedTime { get; set; }
         public string LastUpdateTime { get; set; }
         public string Status { get; set; }
+        
     }
 }

@@ -9,5 +9,6 @@ namespace Enjoy.Core
         string CardType { get; }
 
         void Specific(Action<BaseInfo, AdvancedInfo> action);
+        void SetCardId(string cardid);
     }
 }

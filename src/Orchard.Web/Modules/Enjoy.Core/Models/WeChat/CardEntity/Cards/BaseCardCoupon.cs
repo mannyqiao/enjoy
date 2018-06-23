@@ -14,12 +14,19 @@
                 throw new NotImplementedException("must override by child class");
             }
         }
-
+        [JsonProperty("card_id", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string CardId
+        {
+            get; set;
+        }
 
         [JsonProperty("cash")]
         public abstract TWapper CardCoupon { get; set; }
 
-
+        public void SetCardId(string cardid)
+        {
+            this.CardId = cardid;
+        }
 
         public void Specific(Action<BaseInfo, AdvancedInfo> action)
         {

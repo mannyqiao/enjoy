@@ -127,12 +127,44 @@
                     {
                         data: "Id", "render": function (data, type, row, meta) {
                             console.log(row);
-                            var viewInnerHtml = "<a class='btn btn-outline  btn-primary  btn-xs' href='/cards/edit?Id=" + data + "&type=" + row.CardType + "'>查看</a>";
-                            var publishInnerHtml = "<button name='publish' class='btn btn-outline btn-default btn-xs delete' data-data='" + data + "'>发布</button>";
-                            var showqrInnerHtml = "<a  class='btn btn-outline btn-success btn-xs ' href='/cards/showqr?id=" + data + "'>投放</a>"
+                            var viewInnerHtml = function () {
+                                //if row.Status=== Editing || PublishedError
+                                if (row.Status === 1 || row.Status===32) {
+                                    return "<a class='btn btn-outline  btn-primary  btn-xs' href='/cards/edit?date=" + new Date() + "&Id=" + data + "&type=" + row.CardType + "'>编辑</a>";
+                                }
+                                else {
+                                    return "<a class='btn btn-outline  btn-primary  btn-xs' href='/cards/edit?date=" + new Date() + "&Id=" + data + "&type=" + row.CardType + "'>详情</a>";
+                                }
+                            }
+                            var publishInnerHtml = function () {
+                                /// if row.Status = Published || PublishedError
+                                if (row.Status === 1 || row.Status === 32) {
+                                    "<button name='publish' class='btn btn-outline btn-default btn-xs delete' data-data='" + data + "'>发布</button>";
+                                }
+                                else {
+                                    return "";
+                                }
+                                    
+                            }
+                            var showqrInnerHtml = function () {
+                                if (row.Status === 2) {
+                                    "<a  class='btn btn-outline btn-success btn-xs ' href='/cards/showqr?id=" + data + "'>投放</a>"
+                                }
+                                else {
+                                    return "";
+                                }
+                            } 
+                            var deleteInnerHtml = function () {
+                                /// if row.Status === Editing ,Expired, RunOut UseCompleted PublishedError ,then can delete.
+                                if (row.Status === 1 || row.Status === 4 || row.Status === 16 || row.Status===32) {
+                                    return "<button name='delete' class='btn btn-outline btn-danger btn-xs ' data-data='" + data + "'>删除</button>";
+                                }
+                                else {
+                                    return "";
+                                }
+                            };
 
-
-                            var innerHtml =  viewInnerHtml + publishInnerHtml + showqrInnerHtml;
+                            var innerHtml = viewInnerHtml() + publishInnerHtml() + showqrInnerHtml() + deleteInnerHtml();
                             return innerHtml;
                         }
                     }
@@ -164,6 +196,24 @@
                                 alert(result.errmsg);
                             }
                         });
+                });
+
+                $('button[name="delete"]').on('click', function (e) {
+                    e.preventDefault();
+                    if (confirm("真的要删除吗?")) {
+                        $.post("/cards/delete",
+                            {
+                                id: $(this).attr("data-data"),
+                                __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                            }, function (result) {
+                                if (result.errcode == 0) {
+                                    table.ajax.reload();
+                                }
+                                else {
+                                    alert(result.errmsg);
+                                }
+                            });
+                    }
                 });
             });
         });

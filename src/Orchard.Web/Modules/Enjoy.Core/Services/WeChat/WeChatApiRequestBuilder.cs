@@ -50,6 +50,10 @@ namespace Enjoy.Core.Services
         {
             return string.Format("https://api.weixin.qq.com/card/create?access_token={0}", token);
         }
+        public static string GenerateWxUpdateCardUrl(string token)
+        {
+            return string.Format("https://api.weixin.qq.com/card/update?access_token={0}", token);
+        }
         /// <summary>
         /// 生成图片上传Api Url
         /// </summary>

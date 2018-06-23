@@ -95,7 +95,7 @@
                             </fieldset>
                             <fieldset id="group_date_type_fix_term">
                                 @Html.Partial("Component/_DecimalPartial",
-                                         new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedBeginTerm), "领券后",Model.BaseInfo.Dateinfo.FixedBeginTerm, false,"输入领取后多少天开始有效"))
+                                 new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedBeginTerm), "领券后",Model.BaseInfo.Dateinfo.FixedBeginTerm, false,"输入领取后多少天开始有效"))
 
                                 @Html.Partial("Component/_DecimalPartial",
                                           new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.FixedTerm), "有效期",
@@ -154,14 +154,14 @@
                         </div>
 
                         @*<div class="form-group ">
-                                <label>可用时段</label>
-                                @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), "",
-                                  new RadioUIElement.RadioItem[]
-                                  {
-                                     new RadioUIElement.RadioItem(ApplyScopes.All.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.AcceptCategory),"所有时段","abbc"),
-                                     new RadioUIElement.RadioItem(ApplyScopes.Specific.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.RejectCategory),"特定时段","abbc")
-                                 }, null, CardTypes.GROUPON.ToString()))
-                            </div>*@
+                        <label>可用时段</label>
+                        @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), "",
+                          new RadioUIElement.RadioItem[]
+                          {
+                             new RadioUIElement.RadioItem(ApplyScopes.All.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.AcceptCategory),"所有时段","abbc"),
+                             new RadioUIElement.RadioItem(ApplyScopes.Specific.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.RejectCategory),"特定时段","abbc")
+                         }, null, CardTypes.GROUPON.ToString()))
+                    </div>*@
                         @Html.Partial("Component/_MultiChoicePartial",
                        new MultiChoiceUIElement(Html.NameOf(o => o.AdvancedInfo.BusinessService), "商家服务",
                        new MultiChoiceUIElement.ChoiceItem[] {
@@ -170,28 +170,41 @@
                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_WITH_PET",EnjoyConstant.BusinessService["BIZ_SERVICE_WITH_PET"],true),
                            new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_WIFI",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_WIFI"],true)
                            }))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanGivefriend), "可否赠送好友", Model.BaseInfo.CanGivefriend??false))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanShare), "与他人共享", Model.BaseInfo.CanShare??false))
+                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanGivefriend), "可否赠送好友", Model.BaseInfo.CanGivefriend ?? false))
+                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanShare), "与他人共享", Model.BaseInfo.CanShare ?? false))
                         @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.CanUseWithOtherDiscount), "可与其他优惠共享", Model.AdvancedInfo.UseCondition.CanUseWithOtherDiscount))
                     </div>
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
                         @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
                         @*@Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterTitle), "入口标题", Model.BaseInfo.CenterTitle, "", string.Empty, true))
-                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
-                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@
+                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
+                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@
                         @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.AdvancedInfo.TextImageList), Model.AdvancedInfo.TextImageList.ToArray()))
 
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="col-lg-offset-4">
-                            <button type="submit" class="btn btn-default ">创建</button>
-                            <button type="reset" class="btn btn-default">清除</button>
+                if(Model.CCStatus == CCStatus.Editing)
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-offset-4">
+                                <button type="submit" class="btn btn-default ">创建</button>
+                                <button type="reset" class="btn btn-default">清除</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-offset-4">
+                                <a class="btn btn-default" href="/cards/coupon">返回</a>                             
+                            </div>
+                        </div>
+                    </div>
+                }
             }
 
         </div>

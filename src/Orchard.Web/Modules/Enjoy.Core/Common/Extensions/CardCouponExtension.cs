@@ -89,7 +89,7 @@ namespace Enjoy.Core
             var text = status.ToString();
             return string.Join("|", text.Split(',').Select((o) =>
             {
-                switch (o)
+                switch (o.Trim())
                 {
                     case "Editing":
                         return "编辑中";
@@ -101,8 +101,9 @@ namespace Enjoy.Core
                         return "已领完";
                     case "UseCompleted":
                         return "核销完毕";
-                }
-                return o;
+                    default:
+                        return "";
+                }                
             }));
         }
     }

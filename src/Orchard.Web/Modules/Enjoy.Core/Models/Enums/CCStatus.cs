@@ -14,24 +14,26 @@ namespace Enjoy.Core
         /// <summary>
         /// 编辑中
         /// </summary>
-        Editing = 0,
+        Editing = 1,
         /// <summary>
         /// 已发布
         /// </summary>
-        Published = 1,
+        Published = 2,
         /// <summary>
         /// 已过期
         /// </summary>
-        Expired = 2,
-
+        Expired = 4,
         /// <summary>
         /// 领用完毕
         /// </summary>
-        RunOut = 4,
+        RunOut = 8,
         /// <summary>
         /// 使用完毕
         /// </summary>
-        UseCompleted = 8,
-
+        UseCompleted = 16,
+        /// <summary>
+        /// 发布出错
+        /// </summary>
+        PublishedError = 32,
     }
 }

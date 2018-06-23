@@ -19,7 +19,16 @@
         {
             return UNIX_START_DATE.Add(TimeSpan.FromTicks(timestamp * 10000000L));
         }
-
+        public static string ToDateTimeString(this long timestamp)
+        {
+            if (timestamp.Equals(0)) return string.Empty;
+            return timestamp.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd HH:mm");
+        }
+        public static string ToDateString(this long timestamp)
+        {
+            if (timestamp.Equals(0)) return string.Empty;
+            return timestamp.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
+        }
         public static DateTime ToDateTimeFromTwitter(this string time)
         {
             return DateTime.ParseExact(
