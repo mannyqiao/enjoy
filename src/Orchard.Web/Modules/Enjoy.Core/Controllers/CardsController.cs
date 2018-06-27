@@ -73,7 +73,7 @@ namespace Enjoy.Core.Controllers
         public ActionResult Edit(int? id = null, CardTypes type = CardTypes.DISCOUNT)
         {
             var viewModel = id == null
-                ? new CardCounponViewModel() { CardType = CardTypes.DISCOUNT }
+                ? new CardCounponViewModel() { CardType = CardTypes.DISCOUNT, CCStatus = CCStatus.Editing }
                 : client.Convert(this.CardCoupon.GetCardCounpon(id.Value));
             switch (type)
             {
@@ -81,7 +81,7 @@ namespace Enjoy.Core.Controllers
                     return View("EditMCard", viewModel);
                 default:
                     return View("EditCoupon", viewModel);
-            }            
+            }
         }
         [HttpPost]
         public ActionResult EditPost(CardCounponViewModel viewModel, string ReturnUrl)
@@ -110,11 +110,15 @@ namespace Enjoy.Core.Controllers
         /// 创建会员卡
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateMCard()
-        {
-            var viewModel = new CardCounponViewModel() { CardType = CardTypes.MEMBER_CARD };
-            return View(viewModel);
-        }
+        //public ActionResult CreateMCard()
+        //{
+        //    var viewModel = new CardCounponViewModel()
+        //    {
+        //        CardType = CardTypes.MEMBER_CARD,
+        //        CCStatus = CCStatus.Editing
+        //    };
+        //    return View(viewModel);
+        //}
 
         public ActionResult Query(int id)
         {

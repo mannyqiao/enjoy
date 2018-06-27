@@ -21,6 +21,5 @@ namespace Enjoy.Core.Models.Records
         public virtual long LastUpdatedTime { get; set; }
         public virtual long CreatedTime { get; set; }
 
-
     }
 }

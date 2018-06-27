@@ -77,6 +77,7 @@ namespace Enjoy.Core.Models.Records
 
         public virtual string Mobile { get; set; }
         public virtual string Address { get; set; }
+        public virtual string ErrMsg { get; set; }
 
         //商户创建传入参数
 

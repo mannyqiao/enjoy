@@ -77,7 +77,7 @@ namespace Enjoy.Core
                 .Column("AppId", System.Data.DbType.String, column => column.WithLength(26))
                 .Column("BrandName", System.Data.DbType.String, column => column.WithLength(36))
                 .Column("LogoUrl", System.Data.DbType.String, column => column.WithLength(128))
-                .Column("Protocol", System.Data.DbType.String, column => column.WithLength(26))
+                .Column("Protocol", System.Data.DbType.String, column => column.WithLength(128))
                 .Column("EndTime", System.Data.DbType.Int64)
                 .Column("PrimaryCategoryId", System.Data.DbType.Int32)
                 .Column("SecondaryCategoryId", System.Data.DbType.Int32)
@@ -86,6 +86,7 @@ namespace Enjoy.Core
                 .Column("Contact", System.Data.DbType.String, column => column.WithLength(36).Nullable())
                 .Column("Mobile", System.Data.DbType.String, column => column.WithLength(36).Nullable())
                 .Column("Address", System.Data.DbType.String, column => column.WithLength(128).Nullable())
+                .Column("ErrMsg", System.Data.DbType.String, column => column.WithLength(500).Nullable())
             );
 
             //创建商户管理员
@@ -117,6 +118,7 @@ namespace Enjoy.Core
                 .Column("Status", System.Data.DbType.String, column => column.WithLength(100))
                 .Column("JsonMetadata", System.Data.DbType.String, column => column.Unlimited())
             );
+
 
 
         }

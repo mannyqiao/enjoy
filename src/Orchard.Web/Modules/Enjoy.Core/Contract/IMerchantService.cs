@@ -4,6 +4,7 @@ namespace Enjoy.Core
 {
     using Enjoy.Core.ViewModels;
     using Orchard;
+    using System;
     using Models = Enjoy.Core.Models;
     public interface IMerchantService : IDependency
     {
@@ -18,13 +19,8 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Models::ActionResponse<Models::MerchantModel> SaveOrUpdate(Models::MerchantModel model);
-        /// <summary>
-        /// 商户审核
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        Models::WxResponseWapper<Models::MerchantModel> Audit(Models::MerchantModel model);
+        Models::ActionResponse<Models::MerchantModel> SaveOrUpdate(Models::MerchantModel model, Action<Models::MerchantModel> push = null);
+
 
         /// <summary>
         /// 查询商户审核状态
@@ -35,6 +31,6 @@ namespace Enjoy.Core
 
 
         Models::PagingData<Models::MerchantModel> QueryMyMerchants(int userid, int page);
-        
+
     }
 }

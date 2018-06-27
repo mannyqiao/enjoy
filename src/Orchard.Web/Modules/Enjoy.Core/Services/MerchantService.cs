@@ -23,13 +23,13 @@ namespace Enjoy.Core.Services
 
         public MerchantService(
             IOrchardServices os,
-            IEnjoyAuthService auth,            
+            IEnjoyAuthService auth,
             IWeChatApi wechat) :
             base(os)
         {
             this.Auth = auth;
             this.OS = os;
-            this.WeChat = wechat;            
+            this.WeChat = wechat;
         }
 
         public Models.MerchantModel GetDefaultMerchant()
@@ -52,8 +52,11 @@ namespace Enjoy.Core.Services
             return merchart;
         }
 
-        public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(Models.MerchantModel model)
+        public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(Models::MerchantModel model, Action<Models::MerchantModel> push = null)
         {
+            if (push == null) push = PushToWechat;
+            push(model);
+            
             return this.SaveOrUpdate(model, Validate, Convert);
         }
         private Records::Merchant Convert(Models::MerchantModel model)
@@ -82,6 +85,7 @@ namespace Enjoy.Core.Services
                 r.SecondaryCategoryId = m.SecondaryCategoryId;
                 r.UpdateTime = m.UpdateTime;
                 r.Status = m.Status;
+                r.ErrMsg = m.ErrMsg;
                 return r;
             });
             return record;
@@ -108,9 +112,29 @@ namespace Enjoy.Core.Services
             }
             return Models::VerifyResponse.CreateSuccessInstance();
         }
-        public Models.WxResponseWapper<Models.MerchantModel> Audit(Models.MerchantModel model)
+        /// <summary>
+        /// 提交审核
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private void PushToWechat(Models::MerchantModel model)
         {
-            throw new NotImplementedException();
+            var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.WeChat.GetToken());
+            var wapper = new Models::WxRequestWapper<Models::SubMerchant>();
+            wapper.Info = new Models.SubMerchant(model);
+            var wxrep = this.WeChat.CreateSubmerchant(wapper);
+            if (wxrep.HasError==false)
+            {
+                model.Status = AuditStatus.CHECKING;
+                model.MerchantId = wxrep.Info.MerchantId;
+                model.ErrMsg = string.Empty;
+                    
+            }
+            else
+            {
+                model.Status = AuditStatus.UnCommitted;
+                model.ErrMsg = wxrep.ErrMsg;
+            }
         }
 
         public Models.WxResponseWapper<Models.MerchantModel> QueryApproveStatus(string merchantid)
@@ -142,6 +166,6 @@ namespace Enjoy.Core.Services
             });
         }
 
-      
+
     }
 }
