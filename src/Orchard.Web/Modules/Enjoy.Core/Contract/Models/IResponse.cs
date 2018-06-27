@@ -14,6 +14,7 @@ namespace Enjoy.Core
         [JsonProperty("errmsg")]
         string ErrorMessage { get; }
 
-        bool HasError { get;}
+        bool HasError { get; }
     }
+
 }

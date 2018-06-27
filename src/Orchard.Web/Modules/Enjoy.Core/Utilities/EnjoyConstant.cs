@@ -59,12 +59,17 @@ namespace Enjoy.Core
             {"Color102","#5E6671"}
         };
         public const int DefaultPageSize = 10;
-        //  return GetToken("wx0c644f8027d78c74", "f1681068dfcd75ef2d7dff14cb3b5fae");
-        public static IMiniprogram Miniprogram = new Models.Miniprogram("wx3ec55fbaa7dcefc7", "e1374e932b2eef3d4b0fa8f0e936496a"); //wechat sand box test 
+#if DEBUG
+        // UAT official  account "Enjoy.Vip@hotmail.com" 
+        //var token = "EnjoyMini";
+        //var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
+        public static IMiniprogram Miniprogram = new Models.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
+#else
+        //Product official account 
+        public static IMiniprogram Miniprogram = new Models.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03"); //         
+#endif
         public const string WxBizMsgToken = "EnjoyMini";
         public const string EncodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
-        public const string Directory_Media_Protocol_ROOT = "~/media/protocols";
-        //
-        //public static IMiniprogram Miniprogram = new Models.Miniprogram("wx6647cb456db305dd", "a152e548d43c4f8e99198bf7cf17f014");
+        public const string Directory_Media_Protocol_ROOT = "~/media/protocols";        
     }
 }

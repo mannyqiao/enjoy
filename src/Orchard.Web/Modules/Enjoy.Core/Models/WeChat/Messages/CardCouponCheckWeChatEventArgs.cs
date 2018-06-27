@@ -9,9 +9,7 @@ namespace Enjoy.Core.Models
     /// 卡券审核事件
     /// </summary>
     public class CardCouponCheckWeChatEventArgs : WeChatEventArgs
-    {
-        
-        
+    {   
         public string RefuseReason { get; set; }
     }
 }
