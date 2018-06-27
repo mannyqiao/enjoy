@@ -50,6 +50,10 @@ namespace Enjoy.Core.Services
         {
             return string.Format("https://api.weixin.qq.com/card/create?access_token={0}", token);
         }
+        public static string GenerateWxUpdateCardUrl(string token)
+        {
+            return string.Format("https://api.weixin.qq.com/card/update?access_token={0}", token);
+        }
         /// <summary>
         /// 生成图片上传Api Url
         /// </summary>
@@ -61,16 +65,16 @@ namespace Enjoy.Core.Services
             //return string.Format("https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token={0}&type=image", token);
             //                    //https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE
         }
-        public static string GenerateWxUploaMediaUrl(string token,MediaUploadTypes type)
+        public static string GenerateWxUploaMediaUrl(string token, MediaUploadTypes type)
         {
-           
+
             switch (type)
             {
                 case MediaUploadTypes.AuthMaterial:
                     return string.Format("https://api.weixin.qq.com/cgi-bin/media/upload?access_token={0}&type=image", token);
                 default: // Image
                     return string.Format("https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token={0}", token);
-                    
+
             }
         }
         /// <summary>
@@ -112,7 +116,12 @@ namespace Enjoy.Core.Services
         public static string GenrateImageUrlByMediaId(string mediaid)
         {
             ////Enjoy TODO: need return the true url by media id 
-            return "/Themes/EnjoyTheme/Content/images/backgrounds/1.jpg";
+            if (string.IsNullOrEmpty(mediaid))
+                return "/themes/enjoytheme/content/images/default.jpg";
+            else
+            {
+                return string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaid));
+            }   
         }
         public static string GenreateWxQueryGetCardList(string token)
         {

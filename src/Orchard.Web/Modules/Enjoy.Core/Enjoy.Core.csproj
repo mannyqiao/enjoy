@@ -104,6 +104,7 @@
     <Compile Include="Common\Extensions\AuditStatusExtension.cs" />
     <Compile Include="Common\Extensions\CardCouponExtension.cs" />
     <Compile Include="Common\Extensions\DateTimeExtension.cs" />
+    <Compile Include="Common\Extensions\DirectoryExtension.cs" />
     <Compile Include="Common\Extensions\ISessionExtension.cs" />
     <Compile Include="Common\Extensions\JsonExtension.cs" />
     <Compile Include="Contract\ICardCouponService.cs" />

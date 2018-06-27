@@ -4173,13 +4173,13 @@
 			} )
 			.append( $('<label/>' ).append( str ) );
 	
-		var searchFn = function() {
+		var searchFn = function(e) {
 			/* Update all other filter input elements for the new display */
 			var n = features.f;
 			var val = !this.value ? "" : this.value; // mental IE8 fix :-(
 	
 			/* Now do the filter */
-			if ( val != previousSearch.sSearch ) {
+			if ( val != previousSearch.sSearch &&e.keyCode==13) {
 				_fnFilterComplete( settings, {
 					"sSearch": val,
 					"bRegex": previousSearch.bRegex,
@@ -4199,14 +4199,14 @@
 				400 :
 				0;
 	
-		var jqFilter = $('input', filter)
-			.val( previousSearch.sSearch )
-			.attr( 'placeholder', language.sSearchPlaceholder )
-			.bind(
-				'keyup.DT search.DT input.DT paste.DT cut.DT',
-				searchDelay ?
-					_fnThrottle( searchFn, searchDelay ) :
-					searchFn
+        var jqFilter = $('input', filter)
+            .val(previousSearch.sSearch)
+            .attr('placeholder', language.sSearchPlaceholder)
+            .bind(
+                'keypress.DT search.DT input.DT paste.DT cut.DT',
+                searchDelay ?
+                    _fnThrottle(searchFn, searchDelay) :
+                    searchFn(e)
 			)
 			.bind( 'keypress.DT', function(e) {
 				/* Prevent form submission */

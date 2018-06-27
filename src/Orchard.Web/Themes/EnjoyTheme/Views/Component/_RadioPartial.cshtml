@@ -21,7 +21,7 @@
             var linked = @Html.Raw(Model.Linked.ToJson());
            
             $.each(linked, function (index, value) {
-                
+                console.log(value);
                 if (value == $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
                     $("#" + value + ">fieldset>div>input").each(function () {
@@ -62,7 +62,7 @@
         };
         
         $.each(linked, function (index, value) {
-            //console.log("value " + selected());
+            
             if (value == selected()) {
                 $("#" + value).removeClass("hidden");
             }

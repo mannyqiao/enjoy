@@ -171,10 +171,6 @@ namespace Enjoy.Core
                 {
                     switch (type)
                     {
-                        case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
-
-
-                            break;
                         case ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE:
                             if (DateTime.TryParse(viewModel.FixedExpiryDateDescriptor[0], out DateTime beginTime))
                             {
@@ -187,6 +183,7 @@ namespace Enjoy.Core
                             }
 
                             break;
+                        case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
                         case ExpiryDateTypes.DATE_TYPE_PERMANENT://会员卡 专用
                             break;
                     }
@@ -219,27 +216,109 @@ namespace Enjoy.Core
         public CardCounponViewModel Convert(CardCounponModel model)
         {
             var viewModel = new CardCounponViewModel();
-            var card = model.CardCouponWapper.Card as BaseCardCoupon<CardCouponWapper>;
+            viewModel.Id = model.Id;
+            viewModel.CCStatus = model.Status;
+            viewModel.WxNo = model.WxNo;
+            viewModel.CardType = model.Type;
+            viewModel.CreatedTime = model.CreatedTime;
             switch (model.Type)
             {
                 case CardTypes.CASH:
-                    var cash = model.CardCouponWapper.Card as CashCoupon;
+                    {
+                        var common = model.CardCouponWapper.Card as CashCoupon;
+                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
+                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
+                        viewModel.Cash = new CashSpecific()
+                        {
+                            LeastCost = common.CardCoupon.LeastCost,
+                            ReduceCost = common.CardCoupon.ReduceCost
+                        };
+                    }
                     break;
                 case CardTypes.DISCOUNT:
+                    {
+                        var common = model.CardCouponWapper.Card as DiscountCoupon;
+                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
+                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
+                        viewModel.Discount = new DiscountSpecific()
+                        {
+                            Discount = common.CardCoupon.Discount
+                        };
+                    }
                     break;
                 case CardTypes.GENERAL_COUPON:
-
+                    {
+                        var common = model.CardCouponWapper.Card as GeneralCoupon;
+                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
+                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
+                        viewModel.General = new GeneralCouponSpecific()
+                        {
+                            DefaultDetail = common.CardCoupon.DefaultDetail
+                        };
+                    }
                     break;
                 case CardTypes.GIFT:
-
+                    {
+                        var common = model.CardCouponWapper.Card as GiftCoupon;
+                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
+                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
+                        viewModel.Gift = new GiftSpecific()
+                        {
+                            Detail = common.CardCoupon.Gift
+                        };
+                    }
                     break;
                 case CardTypes.GROUPON:
-
+                    {
+                        var common = model.CardCouponWapper.Card as Groupon;
+                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
+                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
+                        viewModel.Groupon = new GrounponSpecific()
+                        {
+                            Detail = common.CardCoupon.DealDetail
+                        };
+                    }
                     break;
                 case CardTypes.MEMBER_CARD:
-                    var member = model.CardCouponWapper.Card as MemberCard;
+                    {
+                        var common = model.CardCouponWapper.Card as MemberCard;
+                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
+                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
+                        viewModel.MerberCard = new MerberCardWapper()
+                        {
+                            BackgroundPicUrl = common.CardCoupon.BackgroundPicUrl,
+                            Prerogative = common.CardCoupon.Prerogative,
+                            ActivateUrl = common.CardCoupon.ActivateUrl,
+                            AutoActivate = common.CardCoupon.AutoActivate,
+                            BonusRule = common.CardCoupon.BonusRule,
+                            CustomCell = common.CardCoupon.CustomCell,
+                            AdvancedInfo = common.CardCoupon.AdvancedInfo,
+                            BaseInfo = common.CardCoupon.BaseInfo,
+                            CustomField1 = common.CardCoupon.CustomField1,
+                            Discount = common.CardCoupon.Discount,
+                            SupplyBanlance = common.CardCoupon.SupplyBanlance,
+                            SupplyBonus = common.CardCoupon.SupplyBonus
+                        };
+                    }
                     break;
             }
+
+            if (Enum.TryParse<ExpiryDateTypes>(viewModel.BaseInfo.Dateinfo.Type, out ExpiryDateTypes datetype))
+            {
+                switch (datetype)
+                {
+
+                    case ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE:
+                        viewModel.FixedExpiryDateDescriptor = new string[] {
+                            (viewModel.BaseInfo.Dateinfo.BeginTimestamp??0).ToDateString(),
+                            (viewModel.BaseInfo.Dateinfo.EndTimestamp??0).ToDateString()
+                        };
+                        break;
+                    case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
+                    case ExpiryDateTypes.DATE_TYPE_PERMANENT:
+                        break;
+                }
+            }          
             return viewModel;
         }
         public WxRequestWapper<SubMerchant> Convert(Merchant merchant)

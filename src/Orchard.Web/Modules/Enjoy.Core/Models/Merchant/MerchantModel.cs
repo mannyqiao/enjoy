@@ -30,10 +30,11 @@ namespace Enjoy.Core.Models
                 this.SecondaryCategoryId = record.SecondaryCategoryId;
                 this.UpdateTime = record.UpdateTime;
                 this.Status = record.Status;
-                
+                this.ErrMsg = record.ErrMsg;
+
             }
 
-            
+
         }
         public int Id { get; set; }
         /// <summary>
@@ -104,5 +105,6 @@ namespace Enjoy.Core.Models
         public string Mobile { get; set; }
         public string Address { get; set; }
         public string CategoryName { get; set; }
+        public string ErrMsg { get; set; }
     }
 }

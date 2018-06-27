@@ -90,11 +90,10 @@ namespace Enjoy.Core.Services
 
         public Models::ActionResponse<Models::CardCounponModel> SaveOrUpdate(Models.CardCounponModel model)
         {
-
-
             //发布到微信
 
-            //model.WxNo = wxresponse.CardId;
+            model.LastUpdateTime = DateTime.Now.ToUnixStampDateTime();
+            model.Status = CCStatus.Editing;
             var result = this.SaveOrUpdate(model, Validate, Convert);
             var r = TestwhiteList(new string[] { "s66822351", "ebying" });
             //var qrcode = CreateQRCode(model.WxNo);
@@ -102,8 +101,12 @@ namespace Enjoy.Core.Services
         }
         public Models::CreateCouponWxResponse Publish(int id)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxCreateCardUrl(this.WeChat.GetToken());
             var model = this.GetCardCounpon(id);
+            var request = string.IsNullOrEmpty(model.WxNo)
+                ? WeChatApiRequestBuilder.GenerateWxCreateCardUrl(this.WeChat.GetToken())
+                : WeChatApiRequestBuilder.GenerateWxUpdateCardUrl(this.WeChat.GetToken());
+            ////TODO : update has some error 
+
             var result = request.GetResponseForJson<Models::CreateCouponWxResponse>((http) =>
             {
                 http.Method = "POST";
@@ -118,7 +121,14 @@ namespace Enjoy.Core.Services
             });
             if (result.HasError == false)
             {
+                model.Status = CCStatus.Published;
                 model.WxNo = result.CardId;
+                model.CardCouponWapper.Card.SetCardId(model.WxNo);
+                this.SaveOrUpdate(model);
+            }
+            else
+            {
+                model.Status = CCStatus.PublishedError;
                 this.SaveOrUpdate(model);
             }
             return result;
@@ -140,29 +150,7 @@ namespace Enjoy.Core.Services
         }
 
 
-        //public static NormalWxResponse TestwhiteList(string token,
-        //    string[] usernams,
-        //    string[] openids = null)
-        //{
-        //    var request = WxUtil.GenerateWxtestwhitelist(token);
-        //    return request.GetResponseForJson<NormalWxResponse>((http) =>
-        //    {
-        //        http.Method = "POST";
-        //        http.ContentType = "application/json; encoding=utf-8";
-        //        var data = new
-        //        {
-        //            openid = openids ?? new string[] { },
-        //            username = new string[] { "s66822351" ""}
-        //        };
-        //        using (var stream = http.GetRequestStream())
-        //        {
-        //            var buffers = UTF8Encoding.UTF8.GetBytes(data.ToJson());
-        //            stream.Write(buffers, 0, buffers.Length);
-        //            stream.Flush();
-        //        }
-        //        return http;
-        //    });
-        //}
+       
         private Records::CardCoupon Convert(Models::CardCounponModel model)
         {
             return this.ConvertToRecord<int>(model, (r, m) =>
@@ -199,6 +187,22 @@ namespace Enjoy.Core.Services
                 }
             },
             record => new Models.CardCounponModel(record));
-        }     
+        }
+        public override IEnumerable<ICriterion> Criterias(QueryFilter filter)
+        {
+            var names = filter.Search.Value as string[];
+            if (names != null && names.Count(o => !string.IsNullOrWhiteSpace(o)) > 0)
+            {
+                foreach (var name in names)
+                {
+                   yield return Expression.Like("BrandName", name) as ICriterion;
+                }
+            }
+
+            foreach (var criteria in base.Criterias(filter))
+            {
+                yield return criteria;
+            }
+        }
     }
 }

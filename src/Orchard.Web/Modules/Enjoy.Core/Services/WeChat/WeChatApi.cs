@@ -9,18 +9,20 @@ namespace Enjoy.Core.Services
     using System.Text;
     using System.IO;
     using System.Security.Cryptography;
-
+    using Orchard;
     public class WeChatApi : IWeChatApi
     {
         private readonly ICacheManager Cache;
         private readonly IClock Clock;
+        private readonly IOrchardServices OS;
         public const string CacheKey_Token = "Enjoy_WeChat_Token";
         public const string CacheKey_ApplyProtocol = "Enjoy_WeChat_ApplyProtocol";
 
-        public WeChatApi(ICacheManager cache, IClock clock)
+        public WeChatApi(ICacheManager cache, IClock clock, IOrchardServices os)
         {
             this.Cache = cache;
             this.Clock = clock;
+            this.OS = os;
         }
         public string GetToken(string appid, string appsecret)
         {
@@ -33,7 +35,7 @@ namespace Enjoy.Core.Services
         }
         public string GetToken()
         {
-            return GetToken(EnjoyConstant.Miniprogram.AppId , EnjoyConstant.Miniprogram.AppSecrect);
+            return GetToken(EnjoyConstant.Miniprogram.AppId, EnjoyConstant.Miniprogram.AppSecrect);
         }
         public ApplyProtocolWxResponse GetApplyProtocol()
         {
@@ -89,6 +91,18 @@ namespace Enjoy.Core.Services
                 return http;
             });
             response.Value = response.MediaId ?? response.Url;
+            if (string.IsNullOrEmpty(response.MediaId) == false)//if has mediaid
+            {
+                this.OS.CreateMediaDirectoryIfNotExits(EnjoyConstant.Directory_Media_Protocol_ROOT);
+                var mediaFileName = this.OS.WorkContext.HttpContext.Server.MapPath(string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT, "/", response.MediaId, ".jpg"));
+                if (File.Exists(mediaFileName)) File.Delete(mediaFileName);
+
+                using (var stream = new FileStream(mediaFileName, FileMode.Create))
+                {
+                    stream.Write(buffers, 0, buffers.Length);
+                    stream.Flush();
+                }
+            }
             response.Url = string.IsNullOrEmpty(response.MediaId) ? response.Url : WeChatApiRequestBuilder.GenrateImageUrlByMediaId(response.MediaId);
             return response;
         }
@@ -111,7 +125,7 @@ namespace Enjoy.Core.Services
         }
 
         public WxSession CreateWxSession(IWxLoginUser loginUseer)
-        {            
+        {
             var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(EnjoyConstant.Miniprogram.AppId, loginUseer.Code, EnjoyConstant.Miniprogram.AppSecrect);
             var auth = request.GetResponseForJson<WeChatAuthorization>();
             var wechatUser = Decrypt(loginUseer.Data, loginUseer.IV, auth.SessionKey);

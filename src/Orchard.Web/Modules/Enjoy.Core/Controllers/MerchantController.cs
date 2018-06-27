@@ -70,6 +70,8 @@ namespace Enjoy.Core.Controllers
 
             model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser();
             model.Merchant.Address = string.Join("/", new string[] { model.Province, model.City, model.Area });
+
+
             model.Merchant.Status = AuditStatus.UnCommitted;
             this.Merchant.SaveOrUpdate(model.Merchant);
             return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
@@ -188,7 +190,7 @@ namespace Enjoy.Core.Controllers
             this.Shop.DeleteShop(id.Value);
             return new JsonNetResult()
             {
-                Data = new BaseResponse(EnjoyConstant.Success)                
+                Data = new BaseResponse(EnjoyConstant.Success)
             };
         }
     }
