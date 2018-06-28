@@ -114,13 +114,14 @@
     <Compile Include="Contract\IShopService.cs" />
     <Compile Include="Contract\IVerifyCodeGenerator.cs" />
     <Compile Include="Contract\IWeChatApi.cs" />
-    <Compile Include="Contract\IWeChatMsgFactory.cs" />
+    <Compile Include="Contract\IWeChatMsgBehavior.cs" />
     <Compile Include="Contract\Models\ICardCoupon.cs" />
     <Compile Include="Contract\Models\IEntityKey.cs" />
     <Compile Include="Contract\Models\IQueryFilter.cs" />
     <Compile Include="Contract\Models\IQueryResponseDescriptor.cs" />
     <Compile Include="Contract\Models\IResponse.cs" />
     <Compile Include="Contract\Models\WeChat\IMiniprogram.cs" />
+    <Compile Include="Contract\Models\WeChat\IWxMsgToken.cs" />
     <Compile Include="Contract\Models\WeChat\IWxAccessToken.cs" />
     <Compile Include="Contract\Models\WeChat\IWxCard.cs" />
     <Compile Include="Contract\Models\WeChat\IWxLoginUser.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Models\WeChat\WxAccessToken.cs" />
     <Compile Include="Models\WeChat\WxAuthorization.cs" />
     <Compile Include="Models\WeChat\WxLoginUser.cs" />
+    <Compile Include="Models\WeChat\WxMsgToken.cs" />
     <Compile Include="Models\WeChat\WxSession.cs" />
     <Compile Include="Models\WeChat\WxUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -228,7 +230,7 @@
     <Compile Include="Services\ShopService.cs" />
     <Compile Include="Services\VerifyCodeGenerator.cs" />
     <Compile Include="Services\WeChat\WeChatApi.cs" />
-    <Compile Include="Services\WeChat\WeChatEventFactory.cs" />
+    <Compile Include="Services\WeChat\WeChatMsgBehavior.cs" />
     <Compile Include="Utilities\Cryptography.cs" />
     <Compile Include="Utilities\EnjoyConstant.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultHttpTransientFaultDetecter.cs" />

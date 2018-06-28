@@ -42,11 +42,11 @@ namespace Enjoy.Core
         // @param sToken: 公众平台上，开发者设置的Token
         // @param sEncodingAESKey: 公众平台上，开发者设置的EncodingAESKey
         // @param sAppID: 公众帐号的appid
-        public WXBizMsgCrypt(string sToken, string sEncodingAESKey, string sAppID)
+        public WXBizMsgCrypt(IWxMsgToken token)
         {
-            m_sToken = sToken;
-            m_sAppID = sAppID;
-            m_sEncodingAESKey = sEncodingAESKey;
+            m_sToken = token.BizMsgToken;
+            m_sAppID = token.AppId;
+            m_sEncodingAESKey = token.EncodingAESKey;
         }
 
 
@@ -57,7 +57,7 @@ namespace Enjoy.Core
         // @param sPostData: 密文，对应POST请求的数据
         // @param sMsg: 解密后的原文，当return返回0时有效
         // @return: 成功0，失败返回对应的错误码
-        public int DecryptMsg(string sMsgSignature, string sTimeStamp, string sNonce, string sPostData, ref string sMsg)
+        public int DecryptMsg(IWxMsgToken token, ref string sMsg)
         {
             if (m_sEncodingAESKey.Length != 43)
             {
@@ -68,7 +68,7 @@ namespace Enjoy.Core
             string sEncryptMsg;
             try
             {
-                doc.LoadXml(sPostData);
+                doc.LoadXml(token.ReqMsg);
                 root = doc.FirstChild;
                 sEncryptMsg = root["Encrypt"].InnerText;
             }
@@ -78,7 +78,7 @@ namespace Enjoy.Core
             }
             //verify signature
             int ret = 0;
-            ret = VerifySignature(m_sToken, sTimeStamp, sNonce, sEncryptMsg, sMsgSignature);
+            ret = VerifySignature(m_sToken, token.TimeStamp, token.Nonce, sEncryptMsg, token.Signature);
             if (ret != 0)
                 return ret;
             //decrypt

@@ -17,17 +17,20 @@ namespace Enjoy.Core.Api
         private readonly IMerchantService Merchant;
         private readonly IOrchardServices OS;
         private readonly IWeChatApi WeChat;
+        private readonly IWeChatMsgBehavior Behavior;
         public EnjoyController(
             IOrchardServices os,
             IEnjoyAuthService auth,
             IWeChatApi wechat,
-            IMerchantService merchant)
+            IMerchantService merchant,
+            IWeChatMsgBehavior behavior)
         {
             this.Auth = auth;
             this.OS = os;
             this.Merchant = merchant;
             this.WeChat = wechat;
             this.Logger = NullLogger.Instance;
+            this.Behavior = behavior;
         }
         public ILogger Logger { get; set; }
         [HttpGet]
@@ -67,45 +70,15 @@ namespace Enjoy.Core.Api
         [HttpGet]
         public void WxBizMsg(string signature = null, string timestamp = null, string nonce = null, string echostr = null)
         {
-            //公众平台上开发者设置的token, appID, EncodingAESKey   
-            // Token:           EnjoyMini
-            // EncodingAESKey:  2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC         
-            //If get that's meaning you are setting receive  server.
             if (this.OS.WorkContext.HttpContext.Request.HttpMethod.Equals("GET", System.StringComparison.OrdinalIgnoreCase))
             {
                 this.OS.WorkContext.HttpContext.Response.Write(echostr);
                 this.OS.WorkContext.HttpContext.Response.End();
                 return;
             }
-            var token = "EnjoyMini";
-            var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
-            var sReqData = ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream);
-            Logger.Error((new
-            {
-                signature = signature,
-                timestamp = timestamp,
-                nonce = nonce
-            }).ToJson());
+            var token = new WxMsgToken(signature, timestamp, nonce, ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream));
+            this.Behavior.Execute(token);
 
-            Logger.Error(sReqData);
-            //string sToken = "EnjoyVip";
-            //string sAppID = EnjoyConstant.Miniprogram.AppId;// "wx5823bf96d3bd56c7";
-            //string sEncodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
-            //WXBizMsgCrypt crypt = new WXBizMsgCrypt(sToken, sEncodingAESKey, sAppID);
-            //var sReqData = ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream);
-            //this.Logger.Error("ReqData:\r\n" + sReqData);
-            //var sDecryptText = string.Empty;
-            //var ret = crypt.DecryptMsg(signature, timestamp, nonce, sReqData, ref sDecryptText);
-            //if (ret != 0)
-            //{
-            //    this.OS.WorkContext.HttpContext.Response.Write("decrypt fail");
-            //    this.OS.WorkContext.HttpContext.Response.End();
-            //    return;
-            //}
-
-            //this.Logger.Error("sDecryptText:\r\n" + sDecryptText);
-            //this.OS.WorkContext.HttpContext.Response.Write(echostr);
-            //this.OS.WorkContext.HttpContext.Response.End();
         }
         private string ReadStream2String(Stream stream)
         {
@@ -118,8 +91,6 @@ namespace Enjoy.Core.Api
                 return reader.ReadToEnd();
             }
         }
-
-
     }
 }
 

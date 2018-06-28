@@ -122,6 +122,7 @@ namespace Enjoy.Core.Services
             var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.WeChat.GetToken());
             var wapper = new Models::WxRequestWapper<Models::SubMerchant>();
             wapper.Info = new Models.SubMerchant(model);
+            wapper.Info.EndTime = DateTime.Now.AddMonths(1).ToUnixStampDateTime();
             var wxrep = this.WeChat.CreateSubmerchant(wapper);
             if (wxrep.HasError==false)
             {
