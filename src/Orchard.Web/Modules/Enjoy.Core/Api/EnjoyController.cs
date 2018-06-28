@@ -17,13 +17,13 @@ namespace Enjoy.Core.Api
         private readonly IMerchantService Merchant;
         private readonly IOrchardServices OS;
         private readonly IWeChatApi WeChat;
-        private readonly IWeChatMsgBehavior Behavior;
+        private readonly IWeChatEventBehavior Behavior;
         public EnjoyController(
             IOrchardServices os,
             IEnjoyAuthService auth,
             IWeChatApi wechat,
             IMerchantService merchant,
-            IWeChatMsgBehavior behavior)
+            IWeChatEventBehavior behavior)
         {
             this.Auth = auth;
             this.OS = os;
@@ -78,7 +78,6 @@ namespace Enjoy.Core.Api
             }
             var token = new WxMsgToken(signature, timestamp, nonce, ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream));
             this.Behavior.Execute(token);
-
         }
         private string ReadStream2String(Stream stream)
         {
