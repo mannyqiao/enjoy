@@ -59,7 +59,7 @@ namespace Enjoy.Core
                         var membercard = json.DeserializeToObject<WxCardCouponWapper<MemberCard>>();
                         return new WxCardCouponWapper<ICardCoupon>()
                         {
-                            Card = membercard.Card 
+                            Card = membercard.Card
                         };
                     }
             }
@@ -84,6 +84,7 @@ namespace Enjoy.Core
             }
             throw new NotSupportedException("No support with type " + type.ToString());
         }
+
         public static string TextOf(this CCStatus status)
         {
             var text = status.ToString();
@@ -93,17 +94,21 @@ namespace Enjoy.Core
                 {
                     case "Editing":
                         return "编辑中";
-                    case "Published":
-                        return "已发布";
-                    case "Expired":
-                        return "已过期";
+                    case "Checking":
+                        return "审核中";
+                    case "Approved":
+                        return "审核通过";
+                    case "Rejected":
+                        return "审核失败";
                     case "RunOut":
                         return "已领完";
-                    case "UseCompleted":
-                        return "核销完毕";
+                    case "Expired":
+                        return "已过期";
+                    case "PublishedError":
+                        return "发布出错";
                     default:
                         return "";
-                }                
+                }
             }));
         }
     }

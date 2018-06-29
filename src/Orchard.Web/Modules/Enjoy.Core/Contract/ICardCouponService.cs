@@ -24,5 +24,6 @@ namespace Enjoy.Core
 
         CreateCouponWxResponse Publish(int id);
 
+        void UpdateStatus(string wxno, CCStatus status, string reson);
     }
 }

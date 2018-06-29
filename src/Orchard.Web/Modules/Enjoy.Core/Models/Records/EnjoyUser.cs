@@ -11,15 +11,10 @@ namespace Enjoy.Core.Models.Records
         public virtual string Mobile { get; set; }
         public virtual string NickName { get; set; }
         public virtual string Password { get; set; }
-        public virtual string WeChatId { get; set; }
-        public virtual Gender? Gender { get; set; }
-        public virtual string Country { get; set; }
-        public virtual string Province { get; set; }
-        public virtual string City { get; set; }
+        public virtual WxUser WxUser { get; set; }
         public virtual string LastPassword { get; set; }
-        public virtual long LastSign { get; set; }
-        public virtual long LastUpdatedTime { get; set; }
         public virtual long CreatedTime { get; set; }
-
+        public virtual long LastActiveTime { get; set; }
+        public virtual string Profile { get; set; }
     }
 }

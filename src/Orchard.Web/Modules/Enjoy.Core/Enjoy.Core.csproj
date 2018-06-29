@@ -164,6 +164,9 @@
     <Compile Include="Models\Records\Merchant.cs" />
     <Compile Include="Models\Records\MerchantAdmin.cs" />
     <Compile Include="Models\Records\Shop.cs" />
+    <Compile Include="Models\Records\UserCard.cs" />
+    <Compile Include="Models\Records\UserCoupon.cs" />
+    <Compile Include="Models\Records\WxUser.cs" />
     <Compile Include="Models\WeChat\CardEntity\Abstract.cs" />
     <Compile Include="Models\WeChat\CardEntity\AdvancedInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\BaseInfo.cs" />
@@ -197,6 +200,7 @@
     <Compile Include="Models\WeChat\Messages\EnterSessinoFromCardWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\GetCardCouponEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\MemberCardUserInfoWeChatEventArgs.cs" />
+    <Compile Include="Models\WeChat\Messages\MerchantAuditWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\PayFromPayCellWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\PayOrderWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\SkuRemindWeChatEventArgs.cs" />
@@ -238,6 +242,7 @@
     <Compile Include="Services\WeChat\MessageBehaviors\CardPayOrderWeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\CardSkuRemindWeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\DoNothingWeChatMsgBehavior.cs" />
+    <Compile Include="Services\WeChat\MessageBehaviors\MerchantAuditWeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\SubmitMemberCardWeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\UpdateMemberCardWeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\UserConsumeCardWechatMsgBehavior.cs" />

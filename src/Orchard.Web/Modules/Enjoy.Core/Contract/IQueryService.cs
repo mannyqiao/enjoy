@@ -18,7 +18,7 @@ namespace Enjoy.Core
             Action<ICriteria> builder,            
             Func<TRecord, TModel> convert);
 
-        TModel QueryFirstOrDefaut(
+        TModel QueryFirstOrDefault(
             Action<ICriteria> builder,
             Func<TRecord, TModel> convert);
 

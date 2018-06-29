@@ -17,8 +17,8 @@ namespace Enjoy.Core.Models
             this.LastUpdateTime = record.LastUpdateTime;
             this.CreatedTime = record.CreatedTime;
             this.CardCouponWapper = record.JsonMetadata.DeserializeSpecificCardCoupon(record.Type);
-            this.Status = record.Status;            
-
+            this.Status = record.Status;
+            this.ErrMsg = record.ErrMsg;
         }
         public CardCounponModel() { }
         public int Id { get; set; }
@@ -34,6 +34,7 @@ namespace Enjoy.Core.Models
         public long CreatedTime { get; set; }
         public long LastUpdateTime { get; set; }
         public CCStatus Status { get; set; }
+        public string ErrMsg { get; set; }
         public WxCardCouponWapper<ICardCoupon> CardCouponWapper { get; set; }
     }
 }
