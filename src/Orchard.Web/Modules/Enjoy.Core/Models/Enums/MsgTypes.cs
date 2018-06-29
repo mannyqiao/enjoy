@@ -6,6 +6,5 @@ namespace Enjoy.Core
     {
         Event = 1,
         Text = 2,
-
     }
 }

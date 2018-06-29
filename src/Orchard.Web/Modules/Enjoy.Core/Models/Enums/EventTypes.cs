@@ -4,6 +4,7 @@ namespace Enjoy.Core
 {
     public enum EventTypes
     {
+        Nothing = -1,
         /// <summary>
         /// 卡券审核通过
         /// </summary>
