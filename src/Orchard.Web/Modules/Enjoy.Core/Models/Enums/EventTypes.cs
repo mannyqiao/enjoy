@@ -56,8 +56,11 @@ namespace Enjoy.Core
         /// <summary>
         /// 会员卡激活事件推送
         /// </summary>
-        submit_membercard_user_info = 13
+        submit_membercard_user_info = 13,
+        /// <summary>
+        /// 子商户审核事件
+        /// </summary>
 
-
+        card_merchant_check_result = 14,
     }
 }

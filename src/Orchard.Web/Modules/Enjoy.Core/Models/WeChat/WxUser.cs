@@ -29,10 +29,10 @@ namespace Enjoy.Core.Models
         public class Watermark
         {
             [Newtonsoft.Json.JsonProperty("appid")]
-            public string appid { get; set; }
+            public string AppId { get; set; }
 
             [Newtonsoft.Json.JsonProperty("timestamp")]            
-            public string timestamp { get; set; }
+            public string TimeStamp { get; set; }
         }
     }
 }

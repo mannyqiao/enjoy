@@ -27,7 +27,7 @@ namespace Enjoy.Core.Services
 
         public Models.ShopModel GetDefaultShop(int shopid)
         {
-            return this.QueryFirstOrDefaut((builder) =>
+            return this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("Id", shopid));
             },

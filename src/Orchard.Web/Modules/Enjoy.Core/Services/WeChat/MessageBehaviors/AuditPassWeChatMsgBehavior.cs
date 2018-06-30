@@ -5,13 +5,15 @@ namespace Enjoy.Core.Services
     using Orchard;
     public class AuditPassWeChatMsgBehavior : WeChatMsgBehavior<CardCouponAuditkWeChatEventArgs>
     {
-
-        public AuditPassWeChatMsgBehavior(IOrchardServices os)
+        private readonly ICardCouponService CardCoupon;
+        public AuditPassWeChatMsgBehavior(
+            IOrchardServices os,
+            ICardCouponService cardcoupon)
             : base(os)
         {
-
+            this.CardCoupon = cardcoupon;
         }
-        public override EventTypes Type 
+        public override EventTypes Type
         {
             get
             {
@@ -21,7 +23,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(CardCouponAuditkWeChatEventArgs model)
         {
-
+            this.CardCoupon.UpdateStatus(model.CardId, CCStatus.Approved, model.RefuseReason);
         }
     }
 }

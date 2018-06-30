@@ -53,16 +53,11 @@ namespace Enjoy.Core
                     .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
                     .Column("Mobile", System.Data.DbType.String, column => column.WithLength(11).Unique().NotNull())
                     .Column("NickName", System.Data.DbType.String, column => column.WithLength(20))
-                    .Column("Password", System.Data.DbType.String, column => column.WithLength(128))
-                    .Column("WeChatId", System.Data.DbType.String, column => column.WithLength(50))
-                    .Column("Gender", System.Data.DbType.Byte)
-                    .Column("Country", System.Data.DbType.String, column => column.WithLength(50).WithDefault("中国"))
-                    .Column("Province", System.Data.DbType.String, column => column.WithLength(50).Nullable())
-                    .Column("City", System.Data.DbType.String, column => column.WithLength(50).Nullable())
+                    .Column("WxUser_Id", System.Data.DbType.Int32, column => column.Nullable())
                     .Column("LastPassword", System.Data.DbType.String, column => column.WithLength(128))
-                    .Column("LastSign", System.Data.DbType.Int64)
-                    .Column("LastUpdatedTime", System.Data.DbType.Int64)
                     .Column("CreatedTime", System.Data.DbType.Int64)
+                    .Column("LastActiveTime", System.Data.DbType.Int64)
+                    .Column("Profile", System.Data.DbType.String, column => column.Unlimited())
             );
 
             //创建商户
@@ -116,11 +111,24 @@ namespace Enjoy.Core
                 .Column("CreatedTime", System.Data.DbType.Int64)
                 .Column("LastUpdateTime", System.Data.DbType.Int64)
                 .Column("Status", System.Data.DbType.String, column => column.WithLength(100))
+                .Column("ErrMsg", System.Data.DbType.String, column => column.WithLength(500).Nullable())
                 .Column("JsonMetadata", System.Data.DbType.String, column => column.Unlimited())
             );
-
-
-
+            SchemaBuilder.CreateTable("WxUser", table => table
+                .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
+                .Column("UnionId", System.Data.DbType.String, column => column.WithLength(32).Unique())
+                .Column("OpenId", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("Mobile", System.Data.DbType.String, column => column.WithLength(11))
+                .Column("NickName", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("Country", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("Province", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("City", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("Subscribe", System.Data.DbType.Boolean)
+                .Column("SubscribeTime", System.Data.DbType.Int64)
+                .Column("OwnApp", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("CreatedTime", System.Data.DbType.Int64)
+                .Column("LastActiveTime", System.Data.DbType.Int64)
+            );
         }
         private void CreateLayer()
         {

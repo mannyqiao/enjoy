@@ -19,9 +19,9 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        Models::ActionResponse<Models::MerchantModel> SaveAndPushToWeChat(Models::MerchantModel model, Action<Models::MerchantModel> push = null);
+
         Models::ActionResponse<Models::MerchantModel> SaveOrUpdate(Models::MerchantModel model, Action<Models::MerchantModel> push = null);
-
-
         /// <summary>
         /// 查询商户审核状态
         /// </summary>
@@ -31,6 +31,8 @@ namespace Enjoy.Core
 
 
         Models::PagingData<Models::MerchantModel> QueryMyMerchants(int userid, int page);
+
+        void UpdateMerchantStatus(int merchantId,AuditStatus status,string reson);
 
     }
 }

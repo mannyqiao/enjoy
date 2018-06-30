@@ -61,7 +61,7 @@ namespace Enjoy.Core.Services
         }
 
 
-        public virtual M QueryFirstOrDefaut(Action<ICriteria> builder, Func<R, M> convert)
+        public virtual M QueryFirstOrDefault(Action<ICriteria> builder, Func<R, M> convert)
         {
             var session = this.OS.TransactionManager.GetSession();
             var criteria = session.CreateCriteria(typeof(R));

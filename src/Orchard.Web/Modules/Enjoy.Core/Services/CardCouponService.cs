@@ -66,7 +66,7 @@ namespace Enjoy.Core.Services
 
         public Models.CardCounponModel GetCardCounpon(int id)
         {
-            return this.QueryFirstOrDefaut((builder) =>
+            return this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("Id", id));
 
@@ -121,7 +121,7 @@ namespace Enjoy.Core.Services
             });
             if (result.HasError == false)
             {
-                model.Status = CCStatus.Published;
+                model.Status = CCStatus.Checking;
                 model.WxNo = result.CardId;
                 model.CardCouponWapper.Card.SetCardId(model.WxNo);
                 this.SaveOrUpdate(model);
@@ -150,7 +150,7 @@ namespace Enjoy.Core.Services
         }
 
 
-       
+
         private Records::CardCoupon Convert(Models::CardCounponModel model)
         {
             return this.ConvertToRecord<int>(model, (r, m) =>
@@ -164,6 +164,7 @@ namespace Enjoy.Core.Services
                 r.Type = m.Type;
                 r.Status = m.Status;
                 r.JsonMetadata = m.CardCouponWapper.ToJson();
+                r.ErrMsg = m.ErrMsg;
                 return r;
             });
         }
@@ -195,7 +196,7 @@ namespace Enjoy.Core.Services
             {
                 foreach (var name in names)
                 {
-                   yield return Expression.Like("BrandName", name) as ICriterion;
+                    yield return Expression.Like("BrandName", name) as ICriterion;
                 }
             }
 
@@ -203,6 +204,17 @@ namespace Enjoy.Core.Services
             {
                 yield return criteria;
             }
+        }
+
+        public void UpdateStatus(string wxno, CCStatus status, string reson)
+        {
+            var model = this.QueryFirstOrDefault((builder) =>
+            {
+                builder.Add(Expression.Eq("WxNo", wxno));
+            }, o => new Models.CardCounponModel(o));
+            model.Status = status;
+            model.ErrMsg = reson;
+            this.SaveOrUpdate(model);
         }
     }
 }

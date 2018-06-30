@@ -5,6 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core
 {
+    
     public enum AuditStatus
     {
         /// <summary>

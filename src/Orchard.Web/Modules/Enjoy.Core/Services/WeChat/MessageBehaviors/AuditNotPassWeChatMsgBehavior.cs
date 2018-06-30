@@ -7,10 +7,11 @@ namespace Enjoy.Core.Services
     using Orchard;
     public class AuditNotPassWeChatMsgBehavior : WeChatMsgBehavior<CardCouponAuditkWeChatEventArgs>
     {
-        public AuditNotPassWeChatMsgBehavior(IOrchardServices os)
+        private readonly ICardCouponService CardCoupon;
+        public AuditNotPassWeChatMsgBehavior(IOrchardServices os, ICardCouponService cardcoupon)
             : base(os)
         {
-
+            this.CardCoupon = cardcoupon;
         }
         public override EventTypes Type
         {
@@ -22,7 +23,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(CardCouponAuditkWeChatEventArgs model)
         {
-
+            this.CardCoupon.UpdateStatus(model.CardId, CCStatus.Rejected, model.RefuseReason);
         }
     }
 }

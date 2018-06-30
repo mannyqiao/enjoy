@@ -5,7 +5,7 @@ namespace Enjoy.Core.Services
     using Enjoy.Core.Models;
     using Orchard;
 
-    public class UserGetCardWeChatMsgBehavior : WeChatMsgBehavior<UserGiftingWeChatEventArgs>
+    public class UserGetCardWeChatMsgBehavior : WeChatMsgBehavior<GetCardCouponWeChatEventArgs>
     {
         public UserGetCardWeChatMsgBehavior(IOrchardServices os)
             : base(os)
@@ -20,9 +20,9 @@ namespace Enjoy.Core.Services
             }
         }
 
-        protected override void Execute(UserGiftingWeChatEventArgs model)
+        protected override void Execute(GetCardCouponWeChatEventArgs model)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
