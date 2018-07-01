@@ -13,14 +13,18 @@ namespace Enjoy.Core
     using System.Xml;
     using System.Xml.Serialization;
     using System.Linq;
+    using Enjoy.Core.Models.Records;
 
     public class WeChatMsgHandler : IWeChatMsgHandler
     {
         private IEnumerable<IWeChatEventBehavior> Behaviors;
-
-        public WeChatMsgHandler(IEnumerable<IWeChatEventBehavior> behaviors)
+        private IOrchardServices OS;
+        public WeChatMsgHandler(
+            IOrchardServices os,
+            IEnumerable<IWeChatEventBehavior> behaviors)
         {
             this.Behaviors = behaviors;
+            this.OS = os;
             this.Logger = NullLogger.Instance;
         }
         public ILogger Logger { get; private set; }
@@ -28,7 +32,7 @@ namespace Enjoy.Core
         {
             var crypt = new WXBizMsgCrypt(token);
             var reqMsg = string.Empty;
-            if (crypt.DecryptMsg(token, ref reqMsg) == 0)
+            if (crypt.DecryptMsg(token, ref reqMsg) == 0)//解密收到的消息内容
             {
                 var document = new XmlDocument();
                 document.LoadXml(reqMsg);
@@ -41,18 +45,32 @@ namespace Enjoy.Core
                             if (Enum.TryParse(document.SelectSingleNode("/xml/Event").InnerText, out EventTypes eventtype) == false)
                             {
                                 eventtype = EventTypes.Nothing;
-                            }   
+                            }
+                            var model = new XmlSerializer(dictnoary[eventtype]).Deserialize(reader);
+                            //保存解密后的消息文本
+                            this.SaveWxMessageToken(model as WeChatMsgModel);
 
-                            var serializer = new XmlSerializer(dictnoary[eventtype]);
+                            //根据不同的消息类型进行不同的处理
                             IWeChatEventBehavior behavior = this.Behaviors.FirstOrDefault(o => o.Type == eventtype);
-                            behavior.Execute(serializer.Deserialize(reader));
-                            
+                            behavior.Execute(model);
                         }
                     }
                 }
             }
         }
+        private void SaveWxMessageToken(WeChatMsgModel model)
+        {
+            var msg = new WxMsg()
+            {
+                CreatedTime = model.CreateTime,
+                FromUser = model.FromUserName,
+                MsgType = model.MsgType,
+                Metadata = model.ToJson(),
+                ToUser = model.ToUserName
+            };
+            this.OS.TransactionManager.GetSession().SaveOrUpdate(msg);
 
+        }
         Dictionary<EventTypes, Type> dictnoary = new Dictionary<EventTypes, Type>()
         {
             { EventTypes.card_not_pass_check, typeof(CardCouponAuditkWeChatEventArgs) },

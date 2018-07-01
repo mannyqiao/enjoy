@@ -39,7 +39,7 @@ namespace Enjoy.Core.Controllers
             {
                 this.OS.WorkContext.HttpContext.Session["Mobile"] = model.Mobile;
                 return this.RedirectLocal("/dashboard/summary");
-            }
+            }            
             return View("Sign", new SignViewModel()
             {
                 Signin = true,

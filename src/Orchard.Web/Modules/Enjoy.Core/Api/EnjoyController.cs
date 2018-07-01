@@ -76,7 +76,11 @@ namespace Enjoy.Core.Api
                 this.OS.WorkContext.HttpContext.Response.End();
                 return;
             }
-            var token = new WxMsgToken(signature, timestamp, nonce, ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream));
+            var token = new WxMsgToken(signature,
+                timestamp,
+                nonce,
+                ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream));
+
             this.Behavior.Execute(token);
         }
         private string ReadStream2String(Stream stream)

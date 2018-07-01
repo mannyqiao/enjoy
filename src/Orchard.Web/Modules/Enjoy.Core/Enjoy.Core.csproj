@@ -53,14 +53,17 @@
       <HintPath>..\..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <HintPath>..\..\..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\NHibernate.4.0.1.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="qcloudsms_csharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\qcloud.qcloudsms_csharp.0.1.4\lib\net452\qcloudsms_csharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -76,6 +79,7 @@
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -112,6 +116,7 @@
     <Compile Include="Contract\IEnjoyAuthService.cs" />
     <Compile Include="Contract\IMerchantService.cs" />
     <Compile Include="Contract\IShopService.cs" />
+    <Compile Include="Contract\ISMSHelper.cs" />
     <Compile Include="Contract\IVerifyCodeGenerator.cs" />
     <Compile Include="Contract\IWeChatApi.cs" />
     <Compile Include="Contract\IWeChatEventBehavior.cs" />
@@ -121,6 +126,7 @@
     <Compile Include="Contract\Models\IQueryFilter.cs" />
     <Compile Include="Contract\Models\IQueryResponseDescriptor.cs" />
     <Compile Include="Contract\Models\IResponse.cs" />
+    <Compile Include="Contract\Models\IVerifyCode.cs" />
     <Compile Include="Contract\Models\WeChat\IMiniprogram.cs" />
     <Compile Include="Contract\Models\WeChat\IWxMsgToken.cs" />
     <Compile Include="Contract\Models\WeChat\IWxAccessToken.cs" />
@@ -140,6 +146,7 @@
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
     <Compile Include="Models\Enums\MsgTypes.cs" />
+    <Compile Include="Models\Enums\VerifyTypes.cs" />
     <Compile Include="Models\Merchant\CardCounponModel.cs" />
     <Compile Include="Models\Merchant\MerchantModel.cs" />
     <Compile Include="Models\QueryResponseDescriptor.cs" />
@@ -166,7 +173,9 @@
     <Compile Include="Models\Records\Shop.cs" />
     <Compile Include="Models\Records\UserCard.cs" />
     <Compile Include="Models\Records\UserCoupon.cs" />
+    <Compile Include="Models\Records\WxMsg.cs" />
     <Compile Include="Models\Records\WxUser.cs" />
+    <Compile Include="Models\SMS\QCloudSMS.cs" />
     <Compile Include="Models\WeChat\CardEntity\Abstract.cs" />
     <Compile Include="Models\WeChat\CardEntity\AdvancedInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\BaseInfo.cs" />
@@ -232,6 +241,7 @@
     <Compile Include="Common\Extensions\HttpExtension.cs" />
     <Compile Include="Services\CardCouponService.cs" />
     <Compile Include="Services\EnjoyAuthService.cs" />
+    <Compile Include="Services\QCloudSMSHelper.cs" />
     <Compile Include="Services\MerchantService.cs" />
     <Compile Include="Services\ModelClient\ModelClient.cs" />
     <Compile Include="Services\QueryBaseService.cs" />
