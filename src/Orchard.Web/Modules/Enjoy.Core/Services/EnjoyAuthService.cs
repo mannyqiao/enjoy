@@ -23,11 +23,13 @@ namespace Enjoy.Core.Services
         private readonly ICacheManager Cache;
         private readonly IVerifyCodeGenerator VerifyCodeGenerator;
         private readonly IClock Clock;
+        private readonly ISMSHelper SMSHelper;
         public EnjoyAuthService(
             IOrchardServices os,
             IEncryptionService encryption,
             ICacheManager cache,
             IVerifyCodeGenerator generator,
+            ISMSHelper helper,
             IClock clock)
         {
             this.OS = os;
@@ -35,6 +37,7 @@ namespace Enjoy.Core.Services
             this.Cache = cache;
             this.VerifyCodeGenerator = generator;
             this.Clock = clock;
+            this.SMSHelper = helper;
         }
 
 
@@ -63,14 +66,10 @@ namespace Enjoy.Core.Services
             {
                 var code = new VerificationCodeViewModel(mobile, this.VerifyCodeGenerator.GenerateNewVerifyCode());
                 ctx.Monitor(this.Clock.When(TimeSpan.FromMinutes(2)));
+                this.SMSHelper.Send(new QCloudSMS(mobile, VerifyTypes.SignUp, code.Code));
                 return code;
             });
             var span = DateTime.UtcNow.Subtract(result.CreatedAt);
-            if (result.Sended == false)
-            {
-                ////发送手机短信
-                result.SetSended();//设置发送状态
-            }
             return result;
         }
 

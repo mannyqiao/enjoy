@@ -70,6 +70,14 @@ namespace Enjoy.Core
 #endif
         public const string WxBizMsgToken = "EnjoyMini";
         public const string EncodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
-        public const string Directory_Media_Protocol_ROOT = "~/media/protocols";        
+        public const string Directory_Media_Protocol_ROOT = "~/media/protocols";
+
+        //短信平台 appid 以及  appkey
+        public const int SMS_AppId = 1400108197;
+        public const string SMS_AppKey = "1add466d18076fcbb47e0e3b28e55490";
+
+        public const string PlatformName = "优享--微信会员卡营销平台";
+        public const string PlatformShortName = "优享";
+
     }
 }
