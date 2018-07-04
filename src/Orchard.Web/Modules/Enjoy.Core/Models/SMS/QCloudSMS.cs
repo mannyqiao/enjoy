@@ -33,7 +33,7 @@ namespace Enjoy.Core.Models
             switch (this.Type)
             {
                 case VerifyTypes.SignUp:
-                    return string.Format("尊敬的用户,你本次操作的验证码是{0}. 2分钟内有效.", this.VerifyCode);
+                    return string.Format("尊敬的用户,你本次操作的验证码是{0}. 两分钟内有效.", this.VerifyCode);
                 case VerifyTypes.FindPassword:
                     return string.Format("[{0}]你正在找回密码!你的验证码为[{1}]. 5分钟内有效.如果不是本人操作请联系你的服务商.", EnjoyConstant.PlatformShortName, this.VerifyCode);
                 case VerifyTypes.ExtractToBank:

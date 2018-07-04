@@ -60,17 +60,24 @@ namespace Enjoy.Core.Services
             return profile;
         }
 
-        public VerificationCodeViewModel GetverificationCode(string mobile)
+        public ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile)
         {
+            bool firstRequest = false;
             var result = this.Cache.Get(mobile, ctx =>
             {
                 var code = new VerificationCodeViewModel(mobile, this.VerifyCodeGenerator.GenerateNewVerifyCode());
                 ctx.Monitor(this.Clock.When(TimeSpan.FromMinutes(2)));
                 this.SMSHelper.Send(new QCloudSMS(mobile, VerifyTypes.SignUp, code.Code));
+                firstRequest = true;
+                code.Sended = true;
                 return code;
             });
-            var span = DateTime.UtcNow.Subtract(result.CreatedAt);
-            return result;
+            var span = DateTime.Now.Subtract(result.CreatedAt);
+            if (span.TotalMinutes <= 2 && firstRequest == false)
+            {
+                return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.FrequencyLimit);
+            }
+            return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.Success, result);
         }
 
         public EnjoyUserProfile QueryByMobile(string mobile)

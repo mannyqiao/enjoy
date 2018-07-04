@@ -13,9 +13,10 @@
                         <div class="form-group input-group" id="div_mobile" name="div_mobile">
                             @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "手机号码", type = "tel", autofocus = "autofocus" })
                             <a id="btn_verify_code" name="btn_verify_code" class="btn btn-lg  btn-block input-group input-group-addon">获取验证码</a>
+                            <input name="VerifyCode" type="hidden" />
                         </div>
                         <div class="form-group">
-                            @Html.TextBoxFor(o => o.VerificationCode, new { @class = "form-control", placeholder = "手机验证码" })
+                            @Html.TextBoxFor(o => o.VerificationCode, new { @class = "form-control", placeholder = "验证码" })
                         </div>
                         <div class="form-group">
                             @Html.PasswordFor(o => o.Password, new { @class = "form-control", placeholder = "输入密码", type = "password" })
@@ -44,11 +45,15 @@
                 errorClass: "has-error",
                 rules: {
                     Mobile: { required: true },
-                    Password: { required: true }
+                    Password: { required: true },
+                    VerificationCode: { required: true, equalTo: "#VerifyCode" },
+                    Password: { required: true, equalTo: "#ConfirmPassword" }
                 },
                 messages: {
-                    Mobile: { required: "手机号码不能为空" },
-                    Password: { required: "密码不能为空" }
+                    Mobile: { required: "手机号码不能为空." },
+                    Password: { required: "密码不能为空." },
+                    VerificationCode: { required: "验证码不能为空", equalTo: "验证码不正确." },
+                    Password: { required: "密码不能为空", equalTo: "两次输入不一致." }
                 },
                 errorPlacement: function (error, element) {
                     element.parent().addClass("has-error");
@@ -69,14 +74,34 @@
                 else {
                     $("#Mobile").parent().removeClass("has-error");
                 }
-                
+
                 $.ajax({
-                    type: "GET",
-                    url: "/Access/GetverificationCode?mobile=" + tel,
-                    data: {},
-                    contentType:"application/json",
+                    type: "POST",
+                    url: "/Access/GetverificationCode",
+                    data: {
+                        "mobile": $("#Mobile").val(),
+                        "__RequestVerificationToken": $("#__RequestVerificationToken").val()
+                    },
                     success: function (data) {
-                        $("#VerificationCode").val(data.Code);
+                        if (data.has_error === false) {
+                            var timer = 60;
+                            $("#VerifyCode").val(data.model.code);
+                            $("#btn_verify_code").addClass("disabled");
+                            $("#btn_verify_code").text(timer + "s重新获取");
+                            self.setInterval(function () {
+                                timer = timer - 1;
+                                $("#btn_verify_code").text(timer + "s重新获取");
+                                if (timer <= 0) {
+                                    $("#btn_verify_code").text("重新获取");
+                                    $("#btn_verify_code").removeClass("disabled");
+                                    self.stop();
+                                    return;
+                                }
+                            }, 1000)
+                        }
+                        else {
+                            alert(data.errmsg);
+                        }
                     }
                 });
                 e.preventDefault();
@@ -85,7 +110,7 @@
             function isTelNum(tel) {
                 var objRegExp = /^[\d]{5,20}$/; ///^\d+\.\d+$/;
                 return objRegExp.test(tel);
-            }  
+            }
         });
     </script>
 

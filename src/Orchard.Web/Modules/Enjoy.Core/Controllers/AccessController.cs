@@ -6,10 +6,8 @@ namespace Enjoy.Core.Controllers
     using Orchard;
     using Orchard.Mvc.Extensions;
     using Orchard.Themes;
-    using Enjoy.Core.Models.Records;
     using System.Web.Mvc;
-    using Orchard.Caching;
-    using System;
+    
     [Themed]
     public class AccessController : Controller
     {
@@ -39,7 +37,7 @@ namespace Enjoy.Core.Controllers
             {
                 this.OS.WorkContext.HttpContext.Session["Mobile"] = model.Mobile;
                 return this.RedirectLocal("/dashboard/summary");
-            }            
+            }
             return View("Sign", new SignViewModel()
             {
                 Signin = true,
@@ -50,14 +48,17 @@ namespace Enjoy.Core.Controllers
         }
 
 
-        [HttpGet]
-        public JsonResult GetverificationCode(string mobile)
+        [HttpPost]
+        public JsonNetResult GetverificationCode(string mobile)
         {
-            ////TODO Need use Post method
-            return Json(this.Auth.GetverificationCode(mobile), JsonRequestBehavior.AllowGet);
+            return new JsonNetResult()
+            {
+                Data = this.Auth.GetverificationCode(mobile)
+            };
         }
         public JsonResult MobileIsAvailable(string mobile)
         {
+            ////TODO: need use JsonNetResult as result type;
             return Json(this.Auth.QueryByMobile(mobile).ErrorCode == EnjoyConstant.MobileNotExists,
                 JsonRequestBehavior.AllowGet);
         }
