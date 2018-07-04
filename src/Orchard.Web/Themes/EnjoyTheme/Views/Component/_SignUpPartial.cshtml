@@ -84,13 +84,13 @@
                     },
                     success: function (data) {
                         if (data.has_error === false) {
-                            var timer = 60;
+                            var timer = 120;
                             $("#VerifyCode").val(data.model.code);
                             $("#btn_verify_code").addClass("disabled");
-                            $("#btn_verify_code").text(timer + "s重新获取");
+                            $("#btn_verify_code").text("("+timer + "s)重新获取");
                             self.setInterval(function () {
                                 timer = timer - 1;
-                                $("#btn_verify_code").text(timer + "s重新获取");
+                                $("#btn_verify_code").text("(" + timer + "s)重新获取");
                                 if (timer <= 0) {
                                     $("#btn_verify_code").text("重新获取");
                                     $("#btn_verify_code").removeClass("disabled");
