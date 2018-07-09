@@ -85,7 +85,7 @@
         NUMBER: "^\\-?\\d+(\\.\\d+)?$",
         URL: "^(http|https|ftp)\\:\\/\\/[a-z0-9\\-\\.]+\\.[a-z]{2,3}(:[a-z0-9]*)?\\/?([a-z0-9\\-\\._\\?\\,\\'\\/\\\\\\+&amp;%\\$#\\=~])*$",
         TEL: "^1\\d{10}$",
-        ZIPCODE: "^\\d{6}$",
+        ZIPCODE: "^\\d{6}$",        
         "prompt": {
             radio: "请选择一个选项",
             checkbox: "如果要继续，请选中此框",
@@ -97,7 +97,8 @@
             date: "请输入日期",
             pattern: "内容格式不符合要求",
             empty: "不能为空",
-            multiple: "多条数据使用逗号分隔"
+            multiple: "多条数据使用逗号分隔",            
+            equalTo:"确认密码不一致"
         }
     };
 
@@ -116,9 +117,9 @@
         }
     };
     $.html5Validate = (function () {
-        // 验证需要的子集方法 如是否为空，是否正则匹配，是否溢出
+        // 验证需要的子集方法 如是否为空，是否正则匹配，是否溢出,是否等于另一个控件值
         return {
-            isSupport: (function () {
+            isSupport: (function () {                
                 return $('<input type="email">').attr("type") === "email";
             })(),
             isEmpty: function (ele, value) {
@@ -213,6 +214,17 @@
                 }
                 return true;
             },
+            isEqualTo: function (ele) {
+                var equalTo = $(ele).attr("equalTo");
+                if ($(ele).val() == $(equalTo).val()) {
+                    return true;
+                }
+                else {
+                    $(ele).testRemind("两次输入不一致");
+                    return false;
+                }
+                
+            },
             isAllpass: function (elements, options) {
                 if (!elements) return true;
                 var defaults = {
@@ -294,6 +306,7 @@
 
                 elements.each(function () {
                     var el = this, type = el.getAttribute("type"), tag = el.tagName.toLowerCase(), isRequired = $(this).hasProp("required");
+                    
                     // type类型
                     if (type) {
                         var typeReplace = type.replace(/\W+$/, "");
@@ -301,7 +314,7 @@
                             // 如果表单元素默认type类型保留，去除某位空格或管道符
                             try { el.type = typeReplace; } catch (e) { }
                         }
-                        type = typeReplace;
+                        type = typeReplace;                        
                     }
 
                     if (allpass == false || el.disabled || type == 'submit' || type == 'reset' || type == 'file' || type == 'image') return;
@@ -330,8 +343,11 @@
                         allpass = remind(el, type, tag);
                     } else if (tag == "select" && isRequired && !el.value) {
                         // 下拉框只要关心值
-                        allpass = remind(el, type, tag);
-                    } else if ((isRequired && self.isEmpty(el)) || !(allpass = self.isRegex(el))) {
+                        allpass = remind(el, type, tag); 
+                    } else if (type == "password" && $(el).attr("equalTo") !=undefined) {
+                        allpass = self.isEqualTo(el);                      
+                    }                    
+                    else if ((isRequired && self.isEmpty(el)) || !(allpass = self.isRegex(el))) {
                         // 各种类型文本框以及文本域
                         // allpass为true表示是为空，为false表示验证不通过
                         allpass ? remind(el, type, "empty") : remind(el, type, tag);
@@ -339,7 +355,7 @@
                     } else if (self.isOverflow(el)) {
                         // 最大值最小值, 个数是否超出的验证
                         allpass = false;
-                    }
+                    } 
                 });
 
                 return allpass;
