@@ -54,6 +54,7 @@ namespace Enjoy.Core
                     .Column("Mobile", System.Data.DbType.String, column => column.WithLength(11).Unique().NotNull())
                     .Column("NickName", System.Data.DbType.String, column => column.WithLength(20))
                     .Column("WxUser_Id", System.Data.DbType.Int32, column => column.Nullable())
+                    .Column("Password", System.Data.DbType.String, column => column.WithLength(128))
                     .Column("LastPassword", System.Data.DbType.String, column => column.WithLength(128))
                     .Column("CreatedTime", System.Data.DbType.Int64)
                     .Column("LastActiveTime", System.Data.DbType.Int64)
