@@ -23,11 +23,13 @@ namespace Enjoy.Core.Services
         private readonly ICacheManager Cache;
         private readonly IVerifyCodeGenerator VerifyCodeGenerator;
         private readonly IClock Clock;
+        private readonly ISMSHelper SMSHelper;
         public EnjoyAuthService(
             IOrchardServices os,
             IEncryptionService encryption,
             ICacheManager cache,
             IVerifyCodeGenerator generator,
+            ISMSHelper helper,
             IClock clock)
         {
             this.OS = os;
@@ -35,6 +37,7 @@ namespace Enjoy.Core.Services
             this.Cache = cache;
             this.VerifyCodeGenerator = generator;
             this.Clock = clock;
+            this.SMSHelper = helper;
         }
 
 
@@ -57,21 +60,24 @@ namespace Enjoy.Core.Services
             return profile;
         }
 
-        public VerificationCodeViewModel GetverificationCode(string mobile)
+        public ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile)
         {
+            bool firstRequest = false;
             var result = this.Cache.Get(mobile, ctx =>
             {
                 var code = new VerificationCodeViewModel(mobile, this.VerifyCodeGenerator.GenerateNewVerifyCode());
                 ctx.Monitor(this.Clock.When(TimeSpan.FromMinutes(2)));
+                this.SMSHelper.Send(new QCloudSMS(mobile, VerifyTypes.SignUp, code.Code));
+                firstRequest = true;
+                code.Sended = true;
                 return code;
             });
-            var span = DateTime.UtcNow.Subtract(result.CreatedAt);
-            if (result.Sended == false)
+            var span = DateTime.Now.Subtract(result.CreatedAt);
+            if (span.TotalMinutes <= 2 && firstRequest == false)
             {
-                ////发送手机短信
-                result.SetSended();//设置发送状态
+                return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.FrequencyLimit);
             }
-            return result;
+            return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.Success, result);
         }
 
         public EnjoyUserProfile QueryByMobile(string mobile)

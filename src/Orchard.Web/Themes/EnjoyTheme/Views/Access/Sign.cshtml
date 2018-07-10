@@ -1,6 +1,17 @@
 ﻿
 @model Enjoy.Core.ViewModels.SignViewModel
 <div class="container">
+    <div class="row" style="display:inline">
+        <div class="col-md-4 col-md-offset-4">
+            @if (Model.HasError)
+            {
+                <div class="alert alert-warning">
+                    @Model.ErrorMessage
+                </div>
+            }
+        </div>
+    </div>
+ 
     @if (Model.Signin)
     {
         @Html.Partial("Component/_SignInPartial", Model.Current)
@@ -9,10 +20,5 @@
     {
         @Html.Partial("Component/_SignUpPartial", Model.Current)
     }
-    @if (Model.HasError)
-    {
-        <div class="alert alert-warning">
-            @Model.ErrorMessage
-        </div>
-    }
+
 </div>

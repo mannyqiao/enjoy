@@ -8,6 +8,9 @@ namespace Enjoy.Core.Models.Records
     public class WxUser : IEntityKey<int>
     {
         public virtual int Id { get; set; }
+
+        public Merchant Merchant { get; set; }
+
         public virtual string UnionId { get; set; }
         public virtual string OpenId { get; set; }
         public virtual string Mobile { get; set; }

@@ -5,6 +5,7 @@ namespace Enjoy.Core.Models
     using System.Collections.Generic;
     using System.Linq;
     using System;
+    using Newtonsoft.Json;
     public class ActionResponse<TModel> : BaseResponse
     {
         public ActionResponse(int error, TModel model)
@@ -17,6 +18,7 @@ namespace Enjoy.Core.Models
         {
             this.Model = default(TModel);
         }
+        [JsonProperty("model")]
         public TModel Model { get; protected set; }
     }
 

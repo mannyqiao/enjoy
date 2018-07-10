@@ -54,6 +54,7 @@ namespace Enjoy.Core
                     .Column("Mobile", System.Data.DbType.String, column => column.WithLength(11).Unique().NotNull())
                     .Column("NickName", System.Data.DbType.String, column => column.WithLength(20))
                     .Column("WxUser_Id", System.Data.DbType.Int32, column => column.Nullable())
+                    .Column("Password", System.Data.DbType.String, column => column.WithLength(128))
                     .Column("LastPassword", System.Data.DbType.String, column => column.WithLength(128))
                     .Column("CreatedTime", System.Data.DbType.Int64)
                     .Column("LastActiveTime", System.Data.DbType.Int64)
@@ -116,6 +117,7 @@ namespace Enjoy.Core
             );
             SchemaBuilder.CreateTable("WxUser", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
+                .Column("Merchant_Id", System.Data.DbType.Int32)
                 .Column("UnionId", System.Data.DbType.String, column => column.WithLength(32).Unique())
                 .Column("OpenId", System.Data.DbType.String, column => column.WithLength(32))
                 .Column("Mobile", System.Data.DbType.String, column => column.WithLength(11))
@@ -128,6 +130,14 @@ namespace Enjoy.Core
                 .Column("OwnApp", System.Data.DbType.String, column => column.WithLength(32))
                 .Column("CreatedTime", System.Data.DbType.Int64)
                 .Column("LastActiveTime", System.Data.DbType.Int64)
+            );
+            SchemaBuilder.CreateTable("WxMsg", table => table
+                .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
+                .Column("MsgType", System.Data.DbType.String,column=>column.WithLength(32))
+                .Column("CreatedTime", System.Data.DbType.Int64)
+                .Column("FromUser",System.Data.DbType.String,column=>column.WithLength(32))
+                .Column("ToUser", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("Metadata", System.Data.DbType.String, column => column.Unlimited())
             );
         }
         private void CreateLayer()

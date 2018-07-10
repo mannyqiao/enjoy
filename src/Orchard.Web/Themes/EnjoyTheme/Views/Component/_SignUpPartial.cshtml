@@ -7,25 +7,28 @@
                 <h3 class="panel-title">注册</h3>
             </div>
             <div class="panel-body">
-                @using (Html.BeginFormAntiForgeryPost(Url.Action("Signup", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+                @using (Html.BeginFormAntiForgeryPost(Url.Action("SignUp", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
                 {
-                    <fieldset>
-                        <div class="form-group input-group" id="div_mobile" name="div_mobile">
-                            @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "手机号码", type = "tel", autofocus = "autofocus" })
-                            <a id="btn_verify_code" name="btn_verify_code" class="btn btn-lg  btn-block input-group input-group-addon">获取验证码</a>
-                        </div>
-                        <div class="form-group">
-                            @Html.TextBoxFor(o => o.VerificationCode, new { @class = "form-control", placeholder = "手机验证码" })
-                        </div>
-                        <div class="form-group">
-                            @Html.PasswordFor(o => o.Password, new { @class = "form-control", placeholder = "输入密码", type = "password" })
-                        </div>
-                        <div class="form-group">
-                            @Html.PasswordFor(o => o.ConfirmPassword, new { @class = "form-control", placeholder = "确认密码", type = "password" })
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-success btn-block">提交</button>
-                        <a href="/Access/Sign?signin=true" class="btn btn-lg  btn-block">使用已经有帐号</a>
-                    </fieldset>
+                <fieldset>
+                    <div class="form-group input-group" id="div_mobile" name="div_mobile">
+                        @Html.TextBoxFor(o => o.Mobile, new { @class = "form-control", placeholder = "手机号码", type = "tel|email",
+                       autofocus = "autofocus", required= "required" })
+                        <a id="btn_verify_code" name="btn_verify_code" class="btn btn-lg  btn-block input-group input-group-addon">获取验证码</a>
+                        <input id="VerifyCode" name="VerifyCode" type="hidden" />
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(o => o.VerificationCode, new { @class = "form-control", type = "verify_code", placeholder = "输入短信验证码", required= "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(o => o.Password, new { @class = "form-control", placeholder = "输入密码", type = "password", required= "required",
+                       equalTo = "#ConfirmPassword" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(o => o.ConfirmPassword, new { @class = "form-control", placeholder = "确认密码", type = "password"  , required = "required" })
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-success btn-block">提交</button>
+                    <a href="/Access/Sign?signin=true" class="btn btn-lg  btn-block">使用已经有帐号</a>
+                </fieldset>
                 }
             </div>
         </div>
@@ -35,30 +38,11 @@
 {
     <script src="/Themes/EnjoyTheme/Content/plugins/jquery/jquery-1.10.2.min.js"></script>
     <script src="/Themes/EnjoyTheme/Content/scripts/bootstrap.min.js"></script>
-    <script src="/Themes/EnjoyTheme/Content/plugins/jquery.validate/jquery.validate.min.js"></script>
-    <script src="/Themes/EnjoyTheme/Content/plugins/jquery.validate/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/plugins/jquery-html5Validate/jquery-html5Validate.js"></script>
+    
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("form").validate({
-                errorClass: "has-error",
-                rules: {
-                    Mobile: { required: true },
-                    Password: { required: true }
-                },
-                messages: {
-                    Mobile: { required: "手机号码不能为空" },
-                    Password: { required: "密码不能为空" }
-                },
-                errorPlacement: function (error, element) {
-                    element.parent().addClass("has-error");
-                    //error.appendTo(element.parent());
-                },
-                success: function (label) {
-                    label.parent().removeClass("has-error");
-                }
-            });
-
             $("#btn_verify_code").click(function (e) {
                 var tel = $("#Mobile").val();
                 if (isTelNum(tel) === false) {
@@ -69,23 +53,49 @@
                 else {
                     $("#Mobile").parent().removeClass("has-error");
                 }
-                
+                console.log($("input[name='__RequestVerificationToken']").val());
                 $.ajax({
-                    type: "GET",
-                    url: "/Access/GetverificationCode?mobile=" + tel,
-                    data: {},
-                    contentType:"application/json",
+                    type: "POST",
+                    url: "/Access/GetverificationCode",
+                    data: {
+                        "mobile": $("#Mobile").val(),
+                        "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val()
+                    },
                     success: function (data) {
-                        $("#VerificationCode").val(data.Code);
+                        if (data.has_error === false) {
+                            var timer = 120;
+                            $("#VerifyCode").val(data.model.code);
+                            $("#btn_verify_code").addClass("disabled");
+                            $("#btn_verify_code").text("(" + timer + "s)重新获取");
+                            self.setInterval(function () {
+                                timer = timer - 1;
+                                $("#btn_verify_code").text("(" + timer + "s)重新获取");
+                                if (timer <= 0) {
+                                    $("#btn_verify_code").text("重新获取");
+                                    $("#btn_verify_code").removeClass("disabled");
+                                    self.stop();
+                                    return;
+                                }
+                            }, 1000)
+                        }
+                        else {
+                            alert(data.errmsg);
+                        }
                     }
                 });
                 e.preventDefault();
             })
 
+            $("form").html5Validate(function () {
+                
+                this.submit();
+            }, {
+                    // novalidate: false
+            });
             function isTelNum(tel) {
                 var objRegExp = /^[\d]{5,20}$/; ///^\d+\.\d+$/;
                 return objRegExp.test(tel);
-            }  
+            }
         });
     </script>
 

@@ -18,6 +18,6 @@ namespace Enjoy.Core
 
         EnjoyUser GetAuthenticatedUser();
 
-        VerificationCodeViewModel GetverificationCode(string mobile);
+        ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile);
     }
 }
