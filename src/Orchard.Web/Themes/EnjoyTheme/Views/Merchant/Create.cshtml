@@ -95,12 +95,7 @@
                 emptyStyle: 'none'
             });
 
-            $("input[type='file']").change(function (sender) {
-                var target = $(this).attr("name");
-                var setback_id = $(sender).attr("data-target");
-                console.log($("#" + target).val());
-                upload_cover(target, setback_id);
-            });
+          
 
           
 
