@@ -10,6 +10,8 @@ namespace Enjoy.Core.Services
     using System.IO;
     using System.Security.Cryptography;
     using Orchard;
+    using Orchard.Logging;
+
     public class WeChatApi : IWeChatApi
     {
         private readonly ICacheManager Cache;
@@ -17,12 +19,13 @@ namespace Enjoy.Core.Services
         private readonly IOrchardServices OS;
         public const string CacheKey_Token = "Enjoy_WeChat_Token";
         public const string CacheKey_ApplyProtocol = "Enjoy_WeChat_ApplyProtocol";
-
+        public ILogger Logger;
         public WeChatApi(ICacheManager cache, IClock clock, IOrchardServices os)
         {
             this.Cache = cache;
             this.Clock = clock;
             this.OS = os;
+            this.Logger = NullLogger.Instance;
         }
         public string GetToken(string appid, string appsecret)
         {
@@ -30,6 +33,7 @@ namespace Enjoy.Core.Services
             {
                 var token = WeChatApiRequestBuilder.GenerateWxTokenRequestUrl(appid, appsecret).GetResponseForJson<AccessTokenWxResponse>();
                 ctx.Monitor(this.Clock.When(TimeSpan.FromSeconds(token.Expiresin)));//默认过期时间为 7200秒
+                if (token.HasError) { Logger.Error(token.ErrMsg); }
                 return token.Token;
             });
         }
