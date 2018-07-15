@@ -64,7 +64,7 @@ namespace Enjoy.Core
             //创建商户
             SchemaBuilder.CreateTable("Merchant", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("MerchantId", System.Data.DbType.String, column => column.WithLength(32))
+                .Column("MerchantId", System.Data.DbType.Int32)
                 .Column("EnjoyUser_Id", System.Data.DbType.Int32)
                 .Column("BenginTime", System.Data.DbType.Int64)
                 .Column("CreateTime", System.Data.DbType.Int64)
