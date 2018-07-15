@@ -29,21 +29,28 @@
                     </div>
                 </fieldset>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.LogoUrl), "上传Logo", Enjoy.Core.MediaUploadTypes.Material, Model.Merchant.LogoUrl, true, Model.Merchant.LogoUrl))
                     </div>
-                    <div class="col-lg-4">
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.AgreementMediaId), "上传营业执照", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.AgreementMediaId, true, WeChatApiRequestBuilder.GenrateImageUrlByMediaId(Model.Merchant.OperatorMediaId)))
+                    <div class="col-lg-3">
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.AgreementMediaId), "上传营业执照", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.AgreementMediaId, true, WeChatApiRequestBuilder.GenrateImageUrlByMediaId(Model.Merchant.AgreementMediaId)))
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.OperatorMediaId), "上传身份证", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.OperatorMediaId, true, WeChatApiRequestBuilder.GenrateImageUrlByMediaId(Model.Merchant.OperatorMediaId)))
                     </div>
+                    <div class="col-lg-3">
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.Protocol), "商户授权函", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.Protocol, true, WeChatApiRequestBuilder.GenrateImageUrlByMediaId(Model.Merchant.Protocol)))
+                        <a href="https://mp.weixin.qq.com/zh_CN/htmledition/comm_htmledition/res/cardticket/wx_cardticket_assist_agent.pdf" target="_blank">下载模版</a>
+                    </div>
                 </div>
-
+                @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "与授权书日期保持一致", true))
+                @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.EndTimeString),
+                           "结束时间", Model.EndTimeString,"与授权书保持一致", true))
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Contact), "联系人", Model.Merchant.Contact, 10, false))
 
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Mobile), "联系电话", Model.Merchant.Mobile, 20, false))
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.AppId), "AppId", Model.Merchant.AppId, 20, false))
+
                 <div class="form-group" id="address">
                     <div class="form-group form-inline pull-left">
                         <label class="control-label">商户地址</label>
@@ -54,8 +61,8 @@
                 </div>
                 if ((Model.Status == Enjoy.Core.AuditStatus.APPROVED) == false)
                 {
-                    <button type="submit" class="btn btn-lg btn-success btn-block">保存并提交审核</button>
-                }                
+                    <button type="submit" class="btn btn-lg btn-success btn-block">保存更改</button>
+                }
             }
 
 

@@ -15,10 +15,12 @@ namespace Enjoy.Core.ViewModels
         }
 
         public MerchantModel Merchant { get; set; }
-        
+
         public int OwnerId { get; set; }
         public string Province { get; set; }
         public string City { get; set; }
+        public string StartTimeString { get; set; }
+        public string EndTimeString { get; set; }
         public string Area { get; set; }
         //['province', 'city', 'area']
         public ApplyProtocolWxResponse ApplyProtocol { get; set; }

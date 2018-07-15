@@ -11,11 +11,13 @@ namespace Enjoy.Core.Services
     using System.Linq;
     using NHibernate.Criterion;
     using System.Collections.Generic;
+    using Enjoy.Core.Models;
+
     public class MerchantService : QueryBaseService<Records::Merchant, Models::MerchantModel>, IMerchantService
     {
         private readonly IEnjoyAuthService Auth;
-        
-        public readonly IWeChatApi WeChat;        
+
+        public readonly IWeChatApi WeChat;
         private ModelClient client = new ModelClient();
 
         public override Type ModelType { get { return typeof(Models::MerchantModel); } }
@@ -29,7 +31,7 @@ namespace Enjoy.Core.Services
             base(os)
         {
             this.Auth = auth;
-            
+
             this.WeChat = wechat;
         }
 
@@ -40,31 +42,37 @@ namespace Enjoy.Core.Services
             var merchart = this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("EnjoyUser.Id", active_user.Id));
+
             }, (record) =>
             {
                 if (record == null)
+                {
                     return new Models.MerchantModel()
                     {
                         EnjoyUser = active_user
                     };
+                }
                 else
+                {
                     return new Models.MerchantModel(record);
+                }
             });
             return merchart;
         }
 
-        public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(Models::MerchantModel model, Action<Models::MerchantModel> pushToWeChat = null)
+        public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(
+            Models::MerchantModel model)
         {
-            if (pushToWeChat != null)
-                pushToWeChat(model);
-
             return this.SaveOrUpdate(model, Validate, Convert);
         }
 
-        public Models.ActionResponse<Models.MerchantModel> SaveAndPushToWeChat(Models.MerchantModel model, Action<Models.MerchantModel> push = null)
+        public Models.ActionResponse<Models.MerchantModel> SaveAndPushToWeChat(
+            Models.MerchantModel model,
+            Action<Models::MerchantModel> push = null)
         {
-            if (push != null) push = PushToWechat;
-            return this.SaveOrUpdate(model, push);
+            if (push == null) push = PushToWechat;
+            push(model);
+            return this.SaveOrUpdate(model);
         }
         private Records::Merchant Convert(Models::MerchantModel model)
         {
@@ -136,13 +144,12 @@ namespace Enjoy.Core.Services
                 model.Status = AuditStatus.CHECKING;
                 model.MerchantId = wxrep.Info.MerchantId;
                 model.ErrMsg = string.Empty;
-
             }
             else
             {
                 model.Status = AuditStatus.UnCommitted;
                 model.ErrMsg = wxrep.ErrMsg;
-            }
+            }           
         }
 
         public Models.WxResponseWapper<Models.MerchantModel> QueryApproveStatus(string merchantid)
@@ -185,6 +192,16 @@ namespace Enjoy.Core.Services
             model.Status = status;
             model.ErrMsg = reson;
             this.SaveOrUpdate(model);
+        }
+
+        public Models.MerchantModel GetDefaultMerchant(int id)
+        {
+            var model = this.QueryFirstOrDefault((builder) =>
+            {
+                builder.Add(Expression.Eq("Id", id));
+            },
+            r => new Models.MerchantModel(r));
+            return model;
         }
     }
 }

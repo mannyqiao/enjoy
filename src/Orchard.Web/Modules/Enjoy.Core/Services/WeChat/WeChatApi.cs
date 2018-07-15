@@ -110,6 +110,11 @@ namespace Enjoy.Core.Services
             response.Url = string.IsNullOrEmpty(response.MediaId) ? response.Url : WeChatApiRequestBuilder.GenrateImageUrlByMediaId(response.MediaId);
             return response;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="submerchant"></param>
+        /// <returns></returns>
         public WxResponseWapper<CreateSubmerchantResponse> CreateSubmerchant(WxRequestWapper<SubMerchant> submerchant)
         {
             var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.GetToken());

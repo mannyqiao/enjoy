@@ -8,6 +8,7 @@ namespace Enjoy.Core.Models
         public SubMerchant(MerchantModel model)
         {
             this.AgreementMediaId = model.AgreementMediaId;
+            this.OperatorMediaId = model.OperatorMediaId;            
             this.AppId = model.AppId;
             this.BrandName = model.BrandName;
             this.EndTime = model.EndTime;

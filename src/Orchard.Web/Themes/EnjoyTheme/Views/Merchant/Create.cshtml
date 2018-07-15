@@ -48,6 +48,10 @@
 
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Mobile), "联系电话", Model.Merchant.Mobile, 20, false))
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.AppId), "AppId", Model.Merchant.AppId, 20, false))
+                @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "与授权书日期保持一致", true))
+                @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.EndTimeString),
+                           "结束时间", Model.EndTimeString,"与授权书保持一致", true))
+
                 <div class="form-group" id="address">
                     <div class="form-group form-inline pull-left">
                         <label class="control-label">商户地址</label>
@@ -70,6 +74,7 @@
 
 @using (Script.Foot())
 {
+    
     <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
     <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
     <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
@@ -95,9 +100,9 @@
                 emptyStyle: 'none'
             });
 
-          
 
-          
+
+
 
         });
     </script>

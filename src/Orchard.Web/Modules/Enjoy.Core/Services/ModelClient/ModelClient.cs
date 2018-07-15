@@ -36,8 +36,9 @@ namespace Enjoy.Core
                   return name;
               }).ToList();
             viewModel.OwnerId = model.EnjoyUser.Id;
-            viewModel.ApplyProtocol = apply_protocol;
-
+            viewModel.ApplyProtocol = apply_protocol;            
+            viewModel.StartTimeString = model.BenginTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
+            viewModel.EndTimeString = model.EndTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
             return viewModel;
         }
         public CardCounponModel Convert(CardCounponViewModel viewModel, MerchantModel merchant)

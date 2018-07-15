@@ -14,7 +14,17 @@
         {
             return ((dateTime.Ticks - UNIX_START_DATE.Ticks) / 10000000L) + (3600 * 8);
         }
-
+        //public static DateTime ToDateTime(this string input)
+        //{
+        //    if (DateTime.TryParse(input, out DateTime result))
+        //    {
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentException(string.Format("\"{0}\" can't convert to DateTime", input));
+        //    }
+        //}
         public static DateTime ToDateTimeFromUnixStamp(this long timestamp)
         {
             return UNIX_START_DATE.Add(TimeSpan.FromTicks(timestamp * 10000000L));
