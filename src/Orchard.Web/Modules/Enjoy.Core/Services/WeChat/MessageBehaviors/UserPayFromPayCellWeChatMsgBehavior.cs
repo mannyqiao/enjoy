@@ -25,7 +25,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(PayFromPayCellWeChatEventArgs model)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }

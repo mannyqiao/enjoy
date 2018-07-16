@@ -21,7 +21,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(UserGiftingWeChatEventArgs model)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }

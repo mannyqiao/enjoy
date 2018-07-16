@@ -24,7 +24,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(DeleteCardCouponWeChatEventArgs model)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }
