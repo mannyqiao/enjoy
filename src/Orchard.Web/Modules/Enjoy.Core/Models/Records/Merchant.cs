@@ -14,7 +14,7 @@ namespace Enjoy.Core.Models.Records
         /// <summary>
         /// 由微信公众平台返回， 子商户id，对于一个母商户公众号下唯一
         /// </summary>
-        public virtual int MerchantId { get; set; }
+        public virtual int? MerchantId { get; set; }
         /// <summary>
         /// wxxxxxxxxxxx 子商户的公众号app_id，配置后子商户卡券券面上的app_id为该app_id。注意：该app_id须经过认证
         /// </summary>        
@@ -32,6 +32,10 @@ namespace Enjoy.Core.Models.Records
         /// String(36)  mdasdfkl ：	授权函ID，即通过 上传临时素材接口 上传授权函后获得的meida_id
         /// </summary>
         public virtual string Protocol { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual long BeginTime { get; set; }
         /// <summary>
         /// 是 unsigned int	15300000	授权函有效期截止时间（东八区时间，单位为秒），需要与提交的扫描件一致
         /// </summary>
@@ -55,7 +59,7 @@ namespace Enjoy.Core.Models.Records
         /// </summary>
         public virtual string OperatorMediaId { get; set; }
 
-        public virtual long BenginTime { get; set; }
+      
 
         /// <summary>
         /// 子商户创建时间

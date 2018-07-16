@@ -11,11 +11,13 @@ namespace Enjoy.Core.Services
     using System.Linq;
     using NHibernate.Criterion;
     using System.Collections.Generic;
+    using Enjoy.Core.Models;
+
     public class MerchantService : QueryBaseService<Records::Merchant, Models::MerchantModel>, IMerchantService
     {
         private readonly IEnjoyAuthService Auth;
-        
-        public readonly IWeChatApi WeChat;        
+
+        public readonly IWeChatApi WeChat;
         private ModelClient client = new ModelClient();
 
         public override Type ModelType { get { return typeof(Models::MerchantModel); } }
@@ -29,7 +31,7 @@ namespace Enjoy.Core.Services
             base(os)
         {
             this.Auth = auth;
-            
+
             this.WeChat = wechat;
         }
 
@@ -40,31 +42,45 @@ namespace Enjoy.Core.Services
             var merchart = this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("EnjoyUser.Id", active_user.Id));
+
             }, (record) =>
             {
                 if (record == null)
+                {
                     return new Models.MerchantModel()
                     {
                         EnjoyUser = active_user
                     };
+                }
                 else
+                {
                     return new Models.MerchantModel(record);
+                }
             });
             return merchart;
         }
 
-        public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(Models::MerchantModel model, Action<Models::MerchantModel> pushToWeChat = null)
+        public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(
+            Models::MerchantModel model)
         {
-            if (pushToWeChat != null)
-                pushToWeChat(model);
-
             return this.SaveOrUpdate(model, Validate, Convert);
         }
 
-        public Models.ActionResponse<Models.MerchantModel> SaveAndPushToWeChat(Models.MerchantModel model, Action<Models.MerchantModel> push = null)
+        public Models.ActionResponse<Models.MerchantModel> SaveAndPushToWeChat(
+            Models.MerchantModel model,
+            Action<Models::MerchantModel> push = null)
         {
-            if (push != null) push = PushToWechat;
-            return this.SaveOrUpdate(model, push);
+            if (push == null) push = PushToWechat;
+            push(model);
+            var result = this.SaveOrUpdate(model);
+            if (string.IsNullOrEmpty(model.ErrMsg) == false)
+            {
+                return new ActionResponse<MerchantModel>(EnjoyConstant.ErrorMerchantState, model);
+            }
+            else
+            {
+                return new ActionResponse<MerchantModel>(EnjoyConstant.Success, model);
+            }
         }
         private Records::Merchant Convert(Models::MerchantModel model)
         {
@@ -77,7 +93,7 @@ namespace Enjoy.Core.Services
                 r.Address = m.Address;
                 r.AgreementMediaId = m.AgreementMediaId;
                 r.AppId = m.AppId;
-                r.BenginTime = m.BenginTime;
+                r.BeginTime = m.BeginTime;
                 r.BrandName = m.BrandName;
                 r.Contact = m.Contact;
                 r.CreateTime = m.CreateTime;
@@ -126,7 +142,7 @@ namespace Enjoy.Core.Services
         /// <returns></returns>
         private void PushToWechat(Models::MerchantModel model)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.WeChat.GetToken());
+            var request = WeChatApiRequestBuilder.GenerateWxSubmerchantUrl(this.WeChat.GetToken(), model.MerchantId == null);
             var wapper = new Models::WxRequestWapper<Models::SubMerchant>();
             wapper.Info = new Models.SubMerchant(model);
             wapper.Info.EndTime = DateTime.Now.AddMonths(1).ToUnixStampDateTime();
@@ -136,7 +152,6 @@ namespace Enjoy.Core.Services
                 model.Status = AuditStatus.CHECKING;
                 model.MerchantId = wxrep.Info.MerchantId;
                 model.ErrMsg = string.Empty;
-
             }
             else
             {
@@ -185,6 +200,16 @@ namespace Enjoy.Core.Services
             model.Status = status;
             model.ErrMsg = reson;
             this.SaveOrUpdate(model);
+        }
+
+        public Models.MerchantModel GetDefaultMerchant(int id)
+        {
+            var model = this.QueryFirstOrDefault((builder) =>
+            {
+                builder.Add(Expression.Eq("Id", id));
+            },
+            r => new Models.MerchantModel(r));
+            return model;
         }
     }
 }

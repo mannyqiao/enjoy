@@ -109,10 +109,18 @@ namespace Enjoy.Core.Services
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static string GenerateWxCreateSubmerchantUrl(string token)
+        public static string GenerateWxSubmerchantUrl(string token, bool bIsNewSubMerchant)
         {
-            return string.Format("https://api.weixin.qq.com/card/submerchant/submit?access_token={0}", token);
+            if (bIsNewSubMerchant)
+            {
+                return string.Format("https://api.weixin.qq.com/card/submerchant/submit?access_token={0}", token);
+            }
+            else
+            {
+                return string.Format("https://api.weixin.qq.com/card/submerchant/update?access_token={0}", token);
+            }
         }
+
         public static string GenrateImageUrlByMediaId(string mediaid)
         {
             ////Enjoy TODO: need return the true url by media id 
@@ -121,7 +129,7 @@ namespace Enjoy.Core.Services
             else
             {
                 return string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaid));
-            }   
+            }
         }
         public static string GenreateWxQueryGetCardList(string token)
         {

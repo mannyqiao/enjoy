@@ -11,8 +11,8 @@
 
 @using (Script.Foot())
 {
-  
-    <script  type="text/javascript" src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+
+    <script type="text/javascript" src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
         var img_selector = "img_@Model.Id";
@@ -23,7 +23,7 @@
             $("#"+file_selector).click();
         });
 
-        $("#"+file_selector).change(function () {            
+        $("#"+file_selector).change(function () {
             upload_cover(file_selector, value_selector);
         });
 
@@ -41,9 +41,9 @@
         function ajax_upload(target, setback_id, callback) { //具体的上传图片方法
             var materialType = "@Model.MediaUploadTypes.ToString()"; //setback_id === "LogoUrl" ? "Material" : "AuthMaterial";
             var image = $("#" +target).val();
-            
+
             if (image_check(image)) { //自己添加的文件后缀名的验证
-                
+
                 $.ajaxFileUpload({
                     fileElementId: target, //需要上传的文件域的ID，即<input type="file">的ID。
                     url: "/Merchant/UploadMaterial?type=" + materialType, //后台方法的路径
@@ -65,15 +65,37 @@
                         $("#" + file_selector).on("change", function () {
                             upload_cover(file_selector, value_selector);
                         });
-                    }  
+                    }
                 });
             }
         }
         function image_check(image) { //自己添加的文件后缀名的验证
+            var fileSize = getFileSize("file_" + "@Model.Id");
+            if (fileSize > 2 ) {
+                alert('图片不能大于2MB，请修改后再上传.');
+                return false;
+            }
+            if (fileSize <0) {
+                alert('图片不正确，请重新上传.');
+                return false;
+            }
             return /.(jpg|png|gif|bmp)$/.test(image.toLowerCase()) ? true : (function () {
-                modals.info('图片格式仅支持jpg、png、gif、bmp格式，且区分大小写。');
+                alert('图片格式仅支持jpg、png、gif、bmp格式，且区分大小写。');
                 return false;
             })();
+        }
+        function getFileSize(eleId) {
+            try {
+                var size = 0;
+                size = $('#' + eleId)[0].files[0].size;//byte
+                size = size / 1024;//kb
+                size = size / 1024;//mb
+                //alert('上传文件大小为' + size + 'M');
+                return size;
+            } catch (e) {
+                alert("错误：" + e);
+                return -1;
+            }
         }
     });
     </script>

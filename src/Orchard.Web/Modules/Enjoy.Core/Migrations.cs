@@ -66,7 +66,7 @@ namespace Enjoy.Core
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
                 .Column("MerchantId", System.Data.DbType.Int32)
                 .Column("EnjoyUser_Id", System.Data.DbType.Int32)
-                .Column("BenginTime", System.Data.DbType.Int64)
+                .Column("BeginTime", System.Data.DbType.Int64)
                 .Column("CreateTime", System.Data.DbType.Int64)
                 .Column("UpdateTime", System.Data.DbType.Int64)
                 .Column("Status", System.Data.DbType.String, column => column.WithLength(36).WithDefault(AuditStatus.UnCommitted.ToString()))
@@ -95,7 +95,7 @@ namespace Enjoy.Core
             //创建门店表
             SchemaBuilder.CreateTable("Shop", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("Merchant_Id", System.Data.DbType.Int32)
+                .Column("Merchant_Id", System.Data.DbType.Int32, column => column.Nullable())
                 .Column("ShopName", System.Data.DbType.String, column => column.WithLength(120))
                 .Column("Coordinate", System.Data.DbType.String, column => column.WithLength(50))
                 .Column("Leader", System.Data.DbType.String, column => column.WithLength(50))
@@ -133,9 +133,9 @@ namespace Enjoy.Core
             );
             SchemaBuilder.CreateTable("WxMsg", table => table
                 .Column("Id", System.Data.DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("MsgType", System.Data.DbType.String,column=>column.WithLength(32))
+                .Column("MsgType", System.Data.DbType.String, column => column.WithLength(32))
                 .Column("CreatedTime", System.Data.DbType.Int64)
-                .Column("FromUser",System.Data.DbType.String,column=>column.WithLength(32))
+                .Column("FromUser", System.Data.DbType.String, column => column.WithLength(32))
                 .Column("ToUser", System.Data.DbType.String, column => column.WithLength(32))
                 .Column("Metadata", System.Data.DbType.String, column => column.Unlimited())
             );

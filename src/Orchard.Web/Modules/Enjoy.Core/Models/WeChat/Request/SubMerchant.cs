@@ -8,6 +8,7 @@ namespace Enjoy.Core.Models
         public SubMerchant(MerchantModel model)
         {
             this.AgreementMediaId = model.AgreementMediaId;
+            this.OperatorMediaId = model.OperatorMediaId;
             this.AppId = model.AppId;
             this.BrandName = model.BrandName;
             this.EndTime = model.EndTime;
@@ -15,10 +16,14 @@ namespace Enjoy.Core.Models
             this.PrimaryCategoryId = model.PrimaryCategoryId;
             this.SecondaryCategoryId = model.SecondaryCategoryId;
             this.Protocol = model.Protocol;
-         }
+            this.MerchantId = model.MerchantId;
+        }
         public SubMerchant() { }
         [JsonProperty("brand_name")]
         public string BrandName { get; set; }
+
+        [JsonProperty("merchant_id", NullValueHandling = NullValueHandling.Ignore)]
+        public int? MerchantId { get; set; }
 
         [JsonProperty("logo_url")]
         public string LogoUrl { get; set; }

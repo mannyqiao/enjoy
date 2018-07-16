@@ -13,7 +13,7 @@ namespace Enjoy.Core.Controllers
     using System.Collections.Generic;
     using System;
     using Enjoy.Core.Models;
-
+    using Enjoy.Core;
     [Themed]
     public class MerchantController : Controller
     {
@@ -66,24 +66,23 @@ namespace Enjoy.Core.Controllers
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
-
-
             model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser();
             model.Merchant.Address = string.Join("/", new string[] { model.Province, model.City, model.Area });
-
-
+            model.Merchant.BeginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
+            model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.Status = AuditStatus.UnCommitted;
+            if (model.Merchant.Id.Equals(0))
+                model.Merchant.CreateTime = DateTime.Now.ToUnixStampDateTime();
+            model.Merchant.UpdateTime = DateTime.Now.ToUnixStampDateTime();
             this.Merchant.SaveOrUpdate(model.Merchant);
             return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
         [HttpPost]
-        public ActionResult Audit(MerchantViewModel model)
+        public JsonNetResult Audit(int id)
         {
-            if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
-            ////Enjoy TODO: Need add code that audit by wechat.
-            return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
-
+            var model = this.Merchant.GetDefaultMerchant(id);
+            var data = this.Merchant.SaveAndPushToWeChat(model);
+            return new JsonNetResult() { Data = data };
         }
 
         public JsonResult GetApplyProtocol()
