@@ -72,7 +72,15 @@ namespace Enjoy.Core.Services
         {
             if (push == null) push = PushToWechat;
             push(model);
-            return this.SaveOrUpdate(model);
+            var result = this.SaveOrUpdate(model);
+            if (string.IsNullOrEmpty(model.ErrMsg) == false)
+            {
+                return new ActionResponse<MerchantModel>(EnjoyConstant.ErrorMerchantState, model);
+            }
+            else
+            {
+                return new ActionResponse<MerchantModel>(EnjoyConstant.Success, model);
+            }
         }
         private Records::Merchant Convert(Models::MerchantModel model)
         {

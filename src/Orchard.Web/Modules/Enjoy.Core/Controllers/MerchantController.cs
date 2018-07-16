@@ -71,6 +71,9 @@ namespace Enjoy.Core.Controllers
             model.Merchant.BeginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.Status = AuditStatus.UnCommitted;
+            if (model.Merchant.Id.Equals(0))
+                model.Merchant.CreateTime = DateTime.Now.ToUnixStampDateTime();
+            model.Merchant.UpdateTime = DateTime.Now.ToUnixStampDateTime();
             this.Merchant.SaveOrUpdate(model.Merchant);
             return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }

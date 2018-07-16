@@ -126,16 +126,20 @@
                     data: {
                         "id": id,
                         __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                    },                    
+                    success: function (result) {                        
+                        if (result.error_code == 0) {
+                            window.location.reload();
+                        }
+                        else {
+                            alert(result.error_message);
+                        }
                     },
-                    dataType: "application/json",
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function () {
-                        //console.log($(this));
+                    error: function (msg) {
+                     
                     },
                     complete: function (xhr, ts) {
-
+                        
                     }
                 });
             });

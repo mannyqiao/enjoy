@@ -81,7 +81,7 @@ namespace Enjoy.Core.Services
 
             var session = this.OS.TransactionManager.GetSession();
             var record = convert(model);
-            session.SaveOrUpdate(record);
+            session.SaveOrUpdate(record);            
             return new ActionResponse<M>(EnjoyConstant.Success, model);
         }
 
