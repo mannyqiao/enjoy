@@ -43,13 +43,24 @@
                         <a href="https://mp.weixin.qq.com/zh_CN/htmledition/comm_htmledition/res/cardticket/wx_cardticket_assist_agent.pdf" target="_blank">下载模版</a>
                     </div>
                 </div>
-                @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "与授权书日期保持一致", true))
-                @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.EndTimeString),
-                           "结束时间", Model.EndTimeString,"与授权书保持一致", true))
-                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Contact), "联系人", Model.Merchant.Contact, 10, false))
+                <div class="row">
+                    <div class="col-lg-12">
+                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "", true))
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.EndTimeString),
+                           "结束时间", Model.EndTimeString,"", true))
+                    </div>
+                </div>
 
-                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Mobile), "联系电话", Model.Merchant.Mobile, 20, false))
-                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.AppId), "AppId", Model.Merchant.AppId, 20, false))
+
+
+                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Contact), "联系人", Model.Merchant.Contact, 10, true))
+
+                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Mobile), "联系电话", Model.Merchant.Mobile, 20, true))
+                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.AppId), "AppId", Model.Merchant.AppId, 20, true))
 
                 <div class="form-group" id="address">
                     <div class="form-group form-inline pull-left">
@@ -76,13 +87,12 @@
 
 @using (Script.Foot())
 {
-    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
-    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
-    <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
-    <script>
+    <script type="text/javascript" src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+    <script type="text/javascript" src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="/Themes/EnjoyTheme/Content/plugins/jquery-html5Validate/jquery-html5Validate.js"></script>
+    <script type="text/javascript">
         $(document).ready(function () {
-
-
             $.get("/Merchant/GetApplyProtocol", function (result) {
                 $('#ApplyProtocol').cxSelect({
                     selects: ['first', 'second'],
@@ -106,6 +116,13 @@
                 var setback_id = $(sender).attr("data-target");
                 console.log($("#" + target).val());
                 upload_cover(target, setback_id);
+            });
+
+            $("form").html5Validate(function () {                
+                this.submit();
+            },
+            {
+                // novalidate: false
             });
         });
     </script>

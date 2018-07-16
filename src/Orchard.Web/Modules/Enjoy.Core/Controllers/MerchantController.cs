@@ -66,11 +66,9 @@ namespace Enjoy.Core.Controllers
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
-
-
             model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser();
             model.Merchant.Address = string.Join("/", new string[] { model.Province, model.City, model.Area });
-            model.Merchant.BenginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
+            model.Merchant.BeginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.Status = AuditStatus.UnCommitted;
             this.Merchant.SaveOrUpdate(model.Merchant);

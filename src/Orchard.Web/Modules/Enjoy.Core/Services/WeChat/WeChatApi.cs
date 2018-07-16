@@ -117,7 +117,7 @@ namespace Enjoy.Core.Services
         /// <returns></returns>
         public WxResponseWapper<CreateSubmerchantResponse> CreateSubmerchant(WxRequestWapper<SubMerchant> submerchant)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.GetToken());
+            var request = WeChatApiRequestBuilder.GenerateWxSubmerchantUrl(this.GetToken(), submerchant.Info.MerchantId == null);
             return request.GetResponseForJson<WxResponseWapper<CreateSubmerchantResponse>>((http) =>
             {
                 http.Method = "POST";

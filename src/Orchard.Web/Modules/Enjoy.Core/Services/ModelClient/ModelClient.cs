@@ -37,7 +37,7 @@ namespace Enjoy.Core
               }).ToList();
             viewModel.OwnerId = model.EnjoyUser.Id;
             viewModel.ApplyProtocol = apply_protocol;            
-            viewModel.StartTimeString = model.BenginTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
+            viewModel.StartTimeString = model.BeginTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
             viewModel.EndTimeString = model.EndTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
             return viewModel;
         }

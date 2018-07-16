@@ -1,48 +1,51 @@
 ﻿@model Enjoy.Core.UIElements.DatePickerUIElement
-<div class="form-group @(Model.Required?"required":"")">
+<div class="form-group pull-left @(Model.Required?"required":"")">
     <label for="@Model.Id" class="col-md-4 control-label">@Model.Text</label>
-    <div class="input-group date form_date col-md-6 pull-left" data-date="" data-date-format="yyyy-M-dd" data-link-field="_@Model.Id" data-link-format="yyyy-M-dd">
+    <div class="input-group date pull-left form_date col-md-6 " data-date="" data-date-format="yyyy-M-dd" data-link-field="_@Model.Id" data-link-format="yyyy-M-dd">
         <input id="@Model.Id" name="@Model.Name" class="form-control" size="16" type="text" value="@Model.Value" readonly>
         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
     </div>
-    <input type="hidden" id="_@Model.Id"  value="@Model.Value" /><br />
+    <input type="hidden" id="_@Model.Id" value="@Model.Value" /><br />
 </div>
+@using (Script.Foot())
+{
+    <script type="text/javascript">
 
-<script type="text/javascript">
+        $(document).ready(function () {            
+            $('.form_datetime').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1
+            });
+            $('.form_date').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            });
+            $('.form_time').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 1,
+                minView: 0,
+                maxView: 1,
+                forceParse: 0
+            });
+        });
+    </script>
+}
 
-    $(document).ready(function () {
-        $('.form_datetime').datetimepicker({
-            language:  'zh-CN',
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0,
-            showMeridian: 1
-        });
-        $('.form_date').datetimepicker({
-            language: 'zh-CN',
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0
-        });
-        $('.form_time').datetimepicker({
-            language: 'zh-CN',
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 1,
-            minView: 0,
-            maxView: 1,
-            forceParse: 0
-        });
-    });
-</script>
 

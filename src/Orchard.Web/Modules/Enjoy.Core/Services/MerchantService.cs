@@ -85,7 +85,7 @@ namespace Enjoy.Core.Services
                 r.Address = m.Address;
                 r.AgreementMediaId = m.AgreementMediaId;
                 r.AppId = m.AppId;
-                r.BenginTime = m.BenginTime;
+                r.BeginTime = m.BeginTime;
                 r.BrandName = m.BrandName;
                 r.Contact = m.Contact;
                 r.CreateTime = m.CreateTime;
@@ -134,7 +134,7 @@ namespace Enjoy.Core.Services
         /// <returns></returns>
         private void PushToWechat(Models::MerchantModel model)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxCreateSubmerchantUrl(this.WeChat.GetToken());
+            var request = WeChatApiRequestBuilder.GenerateWxSubmerchantUrl(this.WeChat.GetToken(), model.MerchantId == null);
             var wapper = new Models::WxRequestWapper<Models::SubMerchant>();
             wapper.Info = new Models.SubMerchant(model);
             wapper.Info.EndTime = DateTime.Now.AddMonths(1).ToUnixStampDateTime();
@@ -149,7 +149,7 @@ namespace Enjoy.Core.Services
             {
                 model.Status = AuditStatus.UnCommitted;
                 model.ErrMsg = wxrep.ErrMsg;
-            }           
+            }
         }
 
         public Models.WxResponseWapper<Models.MerchantModel> QueryApproveStatus(string merchantid)

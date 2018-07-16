@@ -4,9 +4,15 @@ namespace Enjoy.Core.Models
 {
     using Records = Enjoy.Core.Models.Records;
     using Newtonsoft.Json;
+    using System;
+
     public class MerchantModel : IEntityKey<int>
     {
-        public MerchantModel() { }
+        public MerchantModel()
+        {
+            this.BeginTime = DateTime.Now.ToUnixStampDateTime();
+            this.EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime();
+        }
         public MerchantModel(Records::Merchant record)
         {
             if (record != null)
@@ -14,7 +20,7 @@ namespace Enjoy.Core.Models
                 this.Address = record.Address;
                 this.AgreementMediaId = record.AgreementMediaId;
                 this.AppId = record.AppId;
-                this.BenginTime = record.BenginTime;
+                this.BeginTime = record.BeginTime;
                 this.BrandName = record.BrandName;
                 this.Contact = record.Contact;
                 this.CreateTime = record.CreateTime;
@@ -31,7 +37,6 @@ namespace Enjoy.Core.Models
                 this.UpdateTime = record.UpdateTime;
                 this.Status = record.Status;
                 this.ErrMsg = record.ErrMsg;
-
             }
 
 
@@ -40,7 +45,7 @@ namespace Enjoy.Core.Models
         /// <summary>
         /// 由微信公众平台返回， 子商户id，对于一个母商户公众号下唯一
         /// </summary>
-        public int MerchantId { get; set; }
+        public int? MerchantId { get; set; }
         /// <summary>
         /// wxxxxxxxxxxx 子商户的公众号app_id，配置后子商户卡券券面上的app_id为该app_id。注意：该app_id须经过认证
         /// </summary>        
@@ -81,7 +86,7 @@ namespace Enjoy.Core.Models
         /// </summary>
         public string OperatorMediaId { get; set; }
 
-        public long BenginTime { get; set; }
+        public long BeginTime { get; set; }
 
         /// <summary>
         /// 子商户创建时间
