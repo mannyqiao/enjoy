@@ -34,7 +34,7 @@ namespace Enjoy.Core.Api
         }
         public ILogger Logger { get; set; }
         [HttpGet]
-        public EnjoyUserProfile GetEnjoyUser(string mobile)
+        public AuthQueryResponse GetEnjoyUser(string mobile)
         {
             return this.Auth.QueryByMobile(mobile);
         }

@@ -111,6 +111,7 @@
     <Compile Include="Common\Extensions\DirectoryExtension.cs" />
     <Compile Include="Common\Extensions\ISessionExtension.cs" />
     <Compile Include="Common\Extensions\JsonExtension.cs" />
+    <Compile Include="Common\Extensions\StringExtension.cs" />
     <Compile Include="Contract\ICardCouponService.cs" />
     <Compile Include="Contract\IQueryService.cs" />
     <Compile Include="Contract\IEnjoyAuthService.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Contract\IWeChatEventBehavior.cs" />
     <Compile Include="Contract\IWeChatMsgHandler.cs" />
     <Compile Include="Contract\Models\ICardCoupon.cs" />
+    <Compile Include="Contract\Models\IEnjoyUser.cs" />
     <Compile Include="Contract\Models\IEntityKey.cs" />
     <Compile Include="Contract\Models\IQueryFilter.cs" />
     <Compile Include="Contract\Models\IQueryResponseDescriptor.cs" />
@@ -140,8 +142,11 @@
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ActionResponse.cs" />
+    <Compile Include="Models\EnjoyUsers\EnjoyUserModel.cs" />
+    <Compile Include="Models\EnjoyUsers\WxUserModel.cs" />
     <Compile Include="Models\Enums\CCStatus.cs" />
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
@@ -150,7 +155,7 @@
     <Compile Include="Models\Merchant\CardCounponModel.cs" />
     <Compile Include="Models\Merchant\MerchantModel.cs" />
     <Compile Include="Models\QueryResponseDescriptor.cs" />
-    <Compile Include="Models\EnjoyUsers\EnjoyUserProfile.cs" />
+    <Compile Include="Models\EnjoyUsers\AuthQueryResponse.cs" />
     <Compile Include="Models\EnjoyUsers\UIElementContentTypes.cs" />
     <Compile Include="Models\Enums\ApplyScopes.cs" />
     <Compile Include="Models\Enums\CardTypes.cs" />
@@ -340,6 +345,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
+    <Folder Include="Services\Access\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>

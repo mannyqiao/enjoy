@@ -40,23 +40,23 @@ namespace Enjoy.Core.Controllers
 
         public ActionResult MyMerchant(int page = 1)
         {
-            if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
-
+            //if (this.OS.WorkContext.GetState<IEnjoyUser>(EnjoyConstant.EnjoyCurrentUser) == null)
+            //    return this.RedirectLocal("/access/sign");
+            
             var viewModel = this.Merchant.QueryMyMerchants(this.Auth.GetAuthenticatedUser().Id, page);
             return View(viewModel);
         }
         public ActionResult Create()
         {
-            if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
+            //if (this.OS.WorkContext.GetState<IEnjoyUser>(EnjoyConstant.EnjoyCurrentUser) == null)
+            //    return this.RedirectLocal("/access/sign");
             var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(), this.WeChat.GetApplyProtocol());
             return View(viewModel);
         }
         public ActionResult View(int id)
         {
-            if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
+            //if (this.OS.WorkContext.GetState<IEnjoyUser>(EnjoyConstant.EnjoyCurrentUser) == null)
+            //    return this.RedirectLocal("/access/sign");
 
             var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(), this.WeChat.GetApplyProtocol());
             return View(viewModel);
@@ -64,9 +64,10 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public ActionResult CreatePost(MerchantViewModel model)
         {
-            if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
-            model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser();
+            //if (this.OS.WorkContext.GetState<IEnjoyUser>(EnjoyConstant.EnjoyCurrentUser) == null)
+            //    return this.RedirectLocal("/access/sign");
+
+            model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser() as EnjoyUserModel;
             model.Merchant.Address = string.Join("/", new string[] { model.Province, model.City, model.Area });
             model.Merchant.BeginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
@@ -185,6 +186,7 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public JsonNetResult Delete(int? id = null, string returnUrl = "/merchant/myshops")
         {
+
             if (id == null) return new JsonNetResult() { Data = new { result = "fail" } };
             this.Shop.DeleteShop(id.Value);
             return new JsonNetResult()

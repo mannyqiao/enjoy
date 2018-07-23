@@ -10,13 +10,14 @@ namespace Enjoy.Core
     public interface IEnjoyAuthService : IDependency
     {
 
-        EnjoyUserProfile Auth(string mobile, string passowrd);
+        void SignIn(IEnjoyUser user, bool createPersistentCookie);
+        AuthQueryResponse Auth(string mobile, string password);
+        void SignOut();
+        AuthQueryResponse SignUp(SignUpViewModel model);
+        AuthQueryResponse QueryByMobile(string mobile);
 
-        EnjoyUserProfile QueryByMobile(string mobile);
-
-        EnjoyUserProfile SignUp(SignUpViewModel model);
-
-        EnjoyUser GetAuthenticatedUser();
+        void SetAuthenticatedUserForRequest(IEnjoyUser user);
+        IEnjoyUser GetAuthenticatedUser();
 
         ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile);
     }

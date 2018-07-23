@@ -35,6 +35,8 @@ namespace Enjoy.Core
         public const int VerifyFailed = 1009;
         public const int FrequencyLimit = 1010;
         public const int ErrorMerchantState = 1011; //invalid sub merchant status hint: [NiFNya05440734]
+
+        public const string EnjoyCurrentUser = "EnjoyUser";
         public static readonly Dictionary<string, string> BusinessService = new Dictionary<string, string>()
         {
             {"BIZ_SERVICE_DELIVER","外卖服务" },

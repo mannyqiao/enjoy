@@ -49,7 +49,7 @@ namespace Enjoy.Core.Services
                 {
                     return new Models.MerchantModel()
                     {
-                        EnjoyUser = active_user
+                        EnjoyUser = active_user as EnjoyUserModel
                     };
                 }
                 else

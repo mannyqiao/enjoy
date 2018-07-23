@@ -41,8 +41,8 @@ namespace Enjoy.Core.Controllers
 
         public ActionResult Coupon()
         {
-            if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
+            //if (this.OS.WorkContext.GetState<IEnjoyUser>(EnjoyConstant.EnjoyCurrentUser) == null)                
+            //    return this.RedirectLocal("/access/sign");
             return View();
         }
         [HttpPost]

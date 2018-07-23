@@ -119,8 +119,8 @@
                                 {
                                     id: $(this).attr("data-data"),
                                     __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
-                                }, function (result) {
-                                    if (result.errcode == 0) {
+                                }, function (result) {                                    
+                                    if (result.error_code == 0) {
                                         table.ajax.reload();
                                     }
                                 });
