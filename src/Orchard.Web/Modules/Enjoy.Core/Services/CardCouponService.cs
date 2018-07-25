@@ -216,5 +216,14 @@ namespace Enjoy.Core.Services
             model.ErrMsg = reson;
             this.SaveOrUpdate(model);
         }
+
+        public Models.CardCounponModel GetCardCounpon(string cardid)
+        {
+            return QueryFirstOrDefault((builder) =>
+            {
+                builder.Add(Expression.Eq("WxNo", cardid));
+            },
+            record => new Models.CardCounponModel(record));
+        }
     }
 }

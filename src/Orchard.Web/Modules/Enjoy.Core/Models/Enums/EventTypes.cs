@@ -60,7 +60,6 @@ namespace Enjoy.Core
         /// <summary>
         /// 子商户审核事件
         /// </summary>
-
         card_merchant_check_result = 14,
     }
 }

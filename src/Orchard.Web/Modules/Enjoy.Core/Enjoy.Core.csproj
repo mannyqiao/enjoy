@@ -145,8 +145,9 @@
     <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ActionResponse.cs" />
-    <Compile Include="Models\EnjoyUsers\EnjoyUserModel.cs" />
-    <Compile Include="Models\EnjoyUsers\WxUserModel.cs" />
+    <Compile Include="Models\EnjoyUser\EnjoyUserModel.cs" />
+    <Compile Include="Models\EnjoyUser\WxUserModel.cs" />
+    <Compile Include="Models\Enums\CardStates.cs" />
     <Compile Include="Models\Enums\CCStatus.cs" />
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
@@ -154,9 +155,10 @@
     <Compile Include="Models\Enums\VerifyTypes.cs" />
     <Compile Include="Models\Merchant\CardCounponModel.cs" />
     <Compile Include="Models\Merchant\MerchantModel.cs" />
+    <Compile Include="Models\Notification\NotificationModel.cs" />
     <Compile Include="Models\QueryResponseDescriptor.cs" />
-    <Compile Include="Models\EnjoyUsers\AuthQueryResponse.cs" />
-    <Compile Include="Models\EnjoyUsers\UIElementContentTypes.cs" />
+    <Compile Include="Models\EnjoyUser\AuthQueryResponse.cs" />
+    <Compile Include="Models\EnjoyUser\UIElementContentTypes.cs" />
     <Compile Include="Models\Enums\ApplyScopes.cs" />
     <Compile Include="Models\Enums\CardTypes.cs" />
     <Compile Include="Models\Enums\CodeTypes.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="Models\Records\EnjoyUser.cs" />
     <Compile Include="Models\Records\Merchant.cs" />
     <Compile Include="Models\Records\MerchantAdmin.cs" />
+    <Compile Include="Models\Records\Notification.cs" />
     <Compile Include="Models\Records\Shop.cs" />
     <Compile Include="Models\Records\UserCard.cs" />
     <Compile Include="Models\Records\UserCoupon.cs" />

@@ -17,7 +17,7 @@ namespace Enjoy.Core
         PagingData<CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition);
 
         CardCounponModel GetCardCounpon(int id);
-
+        CardCounponModel GetCardCounpon(string cardid);
         NormalWxResponse TestwhiteList(string[] wechatids);
 
         QRCodeWxResponse CreateQRCode(string cardid);
