@@ -7,7 +7,7 @@ namespace Enjoy.Core.Controllers
     using Orchard.Mvc.Extensions;
     using Orchard.Themes;
     using System.Web.Mvc;
-    
+    using Enjoy.Core.Models;
     [Themed]
     public class AccessController : Controller
     {
@@ -20,7 +20,10 @@ namespace Enjoy.Core.Controllers
         }
         // GET: Sign
         public ActionResult Sign(bool signin = true)
-        {
+        {          
+            if (this.Auth.GetAuthenticatedUser() != null)
+                return this.RedirectLocal("/dashboard/summary");
+
             // var model = new SignViewModel() { Signin = signin };
             if (signin)
                 return View(new SignViewModel() { Signin = true, Current = new SignInViewModel() { } });
@@ -28,16 +31,18 @@ namespace Enjoy.Core.Controllers
                 return View(new SignViewModel() { Signin = false, Current = new SignUpViewModel() { } });
         }
         [HttpPost]
-        public ActionResult Signin(SignInViewModel model, string ReturnUrl)
+        public ActionResult Signin(SignInViewModel model, string returnUrl)
         {
+            returnUrl = string.IsNullOrEmpty(returnUrl) ? "/dashboard/summary" : returnUrl;
             if (this.Auth.GetAuthenticatedUser() != null)
                 return this.RedirectLocal("/dashboard/summary");
 
-            if (this.Auth.Auth(model.Mobile, model.Password).ErrorCode == EnjoyConstant.Success)
+            var result = this.Auth.Auth(model.Mobile, model.Password);
+            if (result.ErrorCode == EnjoyConstant.Success)
             {
-                this.OS.WorkContext.HttpContext.Session["Mobile"] = model.Mobile;
-                return this.RedirectLocal("/dashboard/summary");
+                return this.RedirectLocal(returnUrl);
             }
+
             return View("Sign", new SignViewModel()
             {
                 Signin = true,
@@ -63,13 +68,18 @@ namespace Enjoy.Core.Controllers
                 JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult SignUp(SignUpViewModel model, string ReturnUrl)
+        public ActionResult SignUp(SignUpViewModel model, string returnUrl = null)
         {
             if (this.Auth.GetAuthenticatedUser() != null)
                 return this.RedirectLocal("/dashboard/summary");
-
+            
             var result = this.Auth.SignUp(model);
             return this.RedirectLocal("/dashboard/summary");
+        }
+        public ActionResult SignOut()
+        {
+            this.Auth.SignOut();
+            return this.RedirectLocal("/");
         }
     }
 }

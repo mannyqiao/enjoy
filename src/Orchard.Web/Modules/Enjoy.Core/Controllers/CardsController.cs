@@ -42,7 +42,12 @@ namespace Enjoy.Core.Controllers
         public ActionResult Coupon()
         {
             if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
+                return this.RedirectLocal("/access/sign?signin=true");
+
+            var merchant = this.Merchant.GetDefaultMerchant();
+            if (merchant == null || merchant.Id.Equals(0))
+                return this.RedirectLocal("/merchant/create");
+
             return View();
         }
         [HttpPost]
@@ -51,6 +56,7 @@ namespace Enjoy.Core.Controllers
 
             if (this.Auth.GetAuthenticatedUser() == null)
                 return new JsonNetResult() { Data = new { } };
+
             var merchant = this.Merchant.GetDefaultMerchant();
             filter.Columns.Add(new QueryColumnFilter()
             {
@@ -72,6 +78,9 @@ namespace Enjoy.Core.Controllers
         /// <returns></returns>
         public ActionResult Edit(int? id = null, CardTypes type = CardTypes.DISCOUNT)
         {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign?signin=true");
+
             var viewModel = id == null
                 ? new CardCounponViewModel() { CardType = CardTypes.DISCOUNT, CCStatus = CCStatus.Editing }
                 : client.Convert(this.CardCoupon.GetCardCounpon(id.Value));
@@ -87,7 +96,7 @@ namespace Enjoy.Core.Controllers
         public ActionResult EditPost(CardCounponViewModel viewModel, string ReturnUrl)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign");
+                return this.RedirectLocal("/access/sign?signin=true");
 
             var result = this.CardCoupon.SaveOrUpdate(client.Convert(viewModel, this.Merchant.GetDefaultMerchant()));
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());

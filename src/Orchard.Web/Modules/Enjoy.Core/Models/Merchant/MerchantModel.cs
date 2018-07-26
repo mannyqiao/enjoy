@@ -25,7 +25,7 @@ namespace Enjoy.Core.Models
                 this.Contact = record.Contact;
                 this.CreateTime = record.CreateTime;
                 this.EndTime = record.EndTime;
-                this.EnjoyUser = record.EnjoyUser;
+                this.EnjoyUser = new EnjoyUserModel(record.EnjoyUser);
                 this.Id = record.Id;
                 this.LogoUrl = record.LogoUrl;
                 this.MerchantId = record.MerchantId;
@@ -103,7 +103,7 @@ namespace Enjoy.Core.Models
         /// 商户创建者
         /// </summary>
         [JsonIgnore]
-        public Records::EnjoyUser EnjoyUser { get; set; }
+        public EnjoyUserModel EnjoyUser { get; set; }
 
         public string Contact { get; set; }
 

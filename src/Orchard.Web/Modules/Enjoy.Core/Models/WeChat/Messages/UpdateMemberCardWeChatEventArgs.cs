@@ -10,6 +10,7 @@ namespace Enjoy.Core.Models
         public string UserCardCode { get; set; }
 
         public string ModifyBonus { get; set; }
+
         public string ModifyBalance { get; set; }
 //<xml>
 //  <ToUserName><![CDATA[gh_9e1765b5568e]]></ToUserName>

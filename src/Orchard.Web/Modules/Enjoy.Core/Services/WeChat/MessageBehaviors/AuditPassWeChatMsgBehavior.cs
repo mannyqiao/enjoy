@@ -3,6 +3,9 @@ namespace Enjoy.Core.Services
 {
     using Enjoy.Core.Models;
     using Orchard;
+    /// <summary>
+    /// 卡券审核通过消息
+    /// </summary>
     public class AuditPassWeChatMsgBehavior : WeChatMsgBehavior<CardCouponAuditkWeChatEventArgs>
     {
         private readonly ICardCouponService CardCoupon;

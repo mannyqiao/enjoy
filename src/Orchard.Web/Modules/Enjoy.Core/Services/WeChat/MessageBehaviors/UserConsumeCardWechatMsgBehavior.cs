@@ -22,7 +22,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(ConsumCardCouponWeChatArgs model)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }

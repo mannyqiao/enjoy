@@ -7,10 +7,19 @@ namespace Enjoy.Core.Services
 {
     using Enjoy.Core.Models;
     using Orchard;
+    /// <summary>
+    /// 库存预警消息通知
+    /// </summary>
     public class CardSkuRemindWeChatMsgBehavior : WeChatMsgBehavior<SkuRemindWeChatEventArgs>
     {
-        public CardSkuRemindWeChatMsgBehavior(IOrchardServices os) : base(os)
+        private readonly ICardCouponService CardCoupon;
+        private readonly IOrchardServices OS;
+        public CardSkuRemindWeChatMsgBehavior(
+            IOrchardServices os,
+            ICardCouponService cardCoupon) : base(os)
         {
+            this.OS = os;
+            this.CardCoupon = cardCoupon;
         }
 
         public override EventTypes Type
@@ -20,7 +29,8 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(SkuRemindWeChatEventArgs model)
         {
-            
+            //var card = this.CardCoupon.GetCardCounpon(model.CardId);            
+            //card.Merchant.EnjoyUser.Mobile
         }
     }
 }

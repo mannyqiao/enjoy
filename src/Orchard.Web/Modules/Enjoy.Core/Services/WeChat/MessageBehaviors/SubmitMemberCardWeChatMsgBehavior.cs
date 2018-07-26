@@ -20,7 +20,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(SubmitMemberCardWeChatEventArgs model)
         {
-
+            
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿@functions {
+﻿@using Enjoy.Core.Models;
+@using Enjoy.Core;
+
+@functions {
     // To support the layout classifaction below. Implementing as a razor function because we can, could otherwise be a Func<string[], string, string> in the code block following.
     string CalcuClassify(string[] zoneNames, string classNamePrefix)
     {
@@ -6,6 +9,7 @@
         var zoneNumsFilled = string.Join("", zoneNames.Select(zoneName => { ++zoneCounter; return Model[zoneName] != null ? zoneCounter.ToString() : ""; }).ToArray());
         return HasText(zoneNumsFilled) ? classNamePrefix + zoneNumsFilled : "";
     }
+    
 }
 @{
     <meta charset="utf-8">
@@ -73,8 +77,10 @@
     /* Last bit of code to prep the layout wrapper
     ***************************************************************/
 
+    var current = WorkContext.GetState<IEnjoyUser>(EnjoyConstant.EnjoyCurrentUser);
     Model.Id = "layout-wrapper";
     var tag = Tag(Model, "div"); // using Tag so the layout div gets the classes, id and other attributes added to the Model
+
 }
 @tag.StartElement
 <div id="wrapper">

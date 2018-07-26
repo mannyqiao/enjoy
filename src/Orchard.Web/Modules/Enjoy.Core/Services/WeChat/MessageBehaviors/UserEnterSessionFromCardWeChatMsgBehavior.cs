@@ -21,7 +21,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(EnterSessinoFromCardWeChatEventArgs model)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

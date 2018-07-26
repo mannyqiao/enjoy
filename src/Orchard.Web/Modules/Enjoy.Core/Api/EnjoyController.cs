@@ -34,7 +34,7 @@ namespace Enjoy.Core.Api
         }
         public ILogger Logger { get; set; }
         [HttpGet]
-        public EnjoyUserProfile GetEnjoyUser(string mobile)
+        public AuthQueryResponse GetEnjoyUser(string mobile)
         {
             return this.Auth.QueryByMobile(mobile);
         }
@@ -80,7 +80,7 @@ namespace Enjoy.Core.Api
                 timestamp,
                 nonce,
                 ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream));
-
+            Logger.Error(token.ToJson());
             this.Behavior.Execute(token);
         }
         private string ReadStream2String(Stream stream)
