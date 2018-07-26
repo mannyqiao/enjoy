@@ -4,7 +4,7 @@ namespace Enjoy.Core.Models
 {
     using Enjoy.Core.ViewModels;
     using Records = Enjoy.Core.Models.Records;
-    public class ShopModel : IEntityKey<int>
+    public class ShopModel : IModelKey<long>
     {
         public ShopModel(Records::Shop shop)
         {
@@ -28,7 +28,7 @@ namespace Enjoy.Core.Models
         {
             this.Merchant = merchant;
         }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public MerchantModel Merchant { get; set; }
         public string ShopName { get; set; }
         public string Leader { get; set; }

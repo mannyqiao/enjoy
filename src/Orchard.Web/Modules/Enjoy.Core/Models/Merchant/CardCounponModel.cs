@@ -4,7 +4,7 @@ namespace Enjoy.Core.Models
     using Enjoy.Core.Models;
     using WeChat.Models;
     using Records = Enjoy.Core.Models.Records;
-    public class CardCounponModel : IEntityKey<int>
+    public class CardCounponModel : IModelKey<long>
     {
         public CardCounponModel(Records::CardCoupon record)
         {
@@ -14,14 +14,14 @@ namespace Enjoy.Core.Models
             this.Type = record.Type;
             this.WxNo = record.WxNo;
             this.BrandName = record.BrandName;
-            this.LastUpdateTime = record.LastUpdateTime;
+            this.LastUpdateTime = record.LastActivityTime;
             this.CreatedTime = record.CreatedTime;
             this.CardCouponWapper = record.JsonMetadata.DeserializeSpecificCardCoupon(record.Type);
             this.Status = record.Status;
             this.ErrMsg = record.ErrMsg;
         }
         public CardCounponModel() { }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string BrandName { get; set; }
         public MerchantModel Merchant { get; set; }
 

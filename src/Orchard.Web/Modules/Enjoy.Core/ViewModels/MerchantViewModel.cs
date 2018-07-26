@@ -16,7 +16,7 @@ namespace Enjoy.Core.ViewModels
 
         public MerchantModel Merchant { get; set; }
 
-        public int OwnerId { get; set; }
+        public long OwnerId { get; set; }
         public string Province { get; set; }
         public string City { get; set; }
         public string StartTimeString { get; set; }

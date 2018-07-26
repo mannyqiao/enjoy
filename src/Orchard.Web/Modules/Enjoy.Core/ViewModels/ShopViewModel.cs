@@ -23,11 +23,11 @@ namespace Enjoy.Core.ViewModels
             this.Merchant = merchant;
         }
         public ShopViewModel() { }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Merchant { get; set; }
         public string ShopName { get; set; }
         public string Leader { get; set; }
-        public int MerchantId { get; set; }
+        public long MerchantId { get; set; }
         //public string Address { get; set; }
         public string Coordinate { get; set; }
         public string AddressInfo

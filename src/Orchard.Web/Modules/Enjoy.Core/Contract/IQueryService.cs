@@ -6,8 +6,8 @@ namespace Enjoy.Core
     using Orchard;
     using System;
     public interface IQueryService<TRecord, TModel> : IDependency, IQueryFilterBuilder
-        where TRecord : class
-        where TModel : class
+        where TRecord : IEntityKey<long>
+        where TModel : IModelKey<long>
     {
         PagingData<TModel> QueryByPaging(
             PagingCondition condition,
@@ -15,7 +15,7 @@ namespace Enjoy.Core
             Func<TRecord, TModel> convert);
 
         PagingData<TModel> Query(
-            Action<ICriteria> builder,            
+            Action<ICriteria> builder,
             Func<TRecord, TModel> convert);
 
         TModel QueryFirstOrDefault(
@@ -25,18 +25,14 @@ namespace Enjoy.Core
         Type ModelType { get; }
 
         ActionResponse<TModel> SaveOrUpdate(
-            TModel model, 
-            Func<TModel, IResponse> validate, 
-            Func<TModel, TRecord> convert);
+            TModel model,
+            Func<TModel, IResponse> validate,
+            Action<TRecord, TModel> setter);
 
-        BaseResponse Delete(int id);
+        BaseResponse Delete(long id);
 
         BaseResponse Delete(ISQLQuery query);
 
-        TRecord ConvertToRecord<TKeyType>(
-            TModel model, 
-            Func<TRecord, TModel, TRecord> convert);
 
-        
     }
 }

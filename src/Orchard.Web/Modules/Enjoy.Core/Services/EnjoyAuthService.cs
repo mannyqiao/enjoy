@@ -192,7 +192,7 @@ namespace Enjoy.Core.Services
                         Password = this._encryption.Ciphertext(model.Password),
                         NickName = string.Format("U{0}{1}", model.Mobile.Substring(0, 3), model.Mobile.Substring(model.Mobile.Length - 4, 4)),
                         CreatedTime = DateTime.UtcNow.ToUnixStampDateTime(),
-                        LastActiveTime = DateTime.UtcNow.ToUnixStampDateTime(),
+                        LastActivityTime = DateTime.UtcNow.ToUnixStampDateTime(),
                         LastPassword = string.Empty
                     };
                     this.OS.TransactionManager.GetSession().SaveOrUpdate(record);

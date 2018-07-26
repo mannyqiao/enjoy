@@ -19,7 +19,7 @@ namespace Enjoy.Core.Models
         {
             this.CreatedTime = DateTime.Now.ToUnixStampDateTime();
         }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public long CreatedTime { get; set; }

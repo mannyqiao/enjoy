@@ -5,10 +5,11 @@ using System.Web;
 
 namespace Enjoy.Core
 {
-    public interface IEnjoyUser
+    public enum RegistryTypes
     {
-        long Id { get; }
-        string Mobile { get; }
-        string NickName { get; }
+        WebSite = 1,
+        Miniprogram = 2,
+        Official = 3,
+        WxServicePush = 4,
     }
 }

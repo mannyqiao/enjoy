@@ -20,7 +20,7 @@ namespace Enjoy.Core.ViewModels
             //this.DelAble = !((model.Status & CCStatus.Published) == CCStatus.Published);
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string BrandName { get; set; }
         public string Merchant { get; set; }
 

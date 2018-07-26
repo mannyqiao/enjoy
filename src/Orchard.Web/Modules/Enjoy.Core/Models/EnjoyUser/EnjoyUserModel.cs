@@ -18,10 +18,10 @@ namespace Enjoy.Core.Models
             this.WxUser = new WxUserModel(record.WxUser);
             this.LastPassword = record.LastPassword;
             this.CreatedTime = record.CreatedTime;
-            this.LastActiveTime = record.LastActiveTime;
+            this.LastActiveTime = record.LastActivityTime;
             this.AvatarUrl = record.Profile;
         }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Mobile { get; set; }
         public string NickName { get; set; }
         public string Password { get; set; }

@@ -62,7 +62,7 @@ namespace Enjoy.Core
         {
             var msg = new WxMsg()
             {
-                CreatedTime = model.CreateTime,
+                LastActivityTime = model.CreateTime,
                 FromUser = model.FromUserName,
                 MsgType = model.MsgType,
                 Metadata = model.ToJson(),

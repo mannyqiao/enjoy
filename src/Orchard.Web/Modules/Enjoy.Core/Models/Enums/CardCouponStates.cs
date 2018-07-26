@@ -5,18 +5,11 @@ using System.Web;
 
 namespace Enjoy.Core
 {
+   
     /// <summary>
-    /// 用户券状态
+    /// 用户卡券状态
     /// </summary>
-    public enum CouponStates
-    {
-
-
-    }
-    /// <summary>
-    /// 用户卡状态
-    /// </summary>
-    public enum CardType
+    public enum CardCouponStates
     {
 
     }

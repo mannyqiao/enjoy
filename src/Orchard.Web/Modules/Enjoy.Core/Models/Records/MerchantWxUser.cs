@@ -5,16 +5,14 @@ using System.Web;
 
 namespace Enjoy.Core.Models.Records
 {
-    public class EnjoyUser : IEntityKey<long>
+    public class MerchantWxUser : IEntityKey<long>
     {
         public virtual long Id { get; set; }
-        public virtual string Mobile { get; set; }
-        public virtual string NickName { get; set; }
+        public virtual Merchant Merchant { get; set; }
         public virtual WxUser WxUser { get; set; }
-        public virtual string Password { get; set; }        
-        public virtual string LastPassword { get; set; }        
-        public virtual string Profile { get; set; }
+        public virtual string OpenId { get; set; }
         public virtual long CreatedTime { get; set; }
         public virtual long LastActivityTime { get; set; }
     }
+
 }

@@ -5,6 +5,9 @@ namespace Enjoy.Core.Models
     using System.Xml;
     public abstract class WeChatMsgModel
     {
+        /// <summary>
+        /// 领券方帐号（一个OpenID）
+        /// </summary>
         public string FromUserName { get; set; }
 
         public string ToUserName { get; set; }

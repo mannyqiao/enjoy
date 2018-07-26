@@ -91,10 +91,9 @@ namespace Enjoy.Core.Services
         public Models::ActionResponse<Models::CardCounponModel> SaveOrUpdate(Models.CardCounponModel model)
         {
             //发布到微信
-
             model.LastUpdateTime = DateTime.Now.ToUnixStampDateTime();
             model.Status = CCStatus.Editing;
-            var result = this.SaveOrUpdate(model, Validate, Convert);
+            var result = this.SaveOrUpdate(model, Validate, RecordSetter);
             var r = TestwhiteList(new string[] { "s66822351", "ebying" });
             //var qrcode = CreateQRCode(model.WxNo);
             return result;
@@ -149,25 +148,20 @@ namespace Enjoy.Core.Services
             });
         }
 
-
-
-        private Records::CardCoupon Convert(Models::CardCounponModel model)
+        protected override void RecordSetter(Records::CardCoupon record, Models::CardCounponModel model)
         {
-            return this.ConvertToRecord<int>(model, (r, m) =>
-            {
-                if (r == null) r = new Records.CardCoupon();
-                r.CreatedTime = m.CreatedTime;
-                r.BrandName = m.BrandName;
-                r.Merchant = this.OS.TransactionManager.GetSession().Get<Records::Merchant>(model.Merchant.Id);
-                r.Quantity = m.Quantity;
-                r.WxNo = m.WxNo;
-                r.Type = m.Type;
-                r.Status = m.Status;
-                r.JsonMetadata = m.CardCouponWapper.ToJson();
-                r.ErrMsg = m.ErrMsg;
-                return r;
-            });
+            record.CreatedTime = model.CreatedTime;
+            record.BrandName = model.BrandName;
+            record.Merchant = this.OS.TransactionManager.GetSession().Get<Records::Merchant>(model.Merchant.Id);
+            record.Quantity = model.Quantity;
+            record.WxNo = model.WxNo;
+            record.Type = model.Type;
+            record.Status = model.Status;
+            record.JsonMetadata = model.CardCouponWapper.ToJson();
+            record.ErrMsg = model.ErrMsg;
         }
+
+
 
         private IResponse Validate(Models::CardCounponModel model)
         {
@@ -221,9 +215,40 @@ namespace Enjoy.Core.Services
         {
             return QueryFirstOrDefault((builder) =>
             {
-                builder.Add(Expression.Eq("WxNo", cardid));
+                builder.Add(Restrictions.Eq("WxNo", cardid));
             },
             record => new Models.CardCounponModel(record));
         }
+
+        public Records::WxUserCardCoupon QueryWxUserCardCoupon(string userCardCode)
+        {
+            return QueryFirstOrDefault<Records::WxUserCardCoupon>((builder) =>
+            {
+                builder.Add(Restrictions.Eq("UserCardCode", userCardCode));
+            }) ?? new Records.WxUserCardCoupon();
+        }
+
+
+
+        public void SaveWxUserCardCoupon(Models.WxUserCardCouponModel model)
+        {
+            var record = this.QueryWxUserCardCoupon(model.UserCardCode);
+            record.UserCardCode = model.UserCardCode;
+            record.Merchant = new Records.Merchant() { Id = model.Id };
+            record.FriendUserName = model.FriendUserName;
+            record.OwnCardCoupon = new Records.CardCoupon() { Id = model.OwnCardCoupon.Id };
+            record.IsGiveByFriend = model.IsGiveByFriend;
+            record.Gotfrom = model.IsGiveByFriend ? new Records.WxUser() { Id = model.Gotfrom.Id } : null;
+            record.Owner = new Records.WxUser() { Id = model.Owner.Id };
+            record.LastActivityTime = model.LastActivityTime;
+            record.OldUserCardCode = model.OldUserCardCode;
+            record.UserCardCode = model.UserCardCode;
+            record.ExtraInfo = model.ExtraInfo;
+            record.State = model.State;
+            record.Type = model.Type;            
+            this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
+        }
+
+        
     }
 }

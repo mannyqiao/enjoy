@@ -14,7 +14,7 @@ namespace Enjoy.Core
 
         ApplyProtocolWxResponse GetApplyProtocol();
 
-        UploadMediaWxResponse UploadMaterial(string name,byte[] buffers);
+        UploadMediaWxResponse UploadMaterial(string name, byte[] buffers);
 
         UploadMediaWxResponse UploadMaterialToCDN(byte[] buffers);
 
@@ -25,6 +25,8 @@ namespace Enjoy.Core
         IWxAuthorization GetWxAuth(IWxLoginUser loginUser);
 
         string GetOpenId(IWxLoginUser loginUser);
+
+        Models.WxUser GetWxUser(string openid);
 
         IWxAccessToken GetWxAccessToken(string appid, string secret);
     }
