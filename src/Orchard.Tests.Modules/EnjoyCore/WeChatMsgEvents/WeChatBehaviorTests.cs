@@ -21,26 +21,27 @@ namespace Orchard.Tests.Modules.EnjoyCore
         public void InitFixture()
         {
             _currentCulture = Thread.CurrentThread.CurrentCulture;
-            var databaseFileName = System.IO.Path.GetTempFileName();
+            var databaseFileName =System.IO.Path.GetTempFileName().Replace(".tmp", ".sdf");
             _sessionFactory = DataUtility.CreateSessionFactory(
                 databaseFileName,
-                typeof(EnjoyUser),
-                typeof(Merchant),
-                typeof(MerchantAdmin),
-                typeof(Shop),
-                typeof(CardCoupon),
-                typeof(WxUser),
+                typeof(EnjoyUser),//
+                typeof(Merchant),   //             
+                typeof(Shop),//
+                typeof(CardCoupon),//
+                typeof(WxUser),//
                 typeof(WxMsg),
-                typeof(Notification),
+                typeof(XNotification)
                 typeof(MerchantWxUser),
-                typeof(WxUserCardCoupon));
+                typeof(WxUserCardCoupon)
+                );
         }
         [OneTimeTearDown]
         public void TermFixture()
         {
             Thread.CurrentThread.CurrentCulture = _currentCulture;
+           
         }
-        [SetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             var builder = new ContainerBuilder();
@@ -60,8 +61,8 @@ namespace Orchard.Tests.Modules.EnjoyCore
         [Test]
         public void UserGetCoupon()
         {
-            Assert.That(true, Is.Not.Empty);
+            Assert.AreEqual(true, true);
         }
     }
-  
+
 }

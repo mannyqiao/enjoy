@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.Models.Records
 {
-    public class Notification : IEntityKey<long>
+    public class XNotification : IEntityKey<long>
     {
         public virtual long Id { get; set; }
         public virtual EnjoyUser EnjoyUser { get; set; }

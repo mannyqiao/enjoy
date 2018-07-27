@@ -7,7 +7,7 @@ namespace Enjoy.Core.Models
     
     public class NotificationModel:IModelKey<long>
     {
-        public NotificationModel(Notification notification)
+        public NotificationModel(XNotification notification)
         {
             this.Key = notification.Id;
             this.Read = notification.Read;
