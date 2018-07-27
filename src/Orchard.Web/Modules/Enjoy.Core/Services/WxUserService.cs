@@ -42,22 +42,22 @@ namespace Enjoy.Core.Services
         public long Register(Models.WxUserModel userModel)
         {
             var model = new Models::WxUserModel();
-            if (userModel.Id.Equals(0) == false && string.IsNullOrEmpty(userModel.UnionId) == false)
+            if (userModel.Key.Equals(0) == false && string.IsNullOrEmpty(userModel.UnionId) == false)
             {
                 model = this.GetWxUser(userModel.UnionId);
-                userModel.Id = model == null ? 0 : model.Id;
+                userModel.Key = model == null ? 0 : model.Key;
             }
             this.SaveOrUpdate(userModel,
                 (wx) => { return new Models::BaseResponse(EnjoyConstant.Success); },
                 RecordSetter);
-            return userModel.Id;
+            return userModel.Key;
         }
 
         public long Register(Models.WxUser userModel)
         {
             var model = new Models::WxUserModel(userModel);
             this.Register(model);
-            return model.Id;
+            return model.Key;
         }
         protected override void RecordSetter(Records::WxUser record, Models::WxUserModel model)
         {

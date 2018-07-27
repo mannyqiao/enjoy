@@ -9,13 +9,13 @@ namespace Enjoy.Core.ViewModels
     {
         public ShopViewModel(ShopModel model)
         {
-            this.Id = model.Id;
+            this.Id = model.Key;
             this.Merchant = model.Merchant.BrandName;
             this.ShopName = model.ShopName;
             this.Address = new AddressViewModel(model.Address);
             this.Coordinate = model.Coordinate;
             this.Leader = model.Leader;
-            this.MerchantId = model.Merchant.Id;
+            this.MerchantId = model.Merchant.Key;
 
         }
         public ShopViewModel(string merchant)

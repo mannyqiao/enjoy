@@ -13,13 +13,13 @@ namespace Enjoy.Core
                 FriendUserName = arg.FriendUserName,
                 Gotfrom = gotfrom == null
                 ? null
-                : new WxUserModel() { Id = gotfrom.Value },
+                : new WxUserModel() { Key = gotfrom.Value },
                 IsGiveByFriend = arg.IsGiveByFriend,
                 LastActivityTime = DateTime.Now.ToUnixStampDateTime(),
                 Merchant = model.Merchant,
                 OldUserCardCode = arg.OldUserCardCode,
-                OwnCardCoupon = model,
-                Owner = new WxUserModel() { Id = ownWxUser },
+                CardCounpon = model,
+                Owner = new WxUserModel() { Key = ownWxUser },
                 Type = model.Type,
                 UserCardCode = arg.UserCardCode
             };

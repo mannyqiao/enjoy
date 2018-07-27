@@ -11,7 +11,7 @@ namespace Enjoy.Core.Models
         {
             if (user != null)
             {
-                this.Id = user.Id;
+                this.Key = user.Id;
                 this.CreatedTime = user.CreatedTime;
                 this.City = user.City;
                 this.Country = user.Country;
@@ -41,7 +41,7 @@ namespace Enjoy.Core.Models
                 this.RegistryType = RegistryTypes.Miniprogram;
             }
         }
-        public long Id { get; set; }
+        public long Key { get; set; }
         public string UnionId { get; set; }
         //public string OpenId { get; set; }
         public string Mobile { get; set; }

@@ -159,12 +159,12 @@ namespace Enjoy.Core
                 .Column("LastActivityTime", DbType.Int64)
             );
 
-            SchemaBuilder.CreateTable("WxUserCoupon", table => table
+            SchemaBuilder.CreateTable("WxUserCardCoupon", table => table
                 .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
                 .Column("Merchant_Id", DbType.Int64)
                 .Column("Owner_Id", DbType.Int64)
                 .Column("Gotfrom_Id", DbType.Int64, column => column.Nullable())
-                .Column("OwnCardCoupon", DbType.Int64)
+                .Column("CardCoupon_Id", DbType.Int64)
                 .Column("UserCardCode", DbType.String, column => column.WithLength(32))
                 .Column("OldUserCardCode", DbType.String, column => column.WithLength(32))
                 .Column("IsGiveByFriend", DbType.Boolean)

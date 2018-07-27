@@ -13,7 +13,7 @@ namespace Enjoy.Core.Models
         public MerchantModel Merchant { get; set; }
         public WxUserModel Owner { get; set; }
         public WxUserModel Gotfrom { get; set; }
-        public CardCounponModel OwnCardCoupon { get; set; }
+        public CardCounponModel CardCounpon { get; set; }
         public string UserCardCode { get; set; }
         public string OldUserCardCode { get; set; }
         public bool IsGiveByFriend { get; set; }

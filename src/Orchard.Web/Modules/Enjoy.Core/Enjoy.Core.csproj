@@ -147,7 +147,6 @@
     <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ActionResponse.cs" />
-    <Compile Include="Models\CardCoupon\WxUserCardModel.cs" />
     <Compile Include="Models\CardCoupon\WxUserCouponModel.cs" />
     <Compile Include="Models\EnjoyUser\EnjoyUserModel.cs" />
     <Compile Include="Models\EnjoyUser\WxUserModel.cs" />

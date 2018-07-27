@@ -45,7 +45,7 @@ namespace Enjoy.Core.Controllers
                 return this.RedirectLocal("/access/sign?signin=true");
 
             var merchant = this.Merchant.GetDefaultMerchant();
-            if (merchant == null || merchant.Id.Equals(0))
+            if (merchant == null || merchant.Key.Equals(0))
                 return this.RedirectLocal("/merchant/create");
 
             return View();
@@ -62,7 +62,7 @@ namespace Enjoy.Core.Controllers
             {
                 Data = "Merchant.Id",
                 Searchable = true,
-                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
+                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Key }
             });
             var model = this.CardCoupon.QueryCardCoupon(filter, new PagingCondition(filter.Start, filter.Length));
             var viewModel = new Models.PagingData<CardCouponWithoutWapperViewModel>(model.Items.Select(o => new CardCouponWithoutWapperViewModel(o)))

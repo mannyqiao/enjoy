@@ -2,13 +2,15 @@
 namespace Enjoy.Core.Models
 {
     using Enjoy.Core.Models;
+    using Orchard.Data;
     using WeChat.Models;
-    using Records = Enjoy.Core.Models.Records;
+    
+    //[DoNotMap]
     public class CardCounponModel : IModelKey<long>
     {
-        public CardCounponModel(Records::CardCoupon record)
+        public CardCounponModel(Records.CardCoupon record)
         {
-            this.Id = record.Id;
+            this.Key = record.Id;
             this.Merchant = new MerchantModel(record.Merchant);
             this.Quantity = record.Quantity;
             this.Type = record.Type;
@@ -21,7 +23,7 @@ namespace Enjoy.Core.Models
             this.ErrMsg = record.ErrMsg;
         }
         public CardCounponModel() { }
-        public long Id { get; set; }
+        public long Key { get; set; }
         public string BrandName { get; set; }
         public MerchantModel Merchant { get; set; }
 

@@ -12,6 +12,6 @@ namespace Enjoy.Core
     }
     public interface IModelKey<T>
     {
-        T Id { get; set; }
+        T Key { get; set; }
     }
 }

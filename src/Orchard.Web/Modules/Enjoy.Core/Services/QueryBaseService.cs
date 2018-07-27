@@ -87,12 +87,12 @@ namespace Enjoy.Core.Services
             if (check.HasError)
                 return new ActionResponse<M>(check.ErrorCode);
             var session = this.OS.TransactionManager.GetSession();
-            var record = session.Get<R>(model.Id);
+            var record = session.Get<R>(model.Key);
             if (record == null)
                 record = Activator.CreateInstance<R>();
             setter(record, model);
             session.SaveOrUpdate(record);
-            model.Id = record.Id;
+            model.Key = record.Id;
             return new ActionResponse<M>(EnjoyConstant.Success, model);
         }
         protected abstract void RecordSetter(R record, M model);

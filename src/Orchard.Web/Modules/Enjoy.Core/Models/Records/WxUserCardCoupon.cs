@@ -14,7 +14,7 @@ namespace Enjoy.Core.Models.Records
         public virtual Merchant Merchant { get; set; }
         public virtual WxUser Owner { get; set; }
         public virtual WxUser Gotfrom { get; set; }
-        public virtual CardCoupon OwnCardCoupon { get; set; }
+        public virtual CardCoupon CardCoupon { get; set; }
         public virtual string UserCardCode { get; set; }
         public virtual string OldUserCardCode { get; set; }
         public virtual bool IsGiveByFriend { get; set; }

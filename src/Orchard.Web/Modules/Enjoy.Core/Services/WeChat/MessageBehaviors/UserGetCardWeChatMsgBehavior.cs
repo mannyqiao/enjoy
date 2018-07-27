@@ -34,7 +34,6 @@ namespace Enjoy.Core.Services
         protected override void Execute(GetCardCouponWeChatEventArgs model)
         {
             //保存微信用户 ，如果没有保存的话
-
             var wxUserId = this.WxUserService.Register(
                    new WxUserModel(this.WeChat.GetWxUser(model.FromUserName)) { RegistryType = RegistryTypes.WxServicePush }
               );
@@ -42,7 +41,7 @@ namespace Enjoy.Core.Services
             if (model.IsGiveByFriend)
             {
                 var wx = this.WxUserService.GetWxUser(model.UnionId);
-                gotfrom = wx == null ? (long?)null : wx.Id;
+                gotfrom = wx == null ? (long?)null : wx.Key;
             }
             //获取卡券模板
             var cc = this.CCService.GetCardCounpon(model.CardId);

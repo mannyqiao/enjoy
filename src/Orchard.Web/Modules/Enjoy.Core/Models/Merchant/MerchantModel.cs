@@ -2,7 +2,7 @@
 
 namespace Enjoy.Core.Models
 {
-    using Records = Enjoy.Core.Models.Records;
+    //using Records = Enjoy.Core.Models.Records;
     using Newtonsoft.Json;
     using System;
 
@@ -13,7 +13,7 @@ namespace Enjoy.Core.Models
             this.BeginTime = DateTime.Now.ToUnixStampDateTime();
             this.EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime();
         }
-        public MerchantModel(Records::Merchant record)
+        public MerchantModel(Records.Merchant record)
         {
             if (record != null)
             {
@@ -26,7 +26,7 @@ namespace Enjoy.Core.Models
                 this.CreateTime = record.CreateTime;
                 this.EndTime = record.EndTime;
                 this.EnjoyUser = new EnjoyUserModel(record.EnjoyUser);
-                this.Id = record.Id;
+                this.Key = record.Id;
                 this.LogoUrl = record.LogoUrl;
                 this.MerchantId = record.MerchantId;
                 this.Mobile = record.Mobile;
@@ -41,7 +41,7 @@ namespace Enjoy.Core.Models
 
 
         }
-        public long Id { get; set; }
+        public long Key { get; set; }
         /// <summary>
         /// 由微信公众平台返回， 子商户id，对于一个母商户公众号下唯一
         /// </summary>

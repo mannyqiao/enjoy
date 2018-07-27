@@ -1,12 +1,9 @@
-﻿using Enjoy.Core.Models.Records;
-using Orchard.ContentManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 
 namespace Enjoy.Core.Models
 {
+    using Enjoy.Core.Models.Records;
+    
     public class EnjoyUserModel : IEnjoyUser
     {
         public EnjoyUserModel(EnjoyUser record)

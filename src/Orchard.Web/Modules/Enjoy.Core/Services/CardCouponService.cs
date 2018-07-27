@@ -152,7 +152,7 @@ namespace Enjoy.Core.Services
         {
             record.CreatedTime = model.CreatedTime;
             record.BrandName = model.BrandName;
-            record.Merchant = this.OS.TransactionManager.GetSession().Get<Records::Merchant>(model.Merchant.Id);
+            record.Merchant = this.OS.TransactionManager.GetSession().Get<Records::Merchant>(model.Merchant.Key);
             record.Quantity = model.Quantity;
             record.WxNo = model.WxNo;
             record.Type = model.Type;
@@ -236,10 +236,10 @@ namespace Enjoy.Core.Services
             record.UserCardCode = model.UserCardCode;
             record.Merchant = new Records.Merchant() { Id = model.Id };
             record.FriendUserName = model.FriendUserName;
-            record.OwnCardCoupon = new Records.CardCoupon() { Id = model.OwnCardCoupon.Id };
+            record.CardCoupon = new Records.CardCoupon() { Id = model.CardCounpon.Key };
             record.IsGiveByFriend = model.IsGiveByFriend;
-            record.Gotfrom = model.IsGiveByFriend ? new Records.WxUser() { Id = model.Gotfrom.Id } : null;
-            record.Owner = new Records.WxUser() { Id = model.Owner.Id };
+            record.Gotfrom = model.IsGiveByFriend ? new Records.WxUser() { Id = model.Gotfrom.Key } : null;
+            record.Owner = new Records.WxUser() { Id = model.Owner.Key };
             record.LastActivityTime = model.LastActivityTime;
             record.OldUserCardCode = model.OldUserCardCode;
             record.UserCardCode = model.UserCardCode;
