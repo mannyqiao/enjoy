@@ -28,7 +28,7 @@ namespace Orchard.Specs
 #line 1 "ContentRights.feature"
 #line hidden
         
-        [NUnit.Framework.TestFixtureSetUpAttribute()]
+        [NUnit.Framework.OneTimeSetUp()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
@@ -37,7 +37,7 @@ namespace Orchard.Specs
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.TestFixtureTearDownAttribute()]
+        [NUnit.Framework.OneTimeTearDown()]
         public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();

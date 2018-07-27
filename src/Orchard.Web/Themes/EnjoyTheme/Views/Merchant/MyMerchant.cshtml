@@ -71,7 +71,7 @@
                                                 foreach (var item in Model.Items)
                                                 {
                                                     <tr>
-                                                        <td class="hidden">@item.Id</td>
+                                                        <td class="hidden">@item.Key</td>
                                                         <td>@(item.MerchantId.Equals(0) ? "--" : item.MerchantId.ToString())</td>
                                                         <td>@item.BrandName</td>
                                                         <td>@item.AppId</td>
@@ -79,8 +79,8 @@
                                                         <td>@item.Address</td>
                                                         <td>@item.Status.WithDisplayName()</td>
                                                         <td>
-                                                            @Html.Raw(item.Status.GenerateActionLink(item.Id))
-                                                            <a href="/merchant/myshops?id=@item.Id">门店</a>
+                                                            @Html.Raw(item.Status.GenerateActionLink(item.Key))
+                                                            <a href="/merchant/myshops?id=@item.Key">门店</a>
                                                         </td>
 
                                                     </tr>

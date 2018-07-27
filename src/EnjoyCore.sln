@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Themes", "Themes", "{7D568A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnjoyTheme", "Orchard.Web\Themes\EnjoyTheme\EnjoyTheme.csproj", "{39803D84-70E1-4C22-8FC7-14929F21166F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{643BCCA0-CD9B-4344-8B12-D69E7C3E1E32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.Tests.Modules", "Orchard.Tests.Modules\Orchard.Tests.Modules.csproj", "{6CB3EB30-F725-45C0-9742-42599BA8E8D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,10 @@ Global
 		{39803D84-70E1-4C22-8FC7-14929F21166F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39803D84-70E1-4C22-8FC7-14929F21166F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39803D84-70E1-4C22-8FC7-14929F21166F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CB3EB30-F725-45C0-9742-42599BA8E8D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CB3EB30-F725-45C0-9742-42599BA8E8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CB3EB30-F725-45C0-9742-42599BA8E8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CB3EB30-F725-45C0-9742-42599BA8E8D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C0E95621-AA96-48F3-879E-214104EFBB70} = {92627CD4-DDF3-48AA-99E0-05B0185D21E6}
 		{39803D84-70E1-4C22-8FC7-14929F21166F} = {7D568A32-9900-4121-9E24-1B85C7408977}
+		{6CB3EB30-F725-45C0-9742-42599BA8E8D2} = {643BCCA0-CD9B-4344-8B12-D69E7C3E1E32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68AA8C70-8A05-4C53-B025-FC2D77E54A1B}

@@ -7,7 +7,7 @@ namespace Enjoy.Core.ViewModels
     {
         public CardCouponWithoutWapperViewModel(Models::CardCounponModel model)
         {
-            this.Id = model.Key;
+            this.Key = model.Key;
             this.BrandName = model.BrandName;
             this.Merchant = model.Merchant.BrandName;
             this.CreatedTime = model.CreatedTime.ToDateTimeString();
@@ -20,7 +20,7 @@ namespace Enjoy.Core.ViewModels
             //this.DelAble = !((model.Status & CCStatus.Published) == CCStatus.Published);
         }
 
-        public long Id { get; set; }
+        public long Key { get; set; }
         public string BrandName { get; set; }
         public string Merchant { get; set; }
 

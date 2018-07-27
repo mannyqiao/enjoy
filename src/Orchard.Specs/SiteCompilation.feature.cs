@@ -28,7 +28,7 @@ namespace Orchard.Specs
 #line 1 "SiteCompilation.feature"
 #line hidden
         
-        [NUnit.Framework.TestFixtureSetUpAttribute()]
+        [NUnit.Framework.OneTimeSetUp()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
@@ -37,7 +37,7 @@ namespace Orchard.Specs
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.TestFixtureTearDownAttribute()]
+        [NUnit.Framework.OneTimeTearDown()]
         public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
@@ -86,7 +86,7 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Dynamic compilation will kick in if modules are deployed as source files only")]
-        [NUnit.Framework.IgnoreAttribute()]
+        [NUnit.Framework.Ignore("nothing")]
         public virtual void DynamicCompilationWillKickInIfModulesAreDeployedAsSourceFilesOnly()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Dynamic compilation will kick in if modules are deployed as source files only", new string[] {
@@ -107,7 +107,7 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Dynamic compilation can be forced by disabling the precompiled module loader")]
-        [NUnit.Framework.IgnoreAttribute()]
+        [NUnit.Framework.IgnoreAttribute("nothing")]
         public virtual void DynamicCompilationCanBeForcedByDisablingThePrecompiledModuleLoader()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Dynamic compilation can be forced by disabling the precompiled module loader", new string[] {

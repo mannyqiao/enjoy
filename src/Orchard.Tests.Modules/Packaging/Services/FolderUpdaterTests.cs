@@ -28,7 +28,7 @@ namespace Orchard.Tests.Modules.Packaging.Services {
             _container = builder.Build();
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public void Clean() {
             if (Directory.Exists(_basePath)) {
                 Directory.Delete(_basePath, true);

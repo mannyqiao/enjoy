@@ -44,14 +44,16 @@ namespace Orchard.Tests.Mvc {
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        //[ExpectedException(typeof(ArgumentException))]
         public void SameNameTwiceCausesExplosion() {
-            _routes.MapRoute("foo", "{controller}");
+            Assert.Throws<ArgumentException>(() => {
+                _routes.MapRoute("foo", "{controller}");
 
-            var publisher = _container.Resolve<IRoutePublisher>();
-            publisher.Publish(new[] { Desc("yarg", "bar"), Desc("yarg", "quux") });
+                var publisher = _container.Resolve<IRoutePublisher>();
+                publisher.Publish(new[] { Desc("yarg", "bar"), Desc("yarg", "quux") });
 
-            Assert.That(_routes.Count(), Is.EqualTo(2));
+                Assert.That(_routes.Count(), Is.EqualTo(2));
+            });
         }
 
 

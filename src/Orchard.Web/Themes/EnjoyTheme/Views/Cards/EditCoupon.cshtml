@@ -15,7 +15,7 @@
         <div class="col-lg-6">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("EditPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
-                @Html.HiddenFor(o => o.Id)
+                @Html.HiddenFor(o => o.Key)
                 @Html.HiddenFor(o => o.CreatedTime)
                 <ul class="nav nav-tabs">
                     <li class="active">

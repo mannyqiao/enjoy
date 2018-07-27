@@ -26,7 +26,7 @@ namespace Enjoy.Core
             }
             return "未定义的状态";
         }
-        public static string GenerateActionLink(this AuditStatus status, int id)
+        public static string GenerateActionLink(this AuditStatus status, long id)
         {
             switch (status)
             {
