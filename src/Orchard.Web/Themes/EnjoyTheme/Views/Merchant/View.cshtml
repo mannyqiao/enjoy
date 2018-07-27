@@ -16,7 +16,7 @@
         <div class="col-md-4 ">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("CreatePost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
-                @Html.HiddenFor(m => m.Merchant.Id)
+                @Html.HiddenFor(m => m.Merchant.Key)
                 @Html.HiddenFor(m => m.Merchant.MerchantId)
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.BrandName), "商户名称", Model.Merchant.BrandName, 20, true))
 

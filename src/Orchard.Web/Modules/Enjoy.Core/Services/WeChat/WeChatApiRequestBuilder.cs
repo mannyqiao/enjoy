@@ -135,5 +135,9 @@ namespace Enjoy.Core.Services
         {
             return string.Format("https://api.weixin.qq.com/card/user/getcardlist?access_token={0}", token);
         }
+        public static string GenreateQueryWxUserUrl(string openid, string token)
+        {
+            return string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN", token, openid);
+        }
     }
 }

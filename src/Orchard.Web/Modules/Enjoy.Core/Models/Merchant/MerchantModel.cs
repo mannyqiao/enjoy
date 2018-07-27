@@ -2,18 +2,18 @@
 
 namespace Enjoy.Core.Models
 {
-    using Records = Enjoy.Core.Models.Records;
+    //using Records = Enjoy.Core.Models.Records;
     using Newtonsoft.Json;
     using System;
 
-    public class MerchantModel : IEntityKey<int>
+    public class MerchantModel : IModelKey<long>
     {
         public MerchantModel()
         {
             this.BeginTime = DateTime.Now.ToUnixStampDateTime();
             this.EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime();
         }
-        public MerchantModel(Records::Merchant record)
+        public MerchantModel(Records.Merchant record)
         {
             if (record != null)
             {
@@ -26,7 +26,7 @@ namespace Enjoy.Core.Models
                 this.CreateTime = record.CreateTime;
                 this.EndTime = record.EndTime;
                 this.EnjoyUser = new EnjoyUserModel(record.EnjoyUser);
-                this.Id = record.Id;
+                this.Key = record.Id;
                 this.LogoUrl = record.LogoUrl;
                 this.MerchantId = record.MerchantId;
                 this.Mobile = record.Mobile;
@@ -34,18 +34,18 @@ namespace Enjoy.Core.Models
                 this.PrimaryCategoryId = record.PrimaryCategoryId;
                 this.Protocol = record.Protocol;
                 this.SecondaryCategoryId = record.SecondaryCategoryId;
-                this.UpdateTime = record.UpdateTime;
+                this.UpdateTime = record.LastActivityTime;
                 this.Status = record.Status;
                 this.ErrMsg = record.ErrMsg;
             }
 
 
         }
-        public int Id { get; set; }
+        public long Key { get; set; }
         /// <summary>
         /// 由微信公众平台返回， 子商户id，对于一个母商户公众号下唯一
         /// </summary>
-        public int? MerchantId { get; set; }
+        public long? MerchantId { get; set; }
         /// <summary>
         /// wxxxxxxxxxxx 子商户的公众号app_id，配置后子商户卡券券面上的app_id为该app_id。注意：该app_id须经过认证
         /// </summary>        

@@ -34,7 +34,6 @@ namespace Enjoy.Core.Services
 
             this.WeChat = wechat;
         }
-
         public Models.MerchantModel GetDefaultMerchant()
         {
             var active_user = this.Auth.GetAuthenticatedUser();
@@ -63,9 +62,31 @@ namespace Enjoy.Core.Services
         public Models.ActionResponse<Models.MerchantModel> SaveOrUpdate(
             Models::MerchantModel model)
         {
-            return this.SaveOrUpdate(model, Validate, Convert);
+            return this.SaveOrUpdate(model, Validate, RecordSetter);
         }
-
+        protected override void RecordSetter(Records::Merchant record, Models::MerchantModel model)
+        {
+            if (model.EnjoyUser == null) throw new NullReferenceException("enjoye user is null");
+            record.Address = model.Address;
+            record.AgreementMediaId = model.AgreementMediaId;
+            record.AppId = model.AppId;
+            record.BeginTime = model.BeginTime;
+            record.BrandName = model.BrandName;
+            record.Contact = model.Contact;
+            record.CreateTime = model.CreateTime;
+            record.EndTime = model.EndTime;
+            record.EnjoyUser = new Records.EnjoyUser { Id = model.EnjoyUser.Id };
+            record.LogoUrl = model.LogoUrl;
+            record.MerchantId = model.MerchantId;
+            record.Mobile = model.Mobile;
+            record.OperatorMediaId = model.OperatorMediaId;
+            record.PrimaryCategoryId = model.PrimaryCategoryId;
+            record.Protocol = model.Protocol;
+            record.SecondaryCategoryId = model.SecondaryCategoryId;
+            record.LastActivityTime = model.UpdateTime;
+            record.Status = model.Status;
+            record.ErrMsg = model.ErrMsg;
+        }
         public Models.ActionResponse<Models.MerchantModel> SaveAndPushToWeChat(
             Models.MerchantModel model,
             Action<Models::MerchantModel> push = null)
@@ -82,37 +103,7 @@ namespace Enjoy.Core.Services
                 return new ActionResponse<MerchantModel>(EnjoyConstant.Success, model);
             }
         }
-        private Records::Merchant Convert(Models::MerchantModel model)
-        {
-            var record = this.ConvertToRecord<Int32>(model, (r, m) =>
-            {
-                if (m.EnjoyUser == null) throw new NullReferenceException("enjoye user is null");
-
-                if (r == null) r = new Records.Merchant();
-
-                r.Address = m.Address;
-                r.AgreementMediaId = m.AgreementMediaId;
-                r.AppId = m.AppId;
-                r.BeginTime = m.BeginTime;
-                r.BrandName = m.BrandName;
-                r.Contact = m.Contact;
-                r.CreateTime = m.CreateTime;
-                r.EndTime = m.EndTime;
-                r.EnjoyUser = new Records.EnjoyUser { Id = m.EnjoyUser.Id };
-                r.LogoUrl = m.LogoUrl;
-                r.MerchantId = m.MerchantId;
-                r.Mobile = m.Mobile;
-                r.OperatorMediaId = m.OperatorMediaId;
-                r.PrimaryCategoryId = m.PrimaryCategoryId;
-                r.Protocol = m.Protocol;
-                r.SecondaryCategoryId = m.SecondaryCategoryId;
-                r.UpdateTime = m.UpdateTime;
-                r.Status = m.Status;
-                r.ErrMsg = m.ErrMsg;
-                return r;
-            });
-            return record;
-        }
+        
         public IResponse Validate(Models::MerchantModel model)
         {
             var errors = new List<string>();
@@ -165,7 +156,7 @@ namespace Enjoy.Core.Services
             throw new NotImplementedException();
         }
 
-        public Models.PagingData<Models.MerchantModel> QueryMyMerchants(int userid, int page)
+        public Models.PagingData<Models.MerchantModel> QueryMyMerchants(long userid, int page)
         {
             var apply = this.WeChat.GetApplyProtocol();
             var condition = PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize);
@@ -189,7 +180,7 @@ namespace Enjoy.Core.Services
             });
         }
 
-        public void UpdateMerchantStatus(int merchantId, AuditStatus status, string reson)
+        public void UpdateMerchantStatus(long merchantId, AuditStatus status, string reson)
         {
             var model = this.QueryFirstOrDefault((builder) =>
             {
@@ -202,7 +193,7 @@ namespace Enjoy.Core.Services
             this.SaveOrUpdate(model);
         }
 
-        public Models.MerchantModel GetDefaultMerchant(int id)
+        public Models.MerchantModel GetDefaultMerchant(long id)
         {
             var model = this.QueryFirstOrDefault((builder) =>
             {

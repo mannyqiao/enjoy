@@ -50,31 +50,29 @@ namespace Enjoy.Core
         {
             //创建平台用户表
             SchemaBuilder.CreateTable("EnjoyUser", table => table
-                    .Column("Id", DbType.Int32, column => column.PrimaryKey().Identity())
+                    .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
                     .Column("Mobile", DbType.String, column => column.WithLength(11).Unique().NotNull())
                     .Column("NickName", DbType.String, column => column.WithLength(20))
-                    .Column("WxUser_Id", DbType.Int32, column => column.Nullable())
+                    .Column("WxUser_Id", DbType.Int64, column => column.Nullable())
                     .Column("Password", DbType.String, column => column.WithLength(128))
                     .Column("LastPassword", DbType.String, column => column.WithLength(128))
+                    .Column("Profile", DbType.String, column => column.WithLength(200))
                     .Column("CreatedTime", DbType.Int64)
-                    .Column("LastActiveTime", DbType.Int64)
-                    .Column("Profile", DbType.String, column => column.Unlimited())
+                    .Column("LastActivityTime", DbType.Int64)
             );
 
             //创建商户
             SchemaBuilder.CreateTable("Merchant", table => table
-                .Column("Id", DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("MerchantId", DbType.Int32)
-                .Column("EnjoyUser_Id", DbType.Int32)
-                .Column("BeginTime", DbType.Int64)
-                .Column("CreateTime", DbType.Int64)
-                .Column("UpdateTime", DbType.Int64)
-                .Column("Status", DbType.String, column => column.WithLength(36).WithDefault(AuditStatus.UnCommitted.ToString()))
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("MerchantId", DbType.Int64)
+                .Column("EnjoyUser_Id", DbType.Int64)
                 .Column("AppId", DbType.String, column => column.WithLength(26))
                 .Column("BrandName", DbType.String, column => column.WithLength(36))
                 .Column("LogoUrl", DbType.String, column => column.WithLength(128))
-                .Column("Protocol", DbType.String, column => column.WithLength(128))
+                .Column("BeginTime", DbType.Int64)
                 .Column("EndTime", DbType.Int64)
+                .Column("Status", DbType.String, column => column.WithLength(36).WithDefault(AuditStatus.UnCommitted.ToString()))
+                .Column("Protocol", DbType.String, column => column.WithLength(128))
                 .Column("PrimaryCategoryId", DbType.Int32)
                 .Column("SecondaryCategoryId", DbType.Int32)
                 .Column("AgreementMediaId", DbType.String, column => column.WithLength(128))
@@ -83,70 +81,100 @@ namespace Enjoy.Core
                 .Column("Mobile", DbType.String, column => column.WithLength(36).Nullable())
                 .Column("Address", DbType.String, column => column.WithLength(128).Nullable())
                 .Column("ErrMsg", DbType.String, column => column.WithLength(500).Nullable())
+                .Column("CreateTime", DbType.Int64)
+                .Column("LastActivityTime", DbType.Int64)
             );
 
             //创建商户管理员
             SchemaBuilder.CreateTable("MerchantAdmin", table => table
-              .Column("Merchant_Id", DbType.Int32)
-              .Column("EnjoyUser_Id", DbType.Int32)
+              .Column("Merchant_Id", DbType.Int64)
+              .Column("EnjoyUser_Id", DbType.Int64)
             );
             SchemaBuilder.AlterTable("MerchantAdmin", table => table.AddUniqueConstraint("PK_MerchantAdmin", new string[] { "Merchant_Id", "EnjoyUser_Id" }));
 
+
+
             //创建门店表
             SchemaBuilder.CreateTable("Shop", table => table
-                .Column("Id", DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("Merchant_Id", DbType.Int32, column => column.Nullable())
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("Merchant_Id", DbType.Int64, column => column.Nullable())
                 .Column("ShopName", DbType.String, column => column.WithLength(120))
-                .Column("Coordinate", DbType.String, column => column.WithLength(50))
                 .Column("Leader", DbType.String, column => column.WithLength(50))
+                .Column("Coordinate", DbType.String, column => column.WithLength(50))
                 .Column("Address", DbType.String, column => column.WithLength(120))
+                .Column("LastActivityTime", DbType.Int64)
             );
-
             SchemaBuilder.CreateTable("CardCoupon", table => table
-                .Column("Id", DbType.Int32, column => column.PrimaryKey().Identity())
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
                 .Column("BrandName", DbType.String, column => column.WithLength(20))//卡券类型
-                .Column("Merchant_Id", DbType.Int32)
+                .Column("Merchant_Id", DbType.Int64)
                 .Column("Type", DbType.String, column => column.WithLength(20))//卡券类型
                 .Column("WxNo", DbType.String, column => column.WithLength(40))//WeChat编号                
                 .Column("Quantity", DbType.Int32, column => column.WithDefault(100))
-                .Column("CreatedTime", DbType.Int64)
-                .Column("LastUpdateTime", DbType.Int64)
                 .Column("Status", DbType.String, column => column.WithLength(100))
                 .Column("ErrMsg", DbType.String, column => column.WithLength(500).Nullable())
                 .Column("JsonMetadata", DbType.String, column => column.Unlimited())
+                .Column("CreatedTime", DbType.Int64)
+                .Column("LastActivityTime", DbType.Int64)
             );
             SchemaBuilder.CreateTable("WxUser", table => table
-                .Column("Id", DbType.Int32, column => column.PrimaryKey().Identity())                
-                .Column("UnionId", DbType.String, column => column.WithLength(32).Unique())
-                .Column("OpenId", DbType.String, column => column.WithLength(32))
-                .Column("Mobile", DbType.String, column => column.WithLength(11))
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("UnionId", DbType.String, column => column.WithLength(32))
+                .Column("Mobile", DbType.String, column => column.WithLength(11).Nullable())
+                .Column("RegistryType", DbType.String, column => column.WithLength(20))
                 .Column("NickName", DbType.String, column => column.WithLength(32))
                 .Column("Country", DbType.String, column => column.WithLength(32))
                 .Column("Province", DbType.String, column => column.WithLength(32))
-                .Column("City", DbType.String, column => column.WithLength(32))                
-                .Column("OwnApp", DbType.String, column => column.WithLength(32))
+                .Column("City", DbType.String, column => column.WithLength(32))
                 .Column("CreatedTime", DbType.Int64)
-                .Column("LastActiveTime", DbType.Int64)
+                .Column("LastActivityTime", DbType.Int64)
             );
 
+
             SchemaBuilder.CreateTable("WxMsg", table => table
-                .Column("Id", DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("MsgType", DbType.String, column => column.WithLength(32))
-                .Column("CreatedTime", DbType.Int64)
-                .Column("FromUser", DbType.String, column => column.WithLength(32))
-                .Column("ToUser", DbType.String, column => column.WithLength(32))
-                .Column("Metadata", DbType.String, column => column.Unlimited())
+                    .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                    .Column("MsgType", DbType.String, column => column.WithLength(32))
+                    .Column("FromUser", DbType.String, column => column.WithLength(32))
+                    .Column("ToUser", DbType.String, column => column.WithLength(32))
+                    .Column("Metadata", DbType.String, column => column.Unlimited())
+                    .Column("LastActivityTime", DbType.Int64)
             );
 
             SchemaBuilder.CreateTable("Notification", table => table
-                .Column("Id", DbType.Int32, column => column.PrimaryKey().Identity())
-                .Column("EnjoyUser_Id",DbType.Int32)
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("EnjoyUser_Id", DbType.Int64)
                 .Column("Title", DbType.String, column => column.WithLength(32))
-                .Column("CreatedTime",DbType.Int64)
-                .Column("SendBySMS", DbType.Boolean,column=>column.WithDefault(false))
+                .Column("SendBySMS", DbType.Boolean, column => column.WithDefault(false))
                 .Column("Read", DbType.Boolean, column => column.WithDefault(false))
-                .Column("Body", DbType.String,column=>column.Unlimited())
+                .Column("Body", DbType.String, column => column.Unlimited())
+                .Column("CreatedTime", DbType.Int64)
+                .Column("LastActivityTime", DbType.Int64)
             );
+
+            SchemaBuilder.CreateTable("MerchantWxUser", table => table
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("Merchant_Id", DbType.Int64)
+                .Column("WxUser_Id", DbType.Int64)
+                .Column("OpenId", DbType.String)
+                .Column("LastActivityTime", DbType.Int64)
+            );
+
+            SchemaBuilder.CreateTable("WxUserCardCoupon", table => table
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("Merchant_Id", DbType.Int64)
+                .Column("Owner_Id", DbType.Int64)
+                .Column("Gotfrom_Id", DbType.Int64, column => column.Nullable())
+                .Column("CardCoupon_Id", DbType.Int64)
+                .Column("UserCardCode", DbType.String, column => column.WithLength(32))
+                .Column("OldUserCardCode", DbType.String, column => column.WithLength(32))
+                .Column("IsGiveByFriend", DbType.Boolean)
+                .Column("FriendUserName", DbType.String, column => column.WithLength(32))
+                .Column("State", DbType.String, column => column.WithLength(32))
+                .Column("Type", DbType.String, column => column.WithLength(32))
+                .Column("ExtraInfo", DbType.String, column => column.Unlimited())                
+                .Column("LastActivityTime", DbType.Int64, column => column.Nullable())
+            );
+
         }
         private void CreateLayer()
         {

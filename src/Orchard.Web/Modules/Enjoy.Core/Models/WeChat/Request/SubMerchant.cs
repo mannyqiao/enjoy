@@ -23,7 +23,7 @@ namespace Enjoy.Core.Models
         public string BrandName { get; set; }
 
         [JsonProperty("merchant_id", NullValueHandling = NullValueHandling.Ignore)]
-        public int? MerchantId { get; set; }
+        public long? MerchantId { get; set; }
 
         [JsonProperty("logo_url")]
         public string LogoUrl { get; set; }

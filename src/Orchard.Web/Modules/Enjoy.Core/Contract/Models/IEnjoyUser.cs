@@ -7,7 +7,7 @@ namespace Enjoy.Core
 {
     public interface IEnjoyUser
     {
-        int Id { get; }
+        long Id { get; }
         string Mobile { get; }
         string NickName { get; }
     }

@@ -8,13 +8,19 @@ namespace Enjoy.Core.Models.Records
     /// <summary>
     /// 
     /// </summary>
-    public class Merchant : IEntityKey<int>
+    public class Merchant : IEntityKey<long>
     {
-        public virtual int Id { get; set; }
+        public virtual long Id { get; set; }
         /// <summary>
         /// 由微信公众平台返回， 子商户id，对于一个母商户公众号下唯一
         /// </summary>
-        public virtual int? MerchantId { get; set; }
+        public virtual long? MerchantId { get; set; }
+
+        /// <summary>
+        /// 商户创建者
+        /// </summary>
+        public virtual EnjoyUser EnjoyUser { get; set; }
+
         /// <summary>
         /// wxxxxxxxxxxx 子商户的公众号app_id，配置后子商户卡券券面上的app_id为该app_id。注意：该app_id须经过认证
         /// </summary>        
@@ -28,10 +34,7 @@ namespace Enjoy.Core.Models.Records
         /// http://mmbiz.xxxx	子商户logo，可通过 上传图片接口 获取。该logo将在制券时填入并显示在卡券页面上
         /// </summary>
         public virtual string LogoUrl { get; set; }
-        /// <summary>
-        /// String(36)  mdasdfkl ：	授权函ID，即通过 上传临时素材接口 上传授权函后获得的meida_id
-        /// </summary>
-        public virtual string Protocol { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,6 +43,12 @@ namespace Enjoy.Core.Models.Records
         /// 是 unsigned int	15300000	授权函有效期截止时间（东八区时间，单位为秒），需要与提交的扫描件一致
         /// </summary>
         public virtual long EndTime { get; set; }
+        public virtual AuditStatus Status { get; set; }
+
+        /// <summary>
+        /// String(36)  mdasdfkl ：	授权函ID，即通过 上传临时素材接口 上传授权函后获得的meida_id
+        /// </summary>
+        public virtual string Protocol { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -61,6 +70,17 @@ namespace Enjoy.Core.Models.Records
 
       
 
+       
+
+
+        
+        
+
+        public virtual string Contact { get; set; }
+
+        public virtual string Mobile { get; set; }
+        public virtual string Address { get; set; }
+        public virtual string ErrMsg { get; set; }
         /// <summary>
         /// 子商户创建时间
         /// </summary>
@@ -68,21 +88,7 @@ namespace Enjoy.Core.Models.Records
         /// <summary>
         /// 子商户更新时间
         /// </summary>
-        public virtual long UpdateTime { get; set; }
-
-
-        public virtual AuditStatus Status { get; set; }
-        /// <summary>
-        /// 商户创建者
-        /// </summary>
-        public virtual EnjoyUser EnjoyUser { get; set; }
-
-        public virtual string Contact { get; set; }
-
-        public virtual string Mobile { get; set; }
-        public virtual string Address { get; set; }
-        public virtual string ErrMsg { get; set; }
-
+        public virtual long LastActivityTime { get; set; }
         //商户创建传入参数
 
         //参数名       必填    类型 示例  说明

@@ -10,13 +10,12 @@ namespace Enjoy.Core.Services
     using NHibernate;
     using NHibernate.Criterion;
     using System.Linq;
-    using System.Reflection;
     using Enjoy.Core.ViewModels;
     using System.Collections.Generic;
 
     public abstract class QueryBaseService<R, M> : IQueryService<R, M>
-        where R : class
-        where M : class
+        where R : IEntityKey<long>
+        where M : IModelKey<long>
     {
         protected readonly IOrchardServices OS;
 
@@ -66,26 +65,38 @@ namespace Enjoy.Core.Services
             var session = this.OS.TransactionManager.GetSession();
             var criteria = session.CreateCriteria(typeof(R));
             builder(criteria);
-
-
             return convert(criteria.SetFirstResult(0)
                 .SetMaxResults(1)
                 .UniqueResult<R>());
         }
-
-        public ActionResponse<M> SaveOrUpdate(M model, Func<M, IResponse> validate, Func<M, R> convert)
+        public virtual T QueryFirstOrDefault<T>(Action<ICriteria> builder)
+        {
+            var session = this.OS.TransactionManager.GetSession();
+            var criteria = session.CreateCriteria(typeof(R));
+            builder(criteria);
+            return criteria.SetFirstResult(0)
+                .SetMaxResults(1)
+                .UniqueResult<T>();
+        }
+        public ActionResponse<M> SaveOrUpdate(
+            M model,
+            Func<M, IResponse> validate,
+            Action<R, M> setter)
         {
             var check = validate(model);
             if (check.HasError)
                 return new ActionResponse<M>(check.ErrorCode);
-
             var session = this.OS.TransactionManager.GetSession();
-            var record = convert(model);
-            session.SaveOrUpdate(record);            
+            var record = session.Get<R>(model.Key);
+            if (record == null)
+                record = Activator.CreateInstance<R>();
+            setter(record, model);
+            session.SaveOrUpdate(record);
+            model.Key = record.Id;
             return new ActionResponse<M>(EnjoyConstant.Success, model);
         }
-
-        public BaseResponse Delete(int id)
+        protected abstract void RecordSetter(R record, M model);
+        public BaseResponse Delete(long id)
         {
             var session = this.OS.TransactionManager.GetSession();
             session.Delete(session.Get<R>(id));
@@ -101,7 +112,6 @@ namespace Enjoy.Core.Services
         {
             var session = this.OS.TransactionManager.GetSession();
             return session.Get<R>(id);
-
         }
 
         public R ConvertToRecord<TKeyType>(M model, Func<R, M, R> convert)
@@ -131,11 +141,11 @@ namespace Enjoy.Core.Services
                             {
                                 case 0:
                                     //>=
-                                    yield return Expression.Ge(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
+                                    yield return Restrictions.Ge(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
                                     break;
                                 case 1:
                                     //<
-                                    yield return Expression.Lt(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
+                                    yield return Restrictions.Lt(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
                                     break;
                                 default:
                                     break;
@@ -144,16 +154,16 @@ namespace Enjoy.Core.Services
                         }
                         break;
                     case System.Data.DbType.Int32:
-                        yield return Expression.Eq(column.Data, Int32.Parse(values[0]));
+                        yield return Restrictions.Eq(column.Data, Int32.Parse(values[0]));
                         break;
                     case System.Data.DbType.Int64:
-                        yield return Expression.Eq(column.Data, Int64.Parse(values[0]));
+                        yield return Restrictions.Eq(column.Data, Int64.Parse(values[0]));
                         break;
                     case System.Data.DbType.Decimal:
-                        yield return Expression.Eq(column.Data, decimal.Parse(values[0]));
+                        yield return Restrictions.Eq(column.Data, decimal.Parse(values[0]));
                         break;
                     case System.Data.DbType.String:
-                        yield return Expression.Eq(column.Data, values[0]);
+                        yield return Restrictions.Eq(column.Data, values[0]);
                         break;
                 }
             }

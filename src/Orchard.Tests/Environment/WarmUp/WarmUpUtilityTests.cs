@@ -20,9 +20,9 @@ namespace Orchard.Tests.Environment.Warmup {
 
         [Test]
         public void EncodedUrlsShouldPreserveQueryStrings() {
-            Assert.That(WarmupUtility.EncodeUrl("http://www.microsoft.com/foo?bar=baz"), Is.StringContaining("bar"));
-            Assert.That(WarmupUtility.EncodeUrl("http://www.microsoft.com/foo?bar=baz"), Is.StringContaining("baz"));
-            Assert.That(WarmupUtility.EncodeUrl("http://www.microsoft.com/foo?bar=baz"), Is.StringContaining("foo"));
+            Assert.That(WarmupUtility.EncodeUrl("http://www.microsoft.com/foo?bar=baz"), Is.EqualTo("bar"));
+            Assert.That(WarmupUtility.EncodeUrl("http://www.microsoft.com/foo?bar=baz"), Is.EqualTo("baz"));
+            Assert.That(WarmupUtility.EncodeUrl("http://www.microsoft.com/foo?bar=baz"), Is.EqualTo("foo"));
         }
     }
 }

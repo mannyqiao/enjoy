@@ -72,7 +72,7 @@ namespace Enjoy.Core.Controllers
             model.Merchant.BeginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.Status = AuditStatus.UnCommitted;
-            if (model.Merchant.Id.Equals(0))
+            if (model.Merchant.Key.Equals(0))
                 model.Merchant.CreateTime = DateTime.Now.ToUnixStampDateTime();
             model.Merchant.UpdateTime = DateTime.Now.ToUnixStampDateTime();
             this.Merchant.SaveOrUpdate(model.Merchant);
@@ -153,7 +153,7 @@ namespace Enjoy.Core.Controllers
             {
                 Data = "Merchant.Id",
                 Searchable = true,
-                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
+                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Key }
             });
 
             var condition = new PagingCondition(filter.Start, filter.Length);

@@ -8,15 +8,15 @@ namespace Enjoy.Core
     using Records = Enjoy.Core.Models.Records;
     public interface IShopService : IDependency
     {
-        Models::PagingData<Models::ShopModel> QueryMyShops(int merchantid, PagingCondition paging);
+        Models::PagingData<Models::ShopModel> QueryMyShops(long merchantid, PagingCondition paging);
 
-        Models::ShopModel GetDefaultShop(int shopid);
+        Models::ShopModel GetDefaultShop(long shopid);
 
         Models::PagingData<Models::ShopModel> QueryShops(QueryFilter filter, PagingCondition paging);
 
         void SaveOrUpdate(Models::ShopModel model);
 
-        void DeleteShop(int id);
+        void DeleteShop(long id);
 
     }
 }

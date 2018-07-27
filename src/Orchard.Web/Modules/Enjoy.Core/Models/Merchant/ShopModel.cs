@@ -3,14 +3,14 @@
 namespace Enjoy.Core.Models
 {
     using Enjoy.Core.ViewModels;
-    using Records = Enjoy.Core.Models.Records;
-    public class ShopModel : IEntityKey<int>
+    
+    public class ShopModel : IModelKey<long>
     {
-        public ShopModel(Records::Shop shop)
+        public ShopModel(Records.Shop shop)
         {
             this.ShopName = shop.ShopName;
             this.Merchant = new MerchantModel(shop.Merchant);
-            this.Id = shop.Id;
+            this.Key = shop.Id;
             this.Leader = shop.Leader;
             this.Address = shop.Address;
             this.Coordinate = shop.Coordinate;
@@ -18,8 +18,8 @@ namespace Enjoy.Core.Models
         public ShopModel(ShopViewModel viewModel)
         {
             this.ShopName = viewModel.ShopName;
-            this.Merchant = new MerchantModel() { Id = viewModel.MerchantId };
-            this.Id = viewModel.Id;
+            this.Merchant = new MerchantModel() { Key = viewModel.MerchantId };
+            this.Key = viewModel.Key;
             this.Leader = viewModel.Leader;
             this.Address = viewModel.AddressInfo;
             this.Coordinate = viewModel.Coordinate ?? "{}";
@@ -28,7 +28,7 @@ namespace Enjoy.Core.Models
         {
             this.Merchant = merchant;
         }
-        public int Id { get; set; }
+        public long Key { get; set; }
         public MerchantModel Merchant { get; set; }
         public string ShopName { get; set; }
         public string Leader { get; set; }

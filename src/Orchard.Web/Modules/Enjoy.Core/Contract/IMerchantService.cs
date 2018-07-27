@@ -20,7 +20,7 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Models::MerchantModel GetDefaultMerchant(int id);
+        Models::MerchantModel GetDefaultMerchant(long id);
         /// <summary>
         /// 保存商户并提交审核
         /// </summary>
@@ -44,9 +44,9 @@ namespace Enjoy.Core
         Models::WxResponseWapper<Models::MerchantModel> QueryApproveStatus(string merchantid);
 
 
-        Models::PagingData<Models::MerchantModel> QueryMyMerchants(int userid, int page);
+        Models::PagingData<Models::MerchantModel> QueryMyMerchants(long userid, int page);
 
-        void UpdateMerchantStatus(int merchantId, AuditStatus status, string reson);
+        void UpdateMerchantStatus(long merchantId, AuditStatus status, string reson);
 
     }
 }

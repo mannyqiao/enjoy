@@ -54,7 +54,7 @@ namespace Orchard.Tests.Modules.Themes.Services {
         private ISession _session;
         private IFeatureManager _featureManager;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitFixture() {
             var databaseFileName = System.IO.Path.GetTempFileName();
             _sessionFactory = DataUtility.CreateSessionFactory(databaseFileName,
@@ -65,7 +65,7 @@ namespace Orchard.Tests.Modules.Themes.Services {
                 typeof(ContentTypeRecord));
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TermFixture() { }
 
         [SetUp]
@@ -172,7 +172,7 @@ namespace Orchard.Tests.Modules.Themes.Services {
         }
         
 
-        #region Stubs
+    #region Stubs
 
         public class TestSessionLocator : ISessionLocator {
             private readonly ISession _session;
@@ -275,7 +275,7 @@ namespace Orchard.Tests.Modules.Themes.Services {
             }
         }
 
-        #endregion
+    #endregion
     }
 #endif
 }

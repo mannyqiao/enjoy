@@ -111,6 +111,7 @@
     <Compile Include="Common\Extensions\DirectoryExtension.cs" />
     <Compile Include="Common\Extensions\ISessionExtension.cs" />
     <Compile Include="Common\Extensions\JsonExtension.cs" />
+    <Compile Include="Common\Extensions\WeChatEventArgsExtension.cs" />
     <Compile Include="Common\Extensions\StringExtension.cs" />
     <Compile Include="Contract\ICardCouponService.cs" />
     <Compile Include="Contract\IQueryService.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Contract\IWeChatApi.cs" />
     <Compile Include="Contract\IWeChatEventBehavior.cs" />
     <Compile Include="Contract\IWeChatMsgHandler.cs" />
+    <Compile Include="Contract\IWxUserService.cs" />
     <Compile Include="Contract\Models\ICardCoupon.cs" />
     <Compile Include="Contract\Models\IEnjoyUser.cs" />
     <Compile Include="Contract\Models\IEntityKey.cs" />
@@ -145,13 +147,15 @@
     <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ActionResponse.cs" />
+    <Compile Include="Models\CardCoupon\WxUserCouponModel.cs" />
     <Compile Include="Models\EnjoyUser\EnjoyUserModel.cs" />
     <Compile Include="Models\EnjoyUser\WxUserModel.cs" />
-    <Compile Include="Models\Enums\CardStates.cs" />
+    <Compile Include="Models\Enums\CardCouponStates.cs" />
     <Compile Include="Models\Enums\CCStatus.cs" />
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
     <Compile Include="Models\Enums\MsgTypes.cs" />
+    <Compile Include="Models\Enums\RegistryTypes.cs" />
     <Compile Include="Models\Enums\VerifyTypes.cs" />
     <Compile Include="Models\Merchant\CardCounponModel.cs" />
     <Compile Include="Models\Merchant\MerchantModel.cs" />
@@ -177,10 +181,10 @@
     <Compile Include="Models\Records\EnjoyUser.cs" />
     <Compile Include="Models\Records\Merchant.cs" />
     <Compile Include="Models\Records\MerchantAdmin.cs" />
+    <Compile Include="Models\Records\MerchantWxUser.cs" />
     <Compile Include="Models\Records\Notification.cs" />
     <Compile Include="Models\Records\Shop.cs" />
-    <Compile Include="Models\Records\UserCard.cs" />
-    <Compile Include="Models\Records\UserCoupon.cs" />
+    <Compile Include="Models\Records\WxUserCardCoupon.cs" />
     <Compile Include="Models\Records\WxMsg.cs" />
     <Compile Include="Models\Records\WxUser.cs" />
     <Compile Include="Models\SMS\QCloudSMS.cs" />
@@ -273,6 +277,7 @@
     <Compile Include="Services\WeChat\WeChatApi.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\WeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\WeChatMsgHandler.cs" />
+    <Compile Include="Services\WxUserService.cs" />
     <Compile Include="Utilities\Cryptography.cs" />
     <Compile Include="Utilities\EnjoyConstant.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultHttpTransientFaultDetecter.cs" />
@@ -326,12 +331,10 @@
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
-      <Private>false</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Orchard.Core.csproj">
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Orchard.Core</Name>
-      <Private>false</Private>
     </ProjectReference>
     <ProjectReference Include="..\Orchard.Fields\Orchard.Fields.csproj">
       <Project>{3787DDE5-E5C8-4841-BDA7-DCB325388064}</Project>
@@ -348,7 +351,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
-    <Folder Include="Services\Access\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>

@@ -26,9 +26,11 @@ using System.Collections.Generic;
 using Orchard.Tests.Stubs;
 using Orchard.UI.PageClass;
 
-namespace Orchard.Tests.ContentManagement {
+namespace Orchard.Tests.ContentManagement
+{
     [TestFixture]
-    public class DefaultContentManagerTests {
+    public class DefaultContentManagerTests
+    {
         private const string DefaultAlphaName = "alpha";
         private const string DefaultBetaName = "beta";
         private const string DefaultGammaName = "gamma";
@@ -40,8 +42,9 @@ namespace Orchard.Tests.ContentManagement {
         private ISession _session;
         private Mock<IContentDefinitionManager> _contentDefinitionManager;
 
-        [TestFixtureSetUp]
-        public void InitFixture() {
+        [OneTimeSetUp]
+        public void InitFixture()
+        {
             var databaseFileName = System.IO.Path.GetTempFileName();
             _sessionFactory = DataUtility.CreateSessionFactory(
                 databaseFileName,
@@ -55,7 +58,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [SetUp]
-        public void Init() {
+        public void Init()
+        {
             _contentDefinitionManager = new Mock<IContentDefinitionManager>();
 
             var builder = new ContainerBuilder();
@@ -66,7 +70,7 @@ namespace Orchard.Tests.ContentManagement {
             builder.RegisterType<DefaultContentManagerSession>().As<IContentManagerSession>();
             builder.RegisterInstance(_contentDefinitionManager.Object);
             builder.RegisterInstance(new Mock<IContentDisplay>().Object);
-            builder.RegisterInstance(new ShellSettings {Name = ShellSettings.DefaultName, DataProvider = "SqlCe"});
+            builder.RegisterInstance(new ShellSettings { Name = ShellSettings.DefaultName, DataProvider = "SqlCe" });
 
             builder.RegisterType<AlphaPartHandler>().As<IContentHandler>();
             builder.RegisterType<BetaPartHandler>().As<IContentHandler>();
@@ -78,7 +82,7 @@ namespace Orchard.Tests.ContentManagement {
             builder.RegisterType<DefaultShapeTableManager>().As<IShapeTableManager>();
             builder.RegisterType<ShapeTableLocator>().As<IShapeTableLocator>();
             builder.RegisterType<DefaultShapeFactory>().As<IShapeFactory>();
-            builder.RegisterInstance(new Mock<IPageClassBuilder>().Object); 
+            builder.RegisterInstance(new Mock<IPageClassBuilder>().Object);
             builder.RegisterType<DefaultContentDisplay>().As<IContentDisplay>();
 
             builder.RegisterType<StubExtensionManager>().As<IExtensionManager>();
@@ -93,13 +97,15 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [TearDown]
-        public void Cleanup() {
+        public void Cleanup()
+        {
             if (_container != null)
                 _container.Dispose();
         }
 
         [Test]
-        public void AlphaDriverShouldWeldItsPart() {
+        public void AlphaDriverShouldWeldItsPart()
+        {
             var foo = _manager.New(DefaultAlphaName);
 
             Assert.That(foo.Is<AlphaPart>(), Is.True);
@@ -109,19 +115,23 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void StronglyTypedNewShouldTypeCast() {
+        public void StronglyTypedNewShouldTypeCast()
+        {
             var foo = _manager.New<AlphaPart>(DefaultAlphaName);
             Assert.That(foo, Is.Not.Null);
             Assert.That(foo.GetType(), Is.EqualTo(typeof(AlphaPart)));
         }
 
-        [Test, ExpectedException(typeof(InvalidCastException))]
-        public void StronglyTypedNewShouldThrowCastExceptionIfNull() {
-            _manager.New<BetaPart>(DefaultAlphaName);
+        [Test]
+        public void StronglyTypedNewShouldThrowCastExceptionIfNull()
+        {
+            //_manager.New<BetaPart>(DefaultAlphaName);
+            Assert.Throws<InvalidCastException>(() => _manager.New<BetaPart>(DefaultAlphaName));
         }
 
         [Test]
-        public void AlphaIsFlavoredAndStyledAndBetaIsFlavoredOnly() {
+        public void AlphaIsFlavoredAndStyledAndBetaIsFlavoredOnly()
+        {
             var alpha = _manager.New<AlphaPart>(DefaultAlphaName);
             var beta = _manager.New<BetaPart>(DefaultBetaName);
 
@@ -132,7 +142,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void GetByIdShouldDetermineTypeAndLoadParts() {
+        public void GetByIdShouldDetermineTypeAndLoadParts()
+        {
             var modelRecord = CreateModelRecord(DefaultAlphaName);
 
             var contentItem = _manager.Get(modelRecord.Id);
@@ -142,7 +153,8 @@ namespace Orchard.Tests.ContentManagement {
 
 
         [Test]
-        public void ModelPartWithRecordShouldCallRepositoryToPopulate() {
+        public void ModelPartWithRecordShouldCallRepositoryToPopulate()
+        {
 
             CreateModelRecord(DefaultGammaName);
             CreateModelRecord(DefaultGammaName);
@@ -172,7 +184,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void CreateShouldMakeModelAndContentTypeRecords() {
+        public void CreateShouldMakeModelAndContentTypeRecords()
+        {
             var beta = _manager.New(DefaultBetaName);
             _manager.Create(beta);
 
@@ -185,7 +198,8 @@ namespace Orchard.Tests.ContentManagement {
         /// Tests that the GetContentTypeDefinitions returns only the registered types.
         /// </summary>
         [Test]
-        public void GetContentTypesShouldReturnAllTypes() {
+        public void GetContentTypesShouldReturnAllTypes()
+        {
             // Register the types and obtain them
             ContentTypeDefinition alphaType = new ContentTypeDefinitionBuilder()
                 .Named(DefaultAlphaName)
@@ -205,7 +219,7 @@ namespace Orchard.Tests.ContentManagement {
 
             _contentDefinitionManager.Setup(contentDefinitionManager => contentDefinitionManager.ListTypeDefinitions())
                 .Returns(new List<ContentTypeDefinition> { alphaType, betaType, gammaType, deltaType });
-            
+
             var types = _manager.GetContentTypeDefinitions();
 
             // Validate that the expected types were obtained
@@ -217,28 +231,37 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void BigStringsShouldNotBeTruncated() {
+        public void BigStringsShouldNotBeTruncated()
+        {
             var megaRepository = _container.Resolve<IRepository<MegaRecord>>();
             var mega = new MegaRecord() { BigStuff = new string('x', 20000) };
             megaRepository.Create(mega);
             _session.Flush();
         }
 
-        [Test, ExpectedException]
-        public void StandardStringsShouldNotHaveAStandardSize() {
-            var megaRepository = _container.Resolve<IRepository<MegaRecord>>();
-            var mega = new MegaRecord() { SmallStuff = new string('x', 256) };
-            megaRepository.Create(mega);
-            _session.Flush();
+        //[Test, ExpectedException]
+        [Test]
+        public void StandardStringsShouldNotHaveAStandardSize()
+        {
+            Assert.Throws<Exception>(() =>
+            {
+                var megaRepository = _container.Resolve<IRepository<MegaRecord>>();
+                var mega = new MegaRecord() { SmallStuff = new string('x', 256) };
+                megaRepository.Create(mega);
+                _session.Flush();
+            });           
+            
         }
 
-        private ContentItemRecord CreateModelRecord(string contentType) {
+        private ContentItemRecord CreateModelRecord(string contentType)
+        {
             var contentTypeRepository = _container.Resolve<IRepository<ContentTypeRecord>>();
             var contentItemRepository = _container.Resolve<IRepository<ContentItemRecord>>();
             var contentItemVersionRepository = _container.Resolve<IRepository<ContentItemVersionRecord>>();
 
             var modelRecord = new ContentItemRecord { ContentType = contentTypeRepository.Get(x => x.Name == contentType) };
-            if (modelRecord.ContentType == null) {
+            if (modelRecord.ContentType == null)
+            {
                 modelRecord.ContentType = new ContentTypeRecord { Name = contentType };
                 contentTypeRepository.Create(modelRecord.ContentType);
             }
@@ -252,7 +275,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void InitialVersionShouldBeOne() {
+        public void InitialVersionShouldBeOne()
+        {
             var gamma1 = _manager.Create<GammaPart>(DefaultGammaName);
             Assert.That(gamma1.ContentItem.Record, Is.Not.Null);
             Assert.That(gamma1.ContentItem.VersionRecord, Is.Not.Null);
@@ -278,7 +302,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void InitialVersionCanBeSpecifiedAndIsPublished() {
+        public void InitialVersionCanBeSpecifiedAndIsPublished()
+        {
             var gamma1 = _manager.Create<GammaPart>(DefaultGammaName, VersionOptions.Number(4));
 
             Assert.That(gamma1.ContentItem.Version, Is.EqualTo(4));
@@ -289,7 +314,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void PublishedShouldBeLatestButNotDraft() {
+        public void PublishedShouldBeLatestButNotDraft()
+        {
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
 
             var gammaPublished = _manager.Get(gamma1.Id, VersionOptions.Published);
@@ -302,7 +328,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void DraftShouldBeLatestButNotPublished() {
+        public void DraftShouldBeLatestButNotPublished()
+        {
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Draft);
 
             var gammaPublished = _manager.Get(gamma1.Id, VersionOptions.Published);
@@ -316,7 +343,8 @@ namespace Orchard.Tests.ContentManagement {
 
 
         [Test]
-        public void CreateDraftShouldNotCreateExtraDraftCopies() {
+        public void CreateDraftShouldNotCreateExtraDraftCopies()
+        {
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Draft);
             _session.Flush();
             _session.Clear();
@@ -347,7 +375,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void DraftRequiredShouldBuildNewVersionIfLatestIsAlreadyPublished() {
+        public void DraftRequiredShouldBuildNewVersionIfLatestIsAlreadyPublished()
+        {
             Trace.WriteLine("gamma1");
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Trace.WriteLine("flush");
@@ -370,7 +399,8 @@ namespace Orchard.Tests.ContentManagement {
             _session.Flush();
             _session.Clear();
 
-            foreach (var x in _container.Resolve<IRepository<ContentItemVersionRecord>>().Fetch(x => x != null)) {
+            foreach (var x in _container.Resolve<IRepository<ContentItemVersionRecord>>().Fetch(x => x != null))
+            {
                 Trace.WriteLine(string.Format("{0}/{1} #{2} published:{3} latest:{4}",
                     x.ContentItemRecord.Id,
                     x.Id,
@@ -444,7 +474,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void UsingGetManyDraftRequiredShouldBuildNewVersionIfLatestIsAlreadyPublished() {
+        public void UsingGetManyDraftRequiredShouldBuildNewVersionIfLatestIsAlreadyPublished()
+        {
             Trace.WriteLine("gamma1");
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Trace.WriteLine("flush");
@@ -452,7 +483,7 @@ namespace Orchard.Tests.ContentManagement {
             _session.Clear();
 
             Trace.WriteLine("gammaDraft1");
-            var gammaDraft1 = _manager.GetMany<ContentItem>(new [] { gamma1.Id }, VersionOptions.Draft, QueryHints.Empty);
+            var gammaDraft1 = _manager.GetMany<ContentItem>(new[] { gamma1.Id }, VersionOptions.Draft, QueryHints.Empty);
             Assert.That(gammaDraft1.Count(), Is.EqualTo(0));
             Trace.WriteLine("flush");
             _session.Flush();
@@ -471,7 +502,8 @@ namespace Orchard.Tests.ContentManagement {
 
 
         [Test]
-        public void UsingQueryDraftRequiredShouldBuildNewVersionIfLatestIsAlreadyPublished() {
+        public void UsingQueryDraftRequiredShouldBuildNewVersionIfLatestIsAlreadyPublished()
+        {
             Trace.WriteLine("gamma1");
             var gamma1 = _manager.Create<GammaPart>(DefaultGammaName, VersionOptions.Published);
             gamma1.Record.Frap = "foo";
@@ -505,7 +537,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void NonVersionedPartsAreBoundToSameRecord() {
+        public void NonVersionedPartsAreBoundToSameRecord()
+        {
             Trace.WriteLine("gamma1");
             var gamma1 = _manager.Create<GammaPart>(DefaultGammaName, VersionOptions.Published, init => init.Record.Frap = "version one");
             Trace.WriteLine("gamma2");
@@ -541,7 +574,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void VersionedPartsShouldBeDifferentRecordsWithClonedData() {
+        public void VersionedPartsShouldBeDifferentRecordsWithClonedData()
+        {
             var gamma1 = _manager.Create<GammaPart>(DefaultGammaName, VersionOptions.Published, init => init.Record.Frap = "version one");
             var epsilon1 = gamma1.As<EpsilonPart>();
             epsilon1.Record.Quad = "epsilon one";
@@ -577,12 +611,14 @@ namespace Orchard.Tests.ContentManagement {
             Assert.That(epsilon1B.ContentItem.VersionRecord, Is.Not.SameAs(epsilon2B.ContentItem.VersionRecord));
         }
 
-        private void Flush() {
+        private void Flush()
+        {
             Trace.WriteLine("flush");
             _session.Flush();
 
         }
-        private void FlushAndClear() {
+        private void FlushAndClear()
+        {
             Trace.WriteLine("flush");
             _session.Flush();
             Trace.WriteLine("clear");
@@ -590,7 +626,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void GetAllVersionsShouldReturnHistoryInOrder() {
+        public void GetAllVersionsShouldReturnHistoryInOrder()
+        {
             Trace.WriteLine("gamma1");
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Flush();
@@ -627,7 +664,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void GetWithAllVersionsOptionsReturnsLatestVersion() {
+        public void GetWithAllVersionsOptionsReturnsLatestVersion()
+        {
             // Generate some versions
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Flush();
@@ -650,7 +688,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void EmptyTypeDefinitionShouldBeCreatedIfNotAlreadyDefined() {
+        public void EmptyTypeDefinitionShouldBeCreatedIfNotAlreadyDefined()
+        {
             var contentItem = _manager.New("no-such-type");
             Assert.That(contentItem.ContentType, Is.EqualTo("no-such-type"));
             Assert.That(contentItem.TypeDefinition, Is.Not.Null);
@@ -660,7 +699,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void RestoreCreatesNewVersionBasedOnLatestVersion() {
+        public void RestoreCreatesNewVersionBasedOnLatestVersion()
+        {
             // Generate some versions
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Flush();
@@ -684,7 +724,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void RestoreUnsetsPreviousLatestVersion() {
+        public void RestoreUnsetsPreviousLatestVersion()
+        {
             // Generate some versions
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Flush();
@@ -707,7 +748,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void RestoreDoesNotUnpublishPreviousLatestVersion() {
+        public void RestoreDoesNotUnpublishPreviousLatestVersion()
+        {
             // Generate some versions
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Flush();
@@ -730,7 +772,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void RestoreWithPublishUnpublishesPreviousLatestVersion() {
+        public void RestoreWithPublishUnpublishesPreviousLatestVersion()
+        {
             // Generate some versions
             var gamma1 = _manager.Create(DefaultGammaName, VersionOptions.Published);
             Flush();
@@ -754,7 +797,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void ExistingTypeAndPartDefinitionShouldBeUsed() {
+        public void ExistingTypeAndPartDefinitionShouldBeUsed()
+        {
             var alphaType = new ContentTypeDefinitionBuilder()
                 .Named(DefaultAlphaName)
                 .WithSetting("x", "1")
@@ -778,7 +822,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void FieldsCanBeWeldIntoParts() {
+        public void FieldsCanBeWeldIntoParts()
+        {
             var contentItem = _manager.New(DefaultAlphaName);
             var part = contentItem.As<FlavoredPart>();
             var field = new Phi();
@@ -787,7 +832,8 @@ namespace Orchard.Tests.ContentManagement {
         }
 
         [Test]
-        public void PartGetReturnsFieldWithName() {
+        public void PartGetReturnsFieldWithName()
+        {
             var contentItem = _manager.New(DefaultAlphaName);
             var part = contentItem.As<FlavoredPart>();
             var field = new Phi();

@@ -28,7 +28,7 @@ namespace Orchard.Specs
 #line 1 "Users.feature"
 #line hidden
         
-        [NUnit.Framework.TestFixtureSetUpAttribute()]
+        [NUnit.Framework.OneTimeSetUp()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
@@ -37,7 +37,7 @@ namespace Orchard.Specs
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.TestFixtureTearDownAttribute()]
+        [NUnit.Framework.OneTimeTearDown()]
         public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
@@ -449,7 +449,7 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("I should be able to remove an existing user")]
-        [NUnit.Framework.IgnoreAttribute()]
+        [NUnit.Framework.IgnoreAttribute("")]
         [NUnit.Framework.CategoryAttribute("management")]
         public virtual void IShouldBeAbleToRemoveAnExistingUser()
         {

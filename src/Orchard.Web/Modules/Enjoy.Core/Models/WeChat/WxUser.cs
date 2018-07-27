@@ -13,13 +13,15 @@ namespace Enjoy.Core.Models
         [Newtonsoft.Json.JsonProperty("gender")]
         public string Gender { get; set; }
         [Newtonsoft.Json.JsonProperty("city")]
-        public string city { get; set; }
+        public string City { get; set; }
         [Newtonsoft.Json.JsonProperty("province")]
-        public string province { get; set; }
+        public string Province { get; set; }
         [Newtonsoft.Json.JsonProperty("country")]
         public string Country { get; set; }
-        [Newtonsoft.Json.JsonProperty("avatarUrl")]
-        public string avatarUrl { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("headimgurl")]
+        public string AvatarUrl { get; set; }
+
         [Newtonsoft.Json.JsonProperty("unionId")]
         public string UnionId { get; set; }
 

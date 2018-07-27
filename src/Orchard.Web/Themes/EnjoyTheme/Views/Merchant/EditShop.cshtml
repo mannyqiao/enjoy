@@ -17,7 +17,7 @@
         <div class="col-md-4 ">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("EditShopPost", new { ReturnUrl = "/merchant/myshops" })))
             {
-                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.Key)
                 @Html.HiddenFor(m => m.MerchantId)
 
                 <fieldset>

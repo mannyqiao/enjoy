@@ -207,6 +207,10 @@ namespace Enjoy.Core.Services
             return request.GetResponseForJson<WxAccessToken>();
         }
 
-
+        public WxUser GetWxUser(string openid)
+        {
+            var request = WeChatApiRequestBuilder.GenreateQueryWxUserUrl(openid, GetToken());
+            return request.GetResponseForJson<Models.WxUser>();
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Enjoy.Core.Models.Records
 {
     public class MerchantAdmin
     {
+        public virtual long Id { get; set; }
         public virtual EnjoyUser EnjoyUser { get; set; }
         public virtual Merchant Merchant { get; set; }
     }

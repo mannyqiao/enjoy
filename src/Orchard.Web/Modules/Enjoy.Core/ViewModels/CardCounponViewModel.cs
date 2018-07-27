@@ -46,7 +46,7 @@ namespace Enjoy.Core.ViewModels
             this.BaseInfo.CanGivefriend = true;
             this.MerberCard = new MerberCardWapper() { };
         }
-        public int Id { get; set; }
+        public long Key { get; set; }
         public string WxNo { get; set; }
         public CardTypes CardType { get; set; }
         public BaseInfo BaseInfo { get; set; }

@@ -25,7 +25,7 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public Models.ShopModel GetDefaultShop(int shopid)
+        public Models.ShopModel GetDefaultShop(long shopid)
         {
             return this.QueryFirstOrDefault((builder) =>
             {
@@ -34,7 +34,7 @@ namespace Enjoy.Core.Services
             r => new Models.ShopModel(r));
         }
 
-        public Models.PagingData<Models.ShopModel> QueryMyShops(int merchantid, PagingCondition condition)
+        public Models.PagingData<Models.ShopModel> QueryMyShops(long merchantid, PagingCondition condition)
         {
             return base.Query(condition, builder =>
             {
@@ -88,25 +88,18 @@ namespace Enjoy.Core.Services
 
         public void SaveOrUpdate(Models.ShopModel model)
         {
-            this.SaveOrUpdate(model, Validate, Convert);
+            this.SaveOrUpdate(model, Validate, RecordSetter);
 
         }
-        private Records::Shop Convert(Models::ShopModel model)
+        protected override void RecordSetter(Records::Shop record, Models::ShopModel model)
         {
-            var record = this.ConvertToRecord<Int32>(model, (r, m) =>
-            {
-
-                if (r == null) r = new Records::Shop();
-                r.Address = m.Address;
-                r.ShopName = m.ShopName;
-                r.Merchant = new Records.Merchant() { Id = m.Merchant.Id };
-                r.Leader = m.Leader;
-                r.Coordinate = m.Coordinate;
-
-                return r;
-            });
-            return record;
+            record.Address = model.Address;
+            record.ShopName = model.ShopName;
+            record.Merchant = new Records.Merchant() { Id = model.Merchant.Key };
+            record.Leader = model.Leader;
+            record.Coordinate = model.Coordinate;
         }
+
         public IResponse Validate(Models::ShopModel model)
         {
             var errors = new List<string>();
@@ -117,7 +110,7 @@ namespace Enjoy.Core.Services
             return Models::VerifyResponse.CreateSuccessInstance();
         }
 
-        public void DeleteShop(int id)
+        public void DeleteShop(long id)
         {
             this.Delete(id);
         }
