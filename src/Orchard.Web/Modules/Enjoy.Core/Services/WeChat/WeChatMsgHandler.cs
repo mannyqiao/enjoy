@@ -32,32 +32,51 @@ namespace Enjoy.Core
         {
             var crypt = new WXBizMsgCrypt(token);
             var reqMsg = string.Empty;
-            if (crypt.DecryptMsg(token, ref reqMsg) == 0)//解密收到的消息内容
-            {
-                var document = new XmlDocument();
-                document.LoadXml(reqMsg);
-                if (Enum.TryParse(document.SelectSingleNode("/xml/MsgType").InnerText, out MsgTypes msgType))
-                {
-                    using (var reader = new StringReader(reqMsg))
-                    {
-                        if (msgType == MsgTypes.Event)
-                        {
-                            if (Enum.TryParse(document.SelectSingleNode("/xml/Event").InnerText, out EventTypes eventtype) == false)
-                            {
-                                eventtype = EventTypes.Nothing;
-                            }
-                            var model = new XmlSerializer(dictnoary[eventtype]).Deserialize(reader);
-                            //保存解密后的消息文本
-                            this.SaveWxMessageToken(model as WeChatMsgModel);
+            var retVal = crypt.DecryptMsg(token, ref reqMsg);
 
-                            //根据不同的消息类型进行不同的处理
-                            IWeChatEventBehavior behavior = this.Behaviors.FirstOrDefault(o => o.Type == eventtype);
-                            behavior.Execute(model);
+            if (retVal== 0)//解密收到的消息内容
+            {
+                Handle(reqMsg);
+            }
+            else
+            {
+                Logger.Error("消息解密出错 error code: {0}", retVal);
+            }
+        }
+        protected virtual void Completed()
+        {
+            this.OS.WorkContext.HttpContext.Response.Write(string.Empty);
+            this.OS.WorkContext.HttpContext.Response.End();
+        }
+             
+             
+        public void Handle(string xmlMsg)
+        {
+            xmlMsg = xmlMsg.RepairXmlText();
+            var document = new XmlDocument();
+            document.LoadXml(xmlMsg);
+            if (Enum.TryParse(document.SelectSingleNode("/xml/MsgType").InnerText, true, out MsgTypes msgType))
+            {
+                using (var reader = new StringReader(xmlMsg))
+                {
+                    if (msgType == MsgTypes.@event)
+                    {
+                        if (Enum.TryParse(document.SelectSingleNode("/xml/Event").InnerText, true, out EventTypes eventtype) == false)
+                        {
+                            eventtype = EventTypes.Nothing;
                         }
+                        var model = new XmlSerializer(dictnoary[eventtype]).Deserialize(reader);
+                        //保存解密后的消息文本
+                        this.SaveWxMessageToken(model as WeChatMsgModel);
+
+                        //根据不同的消息类型进行不同的处理
+                        IWeChatEventBehavior behavior = this.Behaviors.FirstOrDefault(o => o.Type == eventtype);
+                        behavior.Execute(model);
                     }
                 }
             }
         }
+
         private void SaveWxMessageToken(WeChatMsgModel model)
         {
             var msg = new WxMsg()
@@ -71,6 +90,9 @@ namespace Enjoy.Core
             this.OS.TransactionManager.GetSession().SaveOrUpdate(msg);
 
         }
+
+
+
         Dictionary<EventTypes, Type> dictnoary = new Dictionary<EventTypes, Type>()
         {
             { EventTypes.card_not_pass_check, typeof(CardCouponAuditkWeChatEventArgs) },
@@ -86,6 +108,7 @@ namespace Enjoy.Core
             { EventTypes.card_sku_remind, typeof(SkuRemindWeChatEventArgs) },
             { EventTypes.card_pay_order, typeof(PayOrderWeChatEventArgs) },
             { EventTypes.submit_membercard_user_info, typeof(SubmitMemberCardWeChatEventArgs) },
+            { EventTypes.card_merchant_check_result, typeof(MerchantAuditWeChatEventArgs) },
             { EventTypes.Nothing, typeof(DoNothingWeChatMsgModel) }
         };
 

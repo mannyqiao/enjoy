@@ -22,6 +22,12 @@ namespace Enjoy.Core
         /// <returns></returns>
         Models::MerchantModel GetDefaultMerchant(long id);
         /// <summary>
+        /// 根据WeChat上的商户Id获取子商户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Models::MerchantModel GetDefaultMerchantByWeChatMerchantId(long id);
+        /// <summary>
         /// 保存商户并提交审核
         /// </summary>
         /// <param name="model"></param>
@@ -41,7 +47,7 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="merchantid"></param>
         /// <returns></returns>
-        Models::WxResponseWapper<Models::MerchantModel> QueryApproveStatus(string merchantid);
+        Models::WxResponseWapper<AuditStatus> QueryMerchantStatus(long merchantid);
 
 
         Models::PagingData<Models::MerchantModel> QueryMyMerchants(long userid, int page);

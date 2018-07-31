@@ -4,7 +4,7 @@ namespace Enjoy.Core
 {
     public enum MsgTypes
     {
-        Event = 1,
-        Text = 2,
+        @event = 1,
+        text = 2,
     }
 }

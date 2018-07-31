@@ -5,6 +5,8 @@ using System.Web;
 
 namespace Enjoy.Core.Models
 {
+    using System.Xml.Serialization;
+    [XmlRoot("xml")]
     public class MerchantAuditWeChatEventArgs : WeChatEventArgs
     {
         public int MerchantId { get; set; }

@@ -34,9 +34,22 @@ namespace Enjoy.Core
         }
         public static string Ciphertext(this IEncryptionService service, string cleartext, Encoding encodeing = null)
         {
-            if(encodeing==null)
+            if (encodeing == null)
                 encodeing = UTF8Encoding.Default;
             return Convert.ToBase64String(service.Encode(encodeing.GetBytes(cleartext)));
+        }
+
+        public static string RepairXmlText(this string xmlMsg)
+        {
+            if (string.IsNullOrEmpty(xmlMsg)) return xmlMsg;
+            if (xmlMsg.Trim().StartsWith("<?xml"))
+            {
+                return xmlMsg;
+            }
+            else
+            {
+                return string.Concat(@"<?xml version=""1.0""?>", xmlMsg);
+            }
         }
     }
 }

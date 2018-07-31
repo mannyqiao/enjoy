@@ -7,7 +7,7 @@ namespace Enjoy.Core
 {
     public static class AuditStatusExtension
     {
-        public static string WithDisplayName(this AuditStatus status)
+        public static string WithDisplayName(this AuditStatus status, string errorMsg)
         {
             switch (status)
             {
@@ -20,7 +20,9 @@ namespace Enjoy.Core
                 case AuditStatus.EXPIRED:
                     return "协议过期";
                 case AuditStatus.REJECTED:
-                    return "已拒绝";
+                    return string.Format("<i class=\"fa fa-info-circle red\" title=\"{1}\">{0} </i>", "已拒绝",
+                        errorMsg.Replace("weixincard@tencent.com", "enjoy.vip@hotmail.com")
+                                .Replace("</br>", string.Empty));
                 case AuditStatus.APPROVED:
                     return "审核通过";
             }

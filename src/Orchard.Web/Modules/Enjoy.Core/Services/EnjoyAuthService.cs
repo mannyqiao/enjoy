@@ -196,9 +196,13 @@ namespace Enjoy.Core.Services
                         LastPassword = string.Empty
                     };
                     this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
-                    this.SignIn(new EnjoyUserModel(record), true);
+#if DEBUG
+
+#else
+                   this.SignIn(new EnjoyUserModel(record), true);
+#endif
                     return new AuthQueryResponse(EnjoyConstant.Success, new EnjoyUserModel(record));
-                }                
+                }
                 return new AuthQueryResponse(EnjoyConstant.MobileExists, string.Empty);
             }
             catch (NHibernate.Exceptions.GenericADOException ex)
@@ -290,7 +294,7 @@ namespace Enjoy.Core.Services
             {
                 var code = new VerificationCodeViewModel(mobile, this._codeGenerator.GenerateNewVerifyCode());
                 ctx.Monitor(this._clock.When(TimeSpan.FromMinutes(2)));
-                this._sMSHelper.Send(new QCloudSMS(mobile, VerifyTypes.SignUp, code.Code));
+                this._sMSHelper.Send(new QCloudSMS(mobile, NotifyTypes.VerifyCode, code.Code));
                 firstRequest = true;
                 code.Sended = true;
                 return code;

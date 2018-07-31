@@ -100,10 +100,11 @@ namespace Enjoy.Core.Services
             }
             else
             {
+
                 return new ActionResponse<MerchantModel>(EnjoyConstant.Success, model);
             }
         }
-        
+
         public IResponse Validate(Models::MerchantModel model)
         {
             var errors = new List<string>();
@@ -151,11 +152,19 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public Models.WxResponseWapper<Models.MerchantModel> QueryApproveStatus(string merchantid)
+        public Models.WxResponseWapper<AuditStatus> QueryMerchantStatus(long merchantid)
         {
-            throw new NotImplementedException();
+            var model = this.QueryFirstOrDefault((builder) =>
+             {
+                 builder.Add(Expression.Eq("MerchantId", merchantid));
+             }, r => new MerchantModel(r));
+            return new WxResponseWapper<AuditStatus>()
+            {
+                ErrCode = model == null ? EnjoyConstant.ObjectNotExits : EnjoyConstant.Success,
+                Info = model == null ? AuditStatus.NotFond : model.Status
+            };
         }
-
+        
         public Models.PagingData<Models.MerchantModel> QueryMyMerchants(long userid, int page)
         {
             var apply = this.WeChat.GetApplyProtocol();
@@ -198,6 +207,16 @@ namespace Enjoy.Core.Services
             var model = this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("Id", id));
+            },
+            r => new Models.MerchantModel(r));
+            return model;
+        }
+
+        public Models.MerchantModel GetDefaultMerchantByWeChatMerchantId(long merchantid)
+        {
+            var model = this.QueryFirstOrDefault((builder) =>
+            {
+                builder.Add(Expression.Eq("MerchantId", merchantid));
             },
             r => new Models.MerchantModel(r));
             return model;

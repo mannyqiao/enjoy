@@ -19,7 +19,7 @@ namespace Enjoy.Core.Models
         {
             this.ShopName = viewModel.ShopName;
             this.Merchant = new MerchantModel() { Key = viewModel.MerchantId };
-            this.Key = viewModel.Key;
+            this.Key = viewModel.Id;
             this.Leader = viewModel.Leader;
             this.Address = viewModel.AddressInfo;
             this.Coordinate = viewModel.Coordinate ?? "{}";

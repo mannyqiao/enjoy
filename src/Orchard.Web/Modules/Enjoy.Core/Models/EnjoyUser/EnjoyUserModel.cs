@@ -3,7 +3,7 @@
 namespace Enjoy.Core.Models
 {
     using Enjoy.Core.Models.Records;
-    
+
     public class EnjoyUserModel : IEnjoyUser
     {
         public EnjoyUserModel(EnjoyUser record)
@@ -18,6 +18,7 @@ namespace Enjoy.Core.Models
             this.LastActiveTime = record.LastActivityTime;
             this.AvatarUrl = record.Profile;
         }
+        public EnjoyUserModel() { }
         public long Id { get; set; }
         public string Mobile { get; set; }
         public string NickName { get; set; }
