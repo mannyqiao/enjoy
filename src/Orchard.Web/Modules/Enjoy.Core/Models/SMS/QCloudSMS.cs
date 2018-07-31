@@ -8,7 +8,7 @@ namespace Enjoy.Core.Models
     {
 
        
-        public QCloudSMS(string mobile, NotifyTypes type, params string[] parameters)
+        public QCloudSMS(string mobile, SMSNotifyTypes type, params string[] parameters)
         {
             this.Mobile = mobile;
             this.Parameters = parameters;
@@ -19,7 +19,7 @@ namespace Enjoy.Core.Models
 
         public long CreatedTime { get; private set; }
 
-        public NotifyTypes Type { get; private set; }
+        public SMSNotifyTypes Type { get; private set; }
         public string[] Parameters
         {
             get;
@@ -36,9 +36,9 @@ namespace Enjoy.Core.Models
         {
             switch (this.Type)
             {
-                case NotifyTypes.VerifyCode:
+                case SMSNotifyTypes.VerifyCode:
                     return string.Format("你本次操作的验证码是{0}，有效期{1}分钟。", this.Parameters);
-                case NotifyTypes.MerchantAudit:
+                case SMSNotifyTypes.MerchantAudit:
                     return string.Format("你的商户[{0}],审核{1}. 登录 https://www.yourc.club/ 查看详情", this.Parameters);
             }
             return string.Empty;

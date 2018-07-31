@@ -155,8 +155,8 @@
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
     <Compile Include="Models\Enums\MsgTypes.cs" />
-    <Compile Include="Models\Enums\NotifyTypes.cs" />
     <Compile Include="Models\Enums\RegistryTypes.cs" />
+    <Compile Include="Models\Enums\SMSNotifyTypes.cs" />
     <Compile Include="Models\Enums\VerifyTypes.cs" />
     <Compile Include="Models\Merchant\CardCounponModel.cs" />
     <Compile Include="Models\Merchant\MerchantModel.cs" />

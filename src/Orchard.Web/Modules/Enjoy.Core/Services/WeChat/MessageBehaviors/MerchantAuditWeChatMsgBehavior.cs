@@ -33,7 +33,7 @@ namespace Enjoy.Core.Services
             var merchant = this.Merchant.GetDefaultMerchantByWeChatMerchantId(model.MerchantId);
             this.SMSHelper.Send(new QCloudSMS(
                 merchant.EnjoyUser.Mobile,
-                NotifyTypes.MerchantAudit,
+                SMSNotifyTypes.MerchantAudit,
                 merchant.BrandName,
                 model.IsPass == 0 ? "失败" : "成功"));
 

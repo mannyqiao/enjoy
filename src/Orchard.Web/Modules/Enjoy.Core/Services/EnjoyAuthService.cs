@@ -21,6 +21,7 @@ namespace Enjoy.Core.Services
     using System.Web.Security;
     using System.Web;
     using Orchard.Mvc.Extensions;
+    using Orchard.UI.Notify;
 
     public class EnjoyAuthService : IEnjoyAuthService
     {
@@ -294,7 +295,7 @@ namespace Enjoy.Core.Services
             {
                 var code = new VerificationCodeViewModel(mobile, this._codeGenerator.GenerateNewVerifyCode());
                 ctx.Monitor(this._clock.When(TimeSpan.FromMinutes(2)));
-                this._sMSHelper.Send(new QCloudSMS(mobile, NotifyTypes.VerifyCode, code.Code));
+                this._sMSHelper.Send(new QCloudSMS(mobile, SMSNotifyTypes.VerifyCode, code.Code));
                 firstRequest = true;
                 code.Sended = true;
                 return code;
