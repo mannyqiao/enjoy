@@ -295,7 +295,7 @@ namespace Enjoy.Core.Services
             {
                 var code = new VerificationCodeViewModel(mobile, this._codeGenerator.GenerateNewVerifyCode());
                 ctx.Monitor(this._clock.When(TimeSpan.FromMinutes(2)));
-                this._sMSHelper.Send(new QCloudSMS(mobile, SMSNotifyTypes.VerifyCode, code.Code));
+                this._sMSHelper.Send(new QCloudSMS(mobile, SMSNotifyTypes.VerifyCode, code.Code, 2.ToString()));
                 firstRequest = true;
                 code.Sended = true;
                 return code;

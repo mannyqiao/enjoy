@@ -7,12 +7,13 @@ namespace Enjoy.Core.Models
     public class QCloudSMS : ISMSEntity
     {
 
-       
+
         public QCloudSMS(string mobile, SMSNotifyTypes type, params string[] parameters)
         {
             this.Mobile = mobile;
             this.Parameters = parameters;
             this.CreatedTime = DateTime.Now.ToUnixStampDateTime();
+            this.Type = type;
         }
         public string Mobile { get; private set; }
 

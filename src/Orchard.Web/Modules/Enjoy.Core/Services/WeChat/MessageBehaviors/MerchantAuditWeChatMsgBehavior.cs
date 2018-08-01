@@ -17,6 +17,7 @@ namespace Enjoy.Core.Services
             ISMSHelper smsHelper) : base(os)
         {
             this.Merchant = merchant;
+            this.SMSHelper = smsHelper;
         }
 
         public override EventTypes Type
