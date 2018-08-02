@@ -5,11 +5,11 @@ namespace Enjoy.Core.Api
 {
     using System.Web.Http;
     using Orchard;
-    using Enjoy.Core.EModels;
+    using Enjoy.Core.EnjoyModels;
     using Orchard.Logging;
     using Enjoy.Core;
     using System.IO;
-
+    using Enjoy.Core.WeChatModels;
     //[Authorize]
     public class EnjoyController : ApiController
     {

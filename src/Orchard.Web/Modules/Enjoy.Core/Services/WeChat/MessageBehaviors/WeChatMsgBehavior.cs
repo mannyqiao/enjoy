@@ -1,11 +1,10 @@
-﻿using System;
-using Enjoy.Core.Models;
+﻿
 
 namespace Enjoy.Core.Services
 {
     using Orchard;
     using System;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.WeChatModels;
     using System.Xml;
     using System.Xml.Serialization;
     using System.IO;

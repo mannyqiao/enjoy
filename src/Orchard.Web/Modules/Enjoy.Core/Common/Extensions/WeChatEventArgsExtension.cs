@@ -1,7 +1,8 @@
 ﻿
 namespace Enjoy.Core
 {
-    using Enjoy.Core.EModels;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
     using System;
     public static class WeChatEventArgsExtension
     {

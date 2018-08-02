@@ -7,12 +7,10 @@ namespace Enjoy.Core.Controllers
     using Enjoy.Core.ViewModels;
     using Orchard.Mvc.Extensions;
     using Orchard.Themes;
-    using System.Linq;
     using System.IO;
     using Orchard;
-    using System.Collections.Generic;
     using System;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
     using Enjoy.Core;
     [Themed]
     public class MerchantController : Controller
@@ -50,15 +48,19 @@ namespace Enjoy.Core.Controllers
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
-            var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(), this.WeChat.GetApplyProtocol());
+            var model = new MerchantModel()
+            {
+                EnjoyUser = new EnjoyUserModel() { Id = this.Auth.GetAuthenticatedUser().Id }
+            };
+            var viewModel = client.Convert(model, this.WeChat.GetApplyProtocol());
             return View(viewModel);
         }
-        public ActionResult View(int id)
+        public ActionResult View(long id)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
 
-            var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(), this.WeChat.GetApplyProtocol());
+            var viewModel = client.Convert(this.Merchant.GetDefaultMerchant(id), this.WeChat.GetApplyProtocol());
             return View(viewModel);
         }
         [HttpPost]
@@ -69,7 +71,7 @@ namespace Enjoy.Core.Controllers
 
             model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser() as EnjoyUserModel;
             model.Merchant.Address = string.Join("/", new string[] { model.Province, model.City, model.Area });
-            model.Merchant.BeginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
+            model.Merchant.BeginTime = DateTime.Now.ToUnixStampDateTime(); //model.StartTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.Status = AuditStatus.UnCommitted;
             if (model.Merchant.Id.Equals(0))
@@ -79,7 +81,7 @@ namespace Enjoy.Core.Controllers
             return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
         [HttpPost]
-        public JsonNetResult Audit(int id)
+        public JsonNetResult Audit(long id)
         {
             var model = this.Merchant.GetDefaultMerchant(id);
             var data = this.Merchant.SaveAndPushToWeChat(model);
@@ -161,14 +163,21 @@ namespace Enjoy.Core.Controllers
             model.Draw = filter.Draw;
             return new JsonNetResult() { Data = model };
         }
+        [HttpPost]
         public JsonNetResult QueryMyMerchant(QueryFilter filter)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return new JsonNetResult() { Data = new { } };
 
-            var condition = new PagingCondition(filter.Start, filter.Length);
+            filter.Columns.Add(new QueryColumnFilter()
+            {
+                Data = "EnjoyUser.Id",
+                Searchable = true,
+                Search = new SearchColumnFilter() { Regex = false, Value = this.Auth.GetAuthenticatedUser().Id }
+            });
 
-            var viewModel = this.Merchant.QueryMyMerchants(this.Auth.GetAuthenticatedUser().Id, page);
+            var condition = new PagingCondition(filter.Start, filter.Length);
+            var viewModel = this.Merchant.QueryMyMerchants(filter, condition);
             return new JsonNetResult() { Data = viewModel };
         }
         public ActionResult EditShop(int? id = null)
@@ -178,7 +187,7 @@ namespace Enjoy.Core.Controllers
             var merchant = this.Merchant.GetDefaultMerchant();
 
             var viewModel = id == null
-                ? new ShopViewModel(new Models.ShopModel(merchant))
+                ? new ShopViewModel(new ShopModel(merchant))
                 : new ShopViewModel(this.Shop.GetDefaultShop(id.Value));
             viewModel.Protocol = this.WeChat.GetApplyProtocol();
             return View(viewModel);
@@ -188,7 +197,7 @@ namespace Enjoy.Core.Controllers
         public ActionResult EditShopPost(ShopViewModel viewModel, string returnUrl)
         {
             //var merchant = this.Merchant.GetDefaultMerchant();
-            var model = new Models.ShopModel(viewModel);
+            var model = new ShopModel(viewModel);
             this.Shop.SaveOrUpdate(model);
             return this.RedirectLocal(returnUrl);
         }

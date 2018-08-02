@@ -1,12 +1,11 @@
-﻿using Enjoy.Core.Models.Records;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
+
 
 namespace Enjoy.Core.ViewModels
 {
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.WeChatModels;
     public class MerchantViewModel
     {
         public MerchantViewModel()

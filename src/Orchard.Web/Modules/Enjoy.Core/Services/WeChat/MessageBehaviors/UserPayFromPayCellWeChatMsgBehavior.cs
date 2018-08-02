@@ -7,7 +7,9 @@ using System.Web;
 namespace Enjoy.Core.Services
 {
     using Orchard;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
+
     public class UserPayFromPayCellWeChatMsgBehavior : WeChatMsgBehavior<PayFromPayCellWeChatEventArgs>
     {
         public UserPayFromPayCellWeChatMsgBehavior(IOrchardServices os)

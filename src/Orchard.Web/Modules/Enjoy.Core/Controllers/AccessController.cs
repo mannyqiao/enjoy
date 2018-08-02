@@ -7,7 +7,7 @@ namespace Enjoy.Core.Controllers
     using Orchard.Mvc.Extensions;
     using Orchard.Themes;
     using System.Web.Mvc;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
     [Themed]
     public class AccessController : Controller
     {
@@ -20,7 +20,7 @@ namespace Enjoy.Core.Controllers
         }
         // GET: Sign
         public ActionResult Sign(bool signin = true)
-        {          
+        {
             if (this.Auth.GetAuthenticatedUser() != null)
                 return this.RedirectLocal("/dashboard/summary");
 
@@ -67,12 +67,23 @@ namespace Enjoy.Core.Controllers
             return Json(this.Auth.QueryByMobile(mobile).ErrorCode == EnjoyConstant.MobileNotExists,
                 JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonNetResult VerifyCode(string mobile, string code)
+        {
+            return new JsonNetResult()
+            {
+                Data = this.Auth.IsEquals(mobile, code)
+            };
+        }
+
+
         [HttpPost]
         public ActionResult SignUp(SignUpViewModel model, string returnUrl = null)
         {
             if (this.Auth.GetAuthenticatedUser() != null)
                 return this.RedirectLocal("/dashboard/summary");
-            
+
             var result = this.Auth.SignUp(model);
             return this.RedirectLocal("/dashboard/summary");
         }

@@ -4,14 +4,14 @@
 namespace Orchard.Tests.Modules.EnjoyCore
 {
     using NUnit.Framework;
-    using Enjoy.Core.Models.Records;
+    using Enjoy.Core.Records;
     using System.Globalization;
     using System.Threading;
     using Autofac;
     using NHibernate;
     using Enjoy.Core;
     using Enjoy.Core.Services;
-    using Enjoy.Core.Models;
+   
     using Enjoy.Core.ViewModels;
     using System;
     using System.Collections.Generic;
@@ -43,6 +43,8 @@ namespace Orchard.Tests.Modules.EnjoyCore
     using Orchard.UI.PageClass;
     using Orchard.Services;
     using Orchard.Users.Events;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
 
     [TestFixture]
     public class WeChatEventTests : DatabaseEnabledTestsBase
@@ -64,7 +66,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
                     typeof(Merchant),   //             
                     typeof(Shop),//
                     typeof(CardCoupon),//
-                    typeof(Enjoy.Core.Models.Records.WxUser),//
+                    typeof(Enjoy.Core.Records.WxUser),//
                     typeof(WxMsg),
                     //typeof(XNotification),
                     typeof(MerchantWxUser),
@@ -262,9 +264,9 @@ namespace Orchard.Tests.Modules.EnjoyCore
             {
                 WxNo = _cardid,
                 CardType = CardTypes.CASH,
-                AdvancedInfo = new WeChat.Models.AdvancedInfo()
+                AdvancedInfo = new AdvancedInfo()
                 {
-                    Abstract = new WeChat.Models.Abstract()
+                    Abstract = new Abstract()
                     {
                         AbstractX = "xx",
                         IconUrlList = new string[]
@@ -274,11 +276,11 @@ namespace Orchard.Tests.Modules.EnjoyCore
                         }
                     },
                     BusinessService = new string[] { },
-                    TextImageList = new List<WeChat.Models.TextImage>() {
-                          new WeChat.Models.TextImage(){ }
+                    TextImageList = new List<TextImage>() {
+                          new TextImage(){ }
                       },
-                    TimeLimits = new WeChat.Models.TimeLimit[] { },
-                    UseCondition = new WeChat.Models.UseCondition()
+                    TimeLimits = new TimeLimit[] { },
+                    UseCondition = new UseCondition()
                     {
                         AcceptCategory = string.Empty,
                         CanUseWithOtherDiscount = false,
@@ -286,7 +288,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
                     }
                 }
                 ,
-                BaseInfo = new WeChat.Models.BaseInfo()
+                BaseInfo = new BaseInfo()
                 {
                     CodeType = CardTypes.CASH.ToString(),
                     BindOpenid = true,
@@ -300,7 +302,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
                     CustomUrl = string.Empty,
                     CustomUrlName = string.Empty,
                     CustomUrlSubTitle = string.Empty,
-                    Dateinfo = new WeChat.Models.DateInfo()
+                    Dateinfo = new DateInfo()
                     {
                         Type = ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),
                         FixedBeginTerm = 1,
@@ -315,7 +317,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
                     PromotionUrl = string.Empty,
                     PromotionUrlName = string.Empty,
                     ServicePhone = "13961576298",
-                    Sku = new WeChat.Models.Sku() { Quantity = 1000 },
+                    Sku = new Sku() { Quantity = 1000 },
                     Source = string.Empty,
                     Title = string.Empty,
                     UseCustomCode = false

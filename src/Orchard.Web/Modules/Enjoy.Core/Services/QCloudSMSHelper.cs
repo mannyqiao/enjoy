@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.Services
 {
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
     using qcloudsms_csharp;
     public class QCloudSMSHelper : ISMSHelper
     {

@@ -3,8 +3,10 @@
 namespace Enjoy.Core.ViewModels
 {
     using System;
-    using WeChat.Models;
+    
     using System.Linq;
+    using Enjoy.Core.WeChatModels;
+
     public class CardCounponViewModel
     {
         public CardCounponViewModel()

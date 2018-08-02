@@ -4,7 +4,7 @@
 
 namespace Enjoy.Core
 {
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
     using Orchard;
     using Orchard.Logging;
     using System;
@@ -13,8 +13,8 @@ namespace Enjoy.Core
     using System.Xml;
     using System.Xml.Serialization;
     using System.Linq;
-    using Enjoy.Core.Models.Records;
-
+    using Enjoy.Core.Records;
+    using Enjoy.Core.WeChatModels;
     public class WeChatMsgHandler : IWeChatMsgHandler
     {
         private IEnumerable<IWeChatEventBehavior> Behaviors;

@@ -3,7 +3,8 @@
 
 namespace Enjoy.Core.Services
 {
-    using Enjoy.Core.Models;
+    
+    using Enjoy.Core.WeChatModels;
     using Orchard;
     /// <summary>
     /// 卡券审核不通过消息

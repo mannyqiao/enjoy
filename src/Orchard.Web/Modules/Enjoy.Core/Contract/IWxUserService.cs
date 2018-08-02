@@ -3,7 +3,8 @@
 namespace Enjoy.Core
 {
     using Orchard;
-    using Enjoy.Core.Models;
+    using EnjoyModels = Enjoy.Core.EnjoyModels;
+    using WeChatModels = Enjoy.Core.WeChatModels;
     public interface IWxUserService : IDependency
     {
         /// <summary>
@@ -11,24 +12,24 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns></returns>
-        long Register(WxUserModel userModel);
+        long Register(EnjoyModels::WxUserModel userModel);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns></returns>
-        long Register(WxUser userModel);
+        long Register(WeChatModels::WxUser userModel);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        WxUserModel GetWxUser(long id);
+        EnjoyModels::WxUserModel GetWxUser(long id);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="unionid"></param>
         /// <returns></returns>
-        WxUserModel GetWxUser(string unionid);
+        EnjoyModels::WxUserModel GetWxUser(string unionid);
     }
 }

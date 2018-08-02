@@ -4,13 +4,14 @@ namespace Enjoy.Core.Services
 {
     using Orchard.Caching;
     using Orchard.Services;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
     using System;
     using System.Text;
     using System.IO;
     using System.Security.Cryptography;
     using Orchard;
     using Orchard.Logging;
+    using Enjoy.Core.WeChatModels;
 
     public class WeChatApi : IWeChatApi
     {
@@ -210,7 +211,7 @@ namespace Enjoy.Core.Services
         public WxUser GetWxUser(string openid)
         {
             var request = WeChatApiRequestBuilder.GenreateQueryWxUserUrl(openid, GetToken());
-            return request.GetResponseForJson<Models.WxUser>();
+            return request.GetResponseForJson<WxUser>();
         }
     }
 }

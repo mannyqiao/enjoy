@@ -2,18 +2,18 @@
 
 namespace Enjoy.Core
 {
-    using Enjoy.Core.Models.Records;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.EnjoyModels;
     using Enjoy.Core.ViewModels;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using WeChat = WeChat.Models;
-    using WeChat.Models;
+    using WeChatModels = Enjoy.Core.WeChatModels;
+    using Enjoy.Core.WeChatModels;
 
     public class ModelClient
     {
-        public MerchantViewModel Convert(MerchantModel model, ApplyProtocolWxResponse apply_protocol)
+        public MerchantViewModel Convert(MerchantModel model, WeChatModels::ApplyProtocolWxResponse apply_protocol)
         {
             var viewModel = new MerchantViewModel();
             viewModel.Merchant = model;
@@ -36,9 +36,10 @@ namespace Enjoy.Core
                   return name;
               }).ToList();
             viewModel.OwnerId = model.EnjoyUser.Id;
-            viewModel.ApplyProtocol = apply_protocol;            
+            viewModel.ApplyProtocol = apply_protocol;
             viewModel.StartTimeString = model.BeginTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
             viewModel.EndTimeString = model.EndTime.ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
+            viewModel.Status = model.Status;
             return viewModel;
         }
         public CardCounponModel Convert(CardCounponViewModel viewModel, MerchantModel merchant)
@@ -60,11 +61,11 @@ namespace Enjoy.Core
             switch (viewModel.CardType)
             {
                 case CardTypes.CASH:
-                    model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
+                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
                     {
-                        Card = new WeChat::CashCoupon()
+                        Card = new WeChatModels::CashCoupon()
                         {
-                            CardCoupon = new WeChat.CashWapper()
+                            CardCoupon = new WeChatModels::CashWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
@@ -75,11 +76,11 @@ namespace Enjoy.Core
                     };
                     break;
                 case CardTypes.DISCOUNT:
-                    model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
+                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
                     {
-                        Card = new WeChat::DiscountCoupon()
+                        Card = new WeChatModels::DiscountCoupon()
                         {
-                            CardCoupon = new WeChat.DiscountWapper()
+                            CardCoupon = new WeChatModels::DiscountWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
@@ -90,11 +91,11 @@ namespace Enjoy.Core
                     };
                     break;
                 case CardTypes.GENERAL_COUPON:
-                    model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
+                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
                     {
-                        Card = new WeChat::GeneralCoupon()
+                        Card = new WeChatModels::GeneralCoupon()
                         {
-                            CardCoupon = new WeChat.GeneralWapper()
+                            CardCoupon = new WeChatModels::GeneralWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
@@ -105,11 +106,11 @@ namespace Enjoy.Core
                     };
                     break;
                 case CardTypes.GIFT:
-                    model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
+                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
                     {
-                        Card = new WeChat::GiftCoupon()
+                        Card = new WeChatModels::GiftCoupon()
                         {
-                            CardCoupon = new WeChat.GiftWapper()
+                            CardCoupon = new GiftWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
@@ -120,11 +121,11 @@ namespace Enjoy.Core
                     };
                     break;
                 case CardTypes.GROUPON:
-                    model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
+                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
                     {
-                        Card = new WeChat::Groupon()
+                        Card = new WeChatModels::Groupon()
                         {
-                            CardCoupon = new WeChat.GrouponWapper()
+                            CardCoupon = new WeChatModels::GrouponWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
@@ -139,11 +140,11 @@ namespace Enjoy.Core
                     viewModel.BaseInfo.CustomUrlName = "分享赚积分";
                     viewModel.BaseInfo.CustomUrlSubTitle = "戳我";
                     viewModel.BaseInfo.CustomUrl = "";
-                    model.CardCouponWapper = new WxCardCouponWapper<ICardCoupon>()
+                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
                     {
-                        Card = new WeChat::MemberCard()
+                        Card = new WeChatModels::MemberCard()
                         {
-                            CardCoupon = new WeChat::MerberCardWapper()
+                            CardCoupon = new WeChatModels::MerberCardWapper()
                             {
                                 BaseInfo = viewModel.BaseInfo,
                                 AdvancedInfo = viewModel.AdvancedInfo,
@@ -204,7 +205,7 @@ namespace Enjoy.Core
                 baseInfo.PromotionUrlName = "更多优惠";
                 baseInfo.PromotionUrl = "wx6647cb456db305dd@app";
 
-                advanceInfo.Abstract = new WeChat.Abstract()
+                advanceInfo.Abstract = new WeChatModels::Abstract()
                 {
                     AbstractX = "柠檬工坊推出更多东西，期待你的光临"
                 };
@@ -226,7 +227,7 @@ namespace Enjoy.Core
             {
                 case CardTypes.CASH:
                     {
-                        var common = model.CardCouponWapper.Card as CashCoupon;
+                        var common = model.CardCouponWapper.Card as WeChatModels::CashCoupon;
                         viewModel.BaseInfo = common.CardCoupon.BaseInfo;
                         viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
                         viewModel.Cash = new CashSpecific()
@@ -238,7 +239,7 @@ namespace Enjoy.Core
                     break;
                 case CardTypes.DISCOUNT:
                     {
-                        var common = model.CardCouponWapper.Card as DiscountCoupon;
+                        var common = model.CardCouponWapper.Card as WeChatModels::DiscountCoupon;
                         viewModel.BaseInfo = common.CardCoupon.BaseInfo;
                         viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
                         viewModel.Discount = new DiscountSpecific()
@@ -249,7 +250,7 @@ namespace Enjoy.Core
                     break;
                 case CardTypes.GENERAL_COUPON:
                     {
-                        var common = model.CardCouponWapper.Card as GeneralCoupon;
+                        var common = model.CardCouponWapper.Card as WeChatModels::GeneralCoupon;
                         viewModel.BaseInfo = common.CardCoupon.BaseInfo;
                         viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
                         viewModel.General = new GeneralCouponSpecific()
@@ -260,7 +261,7 @@ namespace Enjoy.Core
                     break;
                 case CardTypes.GIFT:
                     {
-                        var common = model.CardCouponWapper.Card as GiftCoupon;
+                        var common = model.CardCouponWapper.Card as WeChatModels::GiftCoupon;
                         viewModel.BaseInfo = common.CardCoupon.BaseInfo;
                         viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
                         viewModel.Gift = new GiftSpecific()
@@ -271,7 +272,7 @@ namespace Enjoy.Core
                     break;
                 case CardTypes.GROUPON:
                     {
-                        var common = model.CardCouponWapper.Card as Groupon;
+                        var common = model.CardCouponWapper.Card as WeChatModels::Groupon;
                         viewModel.BaseInfo = common.CardCoupon.BaseInfo;
                         viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
                         viewModel.Groupon = new GrounponSpecific()
@@ -282,10 +283,10 @@ namespace Enjoy.Core
                     break;
                 case CardTypes.MEMBER_CARD:
                     {
-                        var common = model.CardCouponWapper.Card as MemberCard;
+                        var common = model.CardCouponWapper.Card as WeChatModels::MemberCard;
                         viewModel.BaseInfo = common.CardCoupon.BaseInfo;
                         viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
-                        viewModel.MerberCard = new MerberCardWapper()
+                        viewModel.MerberCard = new WeChatModels::MerberCardWapper()
                         {
                             BackgroundPicUrl = common.CardCoupon.BackgroundPicUrl,
                             Prerogative = common.CardCoupon.Prerogative,
@@ -319,14 +320,14 @@ namespace Enjoy.Core
                     case ExpiryDateTypes.DATE_TYPE_PERMANENT:
                         break;
                 }
-            }          
+            }
             return viewModel;
         }
-        public WxRequestWapper<SubMerchant> Convert(Merchant merchant)
+        public WeChatModels::WxRequestWapper<WeChatModels::SubMerchant> Convert(Merchant merchant)
         {
-            return new WxRequestWapper<SubMerchant>()
+            return new WeChatModels::WxRequestWapper<WeChatModels::SubMerchant>()
             {
-                Info = new SubMerchant()
+                Info = new WeChatModels::SubMerchant()
                 {
                     BrandName = merchant.BrandName,
                     EndTime = merchant.EndTime,
@@ -339,7 +340,7 @@ namespace Enjoy.Core
                 }
             };
         }
-        public IEnumerable<SelectNodeViewModel> Convert(ApplyProtocolWxResponse response)
+        public IEnumerable<SelectNodeViewModel> Convert(WeChatModels::ApplyProtocolWxResponse response)
         {
             return response.Categories.Select((ctx) =>
             {

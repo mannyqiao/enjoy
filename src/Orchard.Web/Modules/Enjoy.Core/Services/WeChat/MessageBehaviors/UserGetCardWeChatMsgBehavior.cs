@@ -2,8 +2,9 @@
 
 namespace Enjoy.Core.Services
 {
-    using Enjoy.Core.Models;
-    using Enjoy.Core.Models.Records;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.WeChatModels;
     using Orchard;
 
     public class UserGetCardWeChatMsgBehavior : WeChatMsgBehavior<GetCardCouponWeChatEventArgs>
