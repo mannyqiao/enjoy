@@ -44,15 +44,16 @@
                         <a href="https://mp.weixin.qq.com/zh_CN/htmledition/comm_htmledition/res/cardticket/wx_cardticket_assist_agent.pdf" target="_blank">下载模版</a>
                     </div>
                 </div>
-                <div class="row">
+                @*<div class="row">
                     <div class="col-lg-12">
-                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "", true))
+                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "", true))                        
                     </div>
-                </div>
+                </div>*@
                 <div class="row">
                     <div class="col-lg-12">
                         @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.EndTimeString),
-                           "结束时间", Model.EndTimeString,"", true))
+                           "授权截止日期", Model.EndTimeString,"", true))
+                        <p class="help-block">结束时间应与授权函保持一致.</p>
                     </div>
                 </div>
 
@@ -71,7 +72,9 @@
                         <select class="form-control area" name="@Html.NameOf(m => m.Area)" data-value="@Model.Area"></select>
                     </div>
                 </div>
-                if ((Model.Status == Enjoy.Core.AuditStatus.APPROVED) == false)
+                if ((Model.Status == Enjoy.Core.AuditStatus.UnCommitted
+                    || Model.Status == Enjoy.Core.AuditStatus.REJECTED
+                    || Model.Status == Enjoy.Core.AuditStatus.EXPIRED))
                 {
                     <button type="submit" class="btn btn-lg btn-success btn-block">保存更改</button>
                 }
@@ -119,12 +122,12 @@
                 upload_cover(target, setback_id);
             });
 
-            $("form").html5Validate(function () {                
+            $("form").html5Validate(function () {
                 this.submit();
             },
-            {
-                // novalidate: false
-            });
+                {
+                    // novalidate: false
+                });
         });
     </script>
 }

@@ -10,7 +10,6 @@ namespace Enjoy.Core.Services
     using NHibernate;
     using NHibernate.Criterion;
     using System.Linq;
-    using Enjoy.Core.ViewModels;
     using System.Collections.Generic;
 
     public abstract class QueryBaseService<R, M> : IQueryService<R, M>
@@ -27,25 +26,22 @@ namespace Enjoy.Core.Services
             this.OS = os;
         }
 
-        public virtual PagingData<M> Query(Action<ICriteria> builder, Func<R, M> convert)
-        {
-            return Query(null, builder, convert);
-        }
-
-        public virtual PagingData<M> QueryByPaging(PagingCondition condition, Action<ICriteria> builder, Func<R, M> convert)
-        {
-            return Query(condition, builder, convert);
-        }
-
-        public PagingData<M> Query(PagingCondition condition, Action<ICriteria> builder, Func<R, M> convert)
+        public PagingData<M> Query(
+            QueryFilter filter,
+            PagingCondition condition,
+            Action<ICriteria> builder,
+            Func<R, M> convert)
         {
             var session = this.OS.TransactionManager.GetSession();
             var criteria = session.CreateCriteria(typeof(R));
-            builder(criteria);
-
+            condition = condition ?? new PagingCondition(0, int.MaxValue);
+            if (filter != null)
+            {
+                criteria.WithQueryFilter(filter).WithQueryOrder(filter);
+                builder(criteria);
+                criteria.ClearOrders();
+            }
             var pageCriteria = CriteriaTransformer.Clone(criteria);
-
-            criteria.ClearOrders();
             var page = (condition.Skip / condition.Take) - 1;
             return new PagingData<M>()
             {
@@ -59,70 +55,54 @@ namespace Enjoy.Core.Services
             };
         }
 
+        public PagingData<M> Query(PagingCondition condition, Action<ICriteria> builder, Func<R, M> convert)
+        {
+            return Query(null, condition, builder, convert);
+        }
 
-        public virtual M QueryFirstOrDefault(Action<ICriteria> builder, Func<R, M> convert)
+        public PagingData<M> Query(Action<ICriteria> builder, Func<R, M> convert)
         {
-            var session = this.OS.TransactionManager.GetSession();
-            var criteria = session.CreateCriteria(typeof(R));
-            builder(criteria);
-            return convert(criteria.SetFirstResult(0)
-                .SetMaxResults(1)
-                .UniqueResult<R>());
+            return Query(null, builder, convert);
         }
-        public virtual T QueryFirstOrDefault<T>(Action<ICriteria> builder)
+
+        public M QueryFirstOrDefault(Action<ICriteria> builder, Func<R, M> convert)
         {
-            var session = this.OS.TransactionManager.GetSession();
-            var criteria = session.CreateCriteria(typeof(R));
-            builder(criteria);
-            return criteria.SetFirstResult(0)
-                .SetMaxResults(1)
-                .UniqueResult<T>();
+            var result = Query(new PagingCondition(0, 1), builder, convert);
+            return result.GetSigleOrDefault();
         }
-        public ActionResponse<M> SaveOrUpdate(
-            M model,
-            Func<M, IResponse> validate,
-            Action<R, M> setter)
+
+        public ActionResponse<M> SaveOrUpdate(M model, Func<M, IResponse> validate, Action<R, M> setter)
         {
             var check = validate(model);
             if (check.HasError)
                 return new ActionResponse<M>(check.ErrorCode);
             var session = this.OS.TransactionManager.GetSession();
-            var record = session.Get<R>(model.Key);
+            var record = session.Get<R>(model.Id);
             if (record == null)
                 record = Activator.CreateInstance<R>();
             setter(record, model);
             session.SaveOrUpdate(record);
-            model.Key = record.Id;
+            model.Id = record.Id;
             return new ActionResponse<M>(EnjoyConstant.Success, model);
         }
-        protected abstract void RecordSetter(R record, M model);
+
         public BaseResponse Delete(long id)
         {
-            var session = this.OS.TransactionManager.GetSession();
-            session.Delete(session.Get<R>(id));
-            return new BaseResponse(EnjoyConstant.Success);
+            throw new NotImplementedException();
         }
 
         public BaseResponse Delete(ISQLQuery query)
         {
-            return new BaseResponse(0);
+            throw new NotImplementedException();
         }
 
-        public R GetRecord(int id)
+        public BaseResponse Delete(QueryFilter filter)
         {
-            var session = this.OS.TransactionManager.GetSession();
-            return session.Get<R>(id);
+            throw new NotImplementedException();
         }
 
-        public R ConvertToRecord<TKeyType>(M model, Func<R, M, R> convert)
-        {
-            var session = this.OS.TransactionManager.GetSession();
-            var id = (model as IEntityKey<TKeyType>).Id;
-            var record = session.Get<R>(id);//make sure record is query from NHibrate
-            return convert(record, model);
-        }
 
-        public virtual IEnumerable<ICriterion> Criterias(QueryFilter filter)
+        public virtual IEnumerable<ICriterion> GenerateCriterions(QueryFilter filter)
         {
             foreach (var column in filter.Columns)
             {
@@ -169,7 +149,7 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public virtual IEnumerable<Order> Orders(QueryFilter filter)
+        public virtual IEnumerable<Order> GenerateOrders(QueryFilter filter)
         {
             return filter.Columns != null && filter.Columns.Any() && filter.Order != null && filter.Order.Any()
                     ? filter.Order.Select((order) =>
@@ -179,5 +159,106 @@ namespace Enjoy.Core.Services
                     }).ToList()
                     : new List<Order>();
         }
+
+        protected abstract void RecordSetter(R record, M model);
+
+        //public virtual PagingData<M> Query(Action<ICriteria> builder, Func<R, M> convert)
+        //{
+        //    return Query(null, builder, convert);
+        //}
+
+        //public virtual PagingData<M> Query(PagingCondition condition, Action<ICriteria> builder, Func<R, M> convert)
+        //{
+        //    return Query(condition, builder, convert);
+        //}
+
+        //public PagingData<M> Query(PagingCondition condition, Action<ICriteria> builder, Func<R, M> convert)
+        //{
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    var criteria = session.CreateCriteria(typeof(R));
+        //    builder(criteria);
+
+        //    var pageCriteria = CriteriaTransformer.Clone(criteria);
+
+        //    criteria.ClearOrders();
+        //    var page = (condition.Skip / condition.Take) - 1;
+        //    return new PagingData<M>()
+        //    {
+        //        TotalCount = Convert.ToInt32(criteria.SetProjection(Projections.RowCount()).UniqueResult()),
+        //        Items = pageCriteria.SetFirstResult(condition.Skip)
+        //       .SetMaxResults(condition.Take)
+        //       .List<R>()
+        //       .Select(o => convert(o))
+        //       .ToList(),
+        //        Paging = new Paging(page, condition.Take)
+        //    };
+        //}
+
+
+        //public virtual M QueryFirstOrDefault(Action<ICriteria> builder, Func<R, M> convert)
+        //{
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    var criteria = session.CreateCriteria(typeof(R));
+        //    builder(criteria);
+        //    return convert(criteria.SetFirstResult(0)
+        //        .SetMaxResults(1)
+        //        .UniqueResult<R>());
+        //}
+        //public virtual T QueryFirstOrDefault<T>(Action<ICriteria> builder)
+        //{
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    var criteria = session.CreateCriteria(typeof(R));
+        //    builder(criteria);
+        //    return criteria.SetFirstResult(0)
+        //        .SetMaxResults(1)
+        //        .UniqueResult<T>();
+        //}
+        //public ActionResponse<M> SaveOrUpdate(
+        //    M model,
+        //    Func<M, IResponse> validate,
+        //    Action<R, M> setter)
+        //{
+        //    var check = validate(model);
+        //    if (check.HasError)
+        //        return new ActionResponse<M>(check.ErrorCode);
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    var record = session.Get<R>(model.Key);
+        //    if (record == null)
+        //        record = Activator.CreateInstance<R>();
+        //    setter(record, model);
+        //    session.SaveOrUpdate(record);
+        //    model.Key = record.Id;
+        //    return new ActionResponse<M>(EnjoyConstant.Success, model);
+        //}
+        //protected abstract void RecordSetter(R record, M model);
+        //public BaseResponse Delete(long id)
+        //{
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    session.Delete(session.Get<R>(id));
+        //    return new BaseResponse(EnjoyConstant.Success);
+        //}
+
+        //public BaseResponse Delete(ISQLQuery query)
+        //{
+        //    return new BaseResponse(0);
+        //}
+
+        //public R GetRecord(int id)
+        //{
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    return session.Get<R>(id);
+        //}
+
+        //public R ConvertToRecord<TKeyType>(M model, Func<R, M, R> convert)
+        //{
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    var id = (model as IEntityKey<TKeyType>).Id;
+        //    var record = session.Get<R>(id);//make sure record is query from NHibrate
+        //    return convert(record, model);
+        //}
+
+
+
+
     }
 }

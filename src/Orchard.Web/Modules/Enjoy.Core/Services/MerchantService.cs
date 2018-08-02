@@ -12,6 +12,7 @@ namespace Enjoy.Core.Services
     using NHibernate.Criterion;
     using System.Collections.Generic;
     using Enjoy.Core.Models;
+    using Enjoy.Core.ViewModels;
 
     public class MerchantService : QueryBaseService<Records::Merchant, Models::MerchantModel>, IMerchantService
     {
@@ -164,13 +165,13 @@ namespace Enjoy.Core.Services
                 Info = model == null ? AuditStatus.NotFond : model.Status
             };
         }
-        
+
         public Models.PagingData<Models.MerchantModel> QueryMyMerchants(long userid, int page)
         {
             var apply = this.WeChat.GetApplyProtocol();
             var condition = PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize);
 
-            return this.QueryByPaging(condition, (builder) =>
+            return this.Query(condition, (builder) =>
             {
                 builder.Add(Expression.Eq("EnjoyUser.Id", userid));
             },
@@ -220,6 +221,17 @@ namespace Enjoy.Core.Services
             },
             r => new Models.MerchantModel(r));
             return model;
+        }
+
+        public PagingData<MerchantModel> QueryMyMerchants(
+            QueryFilter filter,
+            PagingCondition condition)
+        {
+            return this.Query(condition, (builder) =>
+            {
+
+            }, 
+            r => new MerchantModel(r));
         }
     }
 }

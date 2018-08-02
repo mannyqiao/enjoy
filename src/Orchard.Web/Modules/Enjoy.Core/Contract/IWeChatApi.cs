@@ -3,7 +3,7 @@
 namespace Enjoy.Core
 {
     using Orchard;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EModels;
     using Enjoy.Core.Models.Records;
 
     public interface IWeChatApi : IDependency

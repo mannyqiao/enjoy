@@ -1,14 +1,13 @@
-﻿using Orchard.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
+﻿
 
 namespace Enjoy.Core
 {
+    using System;    
+    using System.Text;    
+    using Orchard.Security;
     public static class StringExtension
     {
+
         public static string ToBase64(this string value)
         {
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(value));

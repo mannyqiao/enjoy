@@ -6,7 +6,7 @@ namespace Enjoy.Core
     using Enjoy.Core.ViewModels;
     using Orchard;
     using System;
-    using Models = Enjoy.Core.Models;
+    using Models = Enjoy.Core.EModels;
     public interface IMerchantService : IDependency
     {
 
@@ -52,6 +52,7 @@ namespace Enjoy.Core
 
         Models::PagingData<Models::MerchantModel> QueryMyMerchants(long userid, int page);
 
+        Models::PagingData<Models::MerchantModel> QueryMyMerchants(QueryFilter filter, PagingCondition condition);
         void UpdateMerchantStatus(long merchantId, AuditStatus status, string reson);
 
     }

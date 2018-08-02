@@ -5,7 +5,7 @@ namespace Enjoy.Core.Api
 {
     using System.Web.Http;
     using Orchard;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EModels;
     using Orchard.Logging;
     using Enjoy.Core;
     using System.IO;
