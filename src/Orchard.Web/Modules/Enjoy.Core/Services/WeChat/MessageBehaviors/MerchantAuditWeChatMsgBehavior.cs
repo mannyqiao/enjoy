@@ -10,11 +10,14 @@ namespace Enjoy.Core.Services
     public class MerchantAuditWeChatMsgBehavior : WeChatMsgBehavior<MerchantAuditWeChatEventArgs>
     {
         private readonly IMerchantService Merchant;
+        private readonly ISMSHelper SMSHelper;
         public MerchantAuditWeChatMsgBehavior(
             IOrchardServices os,
-            IMerchantService merchant) : base(os)
+            IMerchantService merchant,
+            ISMSHelper smsHelper) : base(os)
         {
             this.Merchant = merchant;
+            this.SMSHelper = smsHelper;
         }
 
         public override EventTypes Type
@@ -27,12 +30,17 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(MerchantAuditWeChatEventArgs model)
         {
-            this.Merchant.UpdateMerchantStatus(
-                model.MerchantId,
-                model.IsPass.Equals(1)
-                ? AuditStatus.APPROVED
-                : AuditStatus.REJECTED,
-                model.Reason);
+            //你的商户审核{1}. 登录 https://www.yourc.club/ 查看详情
+            var merchant = this.Merchant.GetDefaultMerchantByWeChatMerchantId(model.MerchantId);
+            this.SMSHelper.Send(new QCloudSMS(
+                merchant.EnjoyUser.Mobile,
+                SMSNotifyTypes.MerchantAudit,
+                merchant.BrandName,
+                model.IsPass == 0 ? "失败" : "成功"));
+
+            merchant.Status = model.IsPass.Equals(1) ? AuditStatus.APPROVED : AuditStatus.REJECTED;
+            merchant.ErrMsg = model.Reason;
+            this.Merchant.SaveOrUpdate(merchant);            
         }
     }
 }

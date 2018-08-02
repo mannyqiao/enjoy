@@ -43,8 +43,8 @@ namespace Enjoy.Core.Controllers
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
 
-            var viewModel = this.Merchant.QueryMyMerchants(this.Auth.GetAuthenticatedUser().Id, page);
-            return View(viewModel);
+            return View();
+
         }
         public ActionResult Create()
         {
@@ -72,7 +72,7 @@ namespace Enjoy.Core.Controllers
             model.Merchant.BeginTime = model.StartTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.Status = AuditStatus.UnCommitted;
-            if (model.Merchant.Key.Equals(0))
+            if (model.Merchant.Id.Equals(0))
                 model.Merchant.CreateTime = DateTime.Now.ToUnixStampDateTime();
             model.Merchant.UpdateTime = DateTime.Now.ToUnixStampDateTime();
             this.Merchant.SaveOrUpdate(model.Merchant);
@@ -153,7 +153,7 @@ namespace Enjoy.Core.Controllers
             {
                 Data = "Merchant.Id",
                 Searchable = true,
-                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Key }
+                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
             });
 
             var condition = new PagingCondition(filter.Start, filter.Length);
@@ -161,7 +161,16 @@ namespace Enjoy.Core.Controllers
             model.Draw = filter.Draw;
             return new JsonNetResult() { Data = model };
         }
+        public JsonNetResult QueryMyMerchant(QueryFilter filter)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return new JsonNetResult() { Data = new { } };
 
+            var condition = new PagingCondition(filter.Start, filter.Length);
+
+            var viewModel = this.Merchant.QueryMyMerchants(this.Auth.GetAuthenticatedUser().Id, page);
+            return new JsonNetResult() { Data = viewModel };
+        }
         public ActionResult EditShop(int? id = null)
         {
             if (this.Auth.GetAuthenticatedUser() == null)

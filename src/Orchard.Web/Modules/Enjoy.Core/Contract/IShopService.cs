@@ -4,7 +4,7 @@ namespace Enjoy.Core
 {
     using Enjoy.Core.ViewModels;
     using Orchard;
-    using Models = Enjoy.Core.Models;
+    using Models = Enjoy.Core.EModels;
     using Records = Enjoy.Core.Models.Records;
     public interface IShopService : IDependency
     {

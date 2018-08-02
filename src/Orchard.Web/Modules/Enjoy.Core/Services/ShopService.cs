@@ -95,7 +95,7 @@ namespace Enjoy.Core.Services
         {
             record.Address = model.Address;
             record.ShopName = model.ShopName;
-            record.Merchant = new Records.Merchant() { Id = model.Merchant.Key };
+            record.Merchant = new Records.Merchant() { Id = model.Merchant.Id };
             record.Leader = model.Leader;
             record.Coordinate = model.Coordinate;
         }

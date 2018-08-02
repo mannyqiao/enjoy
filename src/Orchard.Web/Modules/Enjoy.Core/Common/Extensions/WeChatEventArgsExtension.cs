@@ -1,7 +1,7 @@
 ﻿
 namespace Enjoy.Core
 {
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EModels;
     using System;
     public static class WeChatEventArgsExtension
     {
@@ -13,13 +13,13 @@ namespace Enjoy.Core
                 FriendUserName = arg.FriendUserName,
                 Gotfrom = gotfrom == null
                 ? null
-                : new WxUserModel() { Key = gotfrom.Value },
+                : new WxUserModel() { Id = gotfrom.Value },
                 IsGiveByFriend = arg.IsGiveByFriend,
                 LastActivityTime = DateTime.Now.ToUnixStampDateTime(),
                 Merchant = model.Merchant,
                 OldUserCardCode = arg.OldUserCardCode,
                 CardCounpon = model,
-                Owner = new WxUserModel() { Key = ownWxUser },
+                Owner = new WxUserModel() { Id = ownWxUser },
                 Type = model.Type,
                 UserCardCode = arg.UserCardCode
             };

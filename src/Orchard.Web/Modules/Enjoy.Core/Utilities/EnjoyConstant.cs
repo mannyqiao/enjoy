@@ -20,6 +20,7 @@ namespace Enjoy.Core
             {1009,"输入有效性验证失败"},
             {1010,"你的操作过于频繁,请稍后再试"},
             {1011,"子商户正在审核中,无法重复提交"},
+            {1012,"对象不存在"},
         };
         public const int Success = 0;
 
@@ -35,6 +36,7 @@ namespace Enjoy.Core
         public const int VerifyFailed = 1009;
         public const int FrequencyLimit = 1010;
         public const int ErrorMerchantState = 1011; //invalid sub merchant status hint: [NiFNya05440734]
+        public const int ObjectNotExits = 1012;//对象不存在
 
         public const string EnjoyCurrentUser = "EnjoyUser";
         public static readonly Dictionary<string, string> BusinessService = new Dictionary<string, string>()

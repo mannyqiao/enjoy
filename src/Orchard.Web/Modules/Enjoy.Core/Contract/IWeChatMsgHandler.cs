@@ -6,5 +6,6 @@ namespace Enjoy.Core
     public interface IWeChatMsgHandler : IDependency
     {
         void Handle(IWxMsgToken token);
+        void Handle(string xmlMsg);
     }
 }

@@ -41,7 +41,7 @@ namespace Enjoy.Core.Services
             if (model.IsGiveByFriend)
             {
                 var wx = this.WxUserService.GetWxUser(model.UnionId);
-                gotfrom = wx == null ? (long?)null : wx.Key;
+                gotfrom = wx == null ? (long?)null : wx.Id;
             }
             //获取卡券模板
             var cc = this.CCService.GetCardCounpon(model.CardId);

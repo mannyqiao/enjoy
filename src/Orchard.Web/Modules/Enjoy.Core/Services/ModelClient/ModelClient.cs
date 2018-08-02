@@ -47,7 +47,7 @@ namespace Enjoy.Core
             var model = new CardCounponModel();
             viewModel.BaseInfo.LogoUrl = merchant.LogoUrl;
             model.CreatedTime = viewModel.Key.Equals(0) ? DateTime.UtcNow.ToUnixStampDateTime() : viewModel.CreatedTime;
-            model.Key = viewModel.Key;
+            model.Id = viewModel.Key;
             model.Merchant = merchant;
             //// Enjoy TOOD :need change model.BarandName to model.Title
             model.BrandName = viewModel.BaseInfo.Title;
@@ -217,7 +217,7 @@ namespace Enjoy.Core
         public CardCounponViewModel Convert(CardCounponModel model)
         {
             var viewModel = new CardCounponViewModel();
-            viewModel.Key = model.Key;
+            viewModel.Key = model.Id;
             viewModel.CCStatus = model.Status;
             viewModel.WxNo = model.WxNo;
             viewModel.CardType = model.Type;

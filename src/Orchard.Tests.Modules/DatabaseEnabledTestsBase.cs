@@ -39,7 +39,8 @@ namespace Orchard.Tests.Modules {
 
         [SetUp]
         public virtual void Init() {
-            _databaseFilePath = Path.GetTempFileName();
+            _databaseFilePath = Path.GetTempFileName().Replace(".tmp",".sdf");
+            Debug.WriteLine(_databaseFilePath);
             _sessionFactory = DataUtility.CreateSessionFactory(_databaseFilePath, DatabaseTypes.ToArray());
             _session = _sessionFactory.OpenSession();
             _transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted);

@@ -47,15 +47,16 @@
 
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.Mobile), "联系电话", Model.Merchant.Mobile, 20, false))
                 @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Merchant.AppId), "AppId", Model.Merchant.AppId, 20, false))
-                <div class="row">
+                @*<div class="row">
                     <div class="col-lg-12">
-                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "", true))
+                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.StartTimeString), "开始时间", Model.StartTimeString, "", true))                        
                     </div>
-                </div>
+                </div>*@
                 <div class="row">
                     <div class="col-lg-12">
                         @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.EndTimeString),
-                           "结束时间", Model.EndTimeString,"", true))
+                           "授权截止时间", Model.EndTimeString,"", true))
+                        <p class="help-block">结束时间应与授权函保持一致.</p>
                     </div>
                 </div>
                 <div class="form-group" id="address">

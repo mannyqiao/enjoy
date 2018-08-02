@@ -2,7 +2,7 @@
 
 namespace Enjoy.Core
 {
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EModels;
     using Enjoy.Core.ViewModels;
     using Orchard;
     using Enjoy.Core.Models.Records;

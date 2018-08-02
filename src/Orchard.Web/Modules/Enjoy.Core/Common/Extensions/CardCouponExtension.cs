@@ -5,7 +5,7 @@ namespace Enjoy.Core
     using Enjoy.Core;
     using System;
     using WeChat.Models;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EModels;
     using System.Linq;
     public static class CardCouponExtension
     {

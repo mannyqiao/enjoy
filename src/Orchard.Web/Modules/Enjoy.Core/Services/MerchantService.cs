@@ -12,6 +12,7 @@ namespace Enjoy.Core.Services
     using NHibernate.Criterion;
     using System.Collections.Generic;
     using Enjoy.Core.Models;
+    using Enjoy.Core.ViewModels;
 
     public class MerchantService : QueryBaseService<Records::Merchant, Models::MerchantModel>, IMerchantService
     {
@@ -100,10 +101,11 @@ namespace Enjoy.Core.Services
             }
             else
             {
+
                 return new ActionResponse<MerchantModel>(EnjoyConstant.Success, model);
             }
         }
-        
+
         public IResponse Validate(Models::MerchantModel model)
         {
             var errors = new List<string>();
@@ -151,9 +153,17 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public Models.WxResponseWapper<Models.MerchantModel> QueryApproveStatus(string merchantid)
+        public Models.WxResponseWapper<AuditStatus> QueryMerchantStatus(long merchantid)
         {
-            throw new NotImplementedException();
+            var model = this.QueryFirstOrDefault((builder) =>
+             {
+                 builder.Add(Expression.Eq("MerchantId", merchantid));
+             }, r => new MerchantModel(r));
+            return new WxResponseWapper<AuditStatus>()
+            {
+                ErrCode = model == null ? EnjoyConstant.ObjectNotExits : EnjoyConstant.Success,
+                Info = model == null ? AuditStatus.NotFond : model.Status
+            };
         }
 
         public Models.PagingData<Models.MerchantModel> QueryMyMerchants(long userid, int page)
@@ -161,7 +171,7 @@ namespace Enjoy.Core.Services
             var apply = this.WeChat.GetApplyProtocol();
             var condition = PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize);
 
-            return this.QueryByPaging(condition, (builder) =>
+            return this.Query(condition, (builder) =>
             {
                 builder.Add(Expression.Eq("EnjoyUser.Id", userid));
             },
@@ -201,6 +211,27 @@ namespace Enjoy.Core.Services
             },
             r => new Models.MerchantModel(r));
             return model;
+        }
+
+        public Models.MerchantModel GetDefaultMerchantByWeChatMerchantId(long merchantid)
+        {
+            var model = this.QueryFirstOrDefault((builder) =>
+            {
+                builder.Add(Expression.Eq("MerchantId", merchantid));
+            },
+            r => new Models.MerchantModel(r));
+            return model;
+        }
+
+        public PagingData<MerchantModel> QueryMyMerchants(
+            QueryFilter filter,
+            PagingCondition condition)
+        {
+            return this.Query(condition, (builder) =>
+            {
+
+            }, 
+            r => new MerchantModel(r));
         }
     }
 }
