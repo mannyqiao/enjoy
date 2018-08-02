@@ -2,10 +2,12 @@
 
 namespace Enjoy.Core
 {
-    using Enjoy.Core.EModels;
-    using Enjoy.Core.ViewModels;
     using Orchard;
-    using Enjoy.Core.Models.Records;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.ViewModels;
+    using Enjoy.Core.WeChatModels;
+    using Enjoy.Core.Records;    
+    
     public interface ICardCouponService : IDependency
     {
         ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model);

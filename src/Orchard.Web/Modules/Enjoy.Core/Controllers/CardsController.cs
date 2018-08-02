@@ -6,11 +6,10 @@ namespace Enjoy.Core.Controllers
     using System;
     using System.Web.Mvc;
     using Orchard.Mvc.Extensions;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
 
     using Orchard;
-    using System.Linq;
-    using Enjoy.Core.EModels;
+    using System.Linq;    
     using Enjoy.Core.ViewModels;
 
     [Themed]
@@ -68,7 +67,7 @@ namespace Enjoy.Core.Controllers
                 Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
             });
             var model = this.CardCoupon.QueryCardCoupon(filter, new PagingCondition(filter.Start, filter.Length));
-            var viewModel = new Models.PagingData<CardCouponWithoutWapperViewModel>(model.Items.Select(o => new CardCouponWithoutWapperViewModel(o)))
+            var viewModel = new PagingData<CardCouponWithoutWapperViewModel>(model.Items.Select(o => new CardCouponWithoutWapperViewModel(o)))
             {
                 Paging = model.Paging,
                 TotalCount = model.TotalCount

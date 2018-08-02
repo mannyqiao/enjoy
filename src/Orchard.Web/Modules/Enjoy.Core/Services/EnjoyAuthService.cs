@@ -3,8 +3,10 @@ namespace Enjoy.Core.Services
 {
     using Orchard;
     using NHibernate;
-    using Enjoy.Core.Models.Records;
-    using Enjoy.Core.Models;
+
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
+    using Enjoy.Core.Records;
     using Enjoy.Core.ViewModels;
     using System;
     using Enjoy.Core;
@@ -291,17 +293,9 @@ namespace Enjoy.Core.Services
             {
                 return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.MobileExists);
             }
-            var result = this._cache.Get(mobile, ctx =>
-            {
-                var code = new VerificationCodeViewModel(mobile, this._codeGenerator.GenerateNewVerifyCode());
-                ctx.Monitor(this._clock.When(TimeSpan.FromMinutes(2)));
-                this._sMSHelper.Send(new QCloudSMS(mobile, SMSNotifyTypes.VerifyCode, code.Code, 2.ToString()));
-                firstRequest = true;
-                code.Sended = true;
-                return code;
-            });
+            var result = GetVerificationCode(mobile, true);
             var span = DateTime.Now.Subtract(result.CreatedAt);
-            if (span.TotalMinutes <= 2 && firstRequest == false)
+            if (span.TotalMinutes <= 2 && result.RequestCount > 1)
             {
                 return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.FrequencyLimit);
             }
@@ -320,6 +314,24 @@ namespace Enjoy.Core.Services
             cookiePath += _settings.RequestUrlPrefix;
 
             return cookiePath;
+        }
+
+        public bool IsEquals(string mobile, string verifyCode)
+        {
+            return GetVerificationCode(mobile, false).Code.Equals(verifyCode);
+        }
+
+        VerificationCodeViewModel GetVerificationCode(string mobile, bool sendViaSMS)
+        {
+            var model = this._cache.Get<string, VerificationCodeViewModel>(mobile, ctx =>
+            {
+                var code = new VerificationCodeViewModel(mobile, this._codeGenerator.GenerateNewVerifyCode());
+                ctx.Monitor(this._clock.When(TimeSpan.FromMinutes(2)));
+                if (sendViaSMS)
+                    this._sMSHelper.Send(new QCloudSMS(mobile, SMSNotifyTypes.VerifyCode, code.Code, 2.ToString()));
+                return code;
+            });
+            return model.Request();
         }
 
 

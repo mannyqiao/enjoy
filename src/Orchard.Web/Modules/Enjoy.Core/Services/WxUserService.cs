@@ -5,61 +5,61 @@ using System.Web;
 
 namespace Enjoy.Core.Services
 {
-    using Records = Enjoy.Core.Models.Records;
-    using Models = Enjoy.Core.Models;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.EnjoyModels;
     using Orchard;
     using NHibernate.Criterion;
 
 
-    public class WxUserService : QueryBaseService<Records::WxUser, Models::WxUserModel>, IWxUserService
+    public class WxUserService : QueryBaseService<WxUser, WxUserModel>, IWxUserService
     {
         public WxUserService(IOrchardServices os) : base(os) { }
         public override Type ModelType
         {
             get
             {
-                return typeof(Models::WxUserModel);
+                return typeof(WxUserModel);
             }
 
         }
 
-        public Models.WxUserModel GetWxUser(long id)
+        public WxUserModel GetWxUser(long id)
         {
             return QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("Id", id));
-            }, record => new Models.WxUserModel(record));
+            }, record => new WxUserModel(record));
         }
 
-        public Models.WxUserModel GetWxUser(string unionid)
+        public WxUserModel GetWxUser(string unionid)
         {
             return QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("UnionId", unionid));
-            }, record => new Models.WxUserModel(record));
+            }, record => new WxUserModel(record));
         }
 
-        public long Register(Models.WxUserModel userModel)
+        public long Register(WxUserModel userModel)
         {
-            var model = new Models::WxUserModel();
+            var model = new WxUserModel();
             if (userModel.Id.Equals(0) == false && string.IsNullOrEmpty(userModel.UnionId) == false)
             {
                 model = this.GetWxUser(userModel.UnionId);
                 userModel.Id = model == null ? 0 : model.Id;
             }
             this.SaveOrUpdate(userModel,
-                (wx) => { return new Models::BaseResponse(EnjoyConstant.Success); },
+                (wx) => { return new BaseResponse(EnjoyConstant.Success); },
                 RecordSetter);
             return userModel.Id;
         }
 
-        public long Register(Models.WxUser userModel)
+        public long Register(WeChatModels.WxUser userModel)
         {
-            var model = new Models::WxUserModel(userModel);
+            var model = new WxUserModel(userModel);
             this.Register(model);
             return model.Id;
         }
-        protected override void RecordSetter(Records::WxUser record, Models::WxUserModel model)
+        protected override void RecordSetter(WxUser record, WxUserModel model)
         {
             record.City = model.City;
             record.Country = model.Country;

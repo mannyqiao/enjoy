@@ -19,7 +19,7 @@ namespace Enjoy.Core
             {1008,"用户名和密码不匹配"},
             {1009,"输入有效性验证失败"},
             {1010,"你的操作过于频繁,请稍后再试"},
-            {1011,"子商户正在审核中,无法重复提交"},
+            {1011,"操作失败,请检查信息是否填写完整，修正后再重新提交."},
             {1012,"对象不存在"},
         };
         public const int Success = 0;
@@ -70,7 +70,7 @@ namespace Enjoy.Core
         // UAT official  account "Enjoy.Vip@hotmail.com" 
         //var token = "EnjoyMini";
         //var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
-        public static IMiniprogram Miniprogram = new Models.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
+        public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
 #else
         //Product official account 
         public static IMiniprogram Miniprogram = new Models.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03"); //         

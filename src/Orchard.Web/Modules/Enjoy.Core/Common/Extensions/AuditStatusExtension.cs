@@ -34,7 +34,7 @@ namespace Enjoy.Core
             {
                 case AuditStatus.UnCommitted:
                     return string.Concat(
-                        string.Format("<a class='btn btn-outline  btn-primary  btn-xs' id='btn_audit' data-id='{0}' href = '/merchant/audit'>提交审核</a>", id),
+                        string.Format("<a class='btn btn-outline  btn-primary  btn-xs' id='btn_audit' data-id='{0}' href = 'javascript:audit({0})'>提交审核</a>", id),
                         string.Format("<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/view?id={0}'>修改</a>", id)
                         );
                 case AuditStatus.REJECTED:

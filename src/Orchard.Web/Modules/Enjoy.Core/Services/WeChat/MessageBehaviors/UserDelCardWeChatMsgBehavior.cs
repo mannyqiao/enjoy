@@ -4,7 +4,8 @@
 
 namespace Enjoy.Core.Services
 {
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
     using Orchard;
     public class UserDelCardWeChatMsgBehavior : WeChatMsgBehavior<DeleteCardCouponWeChatEventArgs>
     {

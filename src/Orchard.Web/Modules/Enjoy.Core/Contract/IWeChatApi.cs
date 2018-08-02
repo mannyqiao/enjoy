@@ -3,8 +3,9 @@
 namespace Enjoy.Core
 {
     using Orchard;
-    using Enjoy.Core.EModels;
-    using Enjoy.Core.Models.Records;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.WeChatModels;
 
     public interface IWeChatApi : IDependency
     {
@@ -26,7 +27,7 @@ namespace Enjoy.Core
 
         string GetOpenId(IWxLoginUser loginUser);
 
-        Models.WxUser GetWxUser(string openid);
+        WeChatModels.WxUser GetWxUser(string openid);
 
         IWxAccessToken GetWxAccessToken(string appid, string secret);
     }

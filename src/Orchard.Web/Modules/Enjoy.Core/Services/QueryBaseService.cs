@@ -5,8 +5,8 @@ namespace Enjoy.Core.Services
     using Orchard;
     using Enjoy.Core;
     using System;
-    using Enjoy.Core.Models;
-    using Records = Enjoy.Core.Models.Records;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.Records;
     using NHibernate;
     using NHibernate.Criterion;
     using System.Linq;
@@ -35,10 +35,13 @@ namespace Enjoy.Core.Services
             var session = this.OS.TransactionManager.GetSession();
             var criteria = session.CreateCriteria(typeof(R));
             condition = condition ?? new PagingCondition(0, int.MaxValue);
+            if (builder != null)
+            {
+                builder(criteria);
+            }
             if (filter != null)
             {
                 criteria.WithQueryFilter(filter).WithQueryOrder(filter);
-                builder(criteria);
                 criteria.ClearOrders();
             }
             var pageCriteria = CriteriaTransformer.Clone(criteria);
@@ -88,79 +91,38 @@ namespace Enjoy.Core.Services
 
         public BaseResponse Delete(long id)
         {
-            throw new NotImplementedException();
+            var session = this.OS.TransactionManager.GetSession();
+            session.Delete(session.Get<R>(id));
+            return new BaseResponse(EnjoyConstant.Success);
         }
 
-        public BaseResponse Delete(ISQLQuery query)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public BaseResponse Delete(QueryFilter filter)
         {
-            throw new NotImplementedException();
-        }
-
-
-        public virtual IEnumerable<ICriterion> GenerateCriterions(QueryFilter filter)
-        {
-            foreach (var column in filter.Columns)
+            var session = this.OS.TransactionManager.GetSession();
+            var criteria = session.CreateCriteria(typeof(R));
+            criteria.WithQueryFilter(filter);
+            foreach (var item in criteria.SetMaxResults(int.MaxValue).List<R>())
             {
-                var type = column.Search.Value.PredictDbTypeBySearchColumeValue();
-                if (column.Searchable == false || type == null)
-                {
-                    continue;
-                }
-                var values = column.Search.Value as string[];
-                switch (type)
-                {
-                    case System.Data.DbType.DateTime:
-                        for (int i = 0; i < values.Length; i++)
-                        {
-                            switch (i)
-                            {
-                                case 0:
-                                    //>=
-                                    yield return Restrictions.Ge(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
-                                    break;
-                                case 1:
-                                    //<
-                                    yield return Restrictions.Lt(column.Data, DateTime.Parse(values[i]).ToUnixStampDateTime());
-                                    break;
-                                default:
-                                    break;
-                            }
-
-                        }
-                        break;
-                    case System.Data.DbType.Int32:
-                        yield return Restrictions.Eq(column.Data, Int32.Parse(values[0]));
-                        break;
-                    case System.Data.DbType.Int64:
-                        yield return Restrictions.Eq(column.Data, Int64.Parse(values[0]));
-                        break;
-                    case System.Data.DbType.Decimal:
-                        yield return Restrictions.Eq(column.Data, decimal.Parse(values[0]));
-                        break;
-                    case System.Data.DbType.String:
-                        yield return Restrictions.Eq(column.Data, values[0]);
-                        break;
-                }
+                session.Delete(item);
             }
-        }
-
-        public virtual IEnumerable<Order> GenerateOrders(QueryFilter filter)
-        {
-            return filter.Columns != null && filter.Columns.Any() && filter.Order != null && filter.Order.Any()
-                    ? filter.Order.Select((order) =>
-                    {
-                        return new Order(filter.Columns[order.Column].Data, order.Dir == Direction.Asc);
-
-                    }).ToList()
-                    : new List<Order>();
+            return new BaseResponse(EnjoyConstant.Success);
         }
 
         protected abstract void RecordSetter(R record, M model);
+
+        public Record QueryFirstOrDefault<Record>(Action<ICriteria> builder) where Record : IEntityKey<long>
+        {
+            if (builder == null) throw new NullReferenceException("builder can't be null.");
+            var session = this.OS.TransactionManager.GetSession();
+            var criteria = session.CreateCriteria(typeof(Record));
+            return criteria.SetMaxResults(1).UniqueResult<Record>();
+        }
+
+
+
+
 
         //public virtual PagingData<M> Query(Action<ICriteria> builder, Func<R, M> convert)
         //{
@@ -256,9 +218,6 @@ namespace Enjoy.Core.Services
         //    var record = session.Get<R>(id);//make sure record is query from NHibrate
         //    return convert(record, model);
         //}
-
-
-
 
     }
 }

@@ -2,9 +2,11 @@
 
 namespace Enjoy.Core.ViewModels
 {
-    using Enjoy.Core.Models.Records;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.EnjoyModels;
     using Newtonsoft.Json;
+    using Enjoy.Core.WeChatModels;
+
     public class ShopViewModel
     {
         public ShopViewModel(ShopModel model)

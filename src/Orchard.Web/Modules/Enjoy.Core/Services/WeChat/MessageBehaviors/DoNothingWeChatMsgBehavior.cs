@@ -2,7 +2,9 @@
 namespace Enjoy.Core.Services
 {
     using Orchard;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
+
     public class DoNothingWeChatMsgBehavior : WeChatMsgBehavior<DoNothingWeChatMsgModel>
     {
         public DoNothingWeChatMsgBehavior(IOrchardServices os) : base(os)

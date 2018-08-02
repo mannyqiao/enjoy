@@ -3,7 +3,7 @@
 namespace Enjoy.Core
 {
     using NHibernate;
-    using Enjoy.Core.EModels;
+    using Enjoy.Core.EnjoyModels;
     using System;
     using NHibernate.Criterion;
     using System.Linq;

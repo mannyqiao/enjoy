@@ -5,7 +5,8 @@ using System.Web;
 
 namespace Enjoy.Core.Services
 {
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
     using Orchard;
     /// <summary>
     /// 库存预警消息通知

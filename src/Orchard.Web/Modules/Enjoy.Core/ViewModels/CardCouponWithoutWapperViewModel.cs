@@ -1,11 +1,11 @@
 ﻿
 namespace Enjoy.Core.ViewModels
 {
-    using Models = Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
     using System;
     public class CardCouponWithoutWapperViewModel
     {
-        public CardCouponWithoutWapperViewModel(Models::CardCounponModel model)
+        public CardCouponWithoutWapperViewModel(CardCounponModel model)
         {
             this.Key = model.Id;
             this.BrandName = model.BrandName;

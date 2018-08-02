@@ -2,18 +2,17 @@
 
 namespace Enjoy.Core.Services
 {
-    using Records = Enjoy.Core.Models.Records;
-    using Models = Enjoy.Core.Models;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.EnjoyModels;
     using System;
-    using WeChat.Models;
+    using Enjoy.Core.WeChatModels;
     using Orchard;
     using NHibernate.Criterion;
     using System.Text;
-    using Enjoy.Core.ViewModels;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CardCouponService : QueryBaseService<Records::CardCoupon, Models::CardCounponModel>, ICardCouponService
+    public class CardCouponService : QueryBaseService<CardCoupon, CardCounponModel>, ICardCouponService
     {
         private readonly IWeChatApi WeChat;
         public CardCouponService(IOrchardServices os, IWeChatApi wechat)
@@ -29,11 +28,11 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public Models.QRCodeWxResponse CreateQRCode(string cardid)
+        public QRCodeWxResponse CreateQRCode(string cardid)
         {
             var request = WeChatApiRequestBuilder.GenerateWxQRCodeUrl(this.WeChat.GetToken());
 
-            return request.GetResponseForJson<Models::QRCodeWxResponse>((http) =>
+            return request.GetResponseForJson<QRCodeWxResponse>((http) =>
             {
                 http.Method = "POST";
                 http.ContentType = "application/json; encoding=utf-8";
@@ -64,18 +63,18 @@ namespace Enjoy.Core.Services
 
         }
 
-        public Models.CardCounponModel GetCardCounpon(int id)
+        public CardCounponModel GetCardCounpon(int id)
         {
             return this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("Id", id));
 
-            }, o => new Models.CardCounponModel(o));
+            }, o => new CardCounponModel(o));
         }
 
 
 
-        public Models.PagingData<Models::CardCounponModel> QueryCardCoupon(PagingCondition condition, CardTypes type)
+        public PagingData<CardCounponModel> QueryCardCoupon(PagingCondition condition, CardTypes type)
         {
             return this.Query(condition, (builder) =>
              {
@@ -84,21 +83,20 @@ namespace Enjoy.Core.Services
              },
             (record) =>
             {
-                return new Models::CardCounponModel(record);
+                return new CardCounponModel(record);
             });
         }
 
-        public Models::ActionResponse<Models::CardCounponModel> SaveOrUpdate(Models.CardCounponModel model)
+        public ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model)
         {
             //发布到微信
             model.LastUpdateTime = DateTime.Now.ToUnixStampDateTime();
             model.Status = CCStatus.Editing;
             var result = this.SaveOrUpdate(model, Validate, RecordSetter);
-            var r = TestwhiteList(new string[] { "s66822351", "ebying" });
             //var qrcode = CreateQRCode(model.WxNo);
             return result;
         }
-        public Models::CreateCouponWxResponse Publish(int id)
+        public CreateCouponWxResponse Publish(int id)
         {
             var model = this.GetCardCounpon(id);
             var request = string.IsNullOrEmpty(model.WxNo)
@@ -106,7 +104,7 @@ namespace Enjoy.Core.Services
                 : WeChatApiRequestBuilder.GenerateWxUpdateCardUrl(this.WeChat.GetToken());
             ////TODO : update has some error 
 
-            var result = request.GetResponseForJson<Models::CreateCouponWxResponse>((http) =>
+            var result = request.GetResponseForJson<CreateCouponWxResponse>((http) =>
             {
                 http.Method = "POST";
                 http.ContentType = "application/json; encoding=utf-8";
@@ -132,10 +130,10 @@ namespace Enjoy.Core.Services
             }
             return result;
         }
-        public Models.NormalWxResponse TestwhiteList(string[] wechatids)
+        public NormalWxResponse TestwhiteList(string[] wechatids)
         {
             var request = WeChatApiRequestBuilder.GenerateWxtestwhitelist(this.WeChat.GetToken());
-            return request.GetResponseForJson<Models::NormalWxResponse>((http) =>
+            return request.GetResponseForJson<NormalWxResponse>((http) =>
             {
                 http.Method = "POST";
                 http.ContentType = "application/json; encoding=utf-8";
@@ -148,11 +146,11 @@ namespace Enjoy.Core.Services
             });
         }
 
-        protected override void RecordSetter(Records::CardCoupon record, Models::CardCounponModel model)
+        protected override void RecordSetter(CardCoupon record, CardCounponModel model)
         {
             record.CreatedTime = model.CreatedTime;
             record.BrandName = model.BrandName;
-            record.Merchant = this.OS.TransactionManager.GetSession().Get<Records::Merchant>(model.Merchant.Id);
+            record.Merchant = this.OS.TransactionManager.GetSession().Get<Merchant>(model.Merchant.Id);
             record.Quantity = model.Quantity;
             record.WxNo = model.WxNo;
             record.Type = model.Type;
@@ -163,74 +161,76 @@ namespace Enjoy.Core.Services
 
 
 
-        private IResponse Validate(Models::CardCounponModel model)
+        private IResponse Validate(CardCounponModel model)
         {
-            return new Models::BaseResponse(EnjoyConstant.Success);
+            return new BaseResponse(EnjoyConstant.Success);
         }
 
-        public Models.PagingData<Models.CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition)
+        public PagingData<CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition)
         {
-            return base.Query(condition, builder =>
-            {
-                foreach (var criteria in this.Criterias(filter))
-                {
-                    builder.Add(criteria);
-                }
-                foreach (var order in this.Orders(filter))
-                {
-                    builder.AddOrder(order);
-                }
-            },
-            record => new Models.CardCounponModel(record));
+            return base.Query(filter, condition, null, record => new CardCounponModel(record));
+            //return base.Query(condition, builder =>
+            //{
+            //    foreach (var criteria in this.Criterias(filter))
+            //    {
+            //        builder.Add(criteria);
+            //    }
+            //    foreach (var order in this.Orders(filter))
+            //    {
+            //        builder.AddOrder(order);
+            //    }
+            //},
+            //record => new CardCounponModel(record));
         }
-        public override IEnumerable<ICriterion> Criterias(QueryFilter filter)
-        {
-            var names = filter.Search.Value as string[];
-            if (names != null && names.Count(o => !string.IsNullOrWhiteSpace(o)) > 0)
-            {
-                foreach (var name in names)
-                {
-                    yield return Expression.Like("BrandName", name) as ICriterion;
-                }
-            }
+        //public override IEnumerable<ICriterion> Criterias(QueryFilter filter)
+        //{
+        //    var names = filter.Search.Value as string[];
+        //    if (names != null && names.Count(o => !string.IsNullOrWhiteSpace(o)) > 0)
+        //    {
+        //        foreach (var name in names)
+        //        {
+        //            yield return Expression.Like("BrandName", name) as ICriterion;
+        //        }
+        //    }
 
-            foreach (var criteria in base.Criterias(filter))
-            {
-                yield return criteria;
-            }
-        }
+        //    foreach (var criteria in base.Criterias(filter))
+        //    {
+        //        yield return criteria;
+        //    }
+        //}
 
         public void UpdateStatus(string wxno, CCStatus status, string reson)
         {
             var model = this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("WxNo", wxno));
-            }, o => new Models.CardCounponModel(o));
+            }, o => new CardCounponModel(o));
             model.Status = status;
             model.ErrMsg = reson;
             this.SaveOrUpdate(model);
         }
 
-        public Models.CardCounponModel GetCardCounpon(string cardid)
+        public CardCounponModel GetCardCounpon(string cardid)
         {
             return QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Restrictions.Eq("WxNo", cardid));
             },
-            record => new Models.CardCounponModel(record));
+            record => new CardCounponModel(record));
         }
 
-        public Records::WxUserCardCoupon QueryWxUserCardCoupon(string userCardCode)
+        public WxUserCardCoupon QueryWxUserCardCoupon(string userCardCode)
         {
-            return QueryFirstOrDefault<Records::WxUserCardCoupon>((builder) =>
+            return base.QueryFirstOrDefault<WxUserCardCoupon>
+            ((builder) =>
             {
                 builder.Add(Restrictions.Eq("UserCardCode", userCardCode));
-            }) ?? new Records.WxUserCardCoupon();
+            });
         }
 
 
 
-        public void SaveWxUserCardCoupon(Models.WxUserCardCouponModel model)
+        public void SaveWxUserCardCoupon(WxUserCardCouponModel model)
         {
             var record = this.QueryWxUserCardCoupon(model.UserCardCode);
             record.UserCardCode = model.UserCardCode;
@@ -245,10 +245,10 @@ namespace Enjoy.Core.Services
             record.UserCardCode = model.UserCardCode;
             record.ExtraInfo = model.ExtraInfo;
             record.State = model.State;
-            record.Type = model.Type;            
+            record.Type = model.Type;
             this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
         }
 
-        
+
     }
 }

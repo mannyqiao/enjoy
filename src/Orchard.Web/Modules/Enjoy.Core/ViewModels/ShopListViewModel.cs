@@ -1,4 +1,4 @@
-﻿using Enjoy.Core.Models.Records;
+﻿using Enjoy.Core.Records;
 using System;
 using System.Collections.Generic;
 using System.Linq;

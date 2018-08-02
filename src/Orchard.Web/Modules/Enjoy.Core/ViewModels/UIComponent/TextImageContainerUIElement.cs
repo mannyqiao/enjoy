@@ -2,7 +2,7 @@
 
 using System;
 using System.Linq.Expressions;
-using WeChat.Models;
+using Enjoy.Core.WeChatModels;
 
 namespace Enjoy.Core.UIElements
 {

@@ -98,7 +98,8 @@
             pattern: "内容格式不符合要求",
             empty: "不能为空",
             multiple: "多条数据使用逗号分隔",            
-            equalTo:"确认密码不一致"
+            equalTo: "确认密码不一致",
+            remote:"短信验证码不正确"
         }
     };
 
@@ -345,8 +346,10 @@
                         // 下拉框只要关心值
                         allpass = remind(el, type, tag); 
                     } else if (type == "password" && $(el).attr("equalTo") !=undefined) {
-                        allpass = self.isEqualTo(el);                      
-                    }                    
+                        allpass = self.isEqualTo(el);
+                    } else if (type == "remote" && $(el).attr("equalTo") != undefined) {
+                        alert("remote");
+                    }
                     else if ((isRequired && self.isEmpty(el)) || !(allpass = self.isRegex(el))) {
                         // 各种类型文本框以及文本域
                         // allpass为true表示是为空，为false表示验证不通过

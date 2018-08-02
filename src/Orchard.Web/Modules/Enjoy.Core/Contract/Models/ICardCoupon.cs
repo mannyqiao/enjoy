@@ -3,7 +3,7 @@
 namespace Enjoy.Core
 {
     using System;
-    using WeChat.Models;
+    using Enjoy.Core.WeChatModels;
     public interface ICardCoupon
     {
         string CardType { get; }

@@ -2,7 +2,8 @@
 namespace Enjoy.Core.Services
 {
     using Orchard;
-    using Enjoy.Core.Models;
+    using Enjoy.Core.EnjoyModels;
+    using Enjoy.Core.WeChatModels;
 
     public class UserViewCardWeChatMsgBehavior : WeChatMsgBehavior<ViewCardWeChatEventArgs>
     {

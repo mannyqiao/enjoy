@@ -3,8 +3,8 @@
 namespace Enjoy.Core
 {
     using Orchard;
-    using Enjoy.Core.Models.Records;
-    using Enjoy.Core.EModels;
+    using Enjoy.Core.Records;
+    using Enjoy.Core.EnjoyModels;
     using Enjoy.Core.ViewModels;
 
     public interface IEnjoyAuthService : IDependency
@@ -20,5 +20,7 @@ namespace Enjoy.Core
         IEnjoyUser GetAuthenticatedUser();
 
         ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile);
+
+        bool IsEquals(string mobile, string verifyCode);
     }
 }
