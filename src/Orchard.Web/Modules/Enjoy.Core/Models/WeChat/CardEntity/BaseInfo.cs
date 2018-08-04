@@ -13,6 +13,9 @@ namespace Enjoy.Core.WeChatModels
         {
 
         }
+
+        [JsonProperty("sub_merchant_info")]
+        public SubMerchantInfo Merchant { get; set; }
         [Newtonsoft.Json.JsonProperty("logo_url")]
         public virtual string LogoUrl { get; set; }
 
@@ -71,13 +74,13 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("can_share")]
         public virtual bool? CanShare { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("can_give_friend",NullValueHandling = NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("can_give_friend", NullValueHandling = NullValueHandling.Ignore)]
         public virtual bool? CanGivefriend { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("center_title",NullValueHandling = NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("center_title", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CenterTitle { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("center_sub_title",NullValueHandling =  NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("center_sub_title", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CenterSubTitle { get; set; }
 
         [Newtonsoft.Json.JsonProperty("center_url")]

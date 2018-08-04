@@ -87,7 +87,7 @@ namespace Enjoy.Core
             throw new NotSupportedException("No support with type " + type.ToString());
         }
 
-        public static string TextOf(this CCStatus status)
+        public static string WithDisplayName(this CardCouponStates status)
         {
             var text = status.ToString();
             return string.Join("|", text.Split(',').Select((o) =>

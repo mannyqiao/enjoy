@@ -7,7 +7,7 @@ namespace Enjoy.Core.ViewModels
     {
         public CardCouponWithoutWapperViewModel(CardCounponModel model)
         {
-            this.Key = model.Id;
+            this.Id = model.Id;
             this.BrandName = model.BrandName;
             this.Merchant = model.Merchant.BrandName;
             this.CreatedTime = model.CreatedTime.ToDateTimeString();
@@ -15,12 +15,13 @@ namespace Enjoy.Core.ViewModels
             this.Quantity = model.Quantity;
             this.Type = model.Type.TextOf();
             this.WxNo = model.WxNo;
-            this.Status = model.Status.TextOf();
+            this.StateWithName = model.State.WithDisplayName();
             this.CardType = model.Type;
+            this.State = model.State;
             //this.DelAble = !((model.Status & CCStatus.Published) == CCStatus.Published);
         }
 
-        public long Key { get; set; }
+        public long Id { get; set; }
         public string BrandName { get; set; }
         public string Merchant { get; set; }
 
@@ -33,7 +34,8 @@ namespace Enjoy.Core.ViewModels
 
         public string CreatedTime { get; set; }
         public string LastUpdateTime { get; set; }
-        public string Status { get; set; }
-        
+        public CardCouponStates State { get; set; }
+        public string StateWithName { get; set; }
+
     }
 }

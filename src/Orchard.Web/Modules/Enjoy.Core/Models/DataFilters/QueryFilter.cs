@@ -16,7 +16,7 @@ namespace Enjoy.Core.EnjoyModels
         public List<QueryColumnFilter> Columns { get; set; }
         public List<QueryOrderFilter> Order { get; set; }
         public SearchColumnFilter Search { get; set; }
-
+        public Dictionary<string, string> Fixation { get; set; }
         public string OrderBy
         {
             get

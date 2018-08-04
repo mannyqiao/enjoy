@@ -7,7 +7,7 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">创建/需改券</h1>
+            <h1 class="page-header">创建/修改券</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -15,8 +15,9 @@
         <div class="col-lg-6">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("EditPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
-                @Html.HiddenFor(o => o.Key)
+                @Html.HiddenFor(o => o.Id)
                 @Html.HiddenFor(o => o.CreatedTime)
+                @Html.HiddenFor(o=>o.MerchantId)
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a href="#profile" data-toggle="tab">基本信息</a>
@@ -184,7 +185,7 @@
 
                     </div>
                 </div>
-                if(Model.CCStatus == CCStatus.Editing)
+                if(Model.CCStatus == CardCouponStates.Editing)
                 {
                     <div class="row">
                         <div class="col-lg-12">

@@ -47,8 +47,9 @@ namespace Enjoy.Core
 
             var model = new CardCounponModel();
             viewModel.BaseInfo.LogoUrl = merchant.LogoUrl;
-            model.CreatedTime = viewModel.Key.Equals(0) ? DateTime.UtcNow.ToUnixStampDateTime() : viewModel.CreatedTime;
-            model.Id = viewModel.Key;
+            viewModel.BaseInfo.Merchant = new SubMerchantInfo() { MerchantId = merchant.MerchantId ?? 0 };
+            model.CreatedTime = viewModel.Id.Equals(0) ? DateTime.UtcNow.ToUnixStampDateTime() : viewModel.CreatedTime;
+            model.Id = viewModel.Id;
             model.Merchant = merchant;
             //// Enjoy TOOD :need change model.BarandName to model.Title
             model.BrandName = viewModel.BaseInfo.Title;
@@ -56,7 +57,7 @@ namespace Enjoy.Core
             model.Quantity = (int)viewModel.BaseInfo.Sku.Quantity;
             model.Type = viewModel.CardType;
             model.WxNo = viewModel.WxNo;
-            model.Status = viewModel.CCStatus;
+            model.State = viewModel.CCStatus;
 
             switch (viewModel.CardType)
             {
@@ -193,12 +194,14 @@ namespace Enjoy.Core
                 baseInfo.BrandName = merchant.BrandName;
                 baseInfo.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
                 baseInfo.ServicePhone = merchant.Mobile;
-                baseInfo.Source = "微信卡券营销平台";
+                baseInfo.Source = "优享";
+                baseInfo.Merchant.MerchantId = merchant.MerchantId ?? 0;
                 advanceInfo.TextImageList = advanceInfo.TextImageList.Where(o => o.ImageUrl != null).ToList();
                 //未设置的属性
                 baseInfo.LocationIdList = new long[] { 3233, 333 };
-                baseInfo.CenterSubTitle = "xxxxx";
-                baseInfo.CenterUrl = "gh_63766b0fcc93@app";
+                baseInfo.CenterSubTitle = "使用后立减10元";
+                baseInfo.CenterUrl = "https://www.yourc.club/";
+                baseInfo.CenterTitle = "立即使用";
                 baseInfo.CustomUrlName = "xxx";
                 baseInfo.CustomUrl = "wx6647cb456db305dd@app";
                 baseInfo.CustomUrlSubTitle = "customUrlSubTitle";
@@ -207,9 +210,10 @@ namespace Enjoy.Core
 
                 advanceInfo.Abstract = new WeChatModels::Abstract()
                 {
-                    AbstractX = "柠檬工坊推出更多东西，期待你的光临"
+                    AbstractX = "xxx"
                 };
                 advanceInfo.TimeLimits = null;
+
 
             });
             return model;
@@ -217,9 +221,9 @@ namespace Enjoy.Core
 
         public CardCounponViewModel Convert(CardCounponModel model)
         {
-            var viewModel = new CardCounponViewModel();
-            viewModel.Key = model.Id;
-            viewModel.CCStatus = model.Status;
+            var viewModel = new CardCounponViewModel(model.Merchant.Id, model.Type);
+            viewModel.Id = model.Id;
+            viewModel.CCStatus = model.State;
             viewModel.WxNo = model.WxNo;
             viewModel.CardType = model.Type;
             viewModel.CreatedTime = model.CreatedTime;
@@ -320,6 +324,15 @@ namespace Enjoy.Core
                     case ExpiryDateTypes.DATE_TYPE_PERMANENT:
                         break;
                 }
+            }
+            if (viewModel.AdvancedInfo.TextImageList == null || viewModel.AdvancedInfo.TextImageList.Count.Equals(0))
+            {
+                viewModel.AdvancedInfo.TextImageList = new List<TextImage>()
+                {
+                    new TextImage(){ },
+                    new TextImage(){ },
+                    new TextImage(){ }
+                };
             }
             return viewModel;
         }

@@ -17,17 +17,19 @@
         <div class="col-md-4 ">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("EditShopPost", new { ReturnUrl = "/merchant/myshops" })))
             {
-                @Html.HiddenFor(m => m.Key)
-                @Html.HiddenFor(m => m.MerchantId)
+                @Html.HiddenFor(m => m.ShopModel.Id)
+                @Html.HiddenFor(m => m.ShopModel.Merchant.Id)
 
                 <fieldset>
                     <div class="form-group   ">
                         <label class="control-label  ">商户名称</label>
-                        @Html.TextBoxFor(o => o.Merchant, new { @readonly = "true", @class = "form-control" })
+                        @Html.TextBoxFor(o => o.ShopModel.Merchant.BrandName, new { @readonly = "true", @class = "form-control" })
                     </div>
                 </fieldset>
-                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.ShopName), "门店名称", Model.ShopName, 12, true, "12以内的中文字符"))
-                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Leader), "店长", Model.Leader, 12, true, "12以内的中文字符"))
+                @Html.Partial("Component/_TextPartial", 
+               new TextUIElement(Html.NameOf(o => o.ShopModel.ShopName), "门店名称", Model.ShopModel.ShopName, 12, true, "12以内的中文字符"))
+                @Html.Partial("Component/_TextPartial", 
+               new TextUIElement(Html.NameOf(o => o.ShopModel.Leader), "店长", Model.ShopModel.Leader, 12, true, "12以内的中文字符"))
                 <div class="form-group" id="address">
                     <div class="form-group form-inline pull-left">
                         <label class="control-label">商户地址</label>
@@ -36,14 +38,9 @@
                         <select class="form-control area" name="@Html.NameOf(m => m.Address.Area)" data-value="@Model.Address.Area"></select>
                     </div>
                 </div>
-
                 <button type="submit" class="btn btn-lg btn-success btn-block">保存</button>
                 <button type="reset" class="btn btn-lg btn-default btn-block">重置</button>
-
             }
-
-
-
         </div>
         <div class="col-md-4 ">
 

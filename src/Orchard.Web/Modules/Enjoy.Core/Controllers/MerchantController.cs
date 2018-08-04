@@ -136,14 +136,17 @@ namespace Enjoy.Core.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult MyShops()
+        public ActionResult MyShops(long? merchantid = null)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
-            var merchant = this.Merchant.GetDefaultMerchant();
+            var merchant = merchantid == null
+                ? this.Merchant.GetDefaultMerchant()
+                : this.Merchant.GetDefaultMerchant(merchantid.Value);
+
             if (merchant == null)
                 return this.RedirectLocal("/merchant/create");
-            return View();
+            return View(merchant);
         }
         [HttpPost]
         public JsonNetResult QueryMyShops(QueryFilter filter)
@@ -151,12 +154,18 @@ namespace Enjoy.Core.Controllers
             if (this.Auth.GetAuthenticatedUser() == null)
                 return new JsonNetResult() { Data = new { } };
             var merchant = this.Merchant.GetDefaultMerchant();
-            filter.Columns.Add(new QueryColumnFilter()
+            if (filter.Fixation != null)
             {
-                Data = "Merchant.Id",
-                Searchable = true,
-                Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
-            });
+                foreach (var key in filter.Fixation.Keys)
+                {
+                    filter.Columns.Add(new QueryColumnFilter()
+                    {
+                        Data = key,
+                        Searchable = true,
+                        Search = new SearchColumnFilter() { Regex = false, Value = filter.Fixation[key] }
+                    });
+                }
+            }
 
             var condition = new PagingCondition(filter.Start, filter.Length);
             var model = client.Convert(this.Shop.QueryShops(filter, condition));
@@ -179,6 +188,23 @@ namespace Enjoy.Core.Controllers
             var condition = new PagingCondition(filter.Start, filter.Length);
             var viewModel = this.Merchant.QueryMyMerchants(filter, condition);
             return new JsonNetResult() { Data = viewModel };
+        }
+        public JsonNetResult Del(long id)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return new JsonNetResult() { Data = new { } };
+            var merchant = this.Merchant.GetDefaultMerchant(id);
+            if (merchant.Status == AuditStatus.UnCommitted || merchant.Status == AuditStatus.REJECTED)
+            {
+                return new JsonNetResult() { Data = this.Merchant.Delete(id) };
+            }
+            else
+            {
+                return new JsonNetResult()
+                {
+                    Data = new BaseResponse(EnjoyConstant.CanNotDeleteMerchant)
+                };
+            }
         }
         public ActionResult EditShop(int? id = null)
         {

@@ -1,4 +1,6 @@
-﻿
+﻿@using Enjoy.Core.EnjoyModels;
+@model Enjoy.Core.EnjoyModels.MerchantModel
+
 <div id="page-wrapper">
     <!-- /.row -->
     <div class="row">
@@ -11,7 +13,10 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a type="button" class="btn btn-primary btn-sm" href="/merchant/editshop"><i class="fa fa-plus fa-fw"></i>新增门店</a>
+                    @if (Model != null)
+                    {
+                        <a type="button" class="btn btn-primary btn-sm" href="/merchant/editshop?merchantid=@Model.Id"><i class="fa fa-plus fa-fw"></i>新增门店</a>
+                    }
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -42,7 +47,12 @@
     </div>
 
 
-    @using (Html.BeginFormAntiForgeryPost(Url.Action("querymyshops", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+    @using (Html.BeginFormAntiForgeryPost(Url.Action("querymyshops",
+        new
+        {
+            merchantid = Request.QueryString["merchantid"],
+            ReturnUrl = Request.QueryString["ReturnUrl"]
+        })))
     {
 
     }
@@ -81,7 +91,7 @@
                         "type": "POST",
                         "data": function (data) {
                             data.__RequestVerificationToken = $("input[name='__RequestVerificationToken']").val();
-                            console.log(data)
+                            data.Fixation = { "Merchant.Id":@Model.Id };
                             return data;
                         }
                     },
@@ -95,7 +105,6 @@
                             data: "Id", "render": function (data) {
                                 var innerHtml = "<a class='btn btn-outline  btn-primary  btn-xs' href='/merchant/editshop?Id=" + data + "'>查看</a>      " +
                                     "<button name='remove_levels' class='btn btn-outline btn-default btn-xs delete' data-data='" + data + "'>删除</button>";
-
                                 return innerHtml;
                             }
                         }
@@ -119,7 +128,7 @@
                                 {
                                     id: $(this).attr("data-data"),
                                     __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
-                                }, function (result) {                                    
+                                }, function (result) {
                                     if (result.error_code == 0) {
                                         table.ajax.reload();
                                     }
@@ -128,6 +137,5 @@
                     });
                 });
             });
-
         </script>
     }

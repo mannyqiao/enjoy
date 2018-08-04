@@ -9,7 +9,7 @@ namespace Enjoy.Core.Controllers
     using Enjoy.Core.EnjoyModels;
 
     using Orchard;
-    using System.Linq;    
+    using System.Linq;
     using Enjoy.Core.ViewModels;
 
     [Themed]
@@ -41,16 +41,18 @@ namespace Enjoy.Core.Controllers
         /// </summary>
         /// <returns></returns>
 
-        public ActionResult Coupon()
+        public ActionResult Coupon(long? merchantid)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
+            var merchant = merchantid == null
+                ? this.Merchant.GetDefaultMerchant()
+                : this.Merchant.GetDefaultMerchant(merchantid.Value);
 
-            var merchant = this.Merchant.GetDefaultMerchant();
             if (merchant == null || merchant.Id.Equals(0))
                 return this.RedirectLocal("/merchant/create");
 
-            return View();
+            return View(new MerchantCardCouponViewModel(merchant));
         }
         [HttpPost]
         public JsonNetResult QueryCouponCard(QueryFilter filter)
@@ -78,14 +80,22 @@ namespace Enjoy.Core.Controllers
         /// 创建优惠券
         /// </summary>
         /// <returns></returns>
-        public ActionResult Edit(int? id = null, CardTypes type = CardTypes.DISCOUNT)
+        public ActionResult Edit(long merchantid, long? id = null, CardTypes type = CardTypes.DISCOUNT)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
 
+            var merchant = this.Merchant.GetDefaultMerchant(merchantid);
+            //如果商户没有创建则返回到商户管理界面，
+            if (merchant == null) this.RedirectLocal("/merchant/mymerchant");
             var viewModel = id == null
-                ? new CardCounponViewModel() { CardType = CardTypes.DISCOUNT, CCStatus = CCStatus.Editing }
+                ? new CardCounponViewModel(merchant.Id, type)
+                {
+                    CardType = CardTypes.DISCOUNT,
+                    CCStatus = CardCouponStates.Editing,
+                }
                 : client.Convert(this.CardCoupon.GetCardCounpon(id.Value));
+
             switch (type)
             {
                 case CardTypes.MEMBER_CARD:
@@ -100,14 +110,24 @@ namespace Enjoy.Core.Controllers
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
 
-            var result = this.CardCoupon.SaveOrUpdate(client.Convert(viewModel, this.Merchant.GetDefaultMerchant()));
+
+
+            var result = this.CardCoupon.SaveOrUpdate(client.Convert(viewModel, this.Merchant.GetDefaultMerchant(viewModel.MerchantId)));
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
         [HttpPost]
-        public JsonNetResult Publish(int id)
+        public JsonNetResult Publish(long id)
         {
             var result = this.CardCoupon.Publish(id);
             return new JsonNetResult() { Data = result };
+        }
+        [HttpPost]
+        public JsonNetResult Delete(long id)
+        {
+            return new JsonNetResult()
+            {
+                Data = this.CardCoupon.DeleteById(id)
+            };            
         }
         public ActionResult ShowQR(int id)
         {

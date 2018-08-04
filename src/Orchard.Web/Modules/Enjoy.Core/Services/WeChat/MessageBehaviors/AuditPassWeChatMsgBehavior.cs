@@ -27,7 +27,7 @@ namespace Enjoy.Core.Services
 
         protected override void Execute(CardCouponAuditkWeChatEventArgs model)
         {
-            this.CardCoupon.UpdateStatus(model.CardId, CCStatus.Approved, model.RefuseReason);
+            this.CardCoupon.UpdateStatus(model.CardId, CardCouponStates.Approved, model.RefuseReason);
         }
     }
 }

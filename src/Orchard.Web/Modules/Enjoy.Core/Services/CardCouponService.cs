@@ -63,7 +63,7 @@ namespace Enjoy.Core.Services
 
         }
 
-        public CardCounponModel GetCardCounpon(int id)
+        public CardCounponModel GetCardCounpon(long id)
         {
             return this.QueryFirstOrDefault((builder) =>
             {
@@ -91,12 +91,12 @@ namespace Enjoy.Core.Services
         {
             //发布到微信
             model.LastUpdateTime = DateTime.Now.ToUnixStampDateTime();
-            model.Status = CCStatus.Editing;
+            model.State = CardCouponStates.Editing;
             var result = this.SaveOrUpdate(model, Validate, RecordSetter);
             //var qrcode = CreateQRCode(model.WxNo);
             return result;
         }
-        public CreateCouponWxResponse Publish(int id)
+        public CreateCouponWxResponse Publish(long id)
         {
             var model = this.GetCardCounpon(id);
             var request = string.IsNullOrEmpty(model.WxNo)
@@ -118,14 +118,14 @@ namespace Enjoy.Core.Services
             });
             if (result.HasError == false)
             {
-                model.Status = CCStatus.Checking;
+                model.State = CardCouponStates.Checking;
                 model.WxNo = result.CardId;
                 model.CardCouponWapper.Card.SetCardId(model.WxNo);
                 this.SaveOrUpdate(model);
             }
             else
             {
-                model.Status = CCStatus.PublishedError;
+                model.State = CardCouponStates.PublishedError;
                 this.SaveOrUpdate(model);
             }
             return result;
@@ -154,7 +154,7 @@ namespace Enjoy.Core.Services
             record.Quantity = model.Quantity;
             record.WxNo = model.WxNo;
             record.Type = model.Type;
-            record.Status = model.Status;
+            record.Status = model.State;
             record.JsonMetadata = model.CardCouponWapper.ToJson();
             record.ErrMsg = model.ErrMsg;
         }
@@ -169,43 +169,16 @@ namespace Enjoy.Core.Services
         public PagingData<CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition)
         {
             return base.Query(filter, condition, null, record => new CardCounponModel(record));
-            //return base.Query(condition, builder =>
-            //{
-            //    foreach (var criteria in this.Criterias(filter))
-            //    {
-            //        builder.Add(criteria);
-            //    }
-            //    foreach (var order in this.Orders(filter))
-            //    {
-            //        builder.AddOrder(order);
-            //    }
-            //},
-            //record => new CardCounponModel(record));
         }
-        //public override IEnumerable<ICriterion> Criterias(QueryFilter filter)
-        //{
-        //    var names = filter.Search.Value as string[];
-        //    if (names != null && names.Count(o => !string.IsNullOrWhiteSpace(o)) > 0)
-        //    {
-        //        foreach (var name in names)
-        //        {
-        //            yield return Expression.Like("BrandName", name) as ICriterion;
-        //        }
-        //    }
 
-        //    foreach (var criteria in base.Criterias(filter))
-        //    {
-        //        yield return criteria;
-        //    }
-        //}
 
-        public void UpdateStatus(string wxno, CCStatus status, string reson)
+        public void UpdateStatus(string wxno, CardCouponStates status, string reson)
         {
             var model = this.QueryFirstOrDefault((builder) =>
             {
                 builder.Add(Expression.Eq("WxNo", wxno));
             }, o => new CardCounponModel(o));
-            model.Status = status;
+            model.State = status;
             model.ErrMsg = reson;
             this.SaveOrUpdate(model);
         }
@@ -228,13 +201,20 @@ namespace Enjoy.Core.Services
             });
         }
 
-
+        public BaseResponse DeleteById(long id)
+        {
+            return base.Delete(id);
+        }
 
         public void SaveWxUserCardCoupon(WxUserCardCouponModel model)
         {
             var record = this.QueryWxUserCardCoupon(model.UserCardCode);
+            if (record == null)
+            {
+                record = new WxUserCardCoupon();
+            };
             record.UserCardCode = model.UserCardCode;
-            record.Merchant = new Records.Merchant() { Id = model.Id };
+            record.Merchant = new Records.Merchant() { Id = model.Merchant.Id };
             record.FriendUserName = model.FriendUserName;
             record.CardCoupon = new Records.CardCoupon() { Id = model.CardCounpon.Id };
             record.IsGiveByFriend = model.IsGiveByFriend;

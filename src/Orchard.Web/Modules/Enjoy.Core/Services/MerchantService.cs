@@ -234,5 +234,10 @@ namespace Enjoy.Core.Services
                 });
             return model;
         }
+
+        BaseResponse IMerchantService.Delete(long id)
+        {
+            return base.Delete(id);
+        }
     }
 }
