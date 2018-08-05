@@ -15,41 +15,44 @@
         <div class="col-lg-6">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("EditPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
-                @Html.HiddenFor(o => o.Key)
+                @Html.HiddenFor(o => o.Id)
                 @Html.HiddenFor(o => o.CreatedTime)
-                @Html.HiddenFor(o => o.CardType, new { value = CardTypes.MEMBER_CARD.ToString() })
+                @Html.HiddenFor(o => o.MerchantId)
+                @Html.HiddenFor(o => o.CardType)
+                @Html.HiddenFor(o => o.BaseInfo.Dateinfo.Type)
+                
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#profile" data-toggle="tab">基本信息</a>
+                        <a href = "#profile" data-toggle="tab">基本信息</a>
                     </li>
                     <li>
-                        <a href="#userule" data-toggle="tab">使用规则</a>
+                        <a href = "#userule" data-toggle="tab">使用规则</a>
                     </li>
                     <li>
-                        <a href="#settings" data-toggle="tab">扩展设置</a>
+                        <a href = "#settings" data-toggle="tab">扩展设置</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="profile">
                         <h4>&nbsp;</h4>
-                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "会员卡标题", Model.BaseInfo.Title, 12, true, "12以内的中文字符"))
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.BackgroundPicUrl), "背景图片", MediaUploadTypes.Material, Model.MerberCard.BackgroundPicUrl, true, Model.MerberCard.BackgroundPicUrl))
-                        <fieldset>
-                            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true, "输入库存量"))
-                        </fieldset>
-                        <fieldset>
-                            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Uselimit), "可核销次数限制", Model.BaseInfo.Uselimit, true, "不填默认为50次"))
-                        </fieldset>
-                        <fieldset>
-                            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
-                        </fieldset>
-                        <fieldset>
-                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Notice), "操作提示", Model.BaseInfo.Notice, 100, true))
-                        </fieldset>
-                        <fieldset>
-                            @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))
-                        </fieldset>
-                    </div>
+        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "会员卡标题", Model.BaseInfo.Title, 12, true, "12以内的中文字符"))
+        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.BackgroundPicUrl), "背景图片", MediaUploadTypes.Material, Model.MerberCard.BackgroundPicUrl, true, Model.MerberCard.BackgroundPicUrl))
+        <fieldset>
+            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true, "输入库存量"))
+        </fieldset>
+        <fieldset>
+            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Uselimit), "可核销次数限制", Model.BaseInfo.Uselimit, true, "不填默认为50次"))
+        </fieldset>
+        <fieldset>
+            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
+        </fieldset>
+        <fieldset>
+            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Notice), "操作提示", Model.BaseInfo.Notice, 100, true))
+        </fieldset>
+        <fieldset>
+            @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))
+        </fieldset>
+        </div>
                     <div class="tab-pane fade" id="userule">
                         <h4>&nbsp;</h4>
                         <div class="form-group ">
@@ -116,7 +119,7 @@
 
                     </div>
                 </div>
-                if (Model.CCStatus == CCStatus.Editing)
+                if (Model.CCStatus == CardCouponStates.Editing)
                 {
                     <div class="row">
                         <div class="col-lg-12">

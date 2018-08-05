@@ -2,12 +2,12 @@
 
 namespace Enjoy.Core
 {
-   
-    using System;    
+
+    using System;
     using Enjoy.Core.EnjoyModels;
     using Enjoy.Core.WeChatModels;
     using Enjoy.Core.Records;
-   
+
     using System.Linq;
     public static class CardCouponExtension
     {
@@ -112,6 +112,16 @@ namespace Enjoy.Core
                         return "";
                 }
             }));
+        }
+        public static bool Disabled(this CardTypes type, CardTypes current)
+        {
+            if (current == CardTypes.None) return false;
+            return type != current;
+        }
+        public static bool Required(this CardTypes type, CardTypes current)
+        {
+            if (current == CardTypes.None) return false;
+            return type == current;
         }
     }
 }

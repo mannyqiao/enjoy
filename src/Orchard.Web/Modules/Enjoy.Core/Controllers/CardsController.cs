@@ -80,7 +80,7 @@ namespace Enjoy.Core.Controllers
         /// 创建优惠券
         /// </summary>
         /// <returns></returns>
-        public ActionResult Edit(long merchantid, long? id = null, CardTypes type = CardTypes.DISCOUNT)
+        public ActionResult Edit(long merchantid, long? id = null, CardTypes type = CardTypes.None)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
@@ -90,8 +90,7 @@ namespace Enjoy.Core.Controllers
             if (merchant == null) this.RedirectLocal("/merchant/mymerchant");
             var viewModel = id == null
                 ? new CardCounponViewModel(merchant.Id, type)
-                {
-                    CardType = CardTypes.DISCOUNT,
+                {                    
                     CCStatus = CardCouponStates.Editing,
                 }
                 : client.Convert(this.CardCoupon.GetCardCounpon(id.Value));

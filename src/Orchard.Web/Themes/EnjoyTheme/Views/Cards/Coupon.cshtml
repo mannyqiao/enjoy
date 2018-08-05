@@ -15,7 +15,7 @@
                 <!-- /.panel -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a type="button" class="btn btn-primary btn-sm" href="/cards/edit?@("merchantid="+Model.MerchantId +"&type="+CardTypes.CASH)">
+                        <a type="button" class="btn btn-primary btn-sm" href="/cards/edit?@("merchantid="+Model.MerchantId )">
                             <i class="fa fa-plus fa-fw"></i>新增券
                         </a>
                         <a type="button" class="btn btn-primary btn-sm" href="/cards/edit?@("merchantid="+Model.MerchantId +"&type="+CardTypes.MEMBER_CARD)">
@@ -157,8 +157,7 @@
                 });
 
                 $('#counpon tbody').on('click', 'button', function () {
-                    var link = "";
-                    
+                    var link = "";                    
                     if ($(this).attr("id") == "btn_del") {
                         if (confirm("真的要删除吗?") == false) {
                             return;
@@ -167,10 +166,8 @@
                     }
                     else {//publish
                         link = "/cards/publish";                    
-                    }
-                    alert(link);
-                    var data = table.row($(this).parents('tr')).data();
-                    alert(data.Id);
+                    }                    
+                    var data = table.row($(this).parents('tr')).data();                    
                     $.ajax({
                         type: "POST",
                         url: link,

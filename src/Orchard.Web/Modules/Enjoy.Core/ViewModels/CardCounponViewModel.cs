@@ -26,12 +26,14 @@ namespace Enjoy.Core.ViewModels
                 Merchant = new SubMerchantInfo() { MerchantId = 0 },
                 Dateinfo = new DateInfo()
                 {
-                    Type = ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
+                    Type = type == CardTypes.MEMBER_CARD ? ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() : ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
+
                     //BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
                     //EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
                 },
                 Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault(),
                 Getlimit = 1,
+
                 CenterTitle = "立即使用",
                 CenterUrl = "https://www.yourc.club/",//打开商户小程序的Url,
             };
@@ -50,6 +52,7 @@ namespace Enjoy.Core.ViewModels
             this.BaseInfo.CanGivefriend = true;
             this.MerberCard = new MerberCardWapper() { };
             this.MerchantId = merchantid;
+            this.CardType = type;
         }
         public CardCounponViewModel() { }
         public long Id { get; set; }
@@ -70,8 +73,8 @@ namespace Enjoy.Core.ViewModels
         /// <summary>
         /// 使用限制 (使用条件)
         /// </summary>
-        public UseLimitTypes UseLimitType { get; set; }
-        public decimal CostMoneyCanUse { get; set; }
+        //public UseLimitTypes UseLimitType { get; set; }
+        //public decimal CostMoneyCanUse { get; set; }
         //public ExpiryDateTypes ExpiryDateType { get; set; }
         //Fixed = 1,
         //Specified = 2,
@@ -83,12 +86,12 @@ namespace Enjoy.Core.ViewModels
     }
     public class CashSpecific
     {
-        public decimal? LeastCost { get; set; }
-        public decimal? ReduceCost { get; set; }
+        public int? LeastCost { get; set; }
+        public int? ReduceCost { get; set; }
     }
     public class DiscountSpecific
     {
-        public decimal? Discount { get; set; }
+        public int? Discount { get; set; }
     }
     public class GiftSpecific
     {

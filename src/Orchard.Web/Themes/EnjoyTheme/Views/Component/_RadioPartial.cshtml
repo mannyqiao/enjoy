@@ -4,7 +4,8 @@
     @foreach (var radio in Model.Items)
     {
         <label id="@Model.Id" class="radio-inline control-label">
-            <input type="radio" name="@Model.Name" id="@radio.Id" @(radio.Value.Equals(Model.Value) ? "checked=checked" : "") value="@radio.Value" WhenCheckedShow="@radio.WhenCheckedShow">@radio.Text
+            <input type="radio" name="@Model.Name" id="@radio.Id" @(radio.Value.Equals(Model.Value) ? "checked=checked" : "") 
+                @(radio.Disabled?"disabled=\"disabled\"":"")    value="@radio.Value" WhenCheckedShow="@radio.WhenCheckedShow">@radio.Text
         </label>
     }
 </div>
@@ -21,20 +22,20 @@
             var linked = @Html.Raw(Model.Linked.ToJson());
            
             $.each(linked, function (index, value) {
-                console.log(value);
+                
                 if (value == $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
                     $("#" + value + ">fieldset>div>input").each(function () {
                         $(this).parent().addClass("required");
                         $(this).attr("required","true");  
                     });
-                    $("#" + value + ">fieldset>div>textarea").each(function () {
-                        
+                    $("#" + value + ">fieldset>div>textarea").each(function () {                        
                         $(this).attr("required", "true");
                         $(this).parent().addClass("required");
                     });
                 }
                 else {
+                 
                     $("#" + value).addClass("hidden");                    
                     $("#" + value + ">fieldset>div>input").each(function () {
                         $(this).parent().removeClass("required");
@@ -51,8 +52,8 @@
         })
         var selected = function () {
             var result = "";
-            $.each(linked, function (index, value) {
-                console.log("Model.Value="+ "@Html.Raw(Model.Value.ToLower())");
+            $.each(linked, function (index, value) {                
+                //console.log("Model.Value="+ "@Html.Raw(Model.Value.ToLower())");
                 if (value.toLowerCase().indexOf(@Html.Raw("'"+ Model.Value.ToLower()+ "'")  ) >= 0) {
                     result = value;
                     return;
@@ -62,12 +63,15 @@
         };
         
         $.each(linked, function (index, value) {
-            
+
+            console.log("addClass hidden " + value + " select  " + selected());
             if (value == selected()) {
                 $("#" + value).removeClass("hidden");
+                
             }
             else {
                 $("#" + value).addClass("hidden");
+                
             }
         });      
     });
