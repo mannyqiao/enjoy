@@ -3,14 +3,16 @@
 namespace Enjoy.Core.ViewModels
 {
     using System;
-    
+
     using System.Linq;
+    using Enjoy.Core.EnjoyModels;
     using Enjoy.Core.WeChatModels;
 
     public class CardCounponViewModel
     {
-        public CardCounponViewModel()
+        public CardCounponViewModel(long merchantid, CardTypes type)
         {
+
             this.AdvancedInfo = new AdvancedInfo()
             {
                 UseCondition = new UseCondition(),
@@ -21,18 +23,20 @@ namespace Enjoy.Core.ViewModels
             this.BaseInfo = new BaseInfo()
             {
                 Sku = new Sku() { Quantity = 1000 },
+                Merchant = new SubMerchantInfo() { MerchantId = 0 },
                 Dateinfo = new DateInfo()
                 {
-                    Type = ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
+                    Type = type == CardTypes.MEMBER_CARD ? ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() : ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
+
                     //BeginTimestamp = DateTime.UtcNow.ToUnixStampDateTime(),
                     //EndTimestamp = DateTime.UtcNow.AddMonths(1).ToUnixStampDateTime(),
                 },
                 Color = EnjoyConstant.CouponBackgroundColors.Values.FirstOrDefault(),
                 Getlimit = 1,
-                CenterTitle = "立即使用",
-                CenterUrl = "http://wwww.baidu.com",//打开商户小程序的Url,
-            };
 
+                CenterTitle = "立即使用",
+                CenterUrl = "https://www.yourc.club/",//打开商户小程序的Url,
+            };
             this.Cash = new CashSpecific();
             this.Discount = new DiscountSpecific();
             this.Gift = new GiftSpecific();
@@ -47,8 +51,12 @@ namespace Enjoy.Core.ViewModels
             this.BaseInfo.CanShare = true;
             this.BaseInfo.CanGivefriend = true;
             this.MerberCard = new MerberCardWapper() { };
+            this.MerchantId = merchantid;
+            this.CardType = type;
         }
-        public long Key { get; set; }
+        public CardCounponViewModel() { }
+        public long Id { get; set; }
+        public long MerchantId { get; set; }
         public string WxNo { get; set; }
         public CardTypes CardType { get; set; }
         public BaseInfo BaseInfo { get; set; }
@@ -58,15 +66,15 @@ namespace Enjoy.Core.ViewModels
         public GiftSpecific Gift { get; set; }
         public GrounponSpecific Groupon { get; set; }
         public GeneralCouponSpecific General { get; set; }
-        public MerberCardWapper MerberCard{ get; set; }
+        public MerberCardWapper MerberCard { get; set; }
         public ApplyScopes UseProductScope { get; set; }
         public ApplyScopes UseShopScope { get; set; }
         public long CreatedTime { get; set; }
         /// <summary>
         /// 使用限制 (使用条件)
         /// </summary>
-        public UseLimitTypes UseLimitType { get; set; }
-        public decimal CostMoneyCanUse { get; set; }
+        //public UseLimitTypes UseLimitType { get; set; }
+        //public decimal CostMoneyCanUse { get; set; }
         //public ExpiryDateTypes ExpiryDateType { get; set; }
         //Fixed = 1,
         //Specified = 2,
@@ -74,16 +82,16 @@ namespace Enjoy.Core.ViewModels
         public decimal?[] SpecifiedExpiryDateDescriptor { get; set; }
         //public ApplyScopes SpendScope { get; set; }
         public string[] AllowShops { get; set; }
-        public CCStatus CCStatus { get; set; }
+        public CardCouponStates CCStatus { get; set; }
     }
     public class CashSpecific
     {
-        public decimal? LeastCost { get; set; }
-        public decimal? ReduceCost { get; set; }
+        public int? LeastCost { get; set; }
+        public int? ReduceCost { get; set; }
     }
     public class DiscountSpecific
     {
-        public decimal? Discount { get; set; }
+        public int? Discount { get; set; }
     }
     public class GiftSpecific
     {

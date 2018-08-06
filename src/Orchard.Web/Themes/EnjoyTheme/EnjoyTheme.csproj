@@ -368,7 +368,6 @@
     <Content Include="Views\Merchant\MyMerchant.cshtml" />
     <Content Include="Views\Merchant\View.cshtml" />
     <Content Include="Views\Cards\ShowQR.cshtml" />
-    <Content Include="Views\Cards\View.cshtml" />
     <Content Include="Views\Cards\EditMCard.cshtml" />
     <Content Include="Views\Component\_ModalDialogPartial.cshtml" />
   </ItemGroup>

@@ -7,6 +7,8 @@ namespace Enjoy.Core
     using Orchard;
     using System;
     using Enjoy.Core.WeChatModels;
+    using Enjoy.Core.Records;
+
     public interface IMerchantService : IDependency
     {
 
@@ -47,9 +49,12 @@ namespace Enjoy.Core
         /// <param name="merchantid"></param>
         /// <returns></returns>
         WxResponseWapper<AuditStatus> QueryMerchantStatus(long merchantid);
-
+        BaseResponse Delete(long id);
         PagingData<MerchantModel> QueryMyMerchants(QueryFilter filter, PagingCondition condition);
+
         void UpdateMerchantStatus(long merchantId, AuditStatus status, string reson);
+
+
 
     }
 }

@@ -41,11 +41,14 @@ namespace Enjoy.Core.Services
 
         public long Register(WxUserModel userModel)
         {
-            var model = new WxUserModel();
-            if (userModel.Id.Equals(0) == false && string.IsNullOrEmpty(userModel.UnionId) == false)
+            var model = this.GetWxUser(userModel.UnionId);
+            if (model == null)
             {
-                model = this.GetWxUser(userModel.UnionId);
-                userModel.Id = model == null ? 0 : model.Id;
+                model = userModel;
+            }
+            else
+            {
+                userModel.Id = model.Id;
             }
             this.SaveOrUpdate(userModel,
                 (wx) => { return new BaseResponse(EnjoyConstant.Success); },

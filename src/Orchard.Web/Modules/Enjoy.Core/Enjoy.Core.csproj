@@ -152,7 +152,6 @@
     <Compile Include="Models\EnjoyUser\EnjoyUserModel.cs" />
     <Compile Include="Models\EnjoyUser\WxUserModel.cs" />
     <Compile Include="Models\Enums\CardCouponStates.cs" />
-    <Compile Include="Models\Enums\CCStatus.cs" />
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
     <Compile Include="Models\Enums\MsgTypes.cs" />
@@ -212,6 +211,7 @@
     <Compile Include="Models\WeChat\CardEntity\DateInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\Cards\Groupon.cs" />
     <Compile Include="Models\WeChat\CardEntity\Sku.cs" />
+    <Compile Include="Models\WeChat\CardEntity\SubMerchantInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\TextImage.cs" />
     <Compile Include="Models\WeChat\CardEntity\TimeLimit.cs" />
     <Compile Include="Models\WeChat\CardEntity\UseCondition.cs" />
@@ -303,6 +303,7 @@
     <Compile Include="Models\DataFilters\QueryFilter.cs" />
     <Compile Include="Models\DataFilters\QueryOrderFilter.cs" />
     <Compile Include="Models\DataFilters\SearchColumnFilter.cs" />
+    <Compile Include="ViewModels\MerchantCardCouponViewModel.cs" />
     <Compile Include="ViewModels\MerchantViewModel.cs" />
     <Compile Include="ViewModels\QRCodeViewModel.cs" />
     <Compile Include="ViewModels\SelectNodeViewModel.cs" />

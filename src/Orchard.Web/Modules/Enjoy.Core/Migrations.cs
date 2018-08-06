@@ -171,6 +171,7 @@ namespace Enjoy.Core
                 .Column("FriendUserName", DbType.String, column => column.WithLength(32))
                 .Column("State", DbType.String, column => column.WithLength(32))
                 .Column("Type", DbType.String, column => column.WithLength(32))
+                .Column("IsGiftingToFriend", DbType.Boolean)                
                 .Column("ExtraInfo", DbType.String, column => column.Unlimited())                
                 .Column("LastActivityTime", DbType.Int64, column => column.Nullable())
             );

@@ -1,7 +1,11 @@
 ﻿
 
+
+
 namespace Enjoy.Core.WeChatModels
 {
+    using System.Xml.Serialization;
+    [XmlRoot("xml")]
     public class ConsumCardCouponWeChatArgs : WeChatEventArgs
     {
         public string UserCardCode { get; set; }

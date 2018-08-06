@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml.Serialization;
 
 namespace Enjoy.Core.WeChatModels
 {
     /// <summary>
     /// 转赠事件
     /// </summary>
+    [XmlRoot("xml")]
     public class UserGiftingWeChatEventArgs : WeChatEventArgs
     {
         public string UserCardCode { get; set; }

@@ -7,7 +7,7 @@ namespace Enjoy.Core
     public static class WeChatEventArgsExtension
     {
         public static WxUserCardCouponModel Generate(this GetCardCouponWeChatEventArgs arg,
-            CardCounponModel model, long ownWxUser, long? gotfrom)            
+            CardCounponModel model, long ownWxUser, long? gotfrom, bool gifting = false)
         {
             var result = new WxUserCardCouponModel()
             {
@@ -18,13 +18,14 @@ namespace Enjoy.Core
                 IsGiveByFriend = arg.IsGiveByFriend,
                 LastActivityTime = DateTime.Now.ToUnixStampDateTime(),
                 Merchant = model.Merchant,
+                IsGiftingToFriend = gifting,
                 OldUserCardCode = arg.OldUserCardCode,
                 CardCounpon = model,
                 Owner = new WxUserModel() { Id = ownWxUser },
                 Type = model.Type,
                 UserCardCode = arg.UserCardCode
             };
-            return result ;            
+            return result;
         }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Enjoy.Core.WeChatModels
 {
+    using System.Xml.Serialization;
+    [XmlRoot("xml")]
     public class PayFromPayCellWeChatEventArgs : WeChatEventArgs
     {
 

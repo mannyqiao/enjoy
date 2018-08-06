@@ -13,7 +13,7 @@ namespace Enjoy.Core
         ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model);
         PagingData<CardCounponModel> QueryCardCoupon(PagingCondition condition, CardTypes type);
         PagingData<CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition);
-        CardCounponModel GetCardCounpon(int id);
+        CardCounponModel GetCardCounpon(long id);
         CardCounponModel GetCardCounpon(string cardid);
         NormalWxResponse TestwhiteList(string[] wechatids);
         QRCodeWxResponse CreateQRCode(string cardid);
@@ -21,7 +21,8 @@ namespace Enjoy.Core
         
         void SaveWxUserCardCoupon(WxUserCardCouponModel model);
         
-        CreateCouponWxResponse Publish(int id);
-        void UpdateStatus(string wxno, CCStatus status, string reson);
+        CreateCouponWxResponse Publish(long id);
+        void UpdateStatus(string wxno, CardCouponStates status, string reson);
+        BaseResponse DeleteById(long id);
     }
 }

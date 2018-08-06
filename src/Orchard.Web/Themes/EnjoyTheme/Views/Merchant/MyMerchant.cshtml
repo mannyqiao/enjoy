@@ -15,26 +15,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i>
                     <a type="button" class="btn btn-primary btn-sm" id="btn_reaload" href="/merchant/create"><i class="fa fa-plus fa-fw"></i>新增商户</a>
-                    <div class="pull-right">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                操作
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-
-                                <li>
-                                    <a href="#">提交审核</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="#">同步商户状态</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -137,17 +118,23 @@
                         "targets": [6],
                         "orderable": false,
                         "render": function (data, type, row) {
+                            var html = "";
                             if (row["Status"] == 1 || row["Status"] == 4) { //未提交审核或者已拒绝
-                                var html = "<button class='btn btn-outline  btn-primary  btn-xs'  id='btn_audit'  >提交审核</button>" +
-                                    "<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/view?id=" + row["Id"] + "'>修改</a>";                                
-                                return html;
+                                html += "<button class='btn btn-outline  btn-primary  btn-xs'  id='btn_audit'  >提交审核</button>" +
+                                    "<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/view?id=" + row["Id"] + "'>修改</a>" +
+                                    "<button class='btn btn-outline  btn-primary  btn-xs'  id='btn_del'  >删除</button>";
                             }
                             else if (row["Status"] == 2) {//审核中
-                                return "<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/view?id=" + row["Id"] + "'>查看</a>";;
+                                html += "<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/view?id=" + row["Id"] + "'>查看</a>";;
                             }
-                            else if (row["Status"] == 3) {//协议过期
-                                return "<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/view?id=" + row["Id"] + "'>延长日期</a>";
+                            else if (row["Status"] == 5) {//协议过期
+                                //html += "<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/view?id=" + row["Id"] + "'>延长日期</a>";
                             }
+                            else if (row["Status"] == 3) {//审核通过
+                                html += "<a class='btn btn-outline  btn-primary  btn-xs' href = '/cards/coupon?merchantid=" + row["Id"] + "'>管理卡券</a>";
+                            }
+                            html += "<a class='btn btn-outline  btn-primary  btn-xs' href = '/merchant/myshops?merchantid=" + row["Id"] + "'>门店管理</a>";
+                            return html;
                         }
                     }//StatusName
                 ]
@@ -159,6 +146,35 @@
                 $.ajax({
                     type: "POST",
                     url: "/merchant/audit",
+                    data: {
+                        "id": data.Id,
+                        __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                    },
+                    success: function (result) {
+                        if (result.error_code == 0) {
+                            table.ajax.reload();
+                        }
+                        else {
+                            alert(result.error_message);
+                        }
+                    },
+                    error: function (msg) {
+
+                    },
+                    complete: function (xhr, ts) {
+
+                    }
+                });
+            });
+
+            $('#mymerchant tbody').on('click', '#btn_del', function () {
+                if (confirm("真的要删除吗?") == false) {
+                    return;
+                }
+                var data = table.row($(this).parents('tr')).data();
+                $.ajax({
+                    type: "POST",
+                    url: "/merchant/del",
                     data: {
                         "id": data.Id,
                         __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()

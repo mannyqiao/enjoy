@@ -25,7 +25,10 @@ namespace Enjoy.Core.Records
         /// 存放会员卡，或者优惠券特有信息
         /// </summary>
         public virtual string ExtraInfo { get; set; }
-
+        /// <summary>
+        /// 是否已赠送给朋友
+        /// </summary>
+        public virtual bool IsGiftingToFriend { get; set; }
         public virtual long LastActivityTime { get; set; }
 
     }

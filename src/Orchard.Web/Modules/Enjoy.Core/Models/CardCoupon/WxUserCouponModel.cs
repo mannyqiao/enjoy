@@ -24,7 +24,7 @@ namespace Enjoy.Core.EnjoyModels
         /// 存放会员卡，或者优惠券特有信息
         /// </summary>
         public string ExtraInfo { get; set; }
-
+        public bool IsGiftingToFriend { get; set; }
         public long LastActivityTime { get; set; }
     }
 }

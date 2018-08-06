@@ -52,5 +52,7 @@ namespace Enjoy.Core.EnjoyModels
         public long CreatedTime { get; set; }
         public long? LastActiveTime { get; set; }
         public RegistryTypes RegistryType { get; set; }
+
+        
     }
 }

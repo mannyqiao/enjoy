@@ -10,7 +10,7 @@ namespace Enjoy.Core.UIElements
     {
 
         public RadioUIElement(
-               string name,               
+               string name,
                string value,
                RadioItem[] items,
                string[] linked = null)
@@ -26,17 +26,25 @@ namespace Enjoy.Core.UIElements
 
         public class RadioItem
         {
-            public RadioItem(string id, string name, string text, string value, string whenCheckedShow = null)
+            public RadioItem(
+                string id,
+                string name,
+                string text,
+                string value,
+                string whenCheckedShow = null,
+                bool disabled = false)
             {
                 this.Id = id;
                 this.Name = name;
                 this.Text = text;
                 this.Value = value;
+                this.Disabled = disabled;
                 this.WhenCheckedShow = whenCheckedShow ?? string.Format("group_{0}", value);
             }
             public string Id { get; set; }
             public string Name { get; set; }
             public string Text { get; set; }
+            public bool Disabled { get; set; }
             public string Value { get; set; }
             public string WhenCheckedShow { get; set; }
         }

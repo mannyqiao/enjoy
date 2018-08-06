@@ -207,3 +207,4 @@ src/Rebracer.xml
 /lib/msbuildtasks
 /lib/msdeploy
 /lib
+/doc/csharp

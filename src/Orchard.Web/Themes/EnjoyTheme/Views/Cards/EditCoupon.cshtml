@@ -7,7 +7,7 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">创建/需改券</h1>
+            <h1 class="page-header">创建/修改券</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -15,8 +15,9 @@
         <div class="col-lg-6">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("EditPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
-                @Html.HiddenFor(o => o.Key)
+                @Html.HiddenFor(o => o.Id)
                 @Html.HiddenFor(o => o.CreatedTime)
+                @Html.HiddenFor(o => o.MerchantId)
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a href="#profile" data-toggle="tab">基本信息</a>
@@ -33,29 +34,58 @@
                         <h4>&nbsp;</h4>
                         <div class="form-group ">
                             @Html.HiddenFor(o => o.WxNo)
-                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), CardTypes.DISCOUNT.ToString(),
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType),
+                           (Model.CardType== CardTypes.None?CardTypes.DISCOUNT:Model.CardType).ToString(),
                                     new RadioUIElement.RadioItem[]{
-                                                new RadioUIElement.RadioItem(CardTypes.DISCOUNT.ToString(),Html.NameOf(o=>o.CardType),"折扣券",CardTypes.DISCOUNT.ToString()),
-                                                new RadioUIElement.RadioItem(CardTypes.GIFT.ToString(),Html.NameOf(o=>o.CardType),"礼品券",CardTypes.GIFT.ToString()),
-                                                new RadioUIElement.RadioItem(CardTypes.CASH.ToString(),Html.NameOf(o=>o.CardType),"代金券",CardTypes.CASH.ToString()),
-                                                new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),Html.NameOf(o=>o.CardType),"优惠券",CardTypes.GENERAL_COUPON.ToString()),
-                                                new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),Html.NameOf(o=>o.CardType),"团购券",CardTypes.GROUPON.ToString())
+                                                new RadioUIElement.RadioItem(CardTypes.DISCOUNT.ToString(),
+                                                Html.NameOf(o=>o.CardType),"折扣券",
+                                                CardTypes.DISCOUNT.ToString(),null,
+                                                CardTypes.DISCOUNT.Disabled(Model.CardType)),
+
+                                                new RadioUIElement.RadioItem(CardTypes.GIFT.ToString(),
+                                                Html.NameOf(o=>o.CardType),"礼品券",
+                                                CardTypes.GIFT.ToString(),null,
+                                                CardTypes.GIFT.Disabled(Model.CardType)),
+
+
+                                                new RadioUIElement.RadioItem(CardTypes.CASH.ToString(),
+                                                Html.NameOf(o=>o.CardType),"代金券",
+                                                CardTypes.CASH.ToString(),null,
+                                                CardTypes.CASH.Disabled(Model.CardType)),
+
+                                                new RadioUIElement.RadioItem(CardTypes.GROUPON.ToString(),
+                                                Html.NameOf(o=>o.CardType),"团购券",
+                                                CardTypes.GROUPON.ToString(),null,CardTypes.GROUPON.Disabled(Model.CardType)),
+
+                                                new RadioUIElement.RadioItem(CardTypes.GENERAL_COUPON.ToString(),
+                                                Html.NameOf(o=>o.CardType),"优惠券",
+                                                CardTypes.GENERAL_COUPON.ToString(),null,CardTypes.GENERAL_COUPON.Disabled(Model.CardType))
+
                                          }))
                             @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "卡券标题", Model.BaseInfo.Title, 12, true, "12以内的中文字符"))
                             <fieldset id="group_@(CardTypes.DISCOUNT.ToString())">
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度", Model.Discount.Discount, true,
-                               "输入折扣百分比,如9折输入90"))
+                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度",
+                               Model.Discount.Discount, CardTypes.DISCOUNT.Required(Model.CardType),
+                               "输入折扣1-9."))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GIFT.ToString())">
-                                @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Gift.Detail), "兑换详情", Model.Gift.Detail, 120, false))
+                                @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Gift.Detail), "兑换详情",
+                               Model.Gift.Detail, 120, CardTypes.GIFT.Required(Model.CardType)))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.CASH.ToString())">
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.LeastCost), "启用金额", Model.Cash.LeastCost, false))
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.ReduceCost), "减免金额", Model.Cash.ReduceCost, false))
+                                @Html.Partial("Component/_DecimalPartial",
+                               new DecimalUIElement(Html.NameOf(o => o.Cash.LeastCost), "启用金额", Model.Cash.LeastCost, CardTypes.CASH.Required(Model.CardType)))
+
+                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.ReduceCost),
+                               "减免金额", Model.Cash.ReduceCost, CardTypes.CASH.Required(Model.CardType)))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GROUPON.ToString())">
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Groupon.DValue), "票面价值", Model.Groupon.DValue, false))
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Groupon.SaleValue), "售价", Model.Groupon.SaleValue, false))
+                                @Html.Partial("Component/_DecimalPartial",
+                               new DecimalUIElement(Html.NameOf(o => o.Groupon.DValue), "票面价值", Model.Groupon.DValue, CardTypes.GROUPON.Required(Model.CardType)))
+
+                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Groupon.SaleValue), "售价", Model.Groupon.SaleValue,
+                               CardTypes.GROUPON.Required(Model.CardType)))
+
                                 @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Groupon.Detail), "团购详情", Model.Groupon.Detail, 120))
                             </fieldset>
                             <fieldset id="group_@(CardTypes.GENERAL_COUPON.ToString())">
@@ -63,19 +93,26 @@
                             </fieldset>
                         </div>
                         <div class="form-group">
-                            <label>使用门槛</label>
-                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.UseLimitType), UseLimitTypes.None.ToString(),
+                            <label>使用条件</label>
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.Type),Model.AdvancedInfo.UseCondition.Type.ToString(),
                                     new RadioUIElement.RadioItem[]{
-                                        new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.None.ToString(),"uselimit_"+ Html.NameOf(o=>o.UseLimitType),"无门槛",UseLimitTypes.None.ToString(),"abbc"),
-                                        new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.Specified.ToString(),"uselimit_"+ Html.NameOf(o=>o.UseLimitType),"消费满",UseLimitTypes.Specified.ToString(),"group_uselimit_specific")
+                                        new RadioUIElement.RadioItem("uselimit_"+
+                                        UseLimitTypes.None.ToString(),"uselimit_"+ Html.NameOf(o=>o.AdvancedInfo.UseCondition.Type),"无门槛",UseLimitTypes.None.ToString(),"abbc"),
+
+                                        new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.Specified.ToString(),"uselimit_"+ Html.NameOf(o=>o.AdvancedInfo.UseCondition.Type),"消费满",UseLimitTypes.Specified.ToString(),"group_uselimit_specific")
                                     }))
                             <fieldset id="group_uselimit_specific">
-                                @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.CostMoneyCanUse), "消费金额", Model.CostMoneyCanUse, true))
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @Html.Partial("Component/_DecimalPartial",
+                                       new DecimalUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.LeastCost), "消费金额", Model.AdvancedInfo.UseCondition.LeastCost, false))
+                                    </div>
+                                </div>
                             </fieldset>
                         </div>
                         <div class="form-group">
                             <label>券有效期</label>
-                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.Type), ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.BaseInfo.Dateinfo.Type), Model.BaseInfo.Dateinfo.Type.ToString(),
                                     new RadioUIElement.RadioItem[]{
                                        new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"固定时间",ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"group_date_type_fix_time_range"),
                                        new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"expiry_"+ Html.NameOf(o=>o.BaseInfo.Dateinfo.Type),"指定时间",ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"group_date_type_fix_term")
@@ -154,14 +191,14 @@
                         </div>
 
                         @*<div class="form-group ">
-                        <label>可用时段</label>
-                        @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), "",
-                          new RadioUIElement.RadioItem[]
-                          {
-                             new RadioUIElement.RadioItem(ApplyScopes.All.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.AcceptCategory),"所有时段","abbc"),
-                             new RadioUIElement.RadioItem(ApplyScopes.Specific.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.RejectCategory),"特定时段","abbc")
-                         }, null, CardTypes.GROUPON.ToString()))
-                    </div>*@
+                                <label>可用时段</label>
+                                @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), "",
+                                  new RadioUIElement.RadioItem[]
+                                  {
+                                     new RadioUIElement.RadioItem(ApplyScopes.All.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.AcceptCategory),"所有时段","abbc"),
+                                     new RadioUIElement.RadioItem(ApplyScopes.Specific.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.RejectCategory),"特定时段","abbc")
+                                 }, null, CardTypes.GROUPON.ToString()))
+                            </div>*@
                         @Html.Partial("Component/_MultiChoicePartial",
                        new MultiChoiceUIElement(Html.NameOf(o => o.AdvancedInfo.BusinessService), "商家服务",
                        new MultiChoiceUIElement.ChoiceItem[] {
@@ -178,18 +215,18 @@
                         <h4>&nbsp;</h4>
                         @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
                         @*@Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterTitle), "入口标题", Model.BaseInfo.CenterTitle, "", string.Empty, true))
-                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
-                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
+                            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@
                         @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.AdvancedInfo.TextImageList), Model.AdvancedInfo.TextImageList.ToArray()))
 
                     </div>
                 </div>
-                if(Model.CCStatus == CCStatus.Editing)
+                if (Model.CCStatus == CardCouponStates.Editing)
                 {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-offset-4">
-                                <button type="submit" class="btn btn-default ">创建</button>
+                                <button type="submit" class="btn btn-default ">保存</button>
                                 <button type="reset" class="btn btn-default">清除</button>
                             </div>
                         </div>
@@ -200,7 +237,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-offset-4">
-                                <a class="btn btn-default" href="/cards/coupon">返回</a>                             
+                                <a class="btn btn-default" href="/cards/coupon">返回</a>
                             </div>
                         </div>
                     </div>
@@ -224,13 +261,13 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("form").html5Validate(function () {
-                alert("全部通过！");
+
                 this.submit();
             },
-            {
+                {
                     // novalidate: false
 
-            });
+                });
         });
     </script>
 }

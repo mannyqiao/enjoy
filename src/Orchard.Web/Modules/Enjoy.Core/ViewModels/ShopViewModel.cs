@@ -11,32 +11,15 @@ namespace Enjoy.Core.ViewModels
     {
         public ShopViewModel(ShopModel model)
         {
-            this.Id = model.Id;
-            this.Merchant = model.Merchant.BrandName;
-            this.ShopName = model.ShopName;
+            this.ShopModel = model;
             this.Address = new AddressViewModel(model.Address);
-            this.Coordinate = model.Coordinate;
-            this.Leader = model.Leader;
-            this.MerchantId = model.Merchant.Id;
-
         }
-        public ShopViewModel(string merchant)
-        {
-            this.Merchant = merchant;
-        }
-        public ShopViewModel() { }
-        public long Id { get; set; }
-        public string Merchant { get; set; }
-        public string ShopName { get; set; }
-        public string Leader { get; set; }
-        public long MerchantId { get; set; }
-        //public string Address { get; set; }
-        public string Coordinate { get; set; }
+        public ShopModel ShopModel { get; set; }       
         public string AddressInfo
         {
             get
             {
-                return this.Address == null
+                return this.ShopModel.Address == null
                     ? string.Empty
                     : string.Join("/", new string[] {
                         this.Address.Province,

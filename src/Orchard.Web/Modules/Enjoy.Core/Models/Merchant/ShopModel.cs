@@ -4,7 +4,7 @@ namespace Enjoy.Core.EnjoyModels
 {
     using Enjoy.Core.Records;
     using Enjoy.Core.ViewModels;
-    
+
     public class ShopModel : IModelKey<long>
     {
         public ShopModel(Shop shop)
@@ -18,12 +18,12 @@ namespace Enjoy.Core.EnjoyModels
         }
         public ShopModel(ShopViewModel viewModel)
         {
-            this.ShopName = viewModel.ShopName;
-            this.Merchant = new MerchantModel() { Id = viewModel.MerchantId };
-            this.Id = viewModel.Id;
-            this.Leader = viewModel.Leader;
+            this.ShopName = viewModel.ShopModel.ShopName;
+            this.Merchant = viewModel.ShopModel.Merchant;  //new MerchantModel() { Id = viewModel.ShopModel.Merchant.Id };
+            this.Id = viewModel.ShopModel.Id;
+            this.Leader = viewModel.ShopModel.Leader;
             this.Address = viewModel.AddressInfo;
-            this.Coordinate = viewModel.Coordinate ?? "{}";
+            this.Coordinate = string.IsNullOrEmpty(viewModel.ShopModel.Coordinate) ? "{}" : viewModel.ShopModel.Coordinate;
         }
         public ShopModel(MerchantModel merchant)
         {
@@ -36,6 +36,6 @@ namespace Enjoy.Core.EnjoyModels
         public string Address { get; set; }
         public string Coordinate { get; set; }
 
-      
+
     }
 }

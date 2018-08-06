@@ -14,7 +14,7 @@ namespace Enjoy.Core.Records
         public virtual CardTypes Type { get; set; }
         public virtual string WxNo { get; set; }
         public virtual int Quantity { get; set; }        
-        public virtual CCStatus Status { get; set; }
+        public virtual CardCouponStates Status { get; set; }
         public virtual string ErrMsg { get; set; }
         [StringLengthMax]
         public virtual string JsonMetadata { get; set; }

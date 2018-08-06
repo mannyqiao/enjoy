@@ -2,7 +2,8 @@
 ///https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
 namespace Enjoy.Core.WeChatModels
 {
-    using System.Xml;
+    using System.Xml.Serialization;
+    [XmlRoot("xml")]
     public abstract class WeChatMsgModel
     {
         /// <summary>

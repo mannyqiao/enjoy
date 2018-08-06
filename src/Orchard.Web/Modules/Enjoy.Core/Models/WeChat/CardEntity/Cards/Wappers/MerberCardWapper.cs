@@ -31,12 +31,24 @@
 
         [JsonProperty("custom_cell1")]
         public CustomCell CustomCell { get; set; }
-
+        private int discount;
         /// <summary>
         /// 	折扣，该会员卡享受的折扣优惠,填10就是九折。
         /// </summary>
         [JsonProperty("discount")]
-        public decimal Discount { get; set; }
+        public int Discount
+        {
+            get
+            {
+                return this.discount / 100;
+
+            }
+            set
+            {
+                this.discount = value * 100;
+
+            }
+        }
 
         //"supply_bonus": true,
         //  "supply_balance": false,
