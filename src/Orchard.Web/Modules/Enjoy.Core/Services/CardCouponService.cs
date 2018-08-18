@@ -24,7 +24,7 @@ namespace Enjoy.Core.Services
         {
             get
             {
-                return typeof(ICardCoupon);
+                return typeof(Core.ICardCoupon);
             }
         }
 
@@ -103,14 +103,18 @@ namespace Enjoy.Core.Services
                 ? WeChatApiRequestBuilder.GenerateWxCreateCardUrl(this.WeChat.GetToken())
                 : WeChatApiRequestBuilder.GenerateWxUpdateCardUrl(this.WeChat.GetToken());
             ////TODO : update has some error 
-
+            var json = model.CardCoupon.ToJson();
             var result = request.GetResponseForJson<CreateCouponWxResponse>((http) =>
             {
                 http.Method = "POST";
                 http.ContentType = "application/json; encoding=utf-8";
                 using (var stream = http.GetRequestStream())
                 {
-                    var buffers = UTF8Encoding.UTF8.GetBytes(model.CardCouponWapper.ToJson());
+
+                    var buffers = UTF8Encoding.UTF8.GetBytes(
+                        string.IsNullOrEmpty(model.WxNo)
+                        ? model.CardCoupon.GenreateCreatingWapper().ToJson()
+                        : model.CardCoupon.GenreateUpgradeWpper().ToJson());
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
                 }
@@ -118,9 +122,9 @@ namespace Enjoy.Core.Services
             });
             if (result.HasError == false)
             {
-                model.State = CardCouponStates.Checking;
+                model.State = CardCouponStates.Approved;
                 model.WxNo = result.CardId;
-                model.CardCouponWapper.Card.SetCardId(model.WxNo);
+                model.CardCoupon.CardId = result.CardId;
                 this.SaveOrUpdate(model);
             }
             else
@@ -155,7 +159,7 @@ namespace Enjoy.Core.Services
             record.WxNo = model.WxNo;
             record.Type = model.Type;
             record.Status = model.State;
-            record.JsonMetadata = model.CardCouponWapper.ToJson();
+            record.JsonMetadata = model.CardCoupon.ToJson();
             record.ErrMsg = model.ErrMsg;
         }
 

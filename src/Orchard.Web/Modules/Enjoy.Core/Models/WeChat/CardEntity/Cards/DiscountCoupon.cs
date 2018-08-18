@@ -4,19 +4,21 @@
     using Enjoy.Core;
     using System;
 
-    public class DiscountCoupon: BaseCardCoupon<DiscountWapper>
+    public class DiscountCoupon : StandardCardCoupon
     {
-        [JsonProperty("card_type")]
-        public override string CardType
+        public DiscountCoupon()
         {
-            get
-            {
-                return CardTypes.DISCOUNT.ToString();
-            }           
+           
         }
-
-        [JsonProperty("discount")]
-        public override DiscountWapper CardCoupon { get; set; }
+        #region discount 专用
+        private int? discount;
+        [JsonProperty("discount", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Discount
+        {
+            get { return (discount ?? 0) / 100; }
+            set { this.discount = value * 100; }
+        }
+        #endregion
 
     }
 }

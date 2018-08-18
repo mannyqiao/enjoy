@@ -2,11 +2,9 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
-    public class GiftWapper : CardCouponWapper
+    public class GiftWapper : CardCoupon<GiftCoupon>
     {
-        #region gift 专用
-        [JsonProperty("gift", NullValueHandling = NullValueHandling.Ignore)]
-        public string Gift { get; set; }
-        #endregion
+        [JsonProperty("gift")]
+        public override GiftCoupon Card { get; set; }        
     }
 }

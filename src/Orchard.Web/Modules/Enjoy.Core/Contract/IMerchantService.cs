@@ -54,6 +54,7 @@ namespace Enjoy.Core
 
         void UpdateMerchantStatus(long merchantId, AuditStatus status, string reson);
 
+        
 
 
     }

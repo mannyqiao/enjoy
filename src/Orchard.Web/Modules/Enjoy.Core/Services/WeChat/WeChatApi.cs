@@ -108,7 +108,7 @@ namespace Enjoy.Core.Services
                     stream.Flush();
                 }
             }
-            response.Url = string.IsNullOrEmpty(response.MediaId) ? response.Url : WeChatApiRequestBuilder.GenrateImageUrlByMediaId(response.MediaId);
+            response.Url = string.IsNullOrEmpty(response.MediaId) ? response.Url : WeChatApiRequestBuilder.GenerateImageUrlByMediaId(response.MediaId);
             return response;
         }
         /// <summary>
@@ -212,6 +212,12 @@ namespace Enjoy.Core.Services
         {
             var request = WeChatApiRequestBuilder.GenreateQueryWxUserUrl(openid, GetToken());
             return request.GetResponseForJson<WxUser>();
+        }
+
+        public void CheckCardAgentQulification()
+        {
+            var request = WeChatApiRequestBuilder.GenerateCheckCardAgentRequest(GetToken());
+            var context = request.GetUriContentDirectly();
         }
     }
 }

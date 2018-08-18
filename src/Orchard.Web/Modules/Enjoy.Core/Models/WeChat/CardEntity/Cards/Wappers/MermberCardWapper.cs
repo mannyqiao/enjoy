@@ -2,10 +2,10 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
-    public class DiscountWapper : CardCoupon<DiscountCoupon>
+    public class MemberCardWapper : CardCoupon<MemberCard>
     {
-        [JsonProperty("discount")]
-        public override DiscountCoupon Card
+        [JsonProperty("member_card")]
+        public override MemberCard Card
         {
             get; set;
         }

@@ -15,6 +15,7 @@ namespace Enjoy.Core.ViewModels
         public long MerchantId { get; set; }
         public long WxMerchantId { get; set; }
         public string BrandName { get; set; }
-        
+        public CardTypes CardType { get; set; }
+
     }
 }

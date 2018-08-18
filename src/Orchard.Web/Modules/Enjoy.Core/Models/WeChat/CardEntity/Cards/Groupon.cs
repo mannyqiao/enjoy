@@ -7,20 +7,13 @@
     /// <summary>
     /// 团购券
     /// </summary>
-    public class Groupon : BaseCardCoupon<GrouponWapper>
+    public class Groupon : StandardCardCoupon
     {
-        [JsonProperty("card_type")]
-        public override string CardType
-        {
-            get
-            {
-                return CardTypes.GROUPON.ToString();
-            }
+        #region groupon 专用
 
-        }
+        [JsonProperty("deal_detail", NullValueHandling = NullValueHandling.Ignore)]
+        public string DealDetail { get; set; }
+        #endregion
 
-        [JsonProperty("groupon")]
-        public override GrouponWapper CardCoupon { get; set; }
-       
     }
 }

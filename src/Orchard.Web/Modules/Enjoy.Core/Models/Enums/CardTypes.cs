@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 
 namespace Enjoy.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
     public enum CardTypes
     {
         None = 0,

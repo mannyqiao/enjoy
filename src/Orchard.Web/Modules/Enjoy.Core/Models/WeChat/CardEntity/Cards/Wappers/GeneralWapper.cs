@@ -2,11 +2,11 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
-    public class GeneralWapper : CardCouponWapper
+    public class GeneralWapper : CardCoupon<GeneralCoupon>
     {
-        #region  general
-        [JsonProperty("default_detail", NullValueHandling = NullValueHandling.Ignore)]
-        public string DefaultDetail { get; set; }
-        #endregion
+        [JsonProperty("general")]
+        public override GeneralCoupon Card { get; set; }
+
+
     }
 }

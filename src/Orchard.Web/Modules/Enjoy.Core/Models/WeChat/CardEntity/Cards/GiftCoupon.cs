@@ -4,20 +4,12 @@
     using Enjoy.Core;
     using System;
 
-    public class GiftCoupon: BaseCardCoupon<GiftWapper>
+    public class GiftCoupon: StandardCardCoupon
     {
+        #region gift 专用
+        [JsonProperty("gift", NullValueHandling = NullValueHandling.Ignore)]
+        public string Gift { get; set; }
+        #endregion
 
-        [JsonProperty("card_type")]
-        public override string CardType
-        {
-            get
-            {
-                return CardTypes.GIFT.ToString();
-            }
-        }
-
-        [JsonProperty("groupon")]
-        public override GiftWapper CardCoupon { get; set; }
-        
     }
 }

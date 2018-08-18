@@ -1,13 +1,13 @@
-﻿@using Enjoy.Core.UIElements
+﻿
+@using Enjoy.Core.UIElements
 @using Enjoy.Core;
-
 @model Enjoy.Core.ViewModels.CardCounponViewModel
 
 <div id="page-wrapper">
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">创建/修改会员卡</h1>
+            <h1 class="page-header">[@Model.SubMerchantBrandName]@Model.CardType.TextOf()</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -19,129 +19,130 @@
                 @Html.HiddenFor(o => o.CreatedTime)
                 @Html.HiddenFor(o => o.MerchantId)
                 @Html.HiddenFor(o => o.CardType)
-                @Html.HiddenFor(o => o.BaseInfo.Dateinfo.Type)
-                
+                @Html.HiddenFor(o => o.MerberCard.BaseInfo.Dateinfo.Type)
+                @Html.HiddenFor(o => o.WxNo)
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href = "#profile" data-toggle="tab">基本信息</a>
+                        <a href="#profile" data-toggle="tab">基本信息</a>
                     </li>
                     <li>
-                        <a href = "#userule" data-toggle="tab">使用规则</a>
+                        <a href="#userule" data-toggle="tab">使用规则</a>
                     </li>
                     <li>
-                        <a href = "#settings" data-toggle="tab">扩展设置</a>
+                        <a href="#settings" data-toggle="tab">扩展设置</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="profile">
                         <h4>&nbsp;</h4>
-        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Title), "会员卡标题", Model.BaseInfo.Title, 12, true, "12以内的中文字符"))
-        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.BackgroundPicUrl), "背景图片", MediaUploadTypes.Material, Model.MerberCard.BackgroundPicUrl, true, Model.MerberCard.BackgroundPicUrl))
-        <fieldset>
-            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Sku.Quantity), "库存量", Model.BaseInfo.Sku.Quantity, true, "输入库存量"))
-        </fieldset>
-        <fieldset>
-            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Uselimit), "可核销次数限制", Model.BaseInfo.Uselimit, true, "不填默认为50次"))
-        </fieldset>
-        <fieldset>
-            @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.BaseInfo.Getlimit), "每人限领", Model.BaseInfo.Getlimit, true))
-        </fieldset>
-        <fieldset>
-            @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.Notice), "操作提示", Model.BaseInfo.Notice, 100, true))
-        </fieldset>
-        <fieldset>
-            @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.BaseInfo.Description), "使用须知", Model.BaseInfo.Description, 100, true))
-        </fieldset>
-        </div>
+                        @Html.HiddenFor(o => o.WxNo)
+                        @Html.Partial("Component/_TextPartial"
+                       , new TextUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Title), (Model.CardType.TextOf() + "标题"), Model.MerberCard.BaseInfo.Title, 12, true, "12以内的中文字符"))
+
+                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Color), "卡面颜色", Model.MerberCard.BaseInfo.Color))
+
+                        @Html.Partial("Component/_ImgageUploadUIelement",
+                      new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl), "封面图片", MediaUploadTypes.Material, Model.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl, true, Model.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl))
+
+
+                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.Abstract.AbstractX), "封面介绍", Model.MerberCard.AdvancedInfo.Abstract.AbstractX, 100, true))
+
+
+                        @Html.Partial("Component/_DecimalPartial",
+                       new DecimalUIElement(Html.NameOf(o => o.MerberCard.MerberCard), "折扣额度",
+                       Model.MerberCard.MerberCard, CardTypes.MerberCard.Required(Model.CardType),
+                       "输入折扣1-9."))
+
+                        @Html.Partial("Component/_DecimalPartial",
+                       new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Sku.Quantity), "库存量", Model.MerberCard.BaseInfo.Sku.Quantity, true, "输入库存量"))
+
+
+                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Uselimit), "可核销次数限制", Model.MerberCard.BaseInfo.Uselimit, true, "不填默认为50次"))
+
+
+                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Getlimit), "每人限领", Model.MerberCard.BaseInfo.Getlimit, true))
+
+
+                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Notice), "操作提示", Model.MerberCard.BaseInfo.Notice, 100, true))
+
+
+                        @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Description), "使用须知", Model.MerberCard.BaseInfo.Description, 100, true))
+                    </div>
                     <div class="tab-pane fade" id="userule">
                         <h4>&nbsp;</h4>
-                        <div class="form-group ">
-                            <label>适用商品</label>
-                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.UseProductScope), ApplyScopes.All.ToString(),
-                                   new RadioUIElement.RadioItem[]{
-                                              new RadioUIElement.RadioItem("product_"+ApplyScopes.All.ToString(),"product_"+ Html.NameOf(o=>o.UseProductScope),"全部商品",ApplyScopes.All.ToString(),"abbc"),
-                                              new RadioUIElement.RadioItem("product_"+ApplyScopes.Specified.ToString(),"product_"+ Html.NameOf(o=>o.UseProductScope),"特定商品",ApplyScopes.Specified.ToString(),"group_product_specific")
-
-                                   }))
-                            <fieldset id="group_product_specific">
-                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.AcceptCategory), "可以用商品", Model.AdvancedInfo.UseCondition.AcceptCategory, 120))
-                                @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.RejectCategory), "不可用商品", Model.AdvancedInfo.UseCondition.RejectCategory, 120))
-                            </fieldset>
-                        </div>
-
-                        <div class="form-group ">
-                            <label>适用门店</label>
-                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.UseShopScope), ApplyScopes.All.ToString(),
-                                      new RadioUIElement.RadioItem[] {
-                                                 new RadioUIElement.RadioItem("shop_"+ApplyScopes.All.ToString(),Html.NameOf(o=>o.UseShopScope),"全部门店",ApplyScopes.All.ToString(),"xxdd"),
-                                                 new RadioUIElement.RadioItem("shop_"+ApplyScopes.Specified.ToString(),Html.NameOf(o=>o.UseShopScope),"特定门店",ApplyScopes.Specified.ToString(),"group_shop_specific")
-                                      }))
-                            <fieldset id="group_shop_specific">
-                                @Html.Partial("Component/_MultiChoicePartial",
-                                    new MultiChoiceUIElement(Html.NameOf(o => o.AllowShops), "选择门店", new MultiChoiceUIElement.ChoiceItem[] {
-                                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"1","门店一",true),
-                                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"2","门店二",true),
-                                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"3","门店三",true),
-                                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AllowShops),"3","门店四",true)
+                        <div class="form-group">
+                            <label>有效期</label>
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Dateinfo.Type), Model.MerberCard.BaseInfo.Dateinfo.Type.ToString(),
+                                    new RadioUIElement.RadioItem[]{
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"expiry_"+ Html.NameOf(o=>o.MerberCard.BaseInfo.Dateinfo.Type),"固定时间",ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"group_date_type_fix_time_range"),
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"expiry_"+ Html.NameOf(o=>o.MerberCard.BaseInfo.Dateinfo.Type),"指定时间",ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"group_date_type_fix_term")
                                     }))
+                            <fieldset id="group_date_type_fix_time_range">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        @Html.Partial("Component/_DatePickerPartial",
+                                       new DatePickerUIElement(Html.NameOf(o=>o.MerberCard.BaseInfo.Dateinfo.BeginTimeString),
+                                       "开始时间", Model.MerberCard.BaseInfo.Dateinfo.BeginTimeString,"",true))
+                                    </div>
+                                    <div class="col-lg-6">
+                                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Dateinfo.EndTimeString),
+                                       "结束时间", Model.MerberCard.BaseInfo.Dateinfo.EndTimeString,"", true))
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset id="group_date_type_fix_term">
+                                @Html.Partial("Component/_DecimalPartial",
+                                 new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Dateinfo.FixedBeginTerm), "领券后",Model.MerberCard.BaseInfo.Dateinfo.FixedBeginTerm, false,"输入领取后多少天开始有效"))
+
+                                @Html.Partial("Component/_DecimalPartial",
+                                          new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Dateinfo.FixedTerm), "有效期",
+                                          Model.MerberCard.BaseInfo.Dateinfo.FixedTerm, false,"输入有效期天数"))
+
+                            </fieldset>
+                        </div>
+                        <div class="form-group">
+                            <label>使用条件</label>
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.UseCondition.Type),Model.MerberCard.AdvancedInfo.UseCondition.Type.ToString(),
+                                    new RadioUIElement.RadioItem[]{
+                                        new RadioUIElement.RadioItem("uselimit_"+
+                                        UseLimitTypes.None.ToString(),"uselimit_"+ Html.NameOf(o=>o.MerberCard.AdvancedInfo.UseCondition.Type),"无门槛",UseLimitTypes.None.ToString(),"abbc"),
+
+                                        new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.Specified.ToString(),"uselimit_"+ Html.NameOf(o=>o.MerberCard.AdvancedInfo.UseCondition.Type),"消费满",UseLimitTypes.Specified.ToString(),"group_uselimit_specific")
+                                    }))
+                            <fieldset id="group_uselimit_specific">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @Html.Partial("Component/_DecimalPartial",
+                                       new DecimalUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.UseCondition.LeastCost), "消费金额", Model.MerberCard.AdvancedInfo.UseCondition.LeastCost, false))
+                                    </div>
+                                </div>
                             </fieldset>
                         </div>
 
-                        @*<div class="form-group ">
-                        <label>可用时段</label>
-                        @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType), "",
-                          new RadioUIElement.RadioItem[]
-                          {
-                             new RadioUIElement.RadioItem(ApplyScopes.All.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.AcceptCategory),"所有时段","abbc"),
-                             new RadioUIElement.RadioItem(ApplyScopes.Specific.ToString(),Html.NameOf(o=>o.AdvancedInfo.UseCondition.RejectCategory),"特定时段","abbc")
-                         }, null, CardTypes.GROUPON.ToString()))
-                    </div>*@
-                        @Html.Partial("Component/_MultiChoicePartial",
-                            new MultiChoiceUIElement(Html.NameOf(o => o.AdvancedInfo.BusinessService), "商家服务",
-                            new MultiChoiceUIElement.ChoiceItem[] {
-                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_DELIVER",EnjoyConstant.BusinessService["BIZ_SERVICE_DELIVER"],true),
-                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_PARK",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_PARK"],true),
-                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_WITH_PET",EnjoyConstant.BusinessService["BIZ_SERVICE_WITH_PET"],true),
-                                   new MultiChoiceUIElement.ChoiceItem(Html.NameOf(o=>o.AdvancedInfo.BusinessService),"BIZ_SERVICE_FREE_WIFI",EnjoyConstant.BusinessService["BIZ_SERVICE_FREE_WIFI"],true)
-                                }))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanGivefriend), "可否赠送好友", Model.BaseInfo.CanGivefriend ?? false))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.BaseInfo.CanShare), "与他人共享", Model.BaseInfo.CanShare ?? false))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.AdvancedInfo.UseCondition.CanUseWithOtherDiscount), "可与其他优惠共享", Model.AdvancedInfo.UseCondition.CanUseWithOtherDiscount))
-                        @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.MerberCard.Prerogative), "会员特权说明", Model.MerberCard.Prerogative, 120, true))
+                        <div class="form-group">
+                            @Html.Partial("Component/_TextAreaPartial",
+                           new TextAreaUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.UseCondition.AcceptCategory), "可用商品", Model.MerberCard.AdvancedInfo.UseCondition.AcceptCategory,120, false, "逗号分割商品名称/类别"))
+
+                            @Html.Partial("Component/_TextAreaPartial",
+                                new TextAreaUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.UseCondition.RejectCategory), "不可用商品", Model.MerberCard.AdvancedInfo.UseCondition.RejectCategory,120, false,"逗号分割商品名称/类别"))
+                        </div>
                     </div>
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
-                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.BaseInfo.Color), "卡面背景色", Model.BaseInfo.Color))
-                        @*@Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterTitle), "入口标题", Model.BaseInfo.CenterTitle, "", string.Empty, true))
-                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterUrl), "入口地址", Model.BaseInfo.CenterUrl, "", string.Empty, true))
-                    @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.BaseInfo.CenterSubTitle), "入口提示", Model.BaseInfo.CenterSubTitle, "", string.Empty, true))*@
-                        @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.AdvancedInfo.TextImageList), Model.AdvancedInfo.TextImageList.ToArray()))
-
+                        @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.TextImageList), Model.MerberCard.AdvancedInfo.TextImageList.ToArray()))
                     </div>
                 </div>
-                if (Model.CCStatus == CardCouponStates.Editing)
-                {
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-offset-4">
-                                <button type="submit" class="btn btn-default ">创建</button>
-                                <button type="reset" class="btn btn-default">清除</button>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-offset-4">
-                                <a class="btn btn-default" href="/cards/coupon">返回</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-offset-4">
+                            <button type="submit" class="btn btn-default ">保存</button>
+                            <a class="btn btn-default" href="/cards/coupon">返回</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
         </div>
         <div class="col-lg-6">
             <p>效果展示</p>
@@ -159,7 +160,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("form").html5Validate(function () {
-                alert("全部通过！");
+
                 this.submit();
             },
                 {

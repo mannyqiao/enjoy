@@ -5,8 +5,26 @@
         @foreach (var item in Model.Items)
         {
             <label class="checkbox-inline">
-                <input type="checkbox" id="@Model.Id" name="@Model.Name" value="@item.Value" @(item.Checked?"checked='checked'":"")>@item.Text
-            </label>
-        }
+                <input type="checkbox" id="chk-@Model.Id" name="chk_@Model.Name"
+                       value="@item.Value" @(item.Checked ? "checked='checked'" : "")>@item.Text
+                    <input type="hidden" id="@Model.Id" name="@Model.Name" value="@item.Value">
+                </label>
+            }
     </div>
 </div>
+@using (Script.Foot())
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[type='checkbox']").click(function () {
+                var id = $(this).val("id").split("-")[1];
+                if ($(this).attr("checked") == "checked") {
+                    $("#" + name).val($(this).val());
+                }
+                else {
+                    $("#" + name).val("");
+                }
+            });
+        });
+    </script>
+}

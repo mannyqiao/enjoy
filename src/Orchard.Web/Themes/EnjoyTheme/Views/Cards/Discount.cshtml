@@ -1,0 +1,172 @@
+﻿
+@using Enjoy.Core.UIElements
+@using Enjoy.Core;
+@model Enjoy.Core.ViewModels.CardCounponViewModel
+
+<div id="page-wrapper">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">[@Model.SubMerchantBrandName]@Model.CardType.TextOf()</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("EditPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            {
+                @Html.HiddenFor(o => o.Id)
+                @Html.HiddenFor(o => o.CreatedTime)
+                @Html.HiddenFor(o => o.MerchantId)
+                @Html.HiddenFor(o => o.CardType)
+                @Html.HiddenFor(o => o.Discount.BaseInfo.Dateinfo.Type)
+                @Html.HiddenFor(o => o.WxNo)
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#profile" data-toggle="tab">基本信息</a>
+                    </li>
+                    <li>
+                        <a href="#userule" data-toggle="tab">使用规则</a>
+                    </li>
+                    <li>
+                        <a href="#settings" data-toggle="tab">扩展设置</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="profile">
+                        <h4>&nbsp;</h4>
+                        @Html.HiddenFor(o => o.WxNo)
+                        @Html.Partial("Component/_TextPartial"
+                       , new TextUIElement(Html.NameOf(o => o.Discount.BaseInfo.Title), (Model.CardType.TextOf() + "标题"), Model.Discount.BaseInfo.Title, 12, true, "12以内的中文字符"))
+
+                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.Discount.BaseInfo.Color), "卡面颜色", Model.Discount.BaseInfo.Color))
+
+                        @Html.Partial("Component/_ImgageUploadUIelement",
+                      new ImageUploadUIElement(Html.NameOf(o => o.Discount.AdvancedInfo.Abstract.DefaultIcoUrl), "封面图片", MediaUploadTypes.Material, Model.Discount.AdvancedInfo.Abstract.DefaultIcoUrl, true, Model.Discount.AdvancedInfo.Abstract.DefaultIcoUrl))
+
+
+                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Discount.AdvancedInfo.Abstract.AbstractX), "封面介绍", Model.Discount.AdvancedInfo.Abstract.AbstractX, 100, true))
+
+
+                        @Html.Partial("Component/_DecimalPartial",
+                       new DecimalUIElement(Html.NameOf(o => o.Discount.Discount), "折扣额度",
+                       Model.Discount.Discount, CardTypes.DISCOUNT.Required(Model.CardType),
+                       "输入折扣1-9."))
+
+                        @Html.Partial("Component/_DecimalPartial", 
+                       new DecimalUIElement(Html.NameOf(o => o.Discount.BaseInfo.Sku.Quantity), "库存量", Model.Discount.BaseInfo.Sku.Quantity, true, "输入库存量"))
+
+
+                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.BaseInfo.Uselimit), "可核销次数限制", Model.Discount.BaseInfo.Uselimit, true, "不填默认为50次"))
+
+
+                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Discount.BaseInfo.Getlimit), "每人限领", Model.Discount.BaseInfo.Getlimit, true))
+
+
+                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Discount.BaseInfo.Notice), "操作提示", Model.Discount.BaseInfo.Notice, 100, true))
+
+
+                        @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Discount.BaseInfo.Description), "使用须知", Model.Discount.BaseInfo.Description, 100, true))
+                    </div>
+                    <div class="tab-pane fade" id="userule">
+                        <h4>&nbsp;</h4>
+                        <div class="form-group">
+                            <label>有效期</label>
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.Discount.BaseInfo.Dateinfo.Type), Model.Discount.BaseInfo.Dateinfo.Type.ToString(),
+                                    new RadioUIElement.RadioItem[]{
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"expiry_"+ Html.NameOf(o=>o.Discount.BaseInfo.Dateinfo.Type),"固定时间",ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"group_date_type_fix_time_range"),
+                                       new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"expiry_"+ Html.NameOf(o=>o.Discount.BaseInfo.Dateinfo.Type),"指定时间",ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"group_date_type_fix_term")
+                                    }))
+                            <fieldset id="group_date_type_fix_time_range">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        @Html.Partial("Component/_DatePickerPartial",
+                                       new DatePickerUIElement(Html.NameOf(o=>o.Discount.BaseInfo.Dateinfo.BeginTimeString),
+                                       "开始时间", Model.Discount.BaseInfo.Dateinfo.BeginTimeString,"",true))
+                                    </div>
+                                    <div class="col-lg-6">
+                                        @Html.Partial("Component/_DatePickerPartial", new DatePickerUIElement(Html.NameOf(o => o.Discount.BaseInfo.Dateinfo.EndTimeString),
+                                       "结束时间", Model.Discount.BaseInfo.Dateinfo.EndTimeString,"", true))
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset id="group_date_type_fix_term">
+                                @Html.Partial("Component/_DecimalPartial",
+                                 new DecimalUIElement(Html.NameOf(o => o.Discount.BaseInfo.Dateinfo.FixedBeginTerm), "领券后",Model.Discount.BaseInfo.Dateinfo.FixedBeginTerm, false,"输入领取后多少天开始有效"))
+
+                                @Html.Partial("Component/_DecimalPartial",
+                                          new DecimalUIElement(Html.NameOf(o => o.Discount.BaseInfo.Dateinfo.FixedTerm), "有效期",
+                                          Model.Discount.BaseInfo.Dateinfo.FixedTerm, false,"输入有效期天数"))
+
+                            </fieldset>
+                        </div>
+                        <div class="form-group">
+                            <label>使用条件</label>
+                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.Discount.AdvancedInfo.UseCondition.Type),Model.Discount.AdvancedInfo.UseCondition.Type.ToString(),
+                                    new RadioUIElement.RadioItem[]{
+                                        new RadioUIElement.RadioItem("uselimit_"+
+                                        UseLimitTypes.None.ToString(),"uselimit_"+ Html.NameOf(o=>o.Discount.AdvancedInfo.UseCondition.Type),"无门槛",UseLimitTypes.None.ToString(),"abbc"),
+
+                                        new RadioUIElement.RadioItem("uselimit_"+UseLimitTypes.Specified.ToString(),"uselimit_"+ Html.NameOf(o=>o.Discount.AdvancedInfo.UseCondition.Type),"消费满",UseLimitTypes.Specified.ToString(),"group_uselimit_specific")
+                                    }))
+                            <fieldset id="group_uselimit_specific">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @Html.Partial("Component/_DecimalPartial",
+                                       new DecimalUIElement(Html.NameOf(o => o.Discount.AdvancedInfo.UseCondition.LeastCost), "消费金额", Model.Discount.AdvancedInfo.UseCondition.LeastCost, false))
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="form-group">                            
+                            @Html.Partial("Component/_TextAreaPartial",
+                           new TextAreaUIElement(Html.NameOf(o => o.Discount.AdvancedInfo.UseCondition.AcceptCategory), "可用商品", Model.Discount.AdvancedInfo.UseCondition.AcceptCategory,120, false, "逗号分割商品名称/类别"))
+
+                            @Html.Partial("Component/_TextAreaPartial",
+                                new TextAreaUIElement(Html.NameOf(o => o.Discount.AdvancedInfo.UseCondition.RejectCategory), "不可用商品", Model.Discount.AdvancedInfo.UseCondition.RejectCategory,120, false,"逗号分割商品名称/类别"))
+                        </div>
+                    </div>
+                    <div class="tab-pane fade " id="settings">
+                        <h4>&nbsp;</h4>
+                        @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.Discount.AdvancedInfo.TextImageList), Model.Discount.AdvancedInfo.TextImageList.ToArray()))
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-offset-4">
+                            <button type="submit" class="btn btn-default ">保存</button>
+                            <a class="btn btn-default" href="/cards/coupon">返回</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <div class="col-lg-6">
+            <p>效果展示</p>
+            <img src="/themes/enjoytheme/content/images/coupon_demo.png" />
+        </div>
+    </div>
+</div>
+
+@using (Script.Foot())
+{
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/plugins/jquery-html5Validate/jquery-html5Validate.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").html5Validate(function () {
+
+                this.submit();
+            },
+                {
+                    // novalidate: false
+
+                });
+        });
+    </script>
+}

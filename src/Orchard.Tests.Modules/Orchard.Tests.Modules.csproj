@@ -195,6 +195,7 @@
     <Compile Include="Comments\Services\CommentServiceTests.cs" />
     <Compile Include="DesignerTools\Services\ObjectDumperTests.cs" />
     <Compile Include="Email\EmailChannelTests.cs" />
+    <Compile Include="EnjoyCore\WeChatMsgEvents\Wapper.cs" />
     <Compile Include="EnjoyCore\WeChatMsgEvents\WeChatEventTests.cs" />
     <Compile Include="ImageProcessing\ImageProcessingTests.cs" />
     <Compile Include="ImportExport\Services\ImportExportServiceTests.cs" />

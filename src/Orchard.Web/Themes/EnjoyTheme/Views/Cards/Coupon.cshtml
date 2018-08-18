@@ -1,196 +1,258 @@
-﻿
-@using Enjoy.Core;
+﻿@using Enjoy.Core;
+@using Enjoy.Core.UIElements;
 @model Enjoy.Core.ViewModels.MerchantCardCouponViewModel
-    <div id="page-wrapper">
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">[@Model.BrandName]卡券管理</h1>
-            </div>
-            <!-- /.col-lg-12 -->
+<div id="page-wrapper">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">[@Model.BrandName]卡券管理</h1>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                @Html.HiddenFor(o => o.MerchantId);
-                <!-- /.panel -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a type="button" class="btn btn-primary btn-sm" href="/cards/edit?@("merchantid="+Model.MerchantId )">
-                            <i class="fa fa-plus fa-fw"></i>新增券
-                        </a>
-                        <a type="button" class="btn btn-primary btn-sm" href="/cards/edit?@("merchantid="+Model.MerchantId +"&type="+CardTypes.MEMBER_CARD)">
-                            <i class="fa fa-plus fa-fw"></i>新增卡
-                        </a>
-                        <div class="pull-right">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                    快速查询
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                    <li>
-                                        <a href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a href="#">已投放</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">未投放</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">已过期</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                </ul>
-                            </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @Html.HiddenFor(o => o.MerchantId);
+            <!-- /.panel -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <button class="btn btn-primary btn-sm" id="showCardTypes">
+                        新增卡券
+                    </button>
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                快速查询
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a href="#"></a>
+                                </li>
+                                <li>
+                                    <a href="#">已投放</a>
+                                </li>
+                                <li>
+                                    <a href="#">未投放</a>
+                                </li>
+                                <li>
+                                    <a href="#">已过期</a>
+                                </li>
+                                <li class="divider"></li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-
-
-                        <table id="counpon" width="100%" class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-
-                                    <th>卡券编号</th>
-                                    <th>所属商户</th>
-                                    <th>卡券名称</th>
-                                    <th>卡券类型</th>
-                                    <th>创建时间</th>
-                                    <th>修改时间</th>
-                                    <th>库存</th>
-                                    <th>状态</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.col-lg-4 (nested) -->
-                    <div class="panel-footer">
-                        优惠券分为折扣券、礼品券、优惠券,优惠券（现金抵扣）
-                    </div>
-                    <!-- /.col-lg-8 (nested) -->
                 </div>
-                <!-- /.row -->
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+
+                    <table id="counpon" width="100%" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>卡券编号</th>
+                                <th>所属商户</th>
+                                <th>卡券名称</th>
+                                <th>卡券类型</th>
+                                <th>创建时间</th>
+                                <th>修改时间</th>
+                                <th>库存</th>
+                                <th>状态</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.col-lg-4 (nested) -->
+                <div class="panel-footer">
+                    优惠券分为折扣券、礼品券、优惠券,优惠券（现金抵扣）
+                </div>
+                <!-- /.col-lg-8 (nested) -->
             </div>
+            <!-- /.row -->
         </div>
     </div>
-    @using (Html.BeginFormAntiForgeryPost(Url.Action("QueryCouponCard"))) { }
-    @using (Script.Foot())
-    {
-        <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
-        <script src="/Themes/EnjoyTheme/Content/scripts/bootstrap.min.js"></script>
-        <script src="/Themes/EnjoyTheme/Content/plugins/datatables/js/jquery.dataTables.js"></script>
-        <script src="/Themes/EnjoyTheme/Content/plugins/datatables-plugins/dataTables.bootstrap.min.js"></script>
-        <script src="/Themes/EnjoyTheme/Content/plugins/datatables-responsive/dataTables.responsive.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                var table = $('#counpon').DataTable({
-                    "paging": true,
-                    "responsive": true,
-                    "serverSide": true,
-                    "processing": true,//加载中
-                    "pagingType": "full_numbers",//分页模式
-                    "language": {
-                        "paginate": {
-                            "first": "第一页",
-                            "last": "末页",
-                            "previous": "上一页",
-                            "next": "下一页"
-                        },
-                        "emptyTable": "没有数据",
-                        "info": "显示  _PAGE_ / _PAGES_ 页",
-                        "infoEmpty": "显示 0 到 0 记录,共 0 记录",
-                        "search": "搜索:",
-                        "infoFiltered": "",
-                        "lengthMenu": "每页显示 _MENU_ 条记录",
-                        "processing": "玩命加载中..."
-                    },
-                    "ajax": {
-                        "url": "/cards/QueryCouponCard",
-                        "type": "POST",
-                        "data": function (data) {
-                            data.__RequestVerificationToken = $("input[name='__RequestVerificationToken']").val();
-                            console.log(data)
-                            return data;
-                        }
-                    },
-                    "columns": [
-                        { data: "WxNo" },
-                        { data: "Merchant" },
-                        { data: "BrandName" },
-                        { data: "Type" },
-                        { data: "CreatedTime" },
-                        { data: "LastUpdateTime" },
-                        { data: "Quantity" },
-                        { data: "StateWithName" },
-                        {
-                            data: "Id", "render": function (data, type, row, meta) {
-                                var merchantid = $("#MerchantId").val();
-                                var innerHtml = "";
-                                if (row.State == 1 || row.State == 32) {
-                                    innerHtml = "<button id='btn_publish' class='btn btn-outline btn-primary btn-xs ' data-data='" + data + "'>提交审核</button>" +
-                                        "<button id='btn_del' class='btn btn-outline btn-default btn-xs ' data-data='" + data + "'>删除</button>";
-                                }
-                                if (row.Status == 2) {
-                                    innerHtml += "<a  class='btn btn-outline btn-success btn-xs ' href='/cards/showqr?id=" + data + "'>投放</a>";
-                                }
-                                innerHtml += "<a class='btn btn-outline  btn-default    btn-xs' href='/cards/edit?merchantid=" + merchantid + "&id=" + data + "&type=" + row.CardType + "'>编辑</a>";
-                                return innerHtml;
-                            }
-                        }
-                    ],
-                    "columnDefs": [
-                        { "searchable": true, "targets": 0 },//WxNo
-                        { "searchable": false, "targets": 1 },//Merchant
-                        { "searchable": true, "targets": 2 },//BrandName
-                        { "searchable": true, orderable: false, "targets": 3 },//Type
-                        { "searchable": true, "targets": 4 },//CreatedTime
-                        { "searchable": true, "targets": 5 },//LastUpdateTime
-                        { "searchable": false, orderable: false, "targets": 6 },//Quantity
-                        { "searchable": true, orderable: true, "targets": 7 }//Status
-                    ]
-                });
+</div>
+<!-- Modal -->
+<div class="modal fade" id="chooseCardType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">选择卡券类型然后继续</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.CardType),
+                           Model.CardType.ToString(),
+                                   new RadioUIElement.RadioItem[]{
+                                               new RadioUIElement.RadioItem(CardTypes.DISCOUNT.ToString(),
+                                               Html.NameOf(o=>o.CardType),"折扣券",
+                                               CardTypes.DISCOUNT.ToString(),null,false),
 
-                $('#counpon tbody').on('click', 'button', function () {
-                    var link = "";                    
-                    if ($(this).attr("id") == "btn_del") {
-                        if (confirm("真的要删除吗?") == false) {
-                            return;
-                        }
-                        link = "/cards/delete";
+                                               new RadioUIElement.RadioItem(CardTypes.CASH.ToString(),
+                                               Html.NameOf(o=>o.CardType),"代金券",
+                                               CardTypes.CASH.ToString(),null,false),
+
+
+                                               new RadioUIElement.RadioItem(CardTypes.GIFT.ToString(),
+                                               Html.NameOf(o=>o.CardType),"兑换券",
+                                               CardTypes.GIFT.ToString(),null,false),
+
+
+                                               new RadioUIElement.RadioItem(CardTypes.MEMBER_CARD.ToString(),
+                                               Html.NameOf(o=>o.CardType),"会员卡",
+                                               CardTypes.MEMBER_CARD.ToString(),null,false)
+
+                                        }))
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <a id="creating" href="@(string.Format("/cards/edit?merchantid={0}&type={1}", Model.MerchantId,Model.CardType.ToString()))" class="btn btn-primary">下一步</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@using (Html.BeginFormAntiForgeryPost(Url.Action("QueryCouponCard"))) { }
+@using (Script.Foot())
+{
+
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/bootstrap.min.js"></script>
+    <script src="/themes/enjoytheme/content/scripts/sb-admin-2.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/plugins/datatables/js/jquery.dataTables.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/plugins/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/plugins/datatables-responsive/dataTables.responsive.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#showCardTypes").click(function () {
+                $("#chooseCardType").modal("show");
+            });
+            $("input[type='radio']").click(function () {
+                var merchantid = $('#MerchantId').val();
+                var type = $(this).attr("id");
+                $("#creating").attr("href", "/cards/edit?merchantid=" + merchantid + "&type=" + type);
+            });
+
+
+            var table = $('#counpon').DataTable({
+                "paging": true,
+                "responsive": true,
+                "serverSide": true,
+                "processing": true,//加载中
+                "pagingType": "full_numbers",//分页模式
+                "language": {
+                    "paginate": {
+                        "first": "第一页",
+                        "last": "末页",
+                        "previous": "上一页",
+                        "next": "下一页"
+                    },
+                    "emptyTable": "没有数据",
+                    "info": "显示  _PAGE_ / _PAGES_ 页",
+                    "infoEmpty": "显示 0 到 0 记录,共 0 记录",
+                    "search": "搜索:",
+                    "infoFiltered": "",
+                    "lengthMenu": "每页显示 _MENU_ 条记录",
+                    "processing": "玩命加载中..."
+                },
+                "ajax": {
+                    "url": "/cards/QueryCouponCard",
+                    "type": "POST",
+                    "data": function (data) {
+                        data.__RequestVerificationToken = $("input[name='__RequestVerificationToken']").val();
+                        console.log(data)
+                        return data;
                     }
-                    else {//publish
-                        link = "/cards/publish";                    
-                    }                    
-                    var data = table.row($(this).parents('tr')).data();                    
-                    $.ajax({
-                        type: "POST",
-                        url: link,
-                        data: {
-                            "id": data.Id,
-                            "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val()
-                        },
-                        success: function (result) {
-                            if (result.error_code == 0) {
-                                table.ajax.reload();
-                            }
-                            else {
-                                alert(result.error_message);
-                            }
-                        },
-                        error: function (msg) {
+                },
+                "columns": [
+                    { data: "WxNo" },
+                    { data: "Merchant" },
+                    { data: "BrandName" },
+                    { data: "Type" },
+                    { data: "CreatedTime" },
+                    { data: "LastUpdateTime" },
+                    { data: "Quantity" },
+                    { data: "StateWithName" },
+                    {
+                        data: "Id", "render": function (data, type, row, meta) {
+                            var merchantid = $("#MerchantId").val();
+                            var innerHtml = "";
+                            console.log(row.State);
+                            if (row.State == 1 || row.State == 3) {
+                                innerHtml = "<button id='btn_publish' class='btn btn-outline btn-primary btn-xs ' data-data='" + data + "'>发布</button>";
 
-                        },
-                        complete: function (xhr, ts) {
+                            }
 
+                            if (row.State == 3) {
+                                innerHtml += "<a  class='btn btn-outline btn-success btn-xs ' href='/cards/showqr?id=" + data + "'>投放</a>";
+                            }
+                            innerHtml += "<a class='btn btn-outline  btn-default    btn-xs' href='/cards/edit?merchantid=" + merchantid + "&id=" + data + "&type=" + row.CardType + "&timestamp=" + new Date() + "'>编辑</a>";
+                            if (row.State == 1 || row.State == 3) {
+                                innerHtml += "<button id='btn_del' class='btn btn-outline btn-default btn-xs ' data-data='" + data + "'>删除</button>";
+                            }
+                            return innerHtml;
                         }
-                    });
+                    }
+                ],
+                "columnDefs": [
+                    { "searchable": true, "targets": 0 },//WxNo
+                    { "searchable": false, "targets": 1 },//Merchant
+                    { "searchable": true, "targets": 2 },//BrandName
+                    { "searchable": true, orderable: false, "targets": 3 },//Type
+                    { "searchable": true, "targets": 4 },//CreatedTime
+                    { "searchable": true, "targets": 5 },//LastUpdateTime
+                    { "searchable": false, orderable: false, "targets": 6 },//Quantity
+                    { "searchable": true, orderable: true, "targets": 7 }//Status
+                ]
+            });
+
+            $('#counpon tbody').on('click', 'button', function () {
+                var link = "";
+                if ($(this).attr("id") == "btn_del") {
+                    if (confirm("真的要删除吗?") == false) {
+                        return;
+                    }
+                    link = "/cards/delete";
+                }
+                else {//publish
+                    link = "/cards/publish";
+                }
+                var data = table.row($(this).parents('tr')).data();
+                $.ajax({
+                    type: "POST",
+                    url: link,
+                    data: {
+                        "id": data.Id,
+                        "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val()
+                    },
+                    success: function (result) {
+                        if (result.error_code == 0) {
+                            table.ajax.reload();
+                        }
+                        else {
+                            alert(result.error_message);
+                        }
+                    },
+                    error: function (msg) {
+
+                    },
+                    complete: function (xhr, ts) {
+
+                    }
                 });
             });
-        </script>
-    }
+        });
+    </script>
+}
+

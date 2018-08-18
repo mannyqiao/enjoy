@@ -11,7 +11,7 @@ namespace Enjoy.Core.WeChatModels
     {
         public BaseInfo()
         {
-
+            
         }
 
         [JsonProperty("sub_merchant_info")]
@@ -58,12 +58,12 @@ namespace Enjoy.Core.WeChatModels
 
         [Newtonsoft.Json.JsonProperty("use_limit", NullValueHandling = NullValueHandling.Ignore)]
         [DefaultValue(1)]
-        public virtual int? Uselimit { get; set; }
+        public virtual int Uselimit { get; set; }
 
 
         [Newtonsoft.Json.JsonProperty("get_limit", NullValueHandling = NullValueHandling.Ignore)]
 
-        public virtual int? Getlimit { get; set; }
+        public virtual int Getlimit { get; set; }
 
         [Newtonsoft.Json.JsonProperty("use_custom_code", NullValueHandling = NullValueHandling.Ignore)]
         public virtual bool UseCustomCode { get; set; }
@@ -72,10 +72,10 @@ namespace Enjoy.Core.WeChatModels
         public virtual bool? BindOpenid { get; set; }
 
         [Newtonsoft.Json.JsonProperty("can_share")]
-        public virtual bool? CanShare { get; set; }
+        public virtual bool CanShare { get; set; }
 
         [Newtonsoft.Json.JsonProperty("can_give_friend", NullValueHandling = NullValueHandling.Ignore)]
-        public virtual bool? CanGivefriend { get; set; }
+        public virtual bool CanGivefriend { get; set; }
 
         [Newtonsoft.Json.JsonProperty("center_title", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CenterTitle { get; set; }
@@ -83,22 +83,47 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("center_sub_title", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CenterSubTitle { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("center_url")]
+
+        [JsonProperty("center_app_brand_user_name", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string CenterAppBrandUserName { get; set; }
+
+        [JsonProperty("center_app_brand_pass", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string CenterAppBrandPass { get; set; }
+
+
+        [JsonProperty("need_push_on_view")]
+        public virtual bool NeedPushOnView { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("center_url", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CenterUrl { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("custom_url_name")]
+        [Newtonsoft.Json.JsonProperty("custom_url_name", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CustomUrlName { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("custom_url")]
+        [Newtonsoft.Json.JsonProperty("custom_url", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CustomUrl { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("custom_url_sub_title")]
+        [JsonProperty("custom_app_brand_user_name", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string CustomAppBrandUserName { get; set; }
+
+        [JsonProperty("custom_app_brand_pass", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string CustomAppBrandPass { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("custom_url_sub_title", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CustomUrlSubTitle { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("promotion_url_name")]
+        [Newtonsoft.Json.JsonProperty("promotion_url_name", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string PromotionUrlName { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("promotion_url")]
+
+        [Newtonsoft.Json.JsonProperty("promotion_app_brand_user_name", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string PromotionAppBrandUserName { get; set; }
+
+
+        [Newtonsoft.Json.JsonProperty("promotion_app_brand_pass", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual string PromotionAppBrandPass { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("promotion_url", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string PromotionUrl { get; set; }
 
         [Newtonsoft.Json.JsonProperty("source")]
