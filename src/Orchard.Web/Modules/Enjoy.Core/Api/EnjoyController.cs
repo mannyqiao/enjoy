@@ -15,6 +15,7 @@ namespace Enjoy.Core.Api
     using System.Collections.Generic;
     using Enjoy.Core.ApiModels;
     using System.Linq;
+    using Enjoy.Core.ViewModels;
 
     //[Authorize]
     public class EnjoyController : ApiController
@@ -24,6 +25,7 @@ namespace Enjoy.Core.Api
         private readonly IOrchardServices OS;
         private readonly IWeChatApi WeChat;
         private readonly IWeChatMsgHandler _handler;
+
         public EnjoyController(
             IOrchardServices os,
             IEnjoyAuthService auth,
@@ -44,7 +46,7 @@ namespace Enjoy.Core.Api
         {
             return this.Auth.QueryByMobile(mobile);
         }
-        [Route("api/enjoy/decode")]
+        [Route("api/enjoy/signature")]
         [HttpGet]
         public WxSession DecodeUserinfo(string code, string iv, string encryptedData, string signature)
         {
@@ -110,10 +112,9 @@ namespace Enjoy.Core.Api
 
         [Route("api/enjoy/QueryMerchants")]
         [HttpPost]
-        [HttpGet]
-        public List<Banner> QueryMerchants(int page = 1, int size = 10)
-        {
-            var condition = PagingCondition.GenerateByPageAndSize(page, size);
+        public List<Banner> QueryMerchants(PagingX paging)
+        {            
+            var condition = PagingCondition.GenerateByPageAndSize(paging.Page, paging.PageSize);
             return this.Merchant.QueryMerchants(new QueryFilter()
             {
                 Columns = new List<QueryColumnFilter>()
@@ -148,6 +149,13 @@ namespace Enjoy.Core.Api
                     LinkType = 9
                 };
             }).ToList();
+        }
+
+        [Route("api/enjoy/sendverifycode")]
+        [HttpPost]
+        public ActionResponse<VerificationCodeViewModel> SendVerifyCode(Mobile mobile)
+        {
+            return this.Auth.GetverificationCode(mobile.Value);
         }
     }
 }

@@ -10,8 +10,9 @@ namespace Enjoy.Core
     {
         public int Skip { get; set; }
         public int Take { get; set; }
-        
+        [JsonProperty("page")]
         public int Page { get; set; }
+        [JsonProperty("size")]
         public int Size { get; set; }
         public PagingCondition(int skip, int take)
         {

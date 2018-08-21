@@ -1,7 +1,7 @@
 import cfg from '../config/index.js';
-import ApiList from  '../config/api';
-import {promisify, complete} from 'promisify';
-import {co, Promise, regeneratorRuntime} from 'co-loader';
+import ApiList from '../config/api';
+import { promisify, complete } from 'promisify';
+import { co, Promise, regeneratorRuntime } from 'co-loader';
 import request from 'request';
 
 /*
@@ -17,60 +17,63 @@ import request from 'request';
  *   console.info('userInfo', res)
  * })
  * */
-const getUserInfo = co.wrap(function *() {
-    const key_user = cfg.localKey.user;
-    let userInfo = wx.getStorageSync(key_user);
-    if (!userInfo) {
-        userInfo = {
-            wx: null,
-            mmh: null
-        };
-        const basic = yield promisify(wx.login)();
-        //console.info('login---',basic);
+const getUserInfo = co.wrap(function* () {
 
-        //用户明文信息
-        const user = yield promisify(wx.getUserInfo)({withCredentials: true});
-        userInfo.wx = user.userInfo;
-        //console.info('user---',user);
+  const key_user = cfg.localKey.user;
 
-        //code换取session_key
-        const session = yield request({
-            url: "https://api.weixin.qq.com/sns/jscode2session",
-            data: {
-                appid: cfg.appid,
-                secret: cfg.secret,
-                js_code: basic.code,
-                grant_type: "authorization_code"
-            }
-        });
-        //console.info('jscode2session---',session);
+  let userInfo = wx.getStorageSync(key_user);
 
-        //解密encryptedData
-        if(session.data){
-            const decodeInfo = yield request({
-                url: ApiList.decodeWechatInfo,
-                data: {
-                    appId: cfg.appid,
-                    data: user.encryptedData,
-                    iv: user.iv,
-                    sessionKey: session.data.session_key
-                }
-            });
-            //console.info('decodeInfo---',decodeInfo);
+  if (!userInfo) {
+    userInfo = {
+      wx: null,
+      mmh: null
+    };
+    const basic = yield promisify(wx.login)();
+    console.info('basic---', basic);
 
-            if(decodeInfo.data){
-                userInfo.mmh = decodeInfo.data.mmhUser;
-                userInfo.wx = decodeInfo.data.wxUser;
-            }
+    //用户明文信息
+    const user = yield promisify(wx.getUserInfo)({ withCredentials: true });
+    userInfo.wx = user.userInfo;
+    console.info('user---', user);
+
+    //code换取session_key
+    const session = yield request({
+      url: "https://api.weixin.qq.com/sns/jscode2session",
+      data: {
+        appid: cfg.appid,
+        secret: cfg.secret,
+        js_code: basic.code,
+        grant_type: "authorization_code"
+      }
+    });
+    console.info('jscode2session---', session);
+
+    //解密encryptedData
+    if (session.data) {
+      const decodeInfo = yield request({
+        url: ApiList.decodeWechatInfo,
+        data: {
+          appId: cfg.appid,
+          data: user.encryptedData,
+          iv: user.iv,
+          sessionKey: session.data.session_key
         }
+      });
+      //console.info('decodeInfo---',decodeInfo);
 
-        wx.setStorage({
-            key: key_user,
-            data: userInfo
-        });
+      if (decodeInfo.data) {
+        userInfo.mmh = decodeInfo.data.mmhUser;
+        userInfo.wx = decodeInfo.data.wxUser;
+      }
     }
-    return userInfo;
+
+    wx.setStorage({
+      key: key_user,
+      data: userInfo
+    });
+  }
+  return userInfo;
 });
 
-export {getUserInfo};
+export { getUserInfo };
 

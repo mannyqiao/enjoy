@@ -1,11 +1,12 @@
 /**
  * api list
  */
-const host = "https://api.example.com/api/";
+const host = "https://www.yourc.club/";
 
 export default {
-    "decodeWechatInfo":     `${host}V1/tools/signature`,                                    //解密微信用户信息
-    "vcode":                `${host}V1/basic/vcode.htm`,                                    //绑定获取验证码
+    "decodeWechatInfo":     `${host}api/enjoy/signature`,                                   //解密微信用户信息
+    "QueryNearbyMerchant":  `${host}api/enjoy/QueryMerchants`,                          //查询商信息
+    "vcode":                `${host}api/enjoy/SendVerifyCode`,                           //绑定获取验证码
     "bind":                 `${host}V1/basic/bind.htm`,                                     //绑定
     "getCenterInfo":        `${host}V1/basic/memberInfo.htm`,                               //个人中心
 

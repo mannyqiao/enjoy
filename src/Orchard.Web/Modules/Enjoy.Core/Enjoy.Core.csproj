@@ -106,6 +106,8 @@
     <Compile Include="ApiRoutes.cs" />
     <Compile Include="Api\EnjoyController.cs" />
     <Compile Include="Api\Models\Banner.cs" />
+    <Compile Include="Api\Models\Mobile.cs" />
+    <Compile Include="Api\Models\PagingX.cs" />
     <Compile Include="Api\Models\ShopAct.cs" />
     <Compile Include="Api\Models\ShopNearyby.cs" />
     <Compile Include="Common\Extensions\AuditStatusExtension.cs" />
