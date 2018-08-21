@@ -5,11 +5,14 @@ using System.Web;
 
 namespace Enjoy.Core
 {
+    using Newtonsoft.Json;
     public class PagingCondition
     {
         public int Skip { get; set; }
         public int Take { get; set; }
-
+        
+        public int Page { get; set; }
+        public int Size { get; set; }
         public PagingCondition(int skip, int take)
         {
             this.Skip = skip;

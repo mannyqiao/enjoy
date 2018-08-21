@@ -7,7 +7,6 @@
         <text class="title">{{deliveryAddress}}</text>
         <view class="u-triangle down"></view>
     </view>
-
 </view>
 
 <!-- linkType: 1、图片不能点击 2、普通商品id 3、url 5、妈豆商品 itemNumID templateId 8、品牌列表 9、三级类目id -->

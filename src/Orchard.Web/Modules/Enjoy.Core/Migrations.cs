@@ -171,9 +171,29 @@ namespace Enjoy.Core
                 .Column("FriendUserName", DbType.String, column => column.WithLength(32))
                 .Column("State", DbType.String, column => column.WithLength(32))
                 .Column("Type", DbType.String, column => column.WithLength(32))
-                .Column("IsGiftingToFriend", DbType.Boolean)                
-                .Column("ExtraInfo", DbType.String, column => column.Unlimited())                
+                .Column("IsGiftingToFriend", DbType.Boolean)
+                .Column("ExtraInfo", DbType.String, column => column.Unlimited())
                 .Column("LastActivityTime", DbType.Int64, column => column.Nullable())
+            );
+
+            SchemaBuilder.CreateTable("Category", table => table
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("Name", DbType.String, column => column.WithLength(32).NotNull())
+                .Column("Merchant_Id", DbType.Int64, column => column.NotNull())
+                .Column("Settings", DbType.String, column => column.WithDefault("{}"))
+                .Column("LastActivityTime", DbType.Int64)
+                
+            );
+
+            SchemaBuilder.CreateTable("Product", table => table
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("Name", DbType.String, column => column.WithLength(32).NotNull())
+                .Column("Category_Id", DbType.Int64, column => column.NotNull())
+                .Column("Merchant_Id", DbType.Int64, column => column.NotNull())
+                .Column("Trades", DbType.Int64, column => column.NotNull())
+                .Column("Price", DbType.Int64, column => column.NotNull())
+                .Column("LastActivityTime", DbType.Int64)
+                .Column("Settings", DbType.String, column => column.WithDefault("{}"))
             );
 
         }

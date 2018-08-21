@@ -211,14 +211,17 @@ namespace Enjoy.Core.Services
             return model;
         }
 
-        public PagingData<MerchantModel> QueryMyMerchants(
+        public PagingData<MerchantModel> QueryMerchants(
             QueryFilter filter,
             PagingCondition condition)
         {
+            
             return this.Query(condition, (builder) =>
             {
-
-            }, (record) => Convert(record));
+                builder.WithQueryFilter(filter);
+                //builder.WithQueryOrder(filter);
+            },
+            (record) => Convert(record));
         }
         MerchantModel Convert(Merchant record)
         {
@@ -240,6 +243,6 @@ namespace Enjoy.Core.Services
             return base.Delete(id);
         }
 
-       
+
     }
 }

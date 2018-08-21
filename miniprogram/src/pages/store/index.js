@@ -12,85 +12,37 @@ Page({
       showDialog: false
     },
     "bannerList": [
-      {
-        "pic": "https://www.yourc.club/media/brand/1.jpg",
-        "linkType": 9,
-        "linkTo": "137",
-        "linkName": ""
-      },
-      {
-        "pic": "https://www.yourc.club/media/brand/2.jpg",
-        "linkType": 2,
-        "linkTo": "3456",
-        "itemNumId": 100
-      },
-      {
-        "pic": "https://www.yourc.club/media/brand/3.jpg",
-        "linkType": 8,
-        "linkTo": "1"
-      },
-      {
-        "pic": "https://www.yourc.club/media/brand/4.jpg",
-        "linkType": 8,
-        "linkTo": "1"
-      }
+      // {
+      //   "pic": "https://www.yourc.club/media/brand/1.jpg",
+      //   "linkType": 9,
+      //   "linkTo": "137",
+      //   "linkName": ""
+      // },
+      // {
+      //   "pic": "https://www.yourc.club/media/brand/2.jpg",
+      //   "linkType": 2,
+      //   "linkTo": "3456",
+      //   "itemNumId": 100
+      // },
+      // {
+      //   "pic": "https://www.yourc.club/media/brand/3.jpg",
+      //   "linkType": 8,
+      //   "linkTo": "1"
+      // },
+      // {
+      //   "pic": "https://www.yourc.club/media/brand/4.jpg",
+      //   "linkType": 8,
+      //   "linkTo": "1"
+      // }
     ],
     "nav": {
       "pic": "http://bgo.mamhao.cn/15798732-c55c-470d-9fec-72031c88a2d4.jpg@100p.png",
       "linkType": 8,
       "linkTo": "1"
     },
-    "shopList": [
-      {
-        "shopId": 43388,
-        "lng": 120.165651,
-        "lat": 30.243801,
-        "shopAddr": "杭州市上城区延安路98号银泰西湖店地下一楼",
-        "shopName": "PUMA Kids银泰西湖店",
-        "shopLogo": "https://www.yourc.club/media/brand/4.jpg",
-        "type": 1, //
-        //标识该门店类型 1-热门店 2-购买过 3-关注店 4-附近店
-        "shopActList": [
-          {
-            "iconName": "满减",
-            "iconColor": "#ff4d61",
-            "actName": "满5000减1000,满10000减2000  满5000减1000,满10000减2000 满5000减1000,满10000减2000"
-          },
-          {
-            "iconName": "公告",
-            "iconColor": "#ff4d61",
-            "actName": "这是一个门店公告"
-          }
-        ]
-      },
-      {
-        "shopId": 43388,
-        "lng": 120.165651,
-        "lat": 30.243801,
-        "shopAddr": "杭州市上城区延安路98号银泰西湖店地下一楼",
-        "shopName": "PUMA Kids银泰西湖店",
-        "shopLogo": "http://bgo.mamhao.cn/f8e3bb18-cd83-4f33-9171-511a8c281585.jpg",
-        "type": 1, //
-        //标识该门店类型 1-热门店 2-购买过 3-关注店 4-附近店
-        "shopActList": [
-          {
-            "iconName": "公告",
-            "iconColor": "#ff4d61",
-            "actName": "这是一个门店公告"
-          },
-          {
-            "iconName": "满减",
-            "iconColor": "#ff4d61",
-            "actName": "满5000减1000,满10000减2000"
-          },
-          {
-            "iconName": "满减2",
-            "iconColor": "#ff4d61",
-            "actName": "满5000减1000,满10000减2000"
-          }
-        ]
-      }
-    ],
+    "shopList": [],
+    "page":0,
+    "pageSize":10,
     "totalRow": 100,
     "deliveryAddress": '成都市',
     "actOffset": [
@@ -99,8 +51,23 @@ Page({
     ]
   },
   onLoad() {
-    const me = this;
+    const me = this;   
+    //设置banner    
+    wx.request({
+      url: app.globalData.Endpoint.QueryNearbyMerchant,
+      data: {page: me.data.page+1 ,size:me.data.pageSize },
+      method:"POST",
+      success:function(res) {
+          me.setData({
+            bannerList: res.data
+          });
+      }
+    });
 
+    //获取附近商户
+    wx.request({
+      url: '',
+    })
     //配送地址
     Map.getRegeo().then(res => {
       me.setData({
@@ -158,7 +125,7 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: '门店购',
+      title: '商户',
       path: 'pages/stores/index'
     }
   }

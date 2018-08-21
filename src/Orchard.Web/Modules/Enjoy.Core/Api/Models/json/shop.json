@@ -1,0 +1,51 @@
+﻿[
+  {
+    "shopid": 43388,
+    "lng": 120.165651,
+    "lat": 30.243801,
+    "shopaddr": "杭州市上城区延安路98号银泰西湖店地下一楼",
+    "shopname": "puma kids银泰西湖店",
+    "shoplogo": "https://www.yourc.club/media/brand/4.jpg",
+    "type": 1, //
+    //标识该门店类型 1-热门店 2-购买过 3-关注店 4-附近店
+    "shopactlist": [
+      {
+        "iconname": "满减",
+        "iconcolor": "#ff4d61",
+        "actname": "满5000减1000,满10000减2000  满5000减1000,满10000减2000 满5000减1000,满10000减2000"
+      },
+      {
+        "iconname": "公告",
+        "iconcolor": "#ff4d61",
+        "actname": "这是一个门店公告"
+      }
+    ]
+  },
+  {
+    "shopid": 43388,
+    "lng": 120.165651,
+    "lat": 30.243801,
+    "shopaddr": "杭州市上城区延安路98号银泰西湖店地下一楼",
+    "shopname": "puma kids银泰西湖店",
+    "shoplogo": "http://bgo.mamhao.cn/f8e3bb18-cd83-4f33-9171-511a8c281585.jpg",
+    "type": 1, //
+    //标识该门店类型 1-热门店 2-购买过 3-关注店 4-附近店
+    "shopactlist": [
+      {
+        "iconname": "公告",
+        "iconcolor": "#ff4d61",
+        "actname": "这是一个门店公告"
+      },
+      {
+        "iconname": "满减",
+        "iconcolor": "#ff4d61",
+        "actname": "满5000减1000,满10000减2000"
+      },
+      {
+        "iconname": "满减2",
+        "iconcolor": "#ff4d61",
+        "actname": "满5000减1000,满10000减2000"
+      }
+    ]
+  }
+]

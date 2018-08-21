@@ -20,7 +20,7 @@ namespace Enjoy.Core
                 new HttpRouteDescriptor {
                     Name = "Default Api",
                     Priority = 0,
-                    RouteTemplate = "api/enjoy/{id}",
+                    RouteTemplate =  "api/{controller}/{action}/{id}",
                     Defaults = new {
                         area = "Enjoy.Core",
                         controller = "Enjoy",
