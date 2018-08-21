@@ -1,4 +1,6 @@
-﻿
+﻿/*
+ * 小程序客户端api
+ */
 
 
 namespace Enjoy.Core.Api
@@ -8,8 +10,12 @@ namespace Enjoy.Core.Api
     using Enjoy.Core.EnjoyModels;
     using Orchard.Logging;
     using Enjoy.Core;
-    using System.IO;
+
     using Enjoy.Core.WeChatModels;
+    using System.Collections.Generic;
+    using Enjoy.Core.ApiModels;
+    using System.Linq;
+
     //[Authorize]
     public class EnjoyController : ApiController
     {
@@ -44,7 +50,6 @@ namespace Enjoy.Core.Api
         {
             return this.WeChat.CreateWxSession(new WxLoginUser(code, iv, encryptedData, signature));
         }
-
         //[Route("api/enjoy/test")]
         //[HttpGet]
         //public IMiniprogram Test()
@@ -77,7 +82,7 @@ namespace Enjoy.Core.Api
         public void WxBizMsg(
             string signature = null,
             string timestamp = null,
-            string nonce = null,            
+            string nonce = null,
             string openid = null,
             string encrypt_type = null,
             string msg_signature = null,
@@ -93,7 +98,7 @@ namespace Enjoy.Core.Api
             var token = new WxMsgToken(msg_signature,
                 timestamp,
                 nonce,
-                ReadStream2String(this.OS.WorkContext.HttpContext.Request.InputStream));
+                this.OS.WorkContext.HttpContext.Request.InputStream.ReadStream());
             string weChatMsg = string.Concat(
                 string.Format("requestUrl:{0}\r\n", this.OS.WorkContext.HttpContext.Request.RawUrl),
                 string.Format("xmlbody = {0} \r\n", token.ReqMsg)
@@ -102,16 +107,47 @@ namespace Enjoy.Core.Api
             this._handler.Handle(token);
 
         }
-        private string ReadStream2String(Stream stream)
+
+        [Route("api/enjoy/QueryMerchants")]
+        [HttpPost]
+        [HttpGet]
+        public List<Banner> QueryMerchants(int page = 1, int size = 10)
         {
-            if (null == stream)
+            var condition = PagingCondition.GenerateByPageAndSize(page, size);
+            return this.Merchant.QueryMerchants(new QueryFilter()
             {
-                return string.Empty;
-            }
-            using (StreamReader reader = new StreamReader(stream))
+                Columns = new List<QueryColumnFilter>()
+                {
+                    new QueryColumnFilter(){
+                        Name ="Status",
+                        Searchable = true,
+                        Search = new SearchColumnFilter(){
+                             Value = AuditStatus.APPROVED
+                        },
+                        Orderable = true,
+                        Data = "Status"
+                    }
+                },
+                Order = new List<QueryOrderFilter>()
+                {
+                    new QueryOrderFilter()
+                    {
+                        ColumnName = "CreateTime",
+                        Dir =  Direction.Asc
+                    }
+                }
+            }, condition)
+            .Items
+            .Select((ctx) =>
             {
-                return reader.ReadToEnd();
-            }
+                return new Banner()
+                {
+                    LinkName = ctx.BrandName,
+                    LinkTo = string.Empty,
+                    LogoUrl = ctx.LogoUrl,
+                    LinkType = 9
+                };
+            }).ToList();
         }
     }
 }

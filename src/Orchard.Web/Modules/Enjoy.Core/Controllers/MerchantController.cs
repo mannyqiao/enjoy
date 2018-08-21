@@ -186,7 +186,7 @@ namespace Enjoy.Core.Controllers
             });
 
             var condition = new PagingCondition(filter.Start, filter.Length);
-            var viewModel = this.Merchant.QueryMyMerchants(filter, condition);
+            var viewModel = this.Merchant.QueryMerchants(filter, condition);
             return new JsonNetResult() { Data = viewModel };
         }
         public JsonNetResult Del(long id)

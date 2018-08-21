@@ -41,9 +41,9 @@ namespace Enjoy.Core.Services
             }
             if (filter != null)
             {
-                criteria.WithQueryFilter(filter).WithQueryOrder(filter);
-                criteria.ClearOrders();
+                criteria.WithQueryFilter(filter).WithQueryOrder(filter);                
             }
+            criteria.ClearOrders();
             var pageCriteria = CriteriaTransformer.Clone(criteria);
             var page = (condition.Skip / condition.Take) - 1;
             return new PagingData<M>()

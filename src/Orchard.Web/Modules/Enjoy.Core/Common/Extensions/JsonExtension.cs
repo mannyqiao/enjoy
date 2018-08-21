@@ -18,7 +18,10 @@ namespace Enjoy.Core
         public static DbType? PredictDbTypeBySearchColumeValue(this object value)
         {
             var values = value as string[];
-            if (values == null) return null;
+            if (values == null)
+            {
+                values = new string[] { value.ToString() };
+            };
             if (values.All(o => string.IsNullOrWhiteSpace(o))) return null;
             if (values.All((ctx) => { return Int32.TryParse(value.ToString(), out Int32 mint); }))
             { return DbType.Int32; }
@@ -31,7 +34,7 @@ namespace Enjoy.Core
 
             if (values.All((ctx) => { return DateTime.TryParse(value.ToString(), out DateTime datetime); }))
             { return DbType.DateTime; }
-           
+
             return DbType.String;
         }
     }

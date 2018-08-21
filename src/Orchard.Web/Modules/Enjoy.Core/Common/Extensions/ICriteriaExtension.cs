@@ -22,7 +22,8 @@ namespace Enjoy.Core
                 {
                     continue;
                 }
-                var values = column.Search.Value as string[];
+                var values = ((column.Search.Value as string[]) ?? new string[] { column.Search.Value.ToString() })
+                    .Where(o => string.IsNullOrEmpty(o) == false).ToArray();
                 switch (type)
                 {
                     case System.Data.DbType.DateTime:
@@ -53,8 +54,11 @@ namespace Enjoy.Core
                     case System.Data.DbType.Decimal:
                         criteria.Add(Restrictions.Eq(column.Data, decimal.Parse(values[0])));
                         break;
-                    case System.Data.DbType.String:
-                        criteria.Add(Restrictions.Eq(column.Data, values[0]));
+                    //case System.Data.DbType.String:
+                    //    criteria.Add(Restrictions.Eq(column.Data, values[0]));
+                    //    break;
+                    default:
+                        criteria.Add(Restrictions.Eq(column.Data, column.Search.Value));
                         break;
                 }
             }
@@ -68,7 +72,10 @@ namespace Enjoy.Core
 
             foreach (var order in filter.Order.Select((ctx) =>
             {
-                return new Order(filter.Columns[ctx.Column].Data, ctx.Dir == Direction.Asc);
+                if (string.IsNullOrEmpty(ctx.ColumnName))
+                    return new Order(filter.Columns[ctx.Column].Data, ctx.Dir == Direction.Asc);
+                else
+                    return new Order(ctx.ColumnName, ctx.Dir == Direction.Asc);
             }))
             {
                 criteria.AddOrder(order);

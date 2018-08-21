@@ -1,0 +1,24 @@
+[
+   {
+     "pic": "https://www.yourc.club/media/brand/1.jpg",
+     "linkType": 9,
+     "linkTo": "137",
+     "linkName": ""
+   },
+   {
+     "pic": "https://www.yourc.club/media/brand/2.jpg",
+     "linkType": 2,
+     "linkTo": "3456",
+     "itemNumId": 100
+   },
+   {
+     "pic": "https://www.yourc.club/media/brand/3.jpg",
+     "linkType": 8,
+     "linkTo": "1"
+   },
+   {
+     "pic": "https://www.yourc.club/media/brand/4.jpg",
+     "linkType": 8,
+     "linkTo": "1"
+   }
+]

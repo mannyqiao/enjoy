@@ -1,7 +1,6 @@
 //app.js
 import WeToast from 'components/wetoast/index.js';
 import {getUserInfo} from  'utils/index';
-
 //app.js
 App({
     WeToast,
@@ -12,5 +11,9 @@ App({
             console.info('getUserInfo', res)
         });
     },
-    globalData: {}
+    globalData: {
+      "Endpoint":{
+        "QueryNearbyMerchant":"https://www.yourc.club/api/enjoy/querymerchants"
+      }
+    }
 });

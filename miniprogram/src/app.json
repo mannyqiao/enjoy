@@ -13,7 +13,7 @@
   "window":{
     "backgroundTextStyle":"white",
     "navigationBarBackgroundColor": "#FAFAFA",
-    "navigationBarTitleText": "微商城",
+    "navigationBarTitleText": "方泽卡券",
     "navigationBarTextStyle":"black",
     "backgroundColor": "#F2f2f2"
   },
@@ -26,17 +26,17 @@
       "pagePath": "pages/store/index",
       "iconPath": "images/tabbar/mmhtab_icon_mmh_n@2x.png",
       "selectedIconPath": "images/tabbar/mmhtab_icon_mmh_s@2x.png",
-      "text": "门店购"
+      "text": "商户"
     }, {
       "pagePath": "pages/category/index",
       "iconPath": "images/tabbar/mmhtab_icon_fl_n@2x.png",
       "selectedIconPath": "images/tabbar/mmhtab_icon_fl_s@2x.png",
-      "text": "分类"
+      "text": "会员卡"
     },{
       "pagePath": "pages/cart/index",
       "iconPath": "images/tabbar/mmhtab_icon_gwc_n@2x.png",
       "selectedIconPath": "images/tabbar/mmhtab_icon_gwc_s@2x.png",
-      "text": "购物车"
+      "text": "优惠券"
     }, {
       "pagePath": "pages/user/index",
       "iconPath": "images/tabbar/mmhtab_icon_me_n@2x.png",
