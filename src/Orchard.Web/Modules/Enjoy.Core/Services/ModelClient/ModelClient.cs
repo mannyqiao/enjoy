@@ -42,300 +42,185 @@ namespace Enjoy.Core
             viewModel.Status = model.Status;
             return viewModel;
         }
-        public CardCounponModel Convert(CardCounponViewModel viewModel, MerchantModel merchant)
-        {
+        //public CardCounponModel Convert(CardCounponViewModel viewModel, MerchantModel merchant)
+        //{
 
-            var model = new CardCounponModel();
-            viewModel.BaseInfo.LogoUrl = merchant.LogoUrl;
-            viewModel.BaseInfo.Merchant = new SubMerchantInfo() { MerchantId = merchant.MerchantId ?? 0 };
-            model.CreatedTime = viewModel.Id.Equals(0) ? DateTime.UtcNow.ToUnixStampDateTime() : viewModel.CreatedTime;
-            model.Id = viewModel.Id;
-            model.Merchant = merchant;
-            //// Enjoy TOOD :need change model.BarandName to model.Title
-            model.BrandName = viewModel.BaseInfo.Title;
-            model.LastUpdateTime = DateTime.UtcNow.ToUnixStampDateTime();
-            model.Quantity = (int)viewModel.BaseInfo.Sku.Quantity;
-            model.Type = viewModel.CardType;
-            model.WxNo = viewModel.WxNo;
-            model.State = viewModel.CCStatus;
+        //    var model = new CardCounponModel();
+        //    viewModel.BaseInfo.LogoUrl = merchant.LogoUrl;
+        //    viewModel.BaseInfo.Merchant = new SubMerchantInfo() { MerchantId = merchant.MerchantId ?? 0 };
+        //    model.CreatedTime = viewModel.Id.Equals(0) ? DateTime.UtcNow.ToUnixStampDateTime() : viewModel.CreatedTime;
+        //    model.Id = viewModel.Id;
+        //    model.Merchant = merchant;
+        //    //// Enjoy TOOD :need change model.BarandName to model.Title
+        //    model.BrandName = viewModel.BaseInfo.Title;
+        //    model.LastUpdateTime = DateTime.UtcNow.ToUnixStampDateTime();
+        //    model.Quantity = (int)viewModel.BaseInfo.Sku.Quantity;
+        //    model.Type = viewModel.CardType;
+        //    model.WxNo = viewModel.WxNo;
+        //    model.State = viewModel.State;
 
-            switch (viewModel.CardType)
-            {
-                case CardTypes.CASH:
-                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new WeChatModels::CashCoupon()
-                        {
-                            CardCoupon = new WeChatModels::CashWapper()
-                            {
-                                BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo,
-                                LeastCost = viewModel.Cash.LeastCost,
-                                ReduceCost = viewModel.Cash.ReduceCost
-                            }
-                        }
-                    };
-                    break;
-                case CardTypes.DISCOUNT:
-                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new WeChatModels::DiscountCoupon()
-                        {
-                            CardCoupon = new WeChatModels::DiscountWapper()
-                            {
-                                BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo,
-                                Discount = viewModel.Discount.Discount,
-                            },
+        //    switch (viewModel.CardType)
+        //    {
+        //        case CardTypes.CASH:
+        //            model.CardCoupon = new WeChatModels::WxCardCoupon<ICardCoupon>()
+        //            {
+        //                Card = new WeChatModels::CashCoupon()
+        //                {
+        //                    CardCoupon = new WeChatModels::CashWapper()
+        //                    {
+        //                        BaseInfo = viewModel.BaseInfo,
+        //                        AdvancedInfo = viewModel.AdvancedInfo,
+        //                        LeastCost = viewModel.Cash.LeastCost,
+        //                        ReduceCost = viewModel.Cash.ReduceCost
+        //                    }
+        //                }
+        //            };
+        //            break;
+        //        case CardTypes.DISCOUNT:
+        //            model.CardCoupon = new WeChatModels::WxCardCoupon<ICardCoupon>()
+        //            {
+        //                Card = new WeChatModels::DiscountCoupon()
+        //                {
+        //                    CardCoupon = new WeChatModels::DiscountWapper()
+        //                    {
+        //                        BaseInfo = viewModel.BaseInfo,
+        //                        AdvancedInfo = viewModel.AdvancedInfo,
+        //                        Discount = viewModel.Discount.Discount,
+        //                    },
 
-                        }
-                    };
-                    break;
-                case CardTypes.GENERAL_COUPON:
-                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new WeChatModels::GeneralCoupon()
-                        {
-                            CardCoupon = new WeChatModels::GeneralWapper()
-                            {
-                                BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo,
-                                DefaultDetail = viewModel.General.DefaultDetail
-                            }
+        //                }
+        //            };
+        //            break;
+        //        case CardTypes.GENERAL_COUPON:
+        //            model.CardCoupon = new WeChatModels::WxCardCoupon<ICardCoupon>()
+        //            {
+        //                Card = new WeChatModels::GeneralCoupon()
+        //                {
+        //                    CardCoupon = new WeChatModels::GeneralWapper()
+        //                    {
+        //                        BaseInfo = viewModel.BaseInfo,
+        //                        AdvancedInfo = viewModel.AdvancedInfo,
+        //                        DefaultDetail = viewModel.General.DefaultDetail
+        //                    }
 
-                        }
-                    };
-                    break;
-                case CardTypes.GIFT:
-                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new WeChatModels::GiftCoupon()
-                        {
-                            CardCoupon = new GiftWapper()
-                            {
-                                BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo,
-                                Gift = viewModel.Gift.Detail
-                            }
+        //                }
+        //            };
+        //            break;
+        //        case CardTypes.GIFT:
+        //            model.CardCoupon = new WeChatModels::WxCardCoupon<ICardCoupon>()
+        //            {
+        //                Card = new WeChatModels::GiftCoupon()
+        //                {
+        //                    CardCoupon = new GiftWapper()
+        //                    {
+        //                        BaseInfo = viewModel.BaseInfo,
+        //                        AdvancedInfo = viewModel.AdvancedInfo,
+        //                        Gift = viewModel.Gift.Detail
+        //                    }
 
-                        }
-                    };
-                    break;
-                case CardTypes.GROUPON:
-                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new WeChatModels::Groupon()
-                        {
-                            CardCoupon = new WeChatModels::GrouponWapper()
-                            {
-                                BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo,
-                                DealDetail = viewModel.Groupon.Detail,
-                            }
-                        }
-                    };
-                    break;
-                case CardTypes.MEMBER_CARD:
-                    viewModel.BaseInfo.Dateinfo.Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString();
-                    viewModel.BaseInfo.CenterTitle = "快速买单";
-                    viewModel.BaseInfo.CustomUrlName = "分享赚积分";
-                    viewModel.BaseInfo.CustomUrlSubTitle = "戳我";
-                    viewModel.BaseInfo.CustomUrl = "";
-                    model.CardCouponWapper = new WeChatModels::WxCardCouponWapper<ICardCoupon>()
-                    {
-                        Card = new WeChatModels::MemberCard()
-                        {
-                            CardCoupon = new WeChatModels::MerberCardWapper()
-                            {
-                                BaseInfo = viewModel.BaseInfo,
-                                AdvancedInfo = viewModel.AdvancedInfo,
-                                BackgroundPicUrl = viewModel.MerberCard.BackgroundPicUrl,
-                                SupplyBanlance = true,
-                                SupplyBonus = true,
-                                ActivateUrl = "",
-                                CustomCell = null,
-                                //CustomField1 = new WeChat.CustomField()
-                                //{
-                                //    NameType = "FIELD_NAME_TYPE_LEVEL",
-                                //    Url = "www.baidu.com"
-                                //},
-                                Prerogative = viewModel.MerberCard.Prerogative,
-                                AutoActivate = true,
-                                Discount = 90
-                            }
-                        }
-                    };
-                    break;
-            }
-            model.CardCouponWapper.Card.Specific((baseInfo, advanceInfo) =>
-            {
+        //                }
+        //            };
+        //            break;
+        //        case CardTypes.GROUPON:
+        //            model.CardCoupon = new WeChatModels::WxCardCoupon<ICardCoupon>()
+        //            {
+        //                Card = new WeChatModels::Groupon()
+        //                {
+        //                    CardCoupon = new WeChatModels::GrouponWapper()
+        //                    {
+        //                        BaseInfo = viewModel.BaseInfo,
+        //                        AdvancedInfo = viewModel.AdvancedInfo,
+        //                        DealDetail = viewModel.Groupon.Detail,
+        //                    }
+        //                }
+        //            };
+        //            break;
+        //        case CardTypes.MEMBER_CARD:
+        //            viewModel.BaseInfo.Dateinfo.Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString();
+        //            viewModel.BaseInfo.CenterTitle = "快速买单";
+        //            viewModel.BaseInfo.CustomUrlName = "分享赚积分";
+        //            viewModel.BaseInfo.CustomUrlSubTitle = "戳我";
+        //            viewModel.BaseInfo.CustomUrl = "";
+        //            model.CardCoupon = new WeChatModels::WxCardCoupon<ICardCoupon>()
+        //            {
+        //                Card = new WeChatModels::MemberCard()
+        //                {
+        //                    CardCoupon = new WeChatModels::MerberCardWapper()
+        //                    {
+        //                        BaseInfo = viewModel.BaseInfo,
+        //                        AdvancedInfo = viewModel.AdvancedInfo,
+        //                        BackgroundPicUrl = viewModel.MerberCard.BackgroundPicUrl,
+        //                        SupplyBanlance = true,
+        //                        SupplyBonus = false,
+        //                        ActivateUrl = "",
+        //                        CustomCell = null,
+        //                        BonusRule = new BonusRule() { },
+        //                        //CustomField1 = new WeChat.CustomField()
+        //                        //{
+        //                        //    NameType = "FIELD_NAME_TYPE_LEVEL",
+        //                        //    Url = "www.baidu.com"
+        //                        //},
+        //                        Prerogative = viewModel.MerberCard.Prerogative,
+        //                        AutoActivate = true,
+        //                        Discount = 90
+        //                    }
+        //                }
+        //            };
+        //            break;
+        //    }
+        //    model.CardCoupon.Card.Specific((baseInfo, advanceInfo) =>
+        //    {
 
-                if (Enum.TryParse<ExpiryDateTypes>(baseInfo.Dateinfo.Type, out ExpiryDateTypes type))
-                {
-                    switch (type)
-                    {
-                        case ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE:
-                            if (DateTime.TryParse(viewModel.FixedExpiryDateDescriptor[0], out DateTime beginTime))
-                            {
-                                baseInfo.Dateinfo.BeginTimestamp = beginTime.ToUnixStampDateTime();
-                            }
+        //        if (Enum.TryParse<ExpiryDateTypes>(baseInfo.Dateinfo.Type, out ExpiryDateTypes type))
+        //        {
+        //            switch (type)
+        //            {
+        //                case ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE:
+        //                    if (DateTime.TryParse(viewModel.FixedExpiryDateDescriptor[0], out DateTime beginTime))
+        //                    {
+        //                        baseInfo.Dateinfo.BeginTimestamp = beginTime.ToUnixStampDateTime();
+        //                    }
 
-                            if (DateTime.TryParse(viewModel.FixedExpiryDateDescriptor[1], out DateTime endTime))
-                            {
-                                baseInfo.Dateinfo.EndTimestamp = endTime.ToUnixStampDateTime();
-                            }
+        //                    if (DateTime.TryParse(viewModel.FixedExpiryDateDescriptor[1], out DateTime endTime))
+        //                    {
+        //                        baseInfo.Dateinfo.EndTimestamp = endTime.ToUnixStampDateTime();
+        //                    }
 
-                            break;
-                        case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
-                        case ExpiryDateTypes.DATE_TYPE_PERMANENT://会员卡 专用
-                            break;
-                    }
-                }
-                baseInfo.BrandName = merchant.BrandName;
-                baseInfo.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
-                baseInfo.ServicePhone = merchant.Mobile;
-                baseInfo.Source = "优享";
-                baseInfo.Merchant.MerchantId = merchant.MerchantId ?? 0;
-                advanceInfo.TextImageList = advanceInfo.TextImageList.Where(o => o.ImageUrl != null).ToList();
-                //未设置的属性
-                baseInfo.LocationIdList = new long[] { 3233, 333 };
-                baseInfo.CenterSubTitle = "使用后立减10元";
-                baseInfo.CenterUrl = "https://www.yourc.club/";
-                baseInfo.CenterTitle = "立即使用";
-                baseInfo.CustomUrlName = "xxx";
-                baseInfo.CustomUrl = "wx6647cb456db305dd@app";
-                baseInfo.CustomUrlSubTitle = "customUrlSubTitle";
-                baseInfo.PromotionUrlName = "更多优惠";
-                baseInfo.PromotionUrl = "wx6647cb456db305dd@app";
+        //                    break;
+        //                case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
+        //                case ExpiryDateTypes.DATE_TYPE_PERMANENT://会员卡 专用
+        //                    break;
+        //            }
+        //        }
+        //        baseInfo.BrandName = merchant.BrandName;
+        //        baseInfo.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
+        //        baseInfo.ServicePhone = merchant.Mobile;
+        //        baseInfo.Source = "优享";
+        //        baseInfo.Merchant.MerchantId = merchant.MerchantId ?? 0;
+        //        advanceInfo.TextImageList = advanceInfo.TextImageList.Where(o => o.ImageUrl != null).ToList();
+        //        //未设置的属性
+        //        baseInfo.LocationIdList = new long[] { 3233, 333 };
+        //        baseInfo.CenterSubTitle = "使用后立减10元";
+        //        baseInfo.CenterUrl = "https://www.yourc.club/";
+        //        baseInfo.CenterTitle = "立即使用";
+        //        baseInfo.CustomUrlName = "分享赚积分";
+        //        baseInfo.CustomUrl = "gh_e1543e2be86d@app";
+        //        baseInfo.CustomUrlSubTitle = "customUrlSubTitle";
+        //        baseInfo.PromotionUrlName = "更多优惠";
+        //        baseInfo.PromotionUrl = "gh_e1543e2be86d@app";
 
-                advanceInfo.Abstract = new WeChatModels::Abstract()
-                {
-                    AbstractX = "xxx"
-                };
-                advanceInfo.TimeLimits = null;
+        //        advanceInfo.Abstract = new WeChatModels::Abstract()
+        //        {
+        //            AbstractX = "xxx"
+        //        };
+        //        advanceInfo.TimeLimits = null;
 
 
-            });
-            return model;
-        }
+        //    });
+        //    return model;
+        //}
 
-        public CardCounponViewModel Convert(CardCounponModel model)
-        {
-            var viewModel = new CardCounponViewModel(model.Merchant.Id, model.Type);
-            viewModel.Id = model.Id;
-            viewModel.CCStatus = model.State;
-            viewModel.WxNo = model.WxNo;
-            viewModel.CardType = model.Type;
-            viewModel.CreatedTime = model.CreatedTime;
-            switch (model.Type)
-            {
-                case CardTypes.CASH:
-                    {
-                        var common = model.CardCouponWapper.Card as WeChatModels::CashCoupon;
-                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
-                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
-                        viewModel.Cash = new CashSpecific()
-                        {
-                            LeastCost = common.CardCoupon.LeastCost,
-                            ReduceCost = common.CardCoupon.ReduceCost
-                        };
-                    }
-                    break;
-                case CardTypes.DISCOUNT:
-                    {
-                        var common = model.CardCouponWapper.Card as WeChatModels::DiscountCoupon;
-                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
-                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
-                        viewModel.Discount = new DiscountSpecific()
-                        {
-                            Discount = common.CardCoupon.Discount
-                        };
-                    }
-                    break;
-                case CardTypes.GENERAL_COUPON:
-                    {
-                        var common = model.CardCouponWapper.Card as WeChatModels::GeneralCoupon;
-                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
-                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
-                        viewModel.General = new GeneralCouponSpecific()
-                        {
-                            DefaultDetail = common.CardCoupon.DefaultDetail
-                        };
-                    }
-                    break;
-                case CardTypes.GIFT:
-                    {
-                        var common = model.CardCouponWapper.Card as WeChatModels::GiftCoupon;
-                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
-                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
-                        viewModel.Gift = new GiftSpecific()
-                        {
-                            Detail = common.CardCoupon.Gift
-                        };
-                    }
-                    break;
-                case CardTypes.GROUPON:
-                    {
-                        var common = model.CardCouponWapper.Card as WeChatModels::Groupon;
-                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
-                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
-                        viewModel.Groupon = new GrounponSpecific()
-                        {
-                            Detail = common.CardCoupon.DealDetail
-                        };
-                    }
-                    break;
-                case CardTypes.MEMBER_CARD:
-                    {
-                        var common = model.CardCouponWapper.Card as WeChatModels::MemberCard;
-                        viewModel.BaseInfo = common.CardCoupon.BaseInfo;
-                        viewModel.AdvancedInfo = common.CardCoupon.AdvancedInfo;
-                        viewModel.MerberCard = new WeChatModels::MerberCardWapper()
-                        {
-                            BackgroundPicUrl = common.CardCoupon.BackgroundPicUrl,
-                            Prerogative = common.CardCoupon.Prerogative,
-                            ActivateUrl = common.CardCoupon.ActivateUrl,
-                            AutoActivate = common.CardCoupon.AutoActivate,
-                            BonusRule = common.CardCoupon.BonusRule,
-                            CustomCell = common.CardCoupon.CustomCell,
-                            AdvancedInfo = common.CardCoupon.AdvancedInfo,
-                            BaseInfo = common.CardCoupon.BaseInfo,
-                            CustomField1 = common.CardCoupon.CustomField1,
-                            Discount = common.CardCoupon.Discount,
-                            SupplyBanlance = common.CardCoupon.SupplyBanlance,
-                            SupplyBonus = common.CardCoupon.SupplyBonus
-                        };
-                    }
-                    break;
-            }
 
-            if (Enum.TryParse<ExpiryDateTypes>(viewModel.BaseInfo.Dateinfo.Type, out ExpiryDateTypes datetype))
-            {
-                switch (datetype)
-                {
-
-                    case ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE:
-                        viewModel.FixedExpiryDateDescriptor = new string[] {
-                            (viewModel.BaseInfo.Dateinfo.BeginTimestamp??0).ToDateString(),
-                            (viewModel.BaseInfo.Dateinfo.EndTimestamp??0).ToDateString()
-                        };
-                        break;
-                    case ExpiryDateTypes.DATE_TYPE_FIX_TERM:
-                    case ExpiryDateTypes.DATE_TYPE_PERMANENT:
-                        break;
-                }
-            }
-            if (viewModel.AdvancedInfo.TextImageList == null || viewModel.AdvancedInfo.TextImageList.Count.Equals(0))
-            {
-                viewModel.AdvancedInfo.TextImageList = new List<TextImage>()
-                {
-                    new TextImage(){ },
-                    new TextImage(){ },
-                    new TextImage(){ }
-                };
-            }
-            return viewModel;
-        }
         public WeChatModels::WxRequestWapper<WeChatModels::SubMerchant> Convert(Merchant merchant)
         {
             return new WeChatModels::WxRequestWapper<WeChatModels::SubMerchant>()

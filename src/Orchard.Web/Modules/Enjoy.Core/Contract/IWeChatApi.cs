@@ -30,5 +30,13 @@ namespace Enjoy.Core
         WeChatModels.WxUser GetWxUser(string openid);
 
         IWxAccessToken GetWxAccessToken(string appid, string secret);
+
+        void CheckCardAgentQulification();
+
+        /// <summary>
+        /// 创建子商户门店
+        /// </summary>
+        /// <param name="model"></param>
+        //void CreateMerchantShop(ShopModel model);        
     }
 }

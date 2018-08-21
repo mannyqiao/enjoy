@@ -3,12 +3,10 @@
     using Newtonsoft.Json;
     using Enjoy.Core;
 
-    public class GrouponWapper : CardCouponWapper
+    public class GrouponWapper :  CardCoupon<Groupon>
     {
-        #region groupon 专用
-
-        [JsonProperty("deal_detail", NullValueHandling = NullValueHandling.Ignore)]
-        public string DealDetail { get; set; }
-        #endregion
+        [JsonProperty("groupon")]
+        public override Groupon Card { get; set; }
+        
     }
 }

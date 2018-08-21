@@ -16,7 +16,9 @@ namespace Orchard.Web {
         }
 
         public static void RegisterRoutes(RouteCollection routes) {
+            routes.RouteExistingFiles = true;
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.txt/{*pathInfo}");
         }
 
         protected void Application_Start() {
@@ -26,6 +28,11 @@ namespace Orchard.Web {
         }
 
         protected void Application_BeginRequest() {
+            //if (this.Context.Request.RawUrl.EndsWith(".txt"))
+            //{
+            //    this.Response.WriteFile(this.Context.Server.MapPath(this.Context.Request.RawUrl));
+            //    this.Response.End();
+            //}
             _starter.OnBeginRequest(this);
         }
 

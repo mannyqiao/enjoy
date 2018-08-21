@@ -14,16 +14,18 @@
         <input type="hidden" id="@Model.Id" name="@Model.Name" value="@Model.Value" required="@Model.Required" />
     </div>
 </fieldset>
-<script type="text/javascript">
+@using (Script.Foot())
+{
+    <script type="text/javascript">
     $(document).ready(function () {
         var border_style = "border-color:rgb(227, 226, 229);"; //Not selected
         $("li").mousemove(function () {
             var that = $(this);
-           
         });
-        $("li.color-select_item").click(function () {         
+        $("li.color-select_item").click(function () {
             var that = $(this);
             $("li.color-select_item").each(function () {
+                console.log("ok");
                 if ($(that).attr("data-color") === $(this).attr("data-color")) {
                     $(that).attr("style", "border-color:" + $(this).attr("data-color") + ";");
                     $("#@Model.Id").val($(this).attr("data-color-key"));
@@ -34,4 +36,6 @@
             });
         });
     });
-</script>
+    </script>
+}
+

@@ -30,7 +30,7 @@ namespace Enjoy.Core
         /// <summary>
         /// 已过期
         /// </summary>
-        Expired = 6,
+        Expired = 5,
         /// <summary>
         /// 领用完毕
         /// </summary>

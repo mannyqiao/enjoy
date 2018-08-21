@@ -2,16 +2,13 @@
 {
     using Newtonsoft.Json;
     using Enjoy.Core;
-    public class DiscountWapper : CardCouponWapper
+    public class DiscountWapper : CardCoupon<DiscountCoupon>
     {
-        #region discount 专用
-        private int? discount;
-        [JsonProperty("discount", NullValueHandling = NullValueHandling.Ignore)]
-        public int? Discount
+        [JsonProperty("discount")]
+        public override DiscountCoupon Card
         {
-            get { return (discount ?? 0) / 100; }
-            set { this.discount = value * 100; }
+            get; set;
         }
-        #endregion
+
     }
 }

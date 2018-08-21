@@ -4,11 +4,23 @@ namespace Enjoy.Core
 {
     using System;
     using Enjoy.Core.WeChatModels;
+    using Newtonsoft.Json;  
     public interface ICardCoupon
     {
-        string CardType { get; }
 
-        void Specific(Action<BaseInfo, AdvancedInfo> action);
-        void SetCardId(string cardid);
+        [JsonProperty("base_info")]
+        BaseInfo BaseInfo { get; set; }
+
+        [JsonProperty("advanced_info")]
+        AdvancedInfo AdvancedInfo { get; set; }
+
+        [JsonProperty("card_id")]
+        string CardId { get; set; }
+
+       
+        CardTypes CardType { get; set; }
+
+        void Set(Action<ICardCoupon> action);
+
     }
 }

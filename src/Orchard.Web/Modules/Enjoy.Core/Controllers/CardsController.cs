@@ -52,7 +52,10 @@ namespace Enjoy.Core.Controllers
             if (merchant == null || merchant.Id.Equals(0))
                 return this.RedirectLocal("/merchant/create");
 
-            return View(new MerchantCardCouponViewModel(merchant));
+            return View(new MerchantCardCouponViewModel(merchant)
+            {
+                CardType = CardTypes.DISCOUNT
+            });
         }
         [HttpPost]
         public JsonNetResult QueryCouponCard(QueryFilter filter)
@@ -80,7 +83,7 @@ namespace Enjoy.Core.Controllers
         /// 创建优惠券
         /// </summary>
         /// <returns></returns>
-        public ActionResult Edit(long merchantid, long? id = null, CardTypes type = CardTypes.None)
+        public ActionResult Edit(long merchantid, long? id = null, CardTypes type = CardTypes.DISCOUNT)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
@@ -89,29 +92,19 @@ namespace Enjoy.Core.Controllers
             //如果商户没有创建则返回到商户管理界面，
             if (merchant == null) this.RedirectLocal("/merchant/mymerchant");
             var viewModel = id == null
-                ? new CardCounponViewModel(merchant.Id, type)
-                {                    
-                    CCStatus = CardCouponStates.Editing,
-                }
-                : client.Convert(this.CardCoupon.GetCardCounpon(id.Value));
-
-            switch (type)
-            {
-                case CardTypes.MEMBER_CARD:
-                    return View("EditMCard", viewModel);
-                default:
-                    return View("EditCoupon", viewModel);
-            }
+                ? type.Initialize(merchant).Convert()
+                : this.CardCoupon.GetCardCounpon(id.Value).Convert();
+            viewModel.MerchantId = merchant.Id;
+            viewModel.SubMerchantBrandName = merchant.BrandName;
+            return View(type.GetViewName(), viewModel);
         }
         [HttpPost]
         public ActionResult EditPost(CardCounponViewModel viewModel, string ReturnUrl)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
-
-
-
-            var result = this.CardCoupon.SaveOrUpdate(client.Convert(viewModel, this.Merchant.GetDefaultMerchant(viewModel.MerchantId)));
+            var merchant = this.Merchant.GetDefaultMerchant(viewModel.MerchantId);
+            var result = this.CardCoupon.SaveOrUpdate(viewModel.Convert(merchant));
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
         [HttpPost]
@@ -126,7 +119,7 @@ namespace Enjoy.Core.Controllers
             return new JsonNetResult()
             {
                 Data = this.CardCoupon.DeleteById(id)
-            };            
+            };
         }
         public ActionResult ShowQR(int id)
         {

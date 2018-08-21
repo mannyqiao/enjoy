@@ -9,7 +9,7 @@
         var zoneNumsFilled = string.Join("", zoneNames.Select(zoneName => { ++zoneCounter; return Model[zoneName] != null ? zoneCounter.ToString() : ""; }).ToArray());
         return HasText(zoneNumsFilled) ? classNamePrefix + zoneNumsFilled : "";
     }
-    
+
 }
 @{
     <meta charset="utf-8">
@@ -101,7 +101,7 @@
 </div>
 @tag.EndElement
 @using (Script.Foot())
-{   
+{
     <!-- Bootstrap Core JavaScript -->
     <script src="/themes/enjoyTheme/content/scripts/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
@@ -117,3 +117,4 @@
     <script src="/themes/enjoytheme/content/plugins/bootstrap.datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript" charset="UTF-8"></script>
 
 }
+

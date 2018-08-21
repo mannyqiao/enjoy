@@ -1,7 +1,7 @@
 ﻿
 namespace Enjoy.Core.EnjoyModels
 {
-    
+
     using Orchard.Data;
     using Enjoy.Core.WeChatModels;
     using Enjoy.Core.Records;
@@ -18,10 +18,10 @@ namespace Enjoy.Core.EnjoyModels
             this.WxNo = record.WxNo;
             this.BrandName = record.BrandName;
             this.LastUpdateTime = record.LastActivityTime;
-            this.CreatedTime = record.CreatedTime;
-            this.CardCouponWapper = record.JsonMetadata.DeserializeSpecificCardCoupon(record.Type);
+            this.CreatedTime = record.CreatedTime;            
             this.State = record.Status;
             this.ErrMsg = record.ErrMsg;
+            this.CardCoupon = record.JsonMetadata.DeserializeSpecificCardCoupon(record.Type);
         }
         public CardCounponModel() { }
         public long Id { get; set; }
@@ -38,6 +38,8 @@ namespace Enjoy.Core.EnjoyModels
         public long LastUpdateTime { get; set; }
         public CardCouponStates State { get; set; }
         public string ErrMsg { get; set; }
-        public WxCardCouponWapper<ICardCoupon> CardCouponWapper { get; set; }
+        public ICardCoupon CardCoupon { get; set; }
+
+        
     }
 }

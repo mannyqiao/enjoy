@@ -52,6 +52,8 @@ namespace Enjoy.Core.Services
         }
         public static string GenerateWxUpdateCardUrl(string token)
         {
+            //https://api.weixin.qq.com/card/update?access_token=TOKEN
+
             return string.Format("https://api.weixin.qq.com/card/update?access_token={0}", token);
         }
         /// <summary>
@@ -121,7 +123,7 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public static string GenrateImageUrlByMediaId(string mediaid)
+        public static string GenerateImageUrlByMediaId(string mediaid)
         {
             ////Enjoy TODO: need return the true url by media id 
             if (string.IsNullOrEmpty(mediaid))
@@ -131,7 +133,7 @@ namespace Enjoy.Core.Services
                 return string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaid));
             }
         }
-        public static string GenreateWxQueryGetCardList(string token)
+        public static string GenerateWxQueryGetCardList(string token)
         {
             return string.Format("https://api.weixin.qq.com/card/user/getcardlist?access_token={0}", token);
         }
@@ -139,5 +141,28 @@ namespace Enjoy.Core.Services
         {
             return string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN", token, openid);
         }
+        public static string GenerateCheckCardAgentRequest(string token)
+        {
+            return string.Format("http://api.weixin.qq.com/cgi-bin/component/check_card_agent_qualification?access_token={0}", token);
+        }
+        /// <summary>
+        /// 创建门店
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static string GenerateAddpoiRequest(string token)
+        {
+            return string.Format("http://api.weixin.qq.com/cgi-bin/poi/addpoi?access_token={0}", token);
+        }
+        /// <summary>
+        /// 申请母商户第三方强授权能力，上传资质文件
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static string UploadAgentQualification(string token)
+        {
+            return string.Format("http://api.weixin.qq.com/cgi-bin/component/upload_card_agent_qualification?access_token={0}",token);
+        }
+        
     }
 }
