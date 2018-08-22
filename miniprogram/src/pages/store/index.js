@@ -11,30 +11,7 @@ Page({
     __dialog__: {
       showDialog: false
     },
-    "bannerList": [
-      // {
-      //   "pic": "https://www.yourc.club/media/brand/1.jpg",
-      //   "linkType": 9,
-      //   "linkTo": "137",
-      //   "linkName": ""
-      // },
-      // {
-      //   "pic": "https://www.yourc.club/media/brand/2.jpg",
-      //   "linkType": 2,
-      //   "linkTo": "3456",
-      //   "itemNumId": 100
-      // },
-      // {
-      //   "pic": "https://www.yourc.club/media/brand/3.jpg",
-      //   "linkType": 8,
-      //   "linkTo": "1"
-      // },
-      // {
-      //   "pic": "https://www.yourc.club/media/brand/4.jpg",
-      //   "linkType": 8,
-      //   "linkTo": "1"
-      // }
-    ],
+    "bannerList": [],
     "nav": {
       "pic": "http://bgo.mamhao.cn/15798732-c55c-470d-9fec-72031c88a2d4.jpg@100p.png",
       "linkType": 8,
@@ -52,9 +29,10 @@ Page({
   },
   onLoad() {
     const me = this;   
+
     //设置banner    
     wx.request({
-      url: app.globalData.Endpoint.QueryNearbyMerchant,
+      url: ApiList.QueryNearbyMerchant,
       data: {page: me.data.page+1 ,size:me.data.pageSize },
       method:"POST",
       success:function(res) {
@@ -62,14 +40,10 @@ Page({
             bannerList: res.data
           });
       }
-    });
-
-    //获取附近商户
-    wx.request({
-      url: '',
-    })
+    });  
     //配送地址
     Map.getRegeo().then(res => {
+      console.log(res);
       me.setData({
         deliveryAddress: res.street
       })

@@ -1,7 +1,7 @@
 // 小程序通过配置信息;
 const AppConfig = {
-    appid: "your appid",                //app id
-    secret: "your appsecret",           //app secret
+  appid: "wx3ec55fbaa7dcefc7",                //app id
+  secret: "e1374e932b2eef3d4b0fa8f0e936496a",           //app secret
 
     ak: "your amap key",                // 高德地图key
     bk: "your baidu map key",           // 百度地址key

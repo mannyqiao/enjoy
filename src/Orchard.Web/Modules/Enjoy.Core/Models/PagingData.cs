@@ -37,9 +37,14 @@ namespace Enjoy.Core.EnjoyModels
         {
 
         }
+        public Paging() : this(1, EnjoyConstant.DefaultPageSize) { }
+        [JsonProperty("size")]
         public int PageSize { get; set; }
+        [JsonProperty("page")]
         public int Page { get; set; }
-        public int PageCount { get; set; }
+
+        [JsonProperty("count")]
+        public int? PageCount { get; set; }
 
     }
 }
