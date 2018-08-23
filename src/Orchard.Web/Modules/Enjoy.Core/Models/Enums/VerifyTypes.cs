@@ -18,6 +18,10 @@ namespace Enjoy.Core
         /// <summary>
         /// 提现验证码
         /// </summary>
-        ExtractToBank = 3,
+        Withdraw = 3,
+        /// <summary>
+        /// 绑定微信用户
+        /// </summary>
+        BindWeChatUser = 4,
     }
 }

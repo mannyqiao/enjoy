@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/login/index",
+    "pages/welcome/index",
     "pages/store/index",
     "pages/store-index/index",
     "pages/category/index",
@@ -8,7 +8,8 @@
     "pages/goods-detail/index",
     "pages/goods-qc-report/index",
     "pages/cart/index",
-    "pages/user/index"    
+    "pages/user/index",
+    "pages/guide/guide"    
   ],
   "window": {
     "backgroundTextStyle": "white",

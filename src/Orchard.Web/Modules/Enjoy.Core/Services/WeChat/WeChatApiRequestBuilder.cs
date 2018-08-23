@@ -11,11 +11,12 @@ namespace Enjoy.Core.Services
         /// 生成 登陆授权 Url
         /// </summary>
         /// <param name="appid"></param>
-        /// <param name="js_code"></param>
+        
         /// <param name="secret"></param>
         /// <returns></returns>
         public static string GenerateWxAuthRequestUrl(string appid, string js_code, string secret)
         {
+            
             return string.Format("https://api.weixin.qq.com/sns/jscode2session?appid={0}&js_code={1}&secret={2}&grant_type=authorization_code",
                 appid, js_code, secret);
         }

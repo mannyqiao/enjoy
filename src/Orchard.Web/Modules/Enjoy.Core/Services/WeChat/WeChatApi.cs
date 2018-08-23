@@ -141,7 +141,12 @@ namespace Enjoy.Core.Services
             var wechatUser = Decrypt(loginUseer.Data, loginUseer.IV, auth.SessionKey);
             return new WxSession() { LoginUser = loginUseer, Miniprogram = EnjoyConstant.Miniprogram, WeCharUser = wechatUser, Authorization = auth };
         }
-
+        public IWxAuthorization GetSessionKey(string code, string appid, string secret)
+        {
+            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(appid, code, secret);
+            var auth = request.GetResponseForJson<WeChatAuthorization>();
+            return auth;
+        }
 
         /// <summary>
         /// 

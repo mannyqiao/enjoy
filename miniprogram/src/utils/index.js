@@ -18,27 +18,25 @@ import request from 'request';
  * })
  * */
 const getUserInfo = co.wrap(function* () {
-
   const key_user = cfg.localKey.user;
-
   let userInfo = wx.getStorageSync(key_user);
-
   if (!userInfo) {
     userInfo = {
       wx: null,
       mmh: null
     };
     const basic = yield promisify(wx.login)();
-    console.info('basic---', basic);
+    //console.info('login---',basic);
 
     //用户明文信息
     const user = yield promisify(wx.getUserInfo)({ withCredentials: true });
     userInfo.wx = user.userInfo;
-    console.info('user---', user);
+    //console.info('user---',user);
 
     //code换取session_key
     const session = yield request({
-      url: "https://api.weixin.qq.com/sns/jscode2session",
+      url:  ApiList.getAuth,      
+      method:"method",
       data: {
         appid: cfg.appid,
         secret: cfg.secret,
@@ -46,7 +44,8 @@ const getUserInfo = co.wrap(function* () {
         grant_type: "authorization_code"
       }
     });
-    console.info('jscode2session---', session);
+    console.log("jscode2session",session.data);
+    //console.info('jscode2session---',session);
 
     //解密encryptedData
     if (session.data) {
@@ -66,7 +65,6 @@ const getUserInfo = co.wrap(function* () {
         userInfo.wx = decodeInfo.data.wxUser;
       }
     }
-
     wx.setStorage({
       key: key_user,
       data: userInfo

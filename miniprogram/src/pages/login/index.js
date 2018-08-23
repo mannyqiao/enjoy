@@ -1,7 +1,7 @@
 import ApiList from  '../../config/api.js';
 import request from '../../utils/request';
 import {co, Promise, regeneratorRuntime} from '../../utils/co-loader';
-
+import { getUserInfo } from '../../utils/index';
 let app = getApp();
 
 Page({
@@ -11,25 +11,27 @@ Page({
             text:'获取验证码',
             disabled: false
         },
-        mobile:null       
+        mobile:null,
+        showAuth:true       
     },
-    onLoad (){
-        app.WeToast();
+    onLoad (){              
         const me = this;
         co(function *() {
             const userInfo = yield app.getUserInfo();
+            console.log("xx",userInfo);
             me.setData({
                 userInfo: userInfo.wx
             });
         });
+        me.setData({ showAuth: this.data.userInfo==null });        
     },
-    getVcode(e){      
+    getVcode(){      
       const me = this;     
        
         var mobileNumber = me.data.mobile;        
         console.log(mobileNumber);
         if (!/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(mobileNumber)) {
-          this.wetoast.toast({
+          me.wetoast.toast({
             icon: 'fail',
             title: '手机号输入不正确'
           });
