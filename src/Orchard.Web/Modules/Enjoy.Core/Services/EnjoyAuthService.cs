@@ -227,6 +227,19 @@ namespace Enjoy.Core.Services
                 return new AuthQueryResponse(EnjoyConstant.MobileExists);
             }
         }
+        public AuthQueryResponse QueryWxUserByMobile(string mobile)
+        {
+            var models = this.OS.TransactionManager.GetSession().QueryOver<Records.WxUser>()
+                .Where(o => o.Mobile == mobile).List();
+            if (models == null || models.Count.Equals(0))
+            {
+                return new AuthQueryResponse(EnjoyConstant.MobileNotExists);
+            }
+            else
+            {
+                return new AuthQueryResponse(EnjoyConstant.MobileExists);
+            }
+        }
         public void SetAuthenticatedUserForRequest(IEnjoyUser user)
         {
             _signedInUser = user;
@@ -285,10 +298,24 @@ namespace Enjoy.Core.Services
             return _signedInUser;
         }
 
-        public ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile)
+        public ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile, VerifyTypes type)
         {
             bool firstRequest = false;
-            var checkMobile = QueryByMobile(mobile);
+            var checkMobile = new AuthQueryResponse(EnjoyConstant.Success);
+            switch (type)
+            {
+                case VerifyTypes.SignUp:
+                    checkMobile = QueryByMobile(mobile);
+                    break;
+                case VerifyTypes.BindWeChatUser:
+                    checkMobile = QueryWxUserByMobile(mobile);
+                    break;
+                case VerifyTypes.Withdraw:
+                case VerifyTypes.FindPassword:
+                    throw new NotImplementedException(type.ToString());
+
+            }
+
             if (checkMobile.ErrorCode == EnjoyConstant.MobileExists)
             {
                 return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.MobileExists);

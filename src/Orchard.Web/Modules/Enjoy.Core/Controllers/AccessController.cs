@@ -58,7 +58,7 @@ namespace Enjoy.Core.Controllers
         {
             return new JsonNetResult()
             {
-                Data = this.Auth.GetverificationCode(mobile)
+                Data = this.Auth.GetverificationCode(mobile, VerifyTypes.SignUp)
             };
         }
         public JsonResult MobileIsAvailable(string mobile)

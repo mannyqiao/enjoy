@@ -28,11 +28,11 @@ namespace Orchard.Web {
         }
 
         protected void Application_BeginRequest() {
-            //if (this.Context.Request.RawUrl.EndsWith(".txt"))
-            //{
-            //    this.Response.WriteFile(this.Context.Server.MapPath(this.Context.Request.RawUrl));
-            //    this.Response.End();
-            //}
+            if (this.Context.Request.RawUrl.EndsWith(".txt"))
+            {
+                this.Response.WriteFile(this.Context.Server.MapPath(this.Context.Request.RawUrl));
+                this.Response.End();
+            }
             _starter.OnBeginRequest(this);
         }
 

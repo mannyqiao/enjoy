@@ -33,6 +33,7 @@ namespace Enjoy.Core
 
         void CheckCardAgentQulification();
 
+        IWxAuthorization GetSessionKey(string code, string appid, string secret);
         /// <summary>
         /// 创建子商户门店
         /// </summary>

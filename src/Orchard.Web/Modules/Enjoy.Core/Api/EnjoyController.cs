@@ -46,12 +46,24 @@ namespace Enjoy.Core.Api
         {
             return this.Auth.QueryByMobile(mobile);
         }
-        [Route("api/enjoy/signature")]
-        [HttpGet]
-        public WxSession DecodeUserinfo(string code, string iv, string encryptedData, string signature)
+
+        [Route("api/enjoy/GetSessionKey")]
+        [HttpPost]
+        public IWxAuthorization GetSessionKey(string code,string appid,string secret)
         {
-            return this.WeChat.CreateWxSession(new WxLoginUser(code, iv, encryptedData, signature));
+            return this.WeChat.GetSessionKey(code, appid, secret);
         }
+        //[Route("api/enjoy/signature")]
+        //[HttpGet]
+        //public WxSession DecodeUserinfo(
+        //    string appid,
+        //    string secret,
+        //    string code,
+        //    string grant_type)
+        //{
+        //    return this.WeChat.CreateWxSession(new WxLoginUser(code, iv, encryptedData, signature));
+        //}
+        
         //[Route("api/enjoy/test")]
         //[HttpGet]
         //public IMiniprogram Test()
@@ -113,7 +125,7 @@ namespace Enjoy.Core.Api
         [Route("api/enjoy/QueryMerchants")]
         [HttpPost]
         public List<Banner> QueryMerchants(PagingX paging)
-        {            
+        {
             var condition = PagingCondition.GenerateByPageAndSize(paging.Page, paging.PageSize);
             return this.Merchant.QueryMerchants(new QueryFilter()
             {
@@ -155,7 +167,7 @@ namespace Enjoy.Core.Api
         [HttpPost]
         public ActionResponse<VerificationCodeViewModel> SendVerifyCode(Mobile mobile)
         {
-            return this.Auth.GetverificationCode(mobile.Value);
+            return this.Auth.GetverificationCode(mobile.Value, VerifyTypes.BindWeChatUser);
         }
     }
 }

@@ -8,3 +8,16 @@
 
 .btn-vcode{color: #ff4d61;border:0;background: none}
 .btn-vcode.button-hover,.btn-vcode:active{background: none}
+
+
+.bright789-text{
+ font-size: 40rpx;
+ line-height: 40px;
+ color: #ff0000;
+}
+.hide_view{
+ display: none;
+}
+.show_view{
+ display: block;
+}

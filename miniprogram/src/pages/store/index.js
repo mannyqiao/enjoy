@@ -29,7 +29,6 @@ Page({
   },
   onLoad() {
     const me = this;   
-
     //设置banner    
     wx.request({
       url: ApiList.QueryNearbyMerchant,
@@ -41,7 +40,7 @@ Page({
           });
       }
     });  
-    //配送地址
+    //获取地址
     Map.getRegeo().then(res => {
       console.log(res);
       me.setData({
