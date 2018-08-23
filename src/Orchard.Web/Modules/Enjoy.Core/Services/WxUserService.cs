@@ -56,7 +56,7 @@ namespace Enjoy.Core.Services
             return userModel.Id;
         }
 
-        public long Register(WeChatModels.WxUser userModel)
+        public long Register(WeChatModels.WeChatUserInfo userModel)
         {
             var model = new WxUserModel(userModel);
             this.Register(model);

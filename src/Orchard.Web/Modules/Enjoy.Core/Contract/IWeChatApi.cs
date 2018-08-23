@@ -27,12 +27,12 @@ namespace Enjoy.Core
 
         string GetOpenId(IWxLoginUser loginUser);
 
-        WeChatModels.WxUser GetWxUser(string openid);
+        WeChatModels.WeChatUserInfo GetWxUser(string openid);
 
         IWxAccessToken GetWxAccessToken(string appid, string secret);
 
         void CheckCardAgentQulification();
-
+       WeChatUserInfo Decrypt(string encryptedData, string iv, string sessionKey);
         IWxAuthorization GetSessionKey(string code, string appid, string secret);
         /// <summary>
         /// 创建子商户门店

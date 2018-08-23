@@ -8,7 +8,7 @@ App({
   WeToast,
   getUserInfo,
   onLaunch() {
-    const me = this;    
+    const me = this;        
     me.getUserInfo().then(res => {
      
     });

@@ -25,7 +25,7 @@ namespace Enjoy.Core.EnjoyModels
             }
 
         }
-        public WxUserModel(WeChatModels.WxUser user)
+        public WxUserModel(WeChatModels.WeChatUserInfo user)
         {
             if (user != null)
             {

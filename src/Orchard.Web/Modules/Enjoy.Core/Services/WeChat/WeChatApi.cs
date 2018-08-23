@@ -172,7 +172,7 @@ namespace Enjoy.Core.Services
         {
             return this.CreateWxSession(loginUser).WeCharUser.OpenId;
         }
-        private WxUser Decrypt(string encryptedData, string iv, string sessionKey)
+        public WeChatUserInfo Decrypt(string encryptedData, string iv, string sessionKey)
         {
 #pragma warning disable IDE0017 // Simplify object initialization
             AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
@@ -198,7 +198,7 @@ namespace Enjoy.Core.Services
             string result = Encoding.UTF8.GetString(final);
 
             //反序列化结果，生成用户信息实例  
-            return result.DeserializeToObject<WxUser>();
+            return result.DeserializeToObject<WeChatUserInfo>();
         }
 
         public IWxAuthorization GetWxAuth(IWxLoginUser loginUser)
@@ -213,10 +213,10 @@ namespace Enjoy.Core.Services
             return request.GetResponseForJson<WxAccessToken>();
         }
 
-        public WxUser GetWxUser(string openid)
+        public WeChatUserInfo GetWxUser(string openid)
         {
             var request = WeChatApiRequestBuilder.GenreateQueryWxUserUrl(openid, GetToken());
-            return request.GetResponseForJson<WxUser>();
+            return request.GetResponseForJson<WeChatUserInfo>();
         }
 
         public void CheckCardAgentQulification()

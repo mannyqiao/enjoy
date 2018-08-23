@@ -18,25 +18,22 @@ import request from 'request';
  * })
  * */
 const getUserInfo = co.wrap(function* () {
-  const key_user = cfg.localKey.user;
+  const key_user = cfg.localKey.user; 
   let userInfo = wx.getStorageSync(key_user);
-  if (!userInfo) {
-    userInfo = {
-      wx: null,
-      mmh: null
-    };
-    const basic = yield promisify(wx.login)();
-    //console.info('login---',basic);
-
-    //用户明文信息
+  if(userInfo){
+    return userInfo;
+  }
+  else{
+    userInfo = { wx: null, mmh: null };
+    const basic = yield promisify(wx.login)();    
+    console.log("basic---",basic);
     const user = yield promisify(wx.getUserInfo)({ withCredentials: true });
     userInfo.wx = user.userInfo;
-    //console.info('user---',user);
-
-    //code换取session_key
+    console.log(userInfo.wx);
+     //code换取session_key
     const session = yield request({
-      url:  ApiList.getAuth,      
-      method:"method",
+      url: ApiList.getAuth,
+      method: "POST",
       data: {
         appid: cfg.appid,
         secret: cfg.secret,
@@ -44,32 +41,50 @@ const getUserInfo = co.wrap(function* () {
         grant_type: "authorization_code"
       }
     });
-    console.log("jscode2session",session.data);
-    //console.info('jscode2session---',session);
 
-    //解密encryptedData
-    if (session.data) {
-      const decodeInfo = yield request({
-        url: ApiList.decodeWechatInfo,
-        data: {
-          appId: cfg.appid,
-          data: user.encryptedData,
-          iv: user.iv,
-          sessionKey: session.data.session_key
-        }
-      });
-      //console.info('decodeInfo---',decodeInfo);
-
-      if (decodeInfo.data) {
-        userInfo.mmh = decodeInfo.data.mmhUser;
-        userInfo.wx = decodeInfo.data.wxUser;
-      }
-    }
-    wx.setStorage({
-      key: key_user,
-      data: userInfo
-    });
+    console.log("session",basic.code, session);
   }
+  
+  //在javascript中，只要obj不是false、0、undefined、null，if (obj) { } 就会被执行
+ 
+
+
+  // if (!userInfo) {
+  //   console.log("load userinfo");
+
+
+
+    
+    
+    
+    
+  //   //解密encryptedData
+  //   console.log("Decryp context", {
+  //     appId: cfg.appid,
+  //     data: user.encryptedData,
+  //     iv: user.iv,
+  //     sessionKey: session.data.session_key
+  //   });
+  //   if (session.data) {
+  //     const decodeInfo = yield request({
+  //       url: ApiList.decryptUserInfo,
+  //       method: "POST",
+  //       data: {
+  //         appId: cfg.appid,
+  //         data: user.encryptedData,
+  //         iv: user.iv,
+  //         sessionKey: session.data.session_key
+  //       }
+  //     });
+  //     console.info('decodeInfo---', decodeInfo);
+
+  //     if (decodeInfo.data) {
+  //       userInfo.mmh = decodeInfo.data.mmhUser;
+  //       userInfo.wx = decodeInfo.data.wxUser;
+  //     }
+  //   }
+   
+  // }
   return userInfo;
 });
 
