@@ -18,7 +18,7 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns></returns>
-        long Register(WeChatModels::WxUser userModel);
+        long Register(WeChatModels::WeChatUserInfo userModel);
         /// <summary>
         /// 
         /// </summary>

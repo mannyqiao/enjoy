@@ -110,6 +110,8 @@
     <Compile Include="Api\Models\PagingX.cs" />
     <Compile Include="Api\Models\ShopAct.cs" />
     <Compile Include="Api\Models\ShopNearyby.cs" />
+    <Compile Include="Api\Models\Tokens\DecryptContext.cs" />
+    <Compile Include="Api\Models\Tokens\JSCodeContext.cs" />
     <Compile Include="Common\Extensions\AuditStatusExtension.cs" />
     <Compile Include="Common\Extensions\CardCouponExtension.cs" />
     <Compile Include="Common\Extensions\DateTimeExtension.cs" />
@@ -262,7 +264,7 @@
     <Compile Include="Models\WeChat\WxLoginUser.cs" />
     <Compile Include="Models\WeChat\WxMsgToken.cs" />
     <Compile Include="Models\WeChat\WxSession.cs" />
-    <Compile Include="Models\WeChat\WxUser.cs" />
+    <Compile Include="Models\WeChat\WeChatUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManifestProvider.cs" />
     <Compile Include="Routes.cs" />

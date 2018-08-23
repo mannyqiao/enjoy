@@ -49,9 +49,16 @@ namespace Enjoy.Core.Api
 
         [Route("api/enjoy/GetSessionKey")]
         [HttpPost]
-        public IWxAuthorization GetSessionKey(string code,string appid,string secret)
+        public IWxAuthorization GetSessionKey(JSCodeContext signature)
         {
-            return this.WeChat.GetSessionKey(code, appid, secret);
+            var result = this.WeChat.GetSessionKey(signature.Code, signature.AppId, signature.Secret);
+            return result;
+        }
+        [Route("api/enjoy/DecryptUserInfo")]
+        [HttpPost]
+        public WeChatUserInfo DecryptUserInfo(DecryptContext context)
+        {
+            return this.WeChat.Decrypt(context.Data, context.IV, context.SessionKey);
         }
         //[Route("api/enjoy/signature")]
         //[HttpGet]
@@ -63,7 +70,7 @@ namespace Enjoy.Core.Api
         //{
         //    return this.WeChat.CreateWxSession(new WxLoginUser(code, iv, encryptedData, signature));
         //}
-        
+
         //[Route("api/enjoy/test")]
         //[HttpGet]
         //public IMiniprogram Test()
