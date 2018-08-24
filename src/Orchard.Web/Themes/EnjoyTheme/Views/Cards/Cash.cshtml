@@ -37,15 +37,20 @@
                         <h4>&nbsp;</h4>
                         @Html.HiddenFor(o => o.WxNo)
                         @Html.Partial("Component/_TextPartial"
-                       , new TextUIElement(Html.NameOf(o => o.Cash.BaseInfo.Title), (Model.CardType.TextOf() + "标题"), Model.Cash.BaseInfo.Title, 12, true, "12以内的中文字符"))
+                       , new TextUIElement(Html.NameOf(o => o.Cash.BaseInfo.Title), 
+                       (Model.CardType.TextOf() + "标题"), Model.Cash.BaseInfo.Title, 12, true, "12以内的中文字符"))
 
-                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.Cash.BaseInfo.Color), "卡面颜色", Model.Cash.BaseInfo.Color))
+                        @Html.Partial("Component/_PalettePartial", 
+                       new PaletteUIElement(Html.NameOf(o => o.Cash.BaseInfo.Color), "卡面颜色", Model.Cash.BaseInfo.Color))
 
                         @Html.Partial("Component/_ImgageUploadUIelement",
-                      new ImageUploadUIElement(Html.NameOf(o => o.Cash.AdvancedInfo.Abstract.DefaultIcoUrl), "封面图片", MediaUploadTypes.Material, Model.Cash.AdvancedInfo.Abstract.DefaultIcoUrl, true, Model.Cash.AdvancedInfo.Abstract.DefaultIcoUrl))
+                      new ImageUploadUIElement(Html.NameOf(o => o.Cash.AdvancedInfo.Abstract.DefaultIcoUrl), 
+                      "封面图片", MediaUploadTypes.Material, Model.Cash.AdvancedInfo.Abstract.DefaultIcoUrl, true, Model.Cash.AdvancedInfo.Abstract.DefaultIcoUrl))
 
 
-                        @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Cash.AdvancedInfo.Abstract.AbstractX), "封面介绍", Model.Cash.AdvancedInfo.Abstract.AbstractX, 100, true))
+                        @Html.Partial("Component/_TextPartial", 
+                       new TextUIElement(Html.NameOf(o => o.Cash.AdvancedInfo.Abstract.AbstractX),
+                       "封面介绍", Model.Cash.AdvancedInfo.Abstract.AbstractX, 100, true))
 
 
                         @Html.Partial("Component/_DecimalPartial",
@@ -54,19 +59,23 @@
                        "输入折扣1-9."))
 
                         @Html.Partial("Component/_DecimalPartial",
-                       new DecimalUIElement(Html.NameOf(o => o.Cash.BaseInfo.Sku.Quantity), "库存量", Model.Cash.BaseInfo.Sku.Quantity, true, "输入库存量"))
+                       new DecimalUIElement(Html.NameOf(o => o.Cash.BaseInfo.Sku.Quantity),
+                       "库存量", Model.Cash.BaseInfo.Sku.Quantity, true, "输入库存量"))
 
 
-                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.BaseInfo.Uselimit), "可核销次数限制", Model.Cash.BaseInfo.Uselimit, true, "不填默认为50次"))
+                        @Html.Partial("Component/_DecimalPartial", 
+                       new DecimalUIElement(Html.NameOf(o => o.Cash.BaseInfo.Uselimit), "可核销次数限制", Model.Cash.BaseInfo.Uselimit, true, "不填默认为50次"))
 
 
-                        @Html.Partial("Component/_DecimalPartial", new DecimalUIElement(Html.NameOf(o => o.Cash.BaseInfo.Getlimit), "每人限领", Model.Cash.BaseInfo.Getlimit, true))
+                        @Html.Partial("Component/_DecimalPartial",
+                       new DecimalUIElement(Html.NameOf(o => o.Cash.BaseInfo.Getlimit), "每人限领", Model.Cash.BaseInfo.Getlimit, true))
 
 
                         @Html.Partial("Component/_TextPartial", new TextUIElement(Html.NameOf(o => o.Cash.BaseInfo.Notice), "操作提示", Model.Cash.BaseInfo.Notice, 100, true))
 
 
-                        @Html.Partial("Component/_TextAreaPartial", new TextAreaUIElement(Html.NameOf(o => o.Cash.BaseInfo.Description), "使用须知", Model.Cash.BaseInfo.Description, 100, true))
+                        @Html.Partial("Component/_TextAreaPartial", 
+                       new TextAreaUIElement(Html.NameOf(o => o.Cash.BaseInfo.Description), "使用须知", Model.Cash.BaseInfo.Description, 100, true))
                     </div>
                     <div class="tab-pane fade" id="userule">
                         <h4>&nbsp;</h4>
@@ -102,7 +111,8 @@
                         </div>
                         <div class="form-group">
                             <label>使用条件</label>
-                            @Html.Partial("Component/_RadioPartial", new RadioUIElement(Html.NameOf(o => o.Cash.AdvancedInfo.UseCondition.Type),Model.Cash.AdvancedInfo.UseCondition.Type.ToString(),
+                            @Html.Partial("Component/_RadioPartial", 
+                           new RadioUIElement(Html.NameOf(o => o.Cash.AdvancedInfo.UseCondition.Type),Model.Cash.AdvancedInfo.UseCondition.Type.ToString(),
                                     new RadioUIElement.RadioItem[]{
                                         new RadioUIElement.RadioItem("uselimit_"+
                                         UseLimitTypes.None.ToString(),"uselimit_"+ Html.NameOf(o=>o.Cash.AdvancedInfo.UseCondition.Type),"无门槛",UseLimitTypes.None.ToString(),"abbc"),

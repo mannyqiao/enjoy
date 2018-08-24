@@ -3,7 +3,7 @@
 namespace Enjoy.Core
 {
     using System.Collections.Generic;
-    public static class EnjoyConstant
+    public static class Constants
     {
         public static readonly Dictionary<int, string> ErrorrCodeDescriptor = new Dictionary<int, string>()
         {
@@ -21,7 +21,9 @@ namespace Enjoy.Core
             {1010,"你的操作过于频繁,请稍后再试"},
             {1011,"操作失败,请检查信息是否填写完整，修正后再重新提交."},
             {1012,"对象不存在"},
-            {1013,"无法删除正在审核或者审核通过的商户."}
+            {1013,"无法删除正在审核或者审核通过的商户."},
+            {1014,"用户不存在."},
+            
         };
         public const int Success = 0;
 
@@ -39,6 +41,7 @@ namespace Enjoy.Core
         public const int ErrorMerchantState = 1011; //invalid sub merchant status hint: [NiFNya05440734]
         public const int ObjectNotExits = 1012;//对象不存在
         public const int CanNotDeleteMerchant = 1013;//对象不存在
+        public const int UserNotExits = 1014;//用户不存在
         public const string EnjoyCurrentUser = "EnjoyUser";
         public static readonly Dictionary<string, string> BusinessService = new Dictionary<string, string>()
         {

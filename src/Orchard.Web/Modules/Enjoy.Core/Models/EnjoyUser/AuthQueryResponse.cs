@@ -14,8 +14,8 @@ namespace Enjoy.Core
             this.Items = records;
             if (this.IsEmptyOrNullDataSource() == false)
             {
-                this.ErrorCode = EnjoyConstant.Success;
-                this.ErrorMessage = EnjoyConstant.ErrorrCodeDescriptor[this.ErrorCode];
+                this.ErrorCode = Constants.Success;
+                this.ErrorMessage = Constants.ErrorrCodeDescriptor[this.ErrorCode];
             }
         }
         public AuthQueryResponse(int errorCode, string errorMessage, IEnumerable<EnjoyUserModel> records)
@@ -25,12 +25,12 @@ namespace Enjoy.Core
             this.Items = records;
         }
         public AuthQueryResponse(int errorCode)
-            : base(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<EnjoyUserModel>())
+            : base(errorCode, Constants.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<EnjoyUserModel>())
         {
 
         }
         public AuthQueryResponse(int errorCode, EnjoyUserModel model)
-            : base(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], new List<EnjoyUserModel>() { model })
+            : base(errorCode, Constants.ErrorrCodeDescriptor[errorCode], new List<EnjoyUserModel>() { model })
         {
 
         }
@@ -40,7 +40,7 @@ namespace Enjoy.Core
 
         }
         public AuthQueryResponse(int errorCode, IEnumerable<EnjoyUserModel> records)
-            : base(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], records)
+            : base(errorCode, Constants.ErrorrCodeDescriptor[errorCode], records)
         {
 
         }

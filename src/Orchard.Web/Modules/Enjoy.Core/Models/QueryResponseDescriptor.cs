@@ -16,8 +16,8 @@ namespace Enjoy.Core.EnjoyModels
             this.Items = records;
             if (this.IsEmptyOrNullDataSource() == false)
             {
-                this.ErrorCode = EnjoyConstant.Success;
-                this.ErrorMessage = EnjoyConstant.ErrorrCodeDescriptor[this.ErrorCode];
+                this.ErrorCode = Constants.Success;
+                this.ErrorMessage = Constants.ErrorrCodeDescriptor[this.ErrorCode];
             }
         }
         public QueryResponseDescriptor(int errorCode, string errorMessage, IEnumerable<T> records)
@@ -27,12 +27,12 @@ namespace Enjoy.Core.EnjoyModels
             this.Items = records;
         }
         public QueryResponseDescriptor(int errorCode)
-            : this(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<T>())
+            : this(errorCode, Constants.ErrorrCodeDescriptor[errorCode], Enumerable.Empty<T>())
         {
 
         }
         public QueryResponseDescriptor(int errorCode, T record)
-            : this(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], new List<T>() { record })
+            : this(errorCode, Constants.ErrorrCodeDescriptor[errorCode], new List<T>() { record })
         {
 
         }
@@ -42,7 +42,7 @@ namespace Enjoy.Core.EnjoyModels
 
         }
         public QueryResponseDescriptor(int errorCode, IEnumerable<T> records)
-            : this(errorCode, EnjoyConstant.ErrorrCodeDescriptor[errorCode], records)
+            : this(errorCode, Constants.ErrorrCodeDescriptor[errorCode], records)
         {
 
         }
@@ -66,7 +66,7 @@ namespace Enjoy.Core.EnjoyModels
         {
             get
             {
-                return !this.ErrorCode.Equals(EnjoyConstant.Success);
+                return !this.ErrorCode.Equals(Constants.Success);
             }
         }
 

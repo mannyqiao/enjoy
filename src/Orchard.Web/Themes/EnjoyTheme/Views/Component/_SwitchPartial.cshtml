@@ -15,7 +15,7 @@
         $(document).ready(function () {
             $("input[type='checkbox']").click(function () {
                 var name = $(this).val("name");
-                $("#" + name).val($(this).attr("checked") == "checked");
+                $("#" + name).val($(this).attr("checked") === "checked");
             });
         });
     </script>

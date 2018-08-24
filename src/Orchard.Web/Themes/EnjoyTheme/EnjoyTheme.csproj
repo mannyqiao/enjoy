@@ -372,6 +372,7 @@
     <Content Include="Views\Cards\Cash.cshtml" />
     <Content Include="Views\Cards\Discount.cshtml" />
     <Content Include="Views\Cards\Gift.cshtml" />
+    <Content Include="Views\Cards\Member.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

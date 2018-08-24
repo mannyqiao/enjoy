@@ -194,8 +194,8 @@ namespace Enjoy.Core
                 Type = viewModel.CardType,
                 WxNo = viewModel.WxNo
             };
-            viewModel.Choose<ICardCoupon>().AdvancedInfo.WitFixedSettings();
-            viewModel.Choose<ICardCoupon>().BaseInfo.WithFixedSettings(merchant);
+            viewModel.Choose<ICardCoupon>().AdvancedInfo.WitFixedSettings(viewModel.CardType);
+            viewModel.Choose<ICardCoupon>().BaseInfo.WithFixedSettings(viewModel.CardType,merchant);
             model.CardCoupon = viewModel.Choose();
             var json = model.CardCoupon.ToJson();
             return model;
@@ -250,7 +250,7 @@ namespace Enjoy.Core
             info.LogoUrl = merchant.LogoUrl;
             info.BrandName = merchant.BrandName;
             info.Title = type.TextOf();
-            info.Color = EnjoyConstant.CouponBackgroundColors["Color010"];
+            info.Color = Constants.CouponBackgroundColors["Color010"];
             info.Notice = "消费时向店员出示卡/券二维码";
             info.ServicePhone = merchant.Mobile;
             info.Description = "可与他人共享";
@@ -259,10 +259,16 @@ namespace Enjoy.Core
                 : new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString() };
 
 
-
             info.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
             info.Sku = new Sku() { Quantity = 100 };
-            info.Uselimit = 1;
+            if(type== CardTypes.MEMBER_CARD)
+            {
+                info.Uselimit = null;
+            }
+            else
+            {
+                info.Uselimit = 1;
+            }            
             info.Getlimit = 50;
             info.UseCustomCode = false;
             info.BindOpenid = true;
@@ -271,7 +277,7 @@ namespace Enjoy.Core
             info.Merchant = new SubMerchantInfo() { MerchantId = merchant.MerchantId ?? 0 };
             return info;
         }
-        public static BaseInfo WithFixedSettings(this BaseInfo info, MerchantModel merchant)
+        public static BaseInfo WithFixedSettings(this BaseInfo info, CardTypes type, MerchantModel merchant)
         {
             info.BrandName = merchant.BrandName;
             info.LogoUrl = merchant.LogoUrl;
@@ -295,9 +301,13 @@ namespace Enjoy.Core
             info.CanGivefriend = true;
             info.CanShare = false;
             info.BindOpenid = true;
-
+            info.UseCustomCode = false;
+            
             info.CodeType = CodeTypes.CODE_TYPE_ONLY_QRCODE.ToString();
             info.ServicePhone = merchant.Mobile;
+            
+            if (type == CardTypes.MEMBER_CARD)
+                info.Dateinfo = new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() };
             return info;
         }
         public static AdvancedInfo WithInitializeSettings(this AdvancedInfo info, CardTypes type, MerchantModel merchant)
@@ -319,14 +329,22 @@ namespace Enjoy.Core
                  new TextImage(){ },
                  new TextImage(){ }
             };
-            info.TimeLimits = null;
-            info.BusinessService = EnjoyConstant.BusinessService.Keys.ToArray();
+
+            info.BusinessService = Constants.BusinessService.Keys.ToArray();
             info.Abstract = new Abstract() { };
             return info;
 
         }
-        public static AdvancedInfo WitFixedSettings(this AdvancedInfo info)
+        public static AdvancedInfo WitFixedSettings(this AdvancedInfo info, CardTypes type)
         {
+            switch (type)
+            {
+                case CardTypes.MEMBER_CARD:
+                    break;
+            }
+
+            if (info.UseCondition == null)
+                info.UseCondition = new UseCondition() { };
             info.UseCondition.CanUseWithOtherDiscount = false;
             return info;
         }

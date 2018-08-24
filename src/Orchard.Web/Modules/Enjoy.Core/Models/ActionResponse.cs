@@ -27,7 +27,7 @@ namespace Enjoy.Core.EnjoyModels
         public BaseResponse(int error)
         {
             this.ErrorCode = error;
-            this.ErrorMessage = EnjoyConstant.ErrorrCodeDescriptor[error];
+            this.ErrorMessage = Constants.ErrorrCodeDescriptor[error];
         }
         [JsonProperty("error_code")]
         public virtual int ErrorCode { get; protected set; }
@@ -37,7 +37,7 @@ namespace Enjoy.Core.EnjoyModels
         {
             get
             {
-                return !this.ErrorCode.Equals(EnjoyConstant.Success);
+                return !this.ErrorCode.Equals(Constants.Success);
             }
         }
     }
@@ -63,7 +63,7 @@ namespace Enjoy.Core.EnjoyModels
         }
         public static VerifyResponse CreateSuccessInstance()
         {
-            return new VerifyResponse(EnjoyConstant.Success, null);
+            return new VerifyResponse(Constants.Success, null);
         }
               
     }

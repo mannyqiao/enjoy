@@ -51,7 +51,7 @@ namespace Enjoy.Core.Services
                 userModel.Id = model.Id;
             }
             this.SaveOrUpdate(userModel,
-                (wx) => { return new BaseResponse(EnjoyConstant.Success); },
+                (wx) => { return new BaseResponse(Constants.Success); },
                 RecordSetter);
             return userModel.Id;
         }

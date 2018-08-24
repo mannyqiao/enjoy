@@ -40,7 +40,7 @@ namespace Enjoy.Core.Services
         }
         public string GetToken()
         {
-            return GetToken(EnjoyConstant.Miniprogram.AppId, EnjoyConstant.Miniprogram.AppSecrect);
+            return GetToken(Constants.Miniprogram.AppId, Constants.Miniprogram.AppSecrect);
         }
         public ApplyProtocolWxResponse GetApplyProtocol()
         {
@@ -98,8 +98,8 @@ namespace Enjoy.Core.Services
             response.Value = response.MediaId ?? response.Url;
             if (string.IsNullOrEmpty(response.MediaId) == false)//if has mediaid
             {
-                this.OS.CreateMediaDirectoryIfNotExits(EnjoyConstant.Directory_Media_Protocol_ROOT);
-                var mediaFileName = this.OS.WorkContext.HttpContext.Server.MapPath(string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT, "/", response.MediaId, ".jpg"));
+                this.OS.CreateMediaDirectoryIfNotExits(Constants.Directory_Media_Protocol_ROOT);
+                var mediaFileName = this.OS.WorkContext.HttpContext.Server.MapPath(string.Concat(Constants.Directory_Media_Protocol_ROOT, "/", response.MediaId, ".jpg"));
                 if (File.Exists(mediaFileName)) File.Delete(mediaFileName);
 
                 using (var stream = new FileStream(mediaFileName, FileMode.Create))
@@ -136,10 +136,10 @@ namespace Enjoy.Core.Services
 
         public WxSession CreateWxSession(IWxLoginUser loginUseer)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(EnjoyConstant.Miniprogram.AppId, loginUseer.Code, EnjoyConstant.Miniprogram.AppSecrect);
+            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.Miniprogram.AppId, loginUseer.Code, Constants.Miniprogram.AppSecrect);
             var auth = request.GetResponseForJson<WeChatAuthorization>();
             var wechatUser = Decrypt(loginUseer.Data, loginUseer.IV, auth.SessionKey);
-            return new WxSession() { LoginUser = loginUseer, Miniprogram = EnjoyConstant.Miniprogram, WeCharUser = wechatUser, Authorization = auth };
+            return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.Miniprogram, WeCharUser = wechatUser, Authorization = auth };
         }
         public IWxAuthorization GetSessionKey(string code, string appid, string secret)
         {

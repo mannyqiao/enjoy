@@ -203,7 +203,7 @@ namespace Enjoy.Core.Controllers
             {
                 return new JsonNetResult()
                 {
-                    Data = new BaseResponse(EnjoyConstant.CanNotDeleteMerchant)
+                    Data = new BaseResponse(Constants.CanNotDeleteMerchant)
                 };
             }
         }
@@ -236,7 +236,7 @@ namespace Enjoy.Core.Controllers
             this.Shop.DeleteShop(id.Value);
             return new JsonNetResult()
             {
-                Data = new BaseResponse(EnjoyConstant.Success)
+                Data = new BaseResponse(Constants.Success)
             };
         }
     }

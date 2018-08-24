@@ -97,12 +97,12 @@ namespace Enjoy.Core.Services
             var result = this.SaveOrUpdate(model);
             if (string.IsNullOrEmpty(model.ErrMsg) == false)
             {
-                return new ActionResponse<MerchantModel>(EnjoyConstant.ErrorMerchantState, model);
+                return new ActionResponse<MerchantModel>(Constants.ErrorMerchantState, model);
             }
             else
             {
 
-                return new ActionResponse<MerchantModel>(EnjoyConstant.Success, model);
+                return new ActionResponse<MerchantModel>(Constants.Success, model);
             }
         }
 
@@ -124,7 +124,7 @@ namespace Enjoy.Core.Services
 
             if (errors.Count > 0)
             {
-                return new VerifyResponse(EnjoyConstant.VerifyFailed, errors.ToArray());
+                return new VerifyResponse(Constants.VerifyFailed, errors.ToArray());
             }
             return VerifyResponse.CreateSuccessInstance();
         }
@@ -161,7 +161,7 @@ namespace Enjoy.Core.Services
              }, r => new MerchantModel(r));
             return new WxResponseWapper<AuditStatus>()
             {
-                ErrCode = model == null ? EnjoyConstant.ObjectNotExits : EnjoyConstant.Success,
+                ErrCode = model == null ? Constants.ObjectNotExits : Constants.Success,
                 Info = model == null ? AuditStatus.NotFond : model.Status
             };
         }
@@ -169,7 +169,7 @@ namespace Enjoy.Core.Services
         public PagingData<MerchantModel> QueryMyMerchants(long userid, int page)
         {
             var apply = this.WeChat.GetApplyProtocol();
-            var condition = PagingCondition.GenerateByPageAndSize(page, EnjoyConstant.DefaultPageSize);
+            var condition = PagingCondition.GenerateByPageAndSize(page, Constants.DefaultPageSize);
 
             return this.Query(condition, (builder) =>
             {
