@@ -17,7 +17,10 @@ namespace Enjoy.Core
 
             foreach (var column in filter.Columns)
             {
-                var type = column.Search.Value.PredictDbTypeBySearchColumeValue();
+                var type =column.DbType==null
+                    ? column.Search.Value.PredictDbTypeBySearchColumeValue()
+                    :column.DbType;
+
                 if (column.Searchable == false || type == null)
                 {
                     continue;

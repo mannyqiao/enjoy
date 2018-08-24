@@ -3,9 +3,7 @@ import ApiList from '../../config/api';
 import request from '../../utils/request';
 import promisify from '../../utils/promisify';
 import Map from '../../utils/map';
-
 let app = getApp();
-
 Page({
   data: {
     __dialog__: {
@@ -18,7 +16,7 @@ Page({
       "linkTo": "1"
     },
     "shopList": [],
-    "page":0,
+    "page":1,
     "pageSize":10,
     "totalRow": 100,
     "deliveryAddress": '成都市',
@@ -31,7 +29,7 @@ Page({
     const me = this;   
     //设置banner    
     wx.request({
-      url: ApiList.QueryNearbyMerchant,
+      url: ApiList.QueryMerchants,
       data: {page: me.data.page+1 ,size:me.data.pageSize },
       method:"POST",
       success:function(res) {

@@ -20,7 +20,7 @@ namespace Enjoy.Core.EnjoyModels
         /// </summary>
         public bool Searchable { get; set; }
 
-        public DbType DbType { get; set; }
+        public DbType? DbType { get; set; }
         /// <summary>
         ///     是否可以排序
         /// </summary>

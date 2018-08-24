@@ -4,8 +4,13 @@ namespace Enjoy.Core.WeChatModels
     using System.Collections.Generic;
     using System.Linq;
     using System;
+    using Enjoy.Core.ApiModels;
+
     public class WeChatUserInfo
     {
+        [Newtonsoft.Json.JsonProperty("id")]
+        public long Id { get; set; }
+
         [Newtonsoft.Json.JsonProperty("openid")]
         public string OpenId { get; set; }
         [Newtonsoft.Json.JsonProperty("nickName")]
@@ -25,9 +30,14 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("unionId")]
         public string UnionId { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("state")]
+        public UserState State { get; set; }
+
         [Newtonsoft.Json.JsonProperty("watermark")]
         public Watermark watermark { get; set; }
 
+        
+        
         public class Watermark
         {
             [Newtonsoft.Json.JsonProperty("appid")]

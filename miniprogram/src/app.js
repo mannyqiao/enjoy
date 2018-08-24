@@ -10,7 +10,6 @@ App({
   onLaunch() {
     const me = this;        
     me.getUserInfo().then(res => {
-     
     });
   }
 });

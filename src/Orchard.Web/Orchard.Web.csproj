@@ -153,6 +153,35 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Media\app\guide-1.png" />
+    <Content Include="Media\app\guide-2.png" />
+    <Content Include="Media\app\guide-3.png" />
+    <Content Include="Media\app\guide-4.png" />
+    <Content Include="Media\MP_verify_I81QiEmj5y8jSdOh.txt" />
+    <Content Include="Media\OrchardLogo.png" />
+    <Content Include="Media\protocols\0KD5VCqAie2Ocj3v_KdlxHP7wW2dPjtF81-4is6-P9zo9U4YP0_VjIGcDcdMvoI9.jpg" />
+    <Content Include="Media\protocols\5R2mVyuTpRbYcX9HoujRXYz49c8X_S0BnKH7hq-o_mdi4UeK9W2TGU3ijZqpricZ.jpg" />
+    <Content Include="Media\protocols\7Z41B1iKJF0csO6q02RKLwEGUKcjxgyePkPEv2HFlWGABiHhwWEr6eUCx2o9E_nP.jpg" />
+    <Content Include="Media\protocols\amRNZj6GwX4YsPl3NztUAvkwCEIAMHi_hxPbBCCPf0E1oE2OzgBbixoQisoWT8aY.jpg" />
+    <Content Include="Media\protocols\Cb2NOmRA2nsnADjHSYMF7TH436eybA1v53WQr2KjPzzCX9t864H-llhAs4bDaLQh.jpg" />
+    <Content Include="Media\protocols\cxY4RDFrUv6-Hjifn51vE0oxx90foe1sxStW-Iy7fKt-MYRTDKWfXfrHNLBmT9yc.jpg" />
+    <Content Include="Media\protocols\czYDyWrV0no9Mb33mWRsgM2cL3zqjbhsrshpLcL3Dx2P-UWIO4sUxUKfoLJaWg8H.jpg" />
+    <Content Include="Media\protocols\DBGBHu7OhYl94m6TdpWRroIkXehLnUPpQ26BhZCEgniMpfR768BAn2oixWPlPzaf.jpg" />
+    <Content Include="Media\protocols\Dp500IUO8Agz3C9Ro2SIvSArBxB7bkj6Pq4wmUmsBpCgTtBqhbIBHGkX1gH6iT3f.jpg" />
+    <Content Include="Media\protocols\EKDqyISr9bj_rjsPDW1bXrll_EvzbtjJGK3oQx7Gxw9CtjBMSdnjzxFBOKcn6T65.jpg" />
+    <Content Include="Media\protocols\fImVNt7jRDz-6dpG6OrVsRLrAuvO7Ze9aS5FH95tdO4E2EHJ_1IihthHYmbS4-z8.jpg" />
+    <Content Include="Media\protocols\HyTn4ZFzmG5XYA5CjetCZOXG_g3JcxSfSPM7ImXvefKviNjz8d6eGB1X5zEEHtOc.jpg" />
+    <Content Include="Media\protocols\jQCSB--GZYdzS3YlCPDl7apwQ5cdj25ePcjoOYF3VdsEKIx4Ed1q7xymT5rKek4L.jpg" />
+    <Content Include="Media\protocols\lk1-ynFVbuTHHcO9uyXmAAQxrz2rugHKMnByACEqTg-JuLsxKeduBPU-vIzMTwll.jpg" />
+    <Content Include="Media\protocols\OxBLzhjW9PQlu6Lq-7kVppl3rrIxiibbvA3eCMHlweigfJD_ydLIuMa75yQ09CqO.jpg" />
+    <Content Include="Media\protocols\PSxt5l1rvKBy-JG6Vke6P0pHer3ysolTDRjBuvLpWuU6HrhKZ4LhX25qnWYXHsTU.jpg" />
+    <Content Include="Media\protocols\R89BOXbm6m7qhtekKAIBqE-6OJ_yV3SQ_LnX6S5xrJDGs3Ofn--AVUKL8jD-eNkT.jpg" />
+    <Content Include="Media\protocols\reUV3qpf9KTvsYwy1oGWZahKoDSCQ6yADR1adnM2FTBfA8gvTJAfxlIJu3TIalGJ.jpg" />
+    <Content Include="Media\protocols\RYQgYrzYi3LA81LJiiF5gBxDOXYdtDYExPJge5nzRd4BGAfkc1bjyTGoXiQqT8Y4.jpg" />
+    <Content Include="Media\protocols\uOeXBW0xdKaYqRbXAU8lhRxKfD0JXFdnuSrj4iG0B2NIE_OQUrjw3SUdX1kdLcA5.jpg" />
+    <Content Include="Media\protocols\yFjnZxiJxHmPXkPMV5XBbhjQ-Dupw2VTBv7q8Hu1bUbqeantL_GMMn0XDBr6l9V7.jpg" />
+    <Content Include="Media\protocols\Zy3iMo9ozDsS8nQC7g721P3aFIw_7LL7H218MT6pQsa4mEZWqiRTaUFG4et99yKv.jpg" />
+    <Content Include="Media\protocols\ZzGMpHj6kLLd26iYA-cEkX_ANPpVTQYWbIMb9LtLFuW28Pj4CNAa3hlXfi549Zxa.jpg" />
     <Content Include="Refresh.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -182,6 +211,7 @@
   <ItemGroup>
     <Content Include="Config\Sites.config" />
     <Content Include="packages.config" />
+    <Content Include="Media\web.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -16,50 +16,79 @@ namespace Enjoy.Core.Api
     using Enjoy.Core.ApiModels;
     using System.Linq;
     using Enjoy.Core.ViewModels;
-
+    using System;
     //[Authorize]
     public class EnjoyController : ApiController
     {
-        private readonly IEnjoyAuthService Auth;
-        private readonly IMerchantService Merchant;
-        private readonly IOrchardServices OS;
-        private readonly IWeChatApi WeChat;
+        private readonly IEnjoyAuthService _authService;
+        private readonly IMerchantService _merchantService;
+        private readonly IOrchardServices _os;
+        private readonly IWeChatApi _weChat;
         private readonly IWeChatMsgHandler _handler;
-
+        private readonly IWxUserService _wxUserService;
         public EnjoyController(
             IOrchardServices os,
             IEnjoyAuthService auth,
             IWeChatApi wechat,
             IMerchantService merchant,
+            IWxUserService wxUserService,
             IWeChatMsgHandler handler)
         {
-            this.Auth = auth;
-            this.OS = os;
-            this.Merchant = merchant;
-            this.WeChat = wechat;
+            this._authService = auth;
+            this._os = os;
+            this._merchantService = merchant;
+            this._weChat = wechat;
             this.Logger = NullLogger.Instance;
             this._handler = handler;
+            this._wxUserService = wxUserService;
         }
         public ILogger Logger { get; set; }
         [HttpGet]
         public AuthQueryResponse GetEnjoyUser(string mobile)
         {
-            return this.Auth.QueryByMobile(mobile);
+            return this._authService.QueryByMobile(mobile);
         }
 
         [Route("api/enjoy/GetSessionKey")]
         [HttpPost]
         public IWxAuthorization GetSessionKey(JSCodeContext signature)
         {
-            var result = this.WeChat.GetSessionKey(signature.Code, signature.AppId, signature.Secret);
+            //var text = this.OS.WorkContext.HttpContext.Request.InputStream.ReadStream();
+            var result = this._weChat.GetSessionKey(signature.Code, signature.AppId, signature.Secret);
             return result;
         }
         [Route("api/enjoy/DecryptUserInfo")]
         [HttpPost]
         public WeChatUserInfo DecryptUserInfo(DecryptContext context)
         {
-            return this.WeChat.Decrypt(context.Data, context.IV, context.SessionKey);
+            var result = this._weChat.Decrypt(context.Data, context.IV, context.SessionKey);
+            //检查用户状态
+            var wxuser = this._wxUserService.GetWxUser(result.UnionId);
+            if (wxuser == null)
+            {
+                wxuser = new WxUserModel()
+                {
+                    City = result.City,
+                    Country = result.Country,
+                    CreatedTime = DateTime.Now.ToUnixStampDateTime(),
+                    LastActiveTime = DateTime.Now.ToUnixStampDateTime(),
+                    Mobile = string.Empty,
+                    NickName = result.NickName,
+                    Province = result.Province,
+                    RegistryType = RegistryTypes.Miniprogram,
+                    UnionId = result.UnionId
+                };
+                result.State = new UserState() { HasMobile = false, Signup = true };
+                this._wxUserService.Register(wxuser);
+            }
+            else
+            {
+                result.State = new UserState() { HasMobile = !string.IsNullOrEmpty(wxuser.Mobile), Signup = true };
+            }
+            result.Id = wxuser.Id;
+            return result;
         }
+
         //[Route("api/enjoy/signature")]
         //[HttpGet]
         //public WxSession DecodeUserinfo(
@@ -110,18 +139,18 @@ namespace Enjoy.Core.Api
             string echostr = null)
         {
 
-            if (this.OS.WorkContext.HttpContext.Request.HttpMethod.Equals("GET", System.StringComparison.OrdinalIgnoreCase))
+            if (this._os.WorkContext.HttpContext.Request.HttpMethod.Equals("GET", System.StringComparison.OrdinalIgnoreCase))
             {
-                this.OS.WorkContext.HttpContext.Response.Write(echostr);
-                this.OS.WorkContext.HttpContext.Response.End();
+                this._os.WorkContext.HttpContext.Response.Write(echostr);
+                this._os.WorkContext.HttpContext.Response.End();
                 return;
             }
             var token = new WxMsgToken(msg_signature,
                 timestamp,
                 nonce,
-                this.OS.WorkContext.HttpContext.Request.InputStream.ReadStream());
+                this._os.WorkContext.HttpContext.Request.InputStream.ReadStream());
             string weChatMsg = string.Concat(
-                string.Format("requestUrl:{0}\r\n", this.OS.WorkContext.HttpContext.Request.RawUrl),
+                string.Format("requestUrl:{0}\r\n", this._os.WorkContext.HttpContext.Request.RawUrl),
                 string.Format("xmlbody = {0} \r\n", token.ReqMsg)
             );
             Logger.Error(weChatMsg);
@@ -134,7 +163,7 @@ namespace Enjoy.Core.Api
         public List<Banner> QueryMerchants(PagingX paging)
         {
             var condition = PagingCondition.GenerateByPageAndSize(paging.Page, paging.PageSize);
-            return this.Merchant.QueryMerchants(new QueryFilter()
+            return this._merchantService.QueryMerchants(new QueryFilter()
             {
                 Columns = new List<QueryColumnFilter>()
                 {
@@ -174,7 +203,7 @@ namespace Enjoy.Core.Api
         [HttpPost]
         public ActionResponse<VerificationCodeViewModel> SendVerifyCode(Mobile mobile)
         {
-            return this.Auth.GetverificationCode(mobile.Value, VerifyTypes.BindWeChatUser);
+            return this._authService.GetverificationCode(mobile.Value, VerifyTypes.BindWeChatUser);
         }
     }
 }

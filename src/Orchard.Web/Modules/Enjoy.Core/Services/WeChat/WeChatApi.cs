@@ -144,6 +144,7 @@ namespace Enjoy.Core.Services
         public IWxAuthorization GetSessionKey(string code, string appid, string secret)
         {
             var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(appid, code, secret);
+            //var text = request.GetUriContentDirectly();
             var auth = request.GetResponseForJson<WeChatAuthorization>();
             return auth;
         }

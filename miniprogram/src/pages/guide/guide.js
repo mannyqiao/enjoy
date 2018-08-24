@@ -2,7 +2,7 @@ import ApiList from '../../config/api.js';
 import request from '../../utils/request';
 import { co, Promise, regeneratorRuntime } from '../../utils/co-loader';
 import { getUserInfo } from '../../utils/index';
-
+let app = getApp()
 Page({
   data: {
     imgs: [
@@ -16,13 +16,13 @@ Page({
   start() {  
     const me = this;
     co(function* () {
-      const userInfo = yield app.getUserInfo();     
+      const userInfo = yield app.getUserInfo();          
       me.setData({
-        userInfo: userInfo.wx
+        userInfo: userInfo
       });     
     });    
     wx.switchTab({
       url: '/pages/store/index'
     });
-  }
+  } 
 })

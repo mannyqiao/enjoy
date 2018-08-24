@@ -69,6 +69,7 @@ namespace Enjoy.Core.Controllers
             {
                 Data = "Merchant.Id",
                 Searchable = true,
+                DbType = System.Data.DbType.Int64,
                 Search = new SearchColumnFilter() { Regex = false, Value = merchant.Id }
             });
             var model = this.CardCoupon.QueryCardCoupon(filter, new PagingCondition(filter.Start, filter.Length));

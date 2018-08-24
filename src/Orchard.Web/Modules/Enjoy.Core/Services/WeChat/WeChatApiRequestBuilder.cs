@@ -164,6 +164,15 @@ namespace Enjoy.Core.Services
         {
             return string.Format("http://api.weixin.qq.com/cgi-bin/component/upload_card_agent_qualification?access_token={0}",token);
         }
-        
+        public static string GenrateImageUrlByMediaId(string mediaId)
+        {
+            ////Enjoy TODO: need return the true url by media id 
+            if (string.IsNullOrEmpty(mediaId))
+                return "/themes/enjoytheme/content/images/default.jpg";
+            else
+            {
+                return string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaId));
+            }
+        }
     }
 }

@@ -18,19 +18,24 @@ import request from 'request';
  * })
  * */
 const getUserInfo = co.wrap(function* () {
-  const key_user = cfg.localKey.user; 
+  const key_user = cfg.localKey.user;
   let userInfo = wx.getStorageSync(key_user);
-  if(userInfo){
+  if (userInfo) {
+    console.log("Load user from local storage.",userInfo);
+
     return userInfo;
   }
-  else{
-    userInfo = { wx: null, mmh: null };
-    const basic = yield promisify(wx.login)();    
-    console.log("basic---",basic);
+  else {
+    userInfo = { wx: null, mmh: null,enjoy:null};
+    const basic = yield promisify(wx.login)();
+    console.log("basic---", basic);
     const user = yield promisify(wx.getUserInfo)({ withCredentials: true });
     userInfo.wx = user.userInfo;
     console.log(userInfo.wx);
-     //code换取session_key
+
+    console.log("Do request", basic.code);
+
+    //code换取session_key
     const session = yield request({
       url: ApiList.getAuth,
       method: "POST",
@@ -41,51 +46,29 @@ const getUserInfo = co.wrap(function* () {
         grant_type: "authorization_code"
       }
     });
-
-    console.log("session",basic.code, session);
+    //获取加密信息  
+    if (session.data) {
+      //获取加密信息
+      const decodeInfo = yield request({
+        url: ApiList.decryptUserInfo,
+        method: "POST",
+        data: {
+          appId: cfg.appid,
+          data: user.encryptedData,
+          iv: user.iv,
+          sessionKey: session.data.session_key
+        }
+      });
+      console.log("加密信息", decodeInfo);
+      if (decodeInfo.data) {
+        userInfo.mmh = decodeInfo.data;        
+        console.log(userInfo);
+        wx.setStorageSync(key_user, userInfo)
+      }
+      
+    }
+    return userInfo;
   }
-  
-  //在javascript中，只要obj不是false、0、undefined、null，if (obj) { } 就会被执行
- 
-
-
-  // if (!userInfo) {
-  //   console.log("load userinfo");
-
-
-
-    
-    
-    
-    
-  //   //解密encryptedData
-  //   console.log("Decryp context", {
-  //     appId: cfg.appid,
-  //     data: user.encryptedData,
-  //     iv: user.iv,
-  //     sessionKey: session.data.session_key
-  //   });
-  //   if (session.data) {
-  //     const decodeInfo = yield request({
-  //       url: ApiList.decryptUserInfo,
-  //       method: "POST",
-  //       data: {
-  //         appId: cfg.appid,
-  //         data: user.encryptedData,
-  //         iv: user.iv,
-  //         sessionKey: session.data.session_key
-  //       }
-  //     });
-  //     console.info('decodeInfo---', decodeInfo);
-
-  //     if (decodeInfo.data) {
-  //       userInfo.mmh = decodeInfo.data.mmhUser;
-  //       userInfo.wx = decodeInfo.data.wxUser;
-  //     }
-  //   }
-   
-  // }
-  return userInfo;
 });
 
 export { getUserInfo };
