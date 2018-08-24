@@ -26,6 +26,7 @@ Page({
    */
   onReady: function () {
     var userInfo = wx.getStorageSync(cfg.localKey.user);        
+    console.log("userInfo",userInfo);
     if (userInfo.wx == null) {
       wx.navigateTo({
         url: '../../pages/guide/guide'

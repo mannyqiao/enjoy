@@ -7,7 +7,7 @@ const request = co.wrap(function *(opt) {
     const option = {
         url: opt.url,
         method: (opt.method || "POST").toUpperCase(),
-        header: Object.assign({'content-type': 'application/x-www-form-urlencoded'}, opt.header),
+        header: Object.assign({'content-type': 'application/json'}, opt.header),
         data: opt.data || {},
         success: opt.success || null,
         fail: opt.fail || null,

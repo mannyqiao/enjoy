@@ -182,6 +182,7 @@ namespace Enjoy.Core.Controllers
             {
                 Data = "EnjoyUser.Id",
                 Searchable = true,
+                DbType = System.Data.DbType.Int64,
                 Search = new SearchColumnFilter() { Regex = false, Value = this.Auth.GetAuthenticatedUser().Id }
             });
 

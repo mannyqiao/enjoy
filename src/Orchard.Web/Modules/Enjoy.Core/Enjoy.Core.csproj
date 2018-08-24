@@ -112,6 +112,7 @@
     <Compile Include="Api\Models\ShopNearyby.cs" />
     <Compile Include="Api\Models\Tokens\DecryptContext.cs" />
     <Compile Include="Api\Models\Tokens\JSCodeContext.cs" />
+    <Compile Include="Api\Models\UserState.cs" />
     <Compile Include="Common\Extensions\AuditStatusExtension.cs" />
     <Compile Include="Common\Extensions\CardCouponExtension.cs" />
     <Compile Include="Common\Extensions\DateTimeExtension.cs" />

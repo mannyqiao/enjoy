@@ -6,7 +6,7 @@ const host = "http://localhost/";
 export default {
     "getAuth":              `${host}api/enjoy/GetSessionKey`,                           //获取微信用户openid 以及 sessionkey
     "decryptUserInfo":      `${host}api/enjoy/DecryptUserInfo`,                           //解密微信用户信息
-    "QueryNearbyMerchant":  `${host}api/enjoy/QueryMerchants`,                          //查询商信息
+    "QueryMerchants":  `${host}api/enjoy/QueryMerchants`,                          //查询商信息
     "vcode":                `${host}api/enjoy/SendVerifyCode`,                           //绑定获取验证码
     "bind":                 `${host}V1/basic/bind.htm`,                                     //绑定
     "getCenterInfo":        `${host}V1/basic/memberInfo.htm`,                               //个人中心
