@@ -38,7 +38,7 @@ namespace Enjoy.Core.Controllers
                 return this.RedirectLocal("/dashboard/summary");
 
             var result = this.Auth.Auth(model.Mobile, model.Password);
-            if (result.ErrorCode == EnjoyConstant.Success)
+            if (result.ErrorCode == Constants.Success)
             {
                 return this.RedirectLocal(returnUrl);
             }
@@ -64,7 +64,7 @@ namespace Enjoy.Core.Controllers
         public JsonResult MobileIsAvailable(string mobile)
         {
             ////TODO: need use JsonNetResult as result type;
-            return Json(this.Auth.QueryByMobile(mobile).ErrorCode == EnjoyConstant.MobileNotExists,
+            return Json(this.Auth.QueryByMobile(mobile).ErrorCode == Constants.MobileNotExists,
                 JsonRequestBehavior.AllowGet);
         }
 

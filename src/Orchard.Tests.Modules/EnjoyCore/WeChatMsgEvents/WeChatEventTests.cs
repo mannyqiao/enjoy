@@ -255,7 +255,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
                 }
             };
             var result = this._merchantService.SaveOrUpdate(merchant.Merchant);
-            Assert.AreEqual(result.ErrorCode, EnjoyConstant.Success);
+            Assert.AreEqual(result.ErrorCode, Constants.Success);
         }
         public void CreatingCardCoupon()
         {

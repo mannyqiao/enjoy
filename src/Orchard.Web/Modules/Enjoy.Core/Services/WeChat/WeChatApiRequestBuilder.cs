@@ -131,7 +131,7 @@ namespace Enjoy.Core.Services
                 return "/themes/enjoytheme/content/images/default.jpg";
             else
             {
-                return string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaid));
+                return string.Concat(Constants.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaid));
             }
         }
         public static string GenerateWxQueryGetCardList(string token)
@@ -171,7 +171,7 @@ namespace Enjoy.Core.Services
                 return "/themes/enjoytheme/content/images/default.jpg";
             else
             {
-                return string.Concat(EnjoyConstant.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaId));
+                return string.Concat(Constants.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaId));
             }
         }
     }

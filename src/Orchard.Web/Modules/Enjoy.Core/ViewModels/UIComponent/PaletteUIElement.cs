@@ -13,7 +13,7 @@ namespace Enjoy.Core.UIElements
         {
             get
             {
-                return EnjoyConstant.CouponBackgroundColors[this.Value];
+                return Constants.CouponBackgroundColors[this.Value];
             }
         }
         public string ColorName { get; set; }
@@ -21,7 +21,7 @@ namespace Enjoy.Core.UIElements
         {
             get
             {
-                return EnjoyConstant.CouponBackgroundColors;
+                return Constants.CouponBackgroundColors;
             }
         }
 

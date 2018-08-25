@@ -1,45 +1,47 @@
 ﻿@using Enjoy.Core
 @model Enjoy.Core.UIElements.RadioUIElement
-<div class="form-group @(Model.Required?"required":"")" >
+<div class="form-group @(Model.Required?"required":"")">
     @foreach (var radio in Model.Items)
     {
         <label id="@Model.Id" class="radio-inline control-label">
-            <input type="radio" name="@Model.Name" id="@radio.Id" @(radio.Value.Equals(Model.Value) ? "checked=checked" : "") 
-                @(radio.Disabled?"disabled=\"disabled\"":"")    value="@radio.Value" WhenCheckedShow="@radio.WhenCheckedShow">@radio.Text
-        </label>
-    }
+            <input type="radio" name="@Model.Name" id="@radio.Id" @(radio.Value.Equals(Model.Value) ? "checked=checked" : "")
+                   @(radio.Disabled ? "disabled=\"disabled\"" : "") value="@radio.Value" WhenCheckedShow="@radio.WhenCheckedShow">@radio.Text
+            </label>
+        }
 </div>
-<script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript">
 
-    $(document).ready(function () {      
+@using (Script.Foot())
+{
+    <script type="text/javascript">
 
-        var linked = @Html.Raw(Model.Linked.ToJson());
-       
+    $(document).ready(function () {
+
+        var linked = "@Html.Raw(Model.Linked.ToJson())";
+
         $("#@Model.Id > input[type='radio']").click(function () {
-          
+
             var that = this;
-            var linked = @Html.Raw(Model.Linked.ToJson());
-           
+            var linked = @Html.Raw(Model.Linked.ToJson())
+
             $.each(linked, function (index, value) {
-                
-                if (value == $(that).attr("WhenCheckedShow")) {
+
+                if (value === $(that).attr("WhenCheckedShow")) {
                     $("#" + value).removeClass("hidden");
                     $("#" + value + ">fieldset>div>input").each(function () {
                         $(this).parent().addClass("required");
-                        $(this).attr("required","true");  
+                        $(this).attr("required","true");
                     });
-                    $("#" + value + ">fieldset>div>textarea").each(function () {                        
+                    $("#" + value + ">fieldset>div>textarea").each(function () {
                         $(this).attr("required", "true");
                         $(this).parent().addClass("required");
                     });
                 }
                 else {
-                 
-                    $("#" + value).addClass("hidden");                    
+
+                    $("#" + value).addClass("hidden");
                     $("#" + value + ">fieldset>div>input").each(function () {
                         $(this).parent().removeClass("required");
-                        $(this).removeAttr("required");  
+                        $(this).removeAttr("required");
                     });
                     $("#" + value + ">fieldset>div>textarea").each(function () {
 
@@ -52,8 +54,8 @@
         })
         var selected = function () {
             var result = "";
-            $.each(linked, function (index, value) {                
-                //console.log("Model.Value="+ "@Html.Raw(Model.Value.ToLower())");
+            $.each(linked, function (index, value) {
+                
                 if (value.toLowerCase().indexOf(@Html.Raw("'"+ Model.Value.ToLower()+ "'")  ) >= 0) {
                     result = value;
                     return;
@@ -61,18 +63,19 @@
             });
             return result;
         };
-        
+
         $.each(linked, function (index, value) {
 
             console.log("addClass hidden " + value + " select  " + selected());
-            if (value == selected()) {
+            if (value === selected()) {
                 $("#" + value).removeClass("hidden");
-                
+
             }
             else {
                 $("#" + value).addClass("hidden");
-                
+
             }
-        });      
+        });
     });
-</script>
+    </script>
+}

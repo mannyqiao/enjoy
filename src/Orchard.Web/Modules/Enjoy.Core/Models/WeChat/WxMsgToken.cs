@@ -10,9 +10,9 @@ namespace Enjoy.Core.WeChatModels
             this.TimeStamp = timestamp;
             this.Nonce = nonce;
             this.ReqMsg = reqmsg;
-            this.BizMsgToken = EnjoyConstant.WxBizMsgToken;
-            this.EncodingAESKey = EnjoyConstant.EncodingAESKey;
-            this.AppId = EnjoyConstant.Miniprogram.AppId;
+            this.BizMsgToken = Constants.WxBizMsgToken;
+            this.EncodingAESKey = Constants.EncodingAESKey;
+            this.AppId = Constants.Miniprogram.AppId;
         }
 
         public string Signature { get; private set; }

@@ -77,7 +77,7 @@
     /* Last bit of code to prep the layout wrapper
     ***************************************************************/
 
-    var current = WorkContext.GetState<IEnjoyUser>(EnjoyConstant.EnjoyCurrentUser);
+    var current = WorkContext.GetState<IEnjoyUser>(Constants.EnjoyCurrentUser);
     Model.Id = "layout-wrapper";
     var tag = Tag(Model, "div"); // using Tag so the layout div gets the classes, id and other attributes added to the Model
 

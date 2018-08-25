@@ -73,21 +73,30 @@ namespace Enjoy.Core.Services
 
         public AuthQueryResponse Auth(string mobile, string password)
         {
-            var user = QueryByMobileForSignin(mobile);
-
-            if (user != null)
+            try
             {
-                var clearText = this._encryption.Cleartext(user.Password);
-                if (string.Equals(password, clearText, StringComparison.Ordinal))
+                var user = QueryByMobileForSignin(mobile);
+
+                if (user != null)
                 {
-                    this.SignIn(new EnjoyUserModel(user), true);
+                    var clearText = this._encryption.Cleartext(user.Password);
+                    if (string.Equals(password, clearText, StringComparison.Ordinal))
+                    {
+                        this.SignIn(new EnjoyUserModel(user), true);
+                    }
+                    else
+                    {
+                        return new AuthQueryResponse(Constants.UPasswordNotMatch);
+                    }
                 }
-                else
-                {
-                    return new AuthQueryResponse(EnjoyConstant.UPasswordNotMatch);
-                }
+                return new AuthQueryResponse(Constants.Success, new EnjoyUserModel(user));
             }
-            return new AuthQueryResponse(EnjoyConstant.Success, new EnjoyUserModel(user));
+            catch (NullReferenceException ex)
+            {
+                return  new AuthQueryResponse(Constants.UserNotExits);
+            }
+          
+            
 
         }
 
@@ -177,17 +186,17 @@ namespace Enjoy.Core.Services
 
             if (string.IsNullOrEmpty(model.Password))
             {
-                return new AuthQueryResponse(EnjoyConstant.PasswordCantBeNullOrEmpty);
+                return new AuthQueryResponse(Constants.PasswordCantBeNullOrEmpty);
             }
             if (model.Password.Equals(model.ConfirmPassword) == false)
             {
-                return new AuthQueryResponse(EnjoyConstant.ConfirPasswordIncorrent);
+                return new AuthQueryResponse(Constants.ConfirPasswordIncorrent);
             }
 
             try
             {
                 var profile = QueryByMobile(model.Mobile);
-                if (profile.ErrorCode == EnjoyConstant.MobileNotExists)
+                if (profile.ErrorCode == Constants.MobileNotExists)
                 {
                     var record = new EnjoyUser()
                     {
@@ -204,13 +213,13 @@ namespace Enjoy.Core.Services
 #else
                    this.SignIn(new EnjoyUserModel(record), true);
 #endif
-                    return new AuthQueryResponse(EnjoyConstant.Success, new EnjoyUserModel(record));
+                    return new AuthQueryResponse(Constants.Success, new EnjoyUserModel(record));
                 }
-                return new AuthQueryResponse(EnjoyConstant.MobileExists, string.Empty);
+                return new AuthQueryResponse(Constants.MobileExists, string.Empty);
             }
             catch (NHibernate.Exceptions.GenericADOException ex)
             {
-                return new AuthQueryResponse(EnjoyConstant.ErrorMessageNotDefined, ex.Message);
+                return new AuthQueryResponse(Constants.ErrorMessageNotDefined, ex.Message);
             }
         }
 
@@ -220,11 +229,11 @@ namespace Enjoy.Core.Services
             .Where(o => o.Mobile == mobile).List<EnjoyUser>();
             if (models == null || models.Count.Equals(0))
             {
-                return new AuthQueryResponse(EnjoyConstant.MobileNotExists);
+                return new AuthQueryResponse(Constants.MobileNotExists);
             }
             else
             {
-                return new AuthQueryResponse(EnjoyConstant.MobileExists);
+                return new AuthQueryResponse(Constants.MobileExists);
             }
         }
         public AuthQueryResponse QueryWxUserByMobile(string mobile)
@@ -233,11 +242,11 @@ namespace Enjoy.Core.Services
                 .Where(o => o.Mobile == mobile).List();
             if (models == null || models.Count.Equals(0))
             {
-                return new AuthQueryResponse(EnjoyConstant.MobileNotExists);
+                return new AuthQueryResponse(Constants.MobileNotExists);
             }
             else
             {
-                return new AuthQueryResponse(EnjoyConstant.MobileExists);
+                return new AuthQueryResponse(Constants.MobileExists);
             }
         }
         public void SetAuthenticatedUserForRequest(IEnjoyUser user)
@@ -301,7 +310,7 @@ namespace Enjoy.Core.Services
         public ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile, VerifyTypes type)
         {
             bool firstRequest = false;
-            var checkMobile = new AuthQueryResponse(EnjoyConstant.Success);
+            var checkMobile = new AuthQueryResponse(Constants.Success);
             switch (type)
             {
                 case VerifyTypes.SignUp:
@@ -316,17 +325,17 @@ namespace Enjoy.Core.Services
 
             }
 
-            if (checkMobile.ErrorCode == EnjoyConstant.MobileExists)
+            if (checkMobile.ErrorCode == Constants.MobileExists)
             {
-                return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.MobileExists);
+                return new ActionResponse<VerificationCodeViewModel>(Constants.MobileExists);
             }
             var result = GetVerificationCode(mobile, true);
             var span = DateTime.Now.Subtract(result.CreatedAt);
             if (span.TotalMinutes <= 2 && result.RequestCount > 1)
             {
-                return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.FrequencyLimit);
+                return new ActionResponse<VerificationCodeViewModel>(Constants.FrequencyLimit);
             }
-            return new ActionResponse<VerificationCodeViewModel>(EnjoyConstant.Success, result);
+            return new ActionResponse<VerificationCodeViewModel>(Constants.Success, result);
         }
         #endregion
 

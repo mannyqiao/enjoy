@@ -11,7 +11,7 @@ namespace Enjoy.Core.Services
     {
         public void Send(ISMSEntity entity)
         {
-            var sender = new SmsSingleSender(EnjoyConstant.SMS_AppId, EnjoyConstant.SMS_AppKey);
+            var sender = new SmsSingleSender(Constants.SMS_AppId, Constants.SMS_AppKey);
             sender.send(0, "86", entity.Mobile, entity.GetBody(), string.Empty, string.Empty);
         }
     }

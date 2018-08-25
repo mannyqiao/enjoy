@@ -1,0 +1,127 @@
+﻿
+@using Enjoy.Core.UIElements
+@using Enjoy.Core;
+@model Enjoy.Core.ViewModels.CardCounponViewModel
+
+<div id="page-wrapper">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">[@Model.SubMerchantBrandName]@Model.CardType.TextOf()</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("EditPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            {
+                @Html.HiddenFor(o => o.Id)
+                @Html.HiddenFor(o => o.CreatedTime)
+                @Html.HiddenFor(o => o.MerchantId)
+                @Html.HiddenFor(o => o.CardType)
+                @Html.HiddenFor(o => o.MerberCard.BaseInfo.Dateinfo.Type)
+                @Html.HiddenFor(o => o.WxNo)
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#profile" data-toggle="tab">基本信息</a>
+                    </li>
+                    <li>
+                        <a href="#userule" data-toggle="tab">使用规则</a>
+                    </li>
+                    <li>
+                        <a href="#settings" data-toggle="tab">扩展设置</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="profile">
+                        <h4>&nbsp;</h4>
+                        @Html.HiddenFor(o => o.WxNo)
+                        @Html.Partial("Component/_TextPartial"
+                       , new TextUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Title), (Model.CardType.TextOf() + "标题"),
+                       Model.MerberCard.BaseInfo.Title, 12, true, "12以内的中文字符"))
+
+
+                        @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Color),
+                       "卡面颜色", Model.MerberCard.BaseInfo.Color))
+
+                        @Html.Partial("Component/_ImgageUploadUIelement",
+                        new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl),
+                        "封面图片", MediaUploadTypes.Material, Model.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl,
+                        true, Model.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl))
+
+                        @Html.Partial("Component/_ImgageUploadUIelement",
+                         new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.BackgroundPicUrl),
+                         "背景图片", MediaUploadTypes.Material, Model.MerberCard.BackgroundPicUrl,
+                         true, Model.MerberCard.BackgroundPicUrl))
+
+
+                        @Html.Partial("Component/_TextPartial",
+                       new TextUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.Abstract.AbstractX), "封面介绍", Model.MerberCard.AdvancedInfo.Abstract.AbstractX, 100, true))
+
+                        @Html.Partial("Component/_DecimalPartial",
+                       new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Sku.Quantity),
+                       "库存量", Model.MerberCard.BaseInfo.Sku.Quantity, true, "输入库存量"))
+
+                        @Html.Partial("Component/_DecimalPartial",
+                       new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Getlimit),
+                       "每人限领", Model.MerberCard.BaseInfo.Getlimit, true))
+
+                        @Html.Partial("Component/_TextPartial",
+                       new TextUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Notice), "操作提示", Model.MerberCard.BaseInfo.Notice, 100, true))
+
+                        @Html.Partial("Component/_TextAreaPartial",
+                       new TextAreaUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Description), "使用须知", Model.MerberCard.BaseInfo.Description, 100, true))
+                    </div>
+                    <div class="tab-pane fade " id="userule">
+                        <h4>&nbsp;</h4>
+                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.MerberCard.SupplyBanlance), "是否预存"))
+                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.MerberCard.SupplyBonus), "是否支持积分"))
+
+                        @Html.Partial("Component/_DecimalPartial",
+                         new DecimalUIElement(Html.NameOf(o => o.MerberCard.Discount), "折扣额度",
+                         Model.MerberCard.Discount, true,"输入折扣1-9."))
+                    </div>
+                    <div class="tab-pane fade " id="settings">
+                        <h4>&nbsp;</h4>
+
+                        @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.TextImageList), Model.MerberCard.AdvancedInfo.TextImageList.ToArray()))
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-offset-4">
+                            <button type="submit" class="btn btn-default ">保存</button>
+                            <a class="btn btn-default" href="/cards/coupon">返回</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <div class="col-lg-6">
+            <p>效果展示</p>
+            <img src="/themes/enjoytheme/content/images/coupon_demo.png" />
+        </div>
+    </div>
+</div>
+
+@using (Script.Foot())
+{
+    <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/jquery.cxselect.min.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/scripts/ajaxfileupload.js"></script>
+    <script src="/Themes/EnjoyTheme/Content/plugins/jquery-html5Validate/jquery-html5Validate.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").html5Validate(function () {
+
+                this.submit();
+            },
+                {
+                    // novalidate: false
+
+                });
+        });
+    </script>
+}

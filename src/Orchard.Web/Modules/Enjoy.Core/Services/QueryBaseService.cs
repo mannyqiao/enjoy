@@ -86,14 +86,14 @@ namespace Enjoy.Core.Services
             setter(record, model);
             session.SaveOrUpdate(record);
             model.Id = record.Id;
-            return new ActionResponse<M>(EnjoyConstant.Success, model);
+            return new ActionResponse<M>(Constants.Success, model);
         }
 
         public BaseResponse Delete(long id)
         {
             var session = this.OS.TransactionManager.GetSession();
             session.Delete(session.Get<R>(id));
-            return new BaseResponse(EnjoyConstant.Success);
+            return new BaseResponse(Constants.Success);
         }
 
 
@@ -107,7 +107,7 @@ namespace Enjoy.Core.Services
             {
                 session.Delete(item);
             }
-            return new BaseResponse(EnjoyConstant.Success);
+            return new BaseResponse(Constants.Success);
         }
 
         protected abstract void RecordSetter(R record, M model);

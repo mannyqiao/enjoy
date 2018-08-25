@@ -7,7 +7,7 @@ namespace Enjoy.Core.EnjoyModels
     public class PagingData<E> : QueryResponseDescriptor<E>
     {
         public PagingData() :
-            base(EnjoyConstant.Success)
+            base(Constants.Success)
         {
 
         }
@@ -33,11 +33,11 @@ namespace Enjoy.Core.EnjoyModels
             this.PageSize = size;
         }
         public Paging(int page)
-            : this(page, EnjoyConstant.DefaultPageSize)
+            : this(page, Constants.DefaultPageSize)
         {
 
         }
-        public Paging() : this(1, EnjoyConstant.DefaultPageSize) { }
+        public Paging() : this(1, Constants.DefaultPageSize) { }
         [JsonProperty("size")]
         public int PageSize { get; set; }
         [JsonProperty("page")]

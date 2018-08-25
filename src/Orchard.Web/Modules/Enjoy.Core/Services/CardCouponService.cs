@@ -167,7 +167,7 @@ namespace Enjoy.Core.Services
 
         private IResponse Validate(CardCounponModel model)
         {
-            return new BaseResponse(EnjoyConstant.Success);
+            return new BaseResponse(Constants.Success);
         }
 
         public PagingData<CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition)

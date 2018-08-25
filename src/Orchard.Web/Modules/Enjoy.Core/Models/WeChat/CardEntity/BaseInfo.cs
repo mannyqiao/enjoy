@@ -58,7 +58,7 @@ namespace Enjoy.Core.WeChatModels
 
         [Newtonsoft.Json.JsonProperty("use_limit", NullValueHandling = NullValueHandling.Ignore)]
         [DefaultValue(1)]
-        public virtual int Uselimit { get; set; }
+        public virtual int? Uselimit { get; set; }
 
 
         [Newtonsoft.Json.JsonProperty("get_limit", NullValueHandling = NullValueHandling.Ignore)]

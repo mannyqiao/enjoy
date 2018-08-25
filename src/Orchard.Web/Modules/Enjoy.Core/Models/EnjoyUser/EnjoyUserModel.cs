@@ -7,7 +7,7 @@ namespace Enjoy.Core.EnjoyModels
     public class EnjoyUserModel : IEnjoyUser
     {
         public EnjoyUserModel(EnjoyUser record)
-        {
+        {            
             this.Id = record.Id;
             this.Mobile = record.Mobile;
             this.NickName = record.NickName;
