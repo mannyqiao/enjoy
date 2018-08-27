@@ -23,7 +23,7 @@ namespace Enjoy.Core
             {1012,"对象不存在"},
             {1013,"无法删除正在审核或者审核通过的商户."},
             {1014,"用户不存在."},
-            
+
         };
         public const int Success = 0;
 
@@ -70,14 +70,22 @@ namespace Enjoy.Core
             {"Color102","#5E6671"}
         };
         public const int DefaultPageSize = 10;
+        public const bool IsDebug = true;
 #if DEBUG
         // UAT official  account "Enjoy.Vip@hotmail.com" 
         //var token = "EnjoyMini";
         //var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
-        public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
+        public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram(
+            IsDebug
+            ? "wx0c644f8027d78c74"
+            : "wxeb6c176a36bb7b69",
+            IsDebug
+            ? "f1681068dfcd75ef2d7dff14cb3b5fae"
+            : "5c8f7bacf759bfab19d0d1d821625c03");
+        //public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
 #else
-        //Product official account 
-        public static IMiniprogram Miniprogram = new Models.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03"); //         
+        //Product official account         
+        public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
 #endif
         public const string WxBizMsgToken = "EnjoyMini";
         public const string EncodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";

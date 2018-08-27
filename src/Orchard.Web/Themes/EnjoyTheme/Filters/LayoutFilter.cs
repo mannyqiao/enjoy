@@ -24,7 +24,9 @@ namespace EnjoyTheme.Filters
               "/marketing/",
               "/finance/"
         };
-
+        static string[] LayoutWapUrls = new string[] {
+            "/wap/"
+        };
         private readonly IWorkContextAccessor _wca;
         public LayoutFilter(IWorkContextAccessor wca)
         {
@@ -41,6 +43,10 @@ namespace EnjoyTheme.Filters
             if (LayoutDashboardUrls.Any(o => WorkContext.HttpContext.Request.Url.PathAndQuery.IndexOf(o, StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 WorkContext.Layout.Metadata.Alternates.Add("Layout__Dashboard");
+            }
+            if (LayoutWapUrls.Any(o => WorkContext.HttpContext.Request.Url.PathAndQuery.IndexOf(o, StringComparison.OrdinalIgnoreCase) >= 0))
+            {
+                WorkContext.Layout.Metadata.Alternates.Add("Layout__Wap");
             }
             //if (LayoutOnTaskMan.Any(o => workContext.HttpContext.Request.Url.PathAndQuery.IndexOf(o, StringComparison.OrdinalIgnoreCase) >= 0))
             //{

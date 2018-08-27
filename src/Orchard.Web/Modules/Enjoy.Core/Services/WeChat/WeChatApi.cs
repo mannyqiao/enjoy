@@ -279,7 +279,7 @@ namespace Enjoy.Core.Services
         public void SetMemberCardFieldIfActiveByWx(string cardid)
         {
             var request = WeChatApiRequestBuilder.GenerateMemberActiveUserform(GetToken());
-            request.GetResponseForJson<WxResponse>((http) =>
+            request.GetResponseForJson<NormalWxResponse>((http) =>
             {
                 var data = new
                 {

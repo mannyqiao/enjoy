@@ -154,6 +154,7 @@
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Controllers\WAPController.cs" />
     <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Handlers\StaticFileHandler.cs" />
     <Compile Include="Migrations.cs" />
@@ -306,7 +307,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Cryptography.cs" />
-    <Compile Include="Utilities\EnjoyConstant.cs" />
+    <Compile Include="Utilities\Constant.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultHttpTransientFaultDetecter.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultTransientFaultHandler.cs" />
     <Compile Include="Utilities\TransientFaultHandler\ExceptionTransientFaultDetecter.cs" />
@@ -380,7 +381,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
-    <Folder Include="Views\UnitTest\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

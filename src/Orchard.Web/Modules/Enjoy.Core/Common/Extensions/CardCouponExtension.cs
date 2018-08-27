@@ -145,8 +145,7 @@ namespace Enjoy.Core
                 case CardTypes.MEMBER_CARD:
                     model.CardCoupon = new MemberCard()
                     {
-                        SupplyBonus = true,
-                        //ActivateUrl = "https://www.yourc.club/m/active",
+                        SupplyBonus = false,                        
                         AutoActivate = false,
                         BonusRule = new BonusRule(),
                         CustomCell = new CustomCell(),
@@ -244,8 +243,7 @@ namespace Enjoy.Core
         {
             switch (viewModel.CardType)
             {
-                case CardTypes.MEMBER_CARD:
-                    viewModel.MerberCard.WxActivate = true;
+                case CardTypes.MEMBER_CARD:                   
                     break;
             }
             return viewModel;

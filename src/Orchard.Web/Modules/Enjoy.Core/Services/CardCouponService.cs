@@ -124,10 +124,10 @@ namespace Enjoy.Core.Services
                 model.State = CardCouponStates.Approved;
                 model.WxNo = result.CardId;
                 model.CardCoupon.CardId = result.CardId;
-                if(model.Type== CardTypes.MEMBER_CARD)
-                {
-                    this.WeChat.SetMemberCardFieldIfActiveByWx(model.WxNo);
-                }
+                //if(model.Type== CardTypes.MEMBER_CARD)
+                //{
+                //    this.WeChat.SetMemberCardFieldIfActiveByWx(model.WxNo);
+                //}
                 this.SaveOrUpdate(model);
             }
             else

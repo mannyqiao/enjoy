@@ -4,7 +4,7 @@ namespace Enjoy.Core.WeChatModels
 {
     using Newtonsoft.Json;
     using System;
-    using System;
+    
     [Serializable]
     public class DateInfo
     {
