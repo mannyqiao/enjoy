@@ -7,6 +7,8 @@ namespace Enjoy.Core.WeChatModels
     using Enjoy.Core;
     using System;
     using System.Linq;
+    using System;
+    [Serializable]
     public class BaseInfo
     {
         public BaseInfo()
@@ -14,12 +16,13 @@ namespace Enjoy.Core.WeChatModels
             
         }
 
-        [JsonProperty("sub_merchant_info")]
+        [JsonProperty("sub_merchant_info",NullValueHandling = NullValueHandling.Ignore)]
         public SubMerchantInfo Merchant { get; set; }
+
         [Newtonsoft.Json.JsonProperty("logo_url")]
         public virtual string LogoUrl { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("brand_name")]
+        [Newtonsoft.Json.JsonProperty("brand_name",NullValueHandling =  NullValueHandling.Ignore)]
         public virtual string BrandName { get; set; }
 
         [Newtonsoft.Json.JsonProperty("code_type")]
@@ -45,12 +48,16 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("description")]
         public virtual string Description { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("date_info")]
+        [Newtonsoft.Json.JsonProperty("date_info",NullValueHandling = NullValueHandling.Ignore)]
         public virtual DateInfo Dateinfo { get; set; }
 
 
         [Newtonsoft.Json.JsonProperty("sku")]
         public virtual Sku Sku { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("pay_info",NullValueHandling = NullValueHandling.Ignore)]
+        public PayInfo PayInfo { get; set; }
+
 
 
         [Newtonsoft.Json.JsonProperty("location_id_list")]
@@ -71,11 +78,11 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("bind_openid", NullValueHandling = NullValueHandling.Ignore)]
         public virtual bool? BindOpenid { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("can_share")]
-        public virtual bool CanShare { get; set; }
+        [Newtonsoft.Json.JsonProperty("can_share", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual bool? CanShare { get; set; }
 
         [Newtonsoft.Json.JsonProperty("can_give_friend", NullValueHandling = NullValueHandling.Ignore)]
-        public virtual bool CanGivefriend { get; set; }
+        public virtual bool? CanGivefriend { get; set; }
 
         [Newtonsoft.Json.JsonProperty("center_title", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string CenterTitle { get; set; }

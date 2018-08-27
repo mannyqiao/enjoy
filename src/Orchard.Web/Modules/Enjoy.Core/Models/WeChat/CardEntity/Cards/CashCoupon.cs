@@ -7,6 +7,7 @@
     /// <summary>
     /// 现金券
     /// </summary>
+    [Serializable]
     public class CashCoupon : StandardCardCoupon
     {
 
@@ -40,7 +41,7 @@
                 this.reduce_cost = value == null ? null : value * 100;
             }
         }
-       
+   
         #endregion
     }
 }

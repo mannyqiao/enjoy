@@ -13,7 +13,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            @using (Html.BeginFormAntiForgeryPost(Url.Action("EditPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("EditMemberCard", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
             {
                 @Html.HiddenFor(o => o.Id)
                 @Html.HiddenFor(o => o.CreatedTime)
@@ -58,6 +58,10 @@
                         @Html.Partial("Component/_TextPartial",
                        new TextUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.Abstract.AbstractX), "封面介绍", Model.MerberCard.AdvancedInfo.Abstract.AbstractX, 100, true))
 
+
+                        @Html.Partial("Component/_TextPartial",
+                       new TextUIElement(Html.NameOf(o => o.MerberCard.Prerogative), "会员特权", Model.MerberCard.Prerogative, 100, true))
+
                         @Html.Partial("Component/_DecimalPartial",
                        new DecimalUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Sku.Quantity),
                        "库存量", Model.MerberCard.BaseInfo.Sku.Quantity, true, "输入库存量"))
@@ -74,16 +78,51 @@
                     </div>
                     <div class="tab-pane fade " id="userule">
                         <h4>&nbsp;</h4>
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.MerberCard.SupplyBanlance), "是否预存"))
-                        @Html.Partial("Component/_SwitchPartial", new SwitchUIElement(Html.NameOf(o => o.MerberCard.SupplyBonus), "是否支持积分"))
+                        <div class="form-group">
 
+                        </div>
+                        @Html.Partial("Component/_SwitchPartial",
+                       new SwitchUIElement(Html.NameOf(o => o.MerberCard.SupplyBanlance), "支持预存",Model.MerberCard.SupplyBanlance))
+
+                        @Html.Partial("Component/_SwitchPartial",
+                        new SwitchUIElement(Html.NameOf(o => o.MerberCard.SupplyBonus), "显示积分",Model.MerberCard.SupplyBonus))
+
+                        <h4>积分规则</h4>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">每消费</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.CostMoneyUnit, new { @class = "form-control" })
+                            <span class="input-group-addon">元. 增加积分</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.IncreaseBonus, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">激活后赠送积分</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.InitIncreaseBonus, new { @class = "form-control" })
+                            <span class="input-group-addon">单次积分上线</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.MaxIncreaseBonus, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">每使用</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.CostBonusUnit, new { @class = "form-control" })
+                            <span class="input-group-addon">积分. 抵扣</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.ReduceMoney, new { @class = "form-control" })
+                            <span class="input-group-addon">元</span>
+                        </div>
+
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">满</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.LeastMoneyToUseBonus, new { @class = "form-control" })
+                            <span class="input-group-addon">元.可使用积分抵扣</span>
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">单笔最多使用积分</span>
+                            @Html.TextBoxFor(o => o.MerberCard.BonusRule.MaxReduceBonus, new { @class = "form-control" })
+                        </div>
                         @Html.Partial("Component/_DecimalPartial",
                          new DecimalUIElement(Html.NameOf(o => o.MerberCard.Discount), "折扣额度",
                          Model.MerberCard.Discount, true,"输入折扣1-9."))
                     </div>
                     <div class="tab-pane fade " id="settings">
                         <h4>&nbsp;</h4>
-
                         @Html.Partial("Component/_TextImageContainer", new TextImageContainerUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.TextImageList), Model.MerberCard.AdvancedInfo.TextImageList.ToArray()))
                     </div>
                 </div>

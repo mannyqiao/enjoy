@@ -15,22 +15,33 @@ namespace Enjoy.Core
     {
         public static ICardCoupon DeserializeSpecificCardCoupon(this string json, CardTypes type)
         {
-
+            ICardCoupon cardCoupon = null;
 
             switch (type)
             {
                 case CardTypes.CASH:
-                    return json.DeserializeToObject<CashCoupon>();
+                    cardCoupon = json.DeserializeToObject<CashCoupon>();
+                    break;
                 case CardTypes.DISCOUNT:
-                    return json.DeserializeToObject<DiscountCoupon>();
+                    cardCoupon = json.DeserializeToObject<DiscountCoupon>();
+                    break;
                 case CardTypes.GENERAL_COUPON:
-                    return json.DeserializeToObject<GeneralCoupon>();
+                    cardCoupon = json.DeserializeToObject<GeneralCoupon>();
+                    break;
                 case CardTypes.GIFT:
-                    return json.DeserializeToObject<GiftCoupon>();
+                    cardCoupon = json.DeserializeToObject<GiftCoupon>();
+                    break;
                 case CardTypes.GROUPON:
-                    return json.DeserializeToObject<Groupon>();
+                    cardCoupon = json.DeserializeToObject<Groupon>();
+                    break;
                 case CardTypes.MEMBER_CARD:
-                    return json.DeserializeToObject<MemberCard>();
+                    cardCoupon = json.DeserializeToObject<MemberCard>();
+                    break;
+            }
+            if (cardCoupon != null)
+            {
+                cardCoupon.CardType = type;
+                return cardCoupon;
             }
             throw new NotSupportedException(type.ToString());
         }
@@ -135,15 +146,15 @@ namespace Enjoy.Core
                     model.CardCoupon = new MemberCard()
                     {
                         SupplyBonus = true,
-                        ActivateUrl = "https://www.yourc.club/m/active",
+                        //ActivateUrl = "https://www.yourc.club/m/active",
                         AutoActivate = false,
-                        BackgroundPicUrl = string.Empty,
                         BonusRule = new BonusRule(),
                         CustomCell = new CustomCell(),
                         CustomField1 = new CustomField() { },
                         Discount = 10,
                         Prerogative = string.Empty,
-                        SupplyBanlance = false
+                        SupplyBanlance = false,
+                        WxActivate = true
                     };
                     break;
             }
@@ -194,9 +205,16 @@ namespace Enjoy.Core
                 Type = viewModel.CardType,
                 WxNo = viewModel.WxNo
             };
+
             viewModel.Choose<ICardCoupon>().AdvancedInfo.WitFixedSettings(viewModel.CardType);
-            viewModel.Choose<ICardCoupon>().BaseInfo.WithFixedSettings(viewModel.CardType,merchant);
+            viewModel.Choose<ICardCoupon>().BaseInfo.WithFixedSettings(viewModel.CardType, merchant);
+
             model.CardCoupon = viewModel.Choose();
+            model.CardCoupon.Set((ctx) =>
+            {
+                ctx.CardType = viewModel.CardType;
+                ctx.CardId = viewModel.WxNo;
+            });
             var json = model.CardCoupon.ToJson();
             return model;
         }
@@ -222,6 +240,16 @@ namespace Enjoy.Core
 
             }
         }
+        public static CardCounponViewModel WithFixedSettings(this CardCounponViewModel viewModel)
+        {
+            switch (viewModel.CardType)
+            {
+                case CardTypes.MEMBER_CARD:
+                    viewModel.MerberCard.WxActivate = true;
+                    break;
+            }
+            return viewModel;
+        }
         public static ICardCoupon Choose(this CardCounponViewModel viewModel)
         {
 
@@ -238,7 +266,13 @@ namespace Enjoy.Core
                 case CardTypes.GROUPON:
                     return viewModel.Groupon;
                 case CardTypes.MEMBER_CARD:
-                    return viewModel.MerberCard;
+                    {
+                        if (viewModel.MerberCard.SupplyBanlance)
+                        {
+                            viewModel.MerberCard.BaseInfo.Merchant = null;
+                        }
+                        return viewModel.MerberCard;
+                    }
                 default:
                     throw new NotSupportedException(viewModel.CardType.ToString());
 
@@ -261,27 +295,29 @@ namespace Enjoy.Core
 
             info.CodeType = CodeTypes.CODE_TYPE_QRCODE.ToString();
             info.Sku = new Sku() { Quantity = 100 };
-            if(type== CardTypes.MEMBER_CARD)
+            if (type == CardTypes.MEMBER_CARD)
             {
                 info.Uselimit = null;
             }
             else
             {
                 info.Uselimit = 1;
-            }            
+            }
             info.Getlimit = 50;
             info.UseCustomCode = false;
             info.BindOpenid = true;
             info.CanGivefriend = true;
-            info.LocationIdList = new long[] { };////TODO 需要搞清楚这些ID是怎么回事        
+            info.LocationIdList = new long[] { };////TODO 需要搞清楚这些ID是怎么回事                  
             info.Merchant = new SubMerchantInfo() { MerchantId = merchant.MerchantId ?? 0 };
+
             return info;
         }
         public static BaseInfo WithFixedSettings(this BaseInfo info, CardTypes type, MerchantModel merchant)
         {
             info.BrandName = merchant.BrandName;
             info.LogoUrl = merchant.LogoUrl;
-            info.CenterTitle = "立即使用";
+
+
             info.CenterSubTitle = string.Empty;
             info.CenterAppBrandUserName = "gh_e1543e2be86d@app";
             info.CenterAppBrandPass = "pages/store/index";
@@ -300,14 +336,21 @@ namespace Enjoy.Core
             info.PromotionAppBrandPass = "pages/store/index";
             info.CanGivefriend = true;
             info.CanShare = false;
-            info.BindOpenid = true;
+            info.BindOpenid = false;
             info.UseCustomCode = false;
-            
+
             info.CodeType = CodeTypes.CODE_TYPE_ONLY_QRCODE.ToString();
             info.ServicePhone = merchant.Mobile;
-            
             if (type == CardTypes.MEMBER_CARD)
+            {
+                info.CenterTitle = "立即买单";
                 info.Dateinfo = new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() };
+                info.PayInfo = new PayInfo() { SwipeCard = new SwipeCard() { IsSwipeCard = true } };
+            }
+            else
+            {
+                info.CenterTitle = "立即使用";
+            }
             return info;
         }
         public static AdvancedInfo WithInitializeSettings(this AdvancedInfo info, CardTypes type, MerchantModel merchant)
@@ -350,12 +393,13 @@ namespace Enjoy.Core
         }
         public static CreatingWapper GenreateCreatingWapper(this ICardCoupon model)
         {
+
             switch (model.CardType)
             {
                 case CardTypes.CASH:
                     return new CreatingWapper()
                     {
-                        Cash = new CashWapper()
+                        Card = new CashWapper()
                         {
                             Card = model as CashCoupon,
                             CardId = model.CardId,
@@ -365,7 +409,7 @@ namespace Enjoy.Core
                 case CardTypes.DISCOUNT:
                     return new CreatingWapper()
                     {
-                        Discount = new DiscountWapper()
+                        Card = new DiscountWapper()
                         {
                             Card = model as DiscountCoupon,
                             CardId = model.CardId,
@@ -375,7 +419,7 @@ namespace Enjoy.Core
                 case CardTypes.GENERAL_COUPON:
                     return new CreatingWapper()
                     {
-                        General = new GeneralWapper()
+                        Card = new GeneralWapper()
                         {
                             Card = model as GeneralCoupon,
                             CardId = model.CardId,
@@ -385,28 +429,28 @@ namespace Enjoy.Core
                 case CardTypes.GIFT:
                     return new CreatingWapper()
                     {
-                        Gift = new GiftWapper()
+                        Card = new GiftWapper()
                         {
                             Card = model as GiftCoupon,
                             CardId = model.CardId,
                             CardType = model.CardType
                         }
                     };
+
                 case CardTypes.GROUPON:
                     return new CreatingWapper()
                     {
-                        Groupon = new GrouponWapper()
+                        Card = new GrouponWapper()
                         {
                             Card = model as Groupon,
                             CardId = model.CardId,
                             CardType = model.CardType
                         }
                     };
-
                 case CardTypes.MEMBER_CARD:
                     return new CreatingWapper()
                     {
-                        MemberCard = new MemberCardWapper()
+                        Card = new MemberCardWapper()
                         {
                             Card = model as MemberCard,
                             CardId = model.CardId,
@@ -421,40 +465,52 @@ namespace Enjoy.Core
 
         public static UpgradeWapper GenreateUpgradeWpper(this ICardCoupon model)
         {
+
             switch (model.CardType)
             {
                 case CardTypes.CASH:
                     return new UpgradeWapper()
                     {
-                        Cash = model as CashCoupon
+                        CardId = model.CardId,
+                        Cash = model.TransformForUpgrade() as CashCoupon
                     };
                 case CardTypes.DISCOUNT:
-
+                    return new UpgradeWapper()
+                    {
+                        CardId = model.CardId,
+                        Discount = model.TransformForUpgrade() as DiscountCoupon
+                    };
                 case CardTypes.GENERAL_COUPON:
                     return new UpgradeWapper()
                     {
-                        Discount = model as DiscountCoupon
+                        CardId = model.CardId,
+                        Discount = model.TransformForUpgrade() as DiscountCoupon
                     };
                 case CardTypes.GIFT:
                     return new UpgradeWapper()
                     {
-                        Gift = model as GiftCoupon
+                        CardId = model.CardId,
+                        Gift = model.TransformForUpgrade() as GiftCoupon
                     };
                 case CardTypes.GROUPON:
                     return new UpgradeWapper()
                     {
-                        Groupon = model as Groupon
+                        CardId = model.CardId,
+                        Groupon = model.TransformForUpgrade() as Groupon
                     };
 
                 case CardTypes.MEMBER_CARD:
                     return new UpgradeWapper()
                     {
-                        MemberCard = model as MemberCard
+                        CardId = model.CardId,
+                        MemberCard = model.TransformForUpgrade() as MemberCard
                     };
                 default:
                     throw new NotSupportedException(model.CardType.ToString());
 
             }
         }
+
+
     }
 }

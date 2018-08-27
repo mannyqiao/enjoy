@@ -91,7 +91,7 @@ namespace Enjoy.Core.Services
         {
             //发布到微信
             model.LastUpdateTime = DateTime.Now.ToUnixStampDateTime();
-            model.State = CardCouponStates.Editing;
+
             var result = this.SaveOrUpdate(model, Validate, RecordSetter);
             //var qrcode = CreateQRCode(model.WxNo);
             return result;
@@ -103,18 +103,17 @@ namespace Enjoy.Core.Services
                 ? WeChatApiRequestBuilder.GenerateWxCreateCardUrl(this.WeChat.GetToken())
                 : WeChatApiRequestBuilder.GenerateWxUpdateCardUrl(this.WeChat.GetToken());
             ////TODO : update has some error 
-            var json = model.CardCoupon.ToJson();
             var result = request.GetResponseForJson<CreateCouponWxResponse>((http) =>
             {
                 http.Method = "POST";
                 http.ContentType = "application/json; encoding=utf-8";
                 using (var stream = http.GetRequestStream())
                 {
-
-                    var buffers = UTF8Encoding.UTF8.GetBytes(
-                        string.IsNullOrEmpty(model.WxNo)
+                    var json = string.IsNullOrEmpty(model.WxNo)
                         ? model.CardCoupon.GenreateCreatingWapper().ToJson()
-                        : model.CardCoupon.GenreateUpgradeWpper().ToJson());
+                        : model.CardCoupon.GenreateUpgradeWpper().ToJson();
+
+                    var buffers = UTF8Encoding.UTF8.GetBytes(json);
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
                 }
@@ -125,6 +124,10 @@ namespace Enjoy.Core.Services
                 model.State = CardCouponStates.Approved;
                 model.WxNo = result.CardId;
                 model.CardCoupon.CardId = result.CardId;
+                if(model.Type== CardTypes.MEMBER_CARD)
+                {
+                    this.WeChat.SetMemberCardFieldIfActiveByWx(model.WxNo);
+                }
                 this.SaveOrUpdate(model);
             }
             else
@@ -207,6 +210,11 @@ namespace Enjoy.Core.Services
 
         public BaseResponse DeleteById(long id)
         {
+            var model = this.GetCardCounpon(id);
+            if (string.IsNullOrEmpty(model.WxNo) == false)
+            {
+                this.WeChat.DeleteCardCoupon(model.WxNo);
+            }
             return base.Delete(id);
         }
 

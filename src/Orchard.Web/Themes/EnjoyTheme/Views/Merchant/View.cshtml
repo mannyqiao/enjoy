@@ -34,13 +34,13 @@
                         @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.LogoUrl), "上传Logo", Enjoy.Core.MediaUploadTypes.Material, Model.Merchant.LogoUrl, true, Model.Merchant.LogoUrl))
                     </div>
                     <div class="col-lg-3">
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.AgreementMediaId), "上传营业执照", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.AgreementMediaId, true, WeChatApiRequestBuilder.GenrateImageUrlByMediaId(Model.Merchant.AgreementMediaId)))
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.AgreementMediaId), "上传营业执照", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.AgreementMediaId, true, WeChatApiRequestBuilder.GenerateImageUrlByMediaId(Model.Merchant.AgreementMediaId)))
                     </div>
                     <div class="col-lg-3">
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.OperatorMediaId), "上传身份证", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.OperatorMediaId, true, WeChatApiRequestBuilder.GenrateImageUrlByMediaId(Model.Merchant.OperatorMediaId)))
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.OperatorMediaId), "上传身份证", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.OperatorMediaId, true, WeChatApiRequestBuilder.GenerateImageUrlByMediaId(Model.Merchant.OperatorMediaId)))
                     </div>
                     <div class="col-lg-3">
-                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.Protocol), "商户授权函", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.Protocol, true, WeChatApiRequestBuilder.GenrateImageUrlByMediaId(Model.Merchant.Protocol)))
+                        @Html.Partial("Component/_ImgageUploadUIelement", new ImageUploadUIElement(Html.NameOf(o => o.Merchant.Protocol), "商户授权函", Enjoy.Core.MediaUploadTypes.AuthMaterial, Model.Merchant.Protocol, true, WeChatApiRequestBuilder.GenerateImageUrlByMediaId(Model.Merchant.Protocol)))
                         <a href="https://mp.weixin.qq.com/zh_CN/htmledition/comm_htmledition/res/cardticket/wx_cardticket_assist_agent.pdf" target="_blank">下载模版</a>
                     </div>
                 </div>

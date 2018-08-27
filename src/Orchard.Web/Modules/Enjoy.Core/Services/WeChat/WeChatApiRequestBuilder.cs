@@ -124,16 +124,7 @@ namespace Enjoy.Core.Services
             }
         }
 
-        public static string GenerateImageUrlByMediaId(string mediaid)
-        {
-            ////Enjoy TODO: need return the true url by media id 
-            if (string.IsNullOrEmpty(mediaid))
-                return "/themes/enjoytheme/content/images/default.jpg";
-            else
-            {
-                return string.Concat(Constants.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaid));
-            }
-        }
+       
         public static string GenerateWxQueryGetCardList(string token)
         {
             return string.Format("https://api.weixin.qq.com/card/user/getcardlist?access_token={0}", token);
@@ -164,7 +155,7 @@ namespace Enjoy.Core.Services
         {
             return string.Format("http://api.weixin.qq.com/cgi-bin/component/upload_card_agent_qualification?access_token={0}",token);
         }
-        public static string GenrateImageUrlByMediaId(string mediaId)
+        public static string GenerateImageUrlByMediaId(string mediaId)
         {
             ////Enjoy TODO: need return the true url by media id 
             if (string.IsNullOrEmpty(mediaId))
@@ -173,6 +164,28 @@ namespace Enjoy.Core.Services
             {
                 return string.Concat(Constants.Directory_Media_Protocol_ROOT.Replace("~/", "/"), "/", string.Format("{0}.jpg", mediaId));
             }
+        }
+        public static string GenerateDeleteCardCoupon(string token)
+        {
+            return string.Format("https://api.weixin.qq.com/card/delete?access_token={0}", token);
+        }
+        /// <summary>
+        /// 生成会员卡激活url(微信激活)
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static string GenerateActiveUrl(string token)
+        {
+             //https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token=TOKEN
+            return string.Format("https://api.weixin.qq.com/card/membercard/activate?access_token={0}", token);
+        }
+        public static string GenerateQueryCardUrl(string token)
+        {
+            return string.Format("https://api.weixin.qq.com/card/batchget?access_token={0}", token);
+        }
+        public static string GenerateMemberActiveUserform(string token)
+        {
+            return string.Format("https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token={0}", token);
         }
     }
 }

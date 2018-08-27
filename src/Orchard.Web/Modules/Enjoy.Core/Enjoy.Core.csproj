@@ -168,6 +168,7 @@
     <Compile Include="Models\Enums\RegistryTypes.cs" />
     <Compile Include="Models\Enums\SMSNotifyTypes.cs" />
     <Compile Include="Models\Enums\VerifyTypes.cs" />
+    <Compile Include="Models\Location\Location.cs" />
     <Compile Include="Models\Merchant\CardCounponModel.cs" />
     <Compile Include="Models\Merchant\MerchantModel.cs" />
     <Compile Include="Models\Notification\NotificationModel.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Models\WeChat\CardEntity\CustomField.cs" />
     <Compile Include="Models\WeChat\CardEntity\DateInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\Cards\Groupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\PayInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\Sku.cs" />
     <Compile Include="Models\WeChat\CardEntity\SubMerchantInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\TextImage.cs" />
@@ -248,6 +250,7 @@
     <Compile Include="Models\WeChat\Messages\WeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatMsgModel.cs" />
     <Compile Include="Models\WeChat\Miniprogram.cs" />
+    <Compile Include="Models\WeChat\Response\QueryCardCouponWxResponse.cs" />
     <Compile Include="Models\WeChat\Submerchant\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\CreateCouponWxResponse.cs" />

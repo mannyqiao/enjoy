@@ -13,6 +13,7 @@ namespace Enjoy.Core.EnjoyModels
             this.BeginTime = DateTime.Now.ToUnixStampDateTime();
             this.EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime();
         }
+        
         public MerchantModel(Records.Merchant record)
         {
             if (record != null)

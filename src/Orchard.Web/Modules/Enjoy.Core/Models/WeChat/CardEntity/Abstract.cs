@@ -5,6 +5,8 @@ namespace Enjoy.Core.WeChatModels
 
     using System.Linq;
     using Newtonsoft.Json;
+    using System;
+    [Serializable]
     public class Abstract
     {
         [Newtonsoft.Json.JsonProperty("abstract")]

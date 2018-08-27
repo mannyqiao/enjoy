@@ -225,5 +225,93 @@ namespace Enjoy.Core.Services
             var request = WeChatApiRequestBuilder.GenerateCheckCardAgentRequest(GetToken());
             var context = request.GetUriContentDirectly();
         }
+
+        public NormalWxResponse DeleteCardCoupon(string cardid)
+        {
+            var request = WeChatApiRequestBuilder.GenerateDeleteCardCoupon(GetToken());
+            return request.GetResponseForJson<NormalWxResponse>((http) =>
+            {
+                var data = new { card_id = cardid };
+                http.Method = "POST";
+                http.ContentType = "application/json; encoding=utf-8";
+                using (var stream = http.GetRequestStream())
+                {
+                    var body = data.ToJson();
+                    var buffers = UTF8Encoding.UTF8.GetBytes(body);
+                    stream.Write(buffers, 0, buffers.Length);
+                    stream.Flush();
+                }
+                return http;
+            });
+        }
+        public QueryCardCouponWxResponse QueryCardCouponOnWechat()
+        {
+            var request = WeChatApiRequestBuilder.GenerateQueryCardUrl(GetToken());
+            //支持开发者拉出指定状态的卡券列表 
+            //CARD_STATUS_NOT_VERIFY”, 待审核 ； 
+            //“CARD_STATUS_VERIFY_FAIL”, 审核失败； 
+            //“CARD_STATUS_VERIFY_OK”， 通过审核； 
+            //“CARD_STATUS_DELETE”， 卡券被商户删除； 
+            //“CARD_STATUS_DISPATCH”， 在公众平台投放过的卡券；
+            return request.GetResponseForJson<QueryCardCouponWxResponse>((http) =>
+             {
+                 var data = new
+                 {
+                     offset = 0,
+                     count = 100,
+                     status_list = new string[]
+                 {
+                    "CARD_STATUS_NOT_VERIFY","CARD_STATUS_VERIFY_FAIL","CARD_STATUS_VERIFY_OK","CARD_STATUS_DELETE","CARD_STATUS_DISPATCH"
+                 }
+                 };
+                 http.Method = "POST";
+                 http.ContentType = "application/json; encoding=utf-8";
+                 using (var stream = http.GetRequestStream())
+                 {
+                     var body = data.ToJson();
+                     var buffers = UTF8Encoding.UTF8.GetBytes(body);
+                     stream.Write(buffers, 0, buffers.Length);
+                     stream.Flush();
+                 }
+                 return http;
+             });
+        }
+        public void SetMemberCardFieldIfActiveByWx(string cardid)
+        {
+            var request = WeChatApiRequestBuilder.GenerateMemberActiveUserform(GetToken());
+            request.GetResponseForJson<WxResponse>((http) =>
+            {
+                var data = new
+                {
+                    card_id = cardid,
+                    service_statement = new
+                    {
+                        name = "会员守则",
+                        url = "https=//www.qq.com"
+                    },
+                    bind_old_card = new
+                    {
+                        name = "老会员绑定",
+                        url = "https =//www.qq.com"
+                    },
+                    required_form = new
+                    {
+                        can_modify = false,
+                        common_field_id_list = new string[] { "USER_FORM_INFO_FLAG_MOBILE" }
+                    },
+                    optional_form = new
+                    {
+                        can_modify = false,
+                        common_field_id_list = new string[] {
+                            "USER_FORM_INFO_FLAG_NAME",
+                            "USER_FORM_INFO_FLAG_LOCATION",
+                            "USER_FORM_INFO_FLAG_BIRTHDAY" }
+                    }
+                };
+                http.Method = "POST";
+                http.ContentType = "application/json; encoding=utf-8";
+                return http;
+            });
+        }
     }
 }

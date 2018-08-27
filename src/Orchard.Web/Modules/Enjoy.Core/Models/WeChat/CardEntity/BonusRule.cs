@@ -4,6 +4,8 @@ namespace Enjoy.Core.WeChatModels
 {
     using Enjoy.Core;
     using Newtonsoft.Json;
+    using System;
+    [Serializable]
     public class BonusRule
     {
         private int cost_money_unit = 0;
@@ -84,10 +86,10 @@ namespace Enjoy.Core.WeChatModels
             }
         }
         /// <summary>
-        /// 	抵扣条件，单笔最多使用xx积分。
+        /// 抵扣条件，单笔最多使用xx积分。
         /// </summary>
         [JsonProperty("max_reduce_bonus")]
-        public int max_reduce_bonus { get; set; }
+        public int MaxReduceBonus { get; set; }
 
     }
 }

@@ -5,7 +5,7 @@
 .left view{ display: block; height: 60px; line-height: 60px; border-bottom: 1px solid #dcdcdc;}
 
 .right{ margin-left: 90px; height: 100%; overflow: hidden; width: auto;background: #fff;}
-.right text{ font-size: 13px}
+.right text{ font-size:section 13px}
 .typeTree{ padding: 10px 20px;}
 .typeTree .item{ width: 33.33%; text-align: center; display: inline-block; vertical-align: top;}
 .typeTree .brand,

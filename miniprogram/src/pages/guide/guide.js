@@ -21,6 +21,7 @@ Page({
         userInfo: userInfo
       });     
     });    
+
     wx.switchTab({
       url: '/pages/store/index'
     });

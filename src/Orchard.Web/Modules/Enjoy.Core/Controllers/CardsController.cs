@@ -86,6 +86,10 @@ namespace Enjoy.Core.Controllers
         /// <returns></returns>
         public ActionResult Edit(long merchantid, long? id = null, CardTypes type = CardTypes.DISCOUNT)
         {
+            //var xx = this.WeChat.DeleteCardCoupon("p8ntH0ly5Wtdauv5pLm4NuX1W8jI");
+            //xx = this.WeChat.DeleteCardCoupon("p8ntH0uMYrVs9q1jcw4W2iuUIbmg");
+            //xx = this.WeChat.DeleteCardCoupon("p8ntH0nfTZdBv8NwTY2afZUoojD8");
+
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
 
@@ -96,6 +100,7 @@ namespace Enjoy.Core.Controllers
                 ? type.Initialize(merchant).Convert()
                 : this.CardCoupon.GetCardCounpon(id.Value).Convert();
             viewModel.MerchantId = merchant.Id;
+            
             viewModel.SubMerchantBrandName = merchant.BrandName;
             return View(type.GetViewName(), viewModel);
         }
@@ -105,6 +110,7 @@ namespace Enjoy.Core.Controllers
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
             var merchant = this.Merchant.GetDefaultMerchant(viewModel.MerchantId);
+            viewModel.State = CardCouponStates.Editing;
             var result = this.CardCoupon.SaveOrUpdate(viewModel.Convert(merchant));
             return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
         }
@@ -130,20 +136,22 @@ namespace Enjoy.Core.Controllers
             return View(viewModel);
         }
 
-        /// <summary>
-        /// 创建会员卡
-        /// </summary>
-        /// <returns></returns>
-        //public ActionResult CreateMCard()
-        //{
-        //    var viewModel = new CardCounponViewModel()
-        //    {
-        //        CardType = CardTypes.MEMBER_CARD,
-        //        CCStatus = CCStatus.Editing
-        //    };
-        //    return View(viewModel);
-        //}
+     
+        [HttpPost]
+        public ActionResult EditMemberCard(CardCounponViewModel viewModel, string ReturnUrl)
+        {
+            if (this.Auth.GetAuthenticatedUser() == null)
+                return this.RedirectLocal("/access/sign?signin=true");
+            //viewModel.MerberCard.ActivateAppBrandPass = "pages/store/index";
+            //viewModel.MerberCard.ActivateAppBrandUserName = "gh_e1543e2be86d@app";
+            //viewModel.MerberCard.ActivateUrl = "https://www.yourc.com/m/active";            
 
+            viewModel.State = CardCouponStates.Editing;
+            var merchant = this.Merchant.GetDefaultMerchant(viewModel.MerchantId);            
+            var result = this.CardCoupon.SaveOrUpdate(viewModel.WithFixedSettings().Convert(merchant));          
+            
+            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
+        }
         public ActionResult Query(int id)
         {
             var model = this.CardCoupon.GetCardCounpon(id);

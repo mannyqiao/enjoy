@@ -189,7 +189,7 @@
                             var merchantid = $("#MerchantId").val();
                             var innerHtml = "";
                             console.log(row.State);
-                            if (row.State == 1 || row.State == 3) {
+                            if (row.State == 1 ) {
                                 innerHtml = "<button id='btn_publish' class='btn btn-outline btn-primary btn-xs ' data-data='" + data + "'>发布</button>";
 
                             }
@@ -237,11 +237,11 @@
                         "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val()
                     },
                     success: function (result) {
-                        if (result.error_code == 0) {
+                        if (result.errcode == 0) {
                             table.ajax.reload();
                         }
                         else {
-                            alert(result.error_message);
+                            alert(result.errmsg);
                         }
                     },
                     error: function (msg) {

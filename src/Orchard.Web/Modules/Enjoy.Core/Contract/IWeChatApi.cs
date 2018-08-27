@@ -32,8 +32,13 @@ namespace Enjoy.Core
         IWxAccessToken GetWxAccessToken(string appid, string secret);
 
         void CheckCardAgentQulification();
-       WeChatUserInfo Decrypt(string encryptedData, string iv, string sessionKey);
+        WeChatUserInfo Decrypt(string encryptedData, string iv, string sessionKey);
         IWxAuthorization GetSessionKey(string code, string appid, string secret);
+
+        NormalWxResponse DeleteCardCoupon(string cardid);
+
+        QueryCardCouponWxResponse QueryCardCouponOnWechat();
+        void SetMemberCardFieldIfActiveByWx(string cardid);
         /// <summary>
         /// 创建子商户门店
         /// </summary>

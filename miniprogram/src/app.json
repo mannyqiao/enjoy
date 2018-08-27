@@ -9,7 +9,8 @@
     "pages/goods-qc-report/index",
     "pages/cart/index",
     "pages/user/index",
-    "pages/guide/guide"    
+    "pages/guide/guide",    
+    "pages/active/index"
   ],
   "window": {
     "backgroundTextStyle": "white",

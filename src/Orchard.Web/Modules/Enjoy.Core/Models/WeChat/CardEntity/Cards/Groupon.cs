@@ -7,6 +7,7 @@
     /// <summary>
     /// 团购券
     /// </summary>
+    [Serializable]
     public class Groupon : StandardCardCoupon
     {
         #region groupon 专用

@@ -1,8 +1,9 @@
 ﻿namespace Enjoy.Core.WeChatModels
 {
-    using Newtonsoft.Json;
+    using Newtonsoft.Json;   
     using System.ComponentModel;
-
+    using System;
+    [Serializable]
     public class UseCondition
     {
         [JsonProperty("accept_category", NullValueHandling = NullValueHandling.Ignore)]

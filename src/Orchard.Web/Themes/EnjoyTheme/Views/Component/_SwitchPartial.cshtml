@@ -1,11 +1,12 @@
 ﻿@model Enjoy.Core.UIElements.SwitchUIElement
 <fieldset>
-    <div class="form-group  @(Model.Required?"required":"")">
-        <label class="control-label">@Model.Text</label>
-        <div class="switch" data-on="primary" data-off="info">
-            <input id="@Model.Id" name="@Model.Name" type="checkbox" @(Model.Value.Equals("false") ? "" : "checked='checked'") />
-
-            <input name="@Model.Name" type="hidden" value="@Model.Value">
+    <div class="form-group">        
+        <div class="switch checkbox" data-on="primary" data-off="info">
+            <label>
+                <input id="chk_@Model.Id" name="chk_@Model.Name" type="checkbox" @(Model.Value ? "checked=checked" : "") />
+                @Model.Text
+                <input id="@Model.Id" name="@Model.Name" type="hidden" value="@Model.Value">
+            </label>
         </div>
     </div>
 </fieldset>
@@ -13,9 +14,12 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            $("input[type='checkbox']").click(function () {
-                var name = $(this).val("name");
-                $("#" + name).val($(this).attr("checked") === "checked");
+            console.log("@Model.Value");
+            $("#chk_@Model.Id").click(function () {
+                
+                var value = $(this).prop("checked");
+                $("#@Model.Id").val(value);
+                console.log($("#@Model.Id").val())
             });
         });
     </script>

@@ -1,45 +1,27 @@
-import cfg from  '../../config/index.js'
-import ApiList from '../../config/api.js';
-import request from '../../utils/request';
-import { co, Promise, regeneratorRuntime } from '../../utils/co-loader';
-import { getUserInfo } from '../../utils/index';
-let app = getApp();
-// pages/welcome/index.js
+// pages/active/index.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    card_id: null,
+    user_card_code: null,
+    mobile: null,
+    address: null
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    var userInfo = wx.getStorageSync(cfg.localKey.user);
-    console.log("userInfo",userInfo);
-    if (userInfo.wx == null) {
-      wx.navigateTo({
-        url: '../../pages/guide/guide'
-      })
-    }
-    else {
-      // wx.navigateTo({
-      //   url: '/pages/active/index'
-      // })
-      wx.switchTab({
-        url: '../../pages/store/index'
-      });
-    }
+
   },
 
   /**
