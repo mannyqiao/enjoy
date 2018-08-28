@@ -170,6 +170,20 @@
     <Content Include="Content\images\coupon_demo.png" />
     <Content Include="Content\images\default.jpg" />
     <Content Include="Content\images\upload_img.png" />
+    <Content Include="Content\jqweui\css\demos.css" />
+    <Content Include="Content\jqweui\css\jquery-weui.css" />
+    <Content Include="Content\jqweui\css\jquery-weui.min.css" />
+    <Content Include="Content\jqweui\js\city-picker.js" />
+    <Content Include="Content\jqweui\js\city-picker.min.js" />
+    <Content Include="Content\jqweui\js\jquery-weui.js" />
+    <Content Include="Content\jqweui\js\jquery-weui.min.js" />
+    <Content Include="Content\jqweui\js\swiper.js" />
+    <Content Include="Content\jqweui\js\swiper.min.js" />
+    <Content Include="Content\jqweui\lib\fastclick.js" />
+    <Content Include="Content\jqweui\lib\jquery-2.1.4.js" />
+    <Content Include="Content\jqweui\lib\weui.css" />
+    <Content Include="Content\jqweui\lib\weui.min.css" />
+    <Content Include="Content\jqweui\lib\zepto.js" />
     <Content Include="Content\plugins\bootstrap.datetimepicker\css\bootstrap-datetimepicker.css" />
     <Content Include="Content\plugins\bootstrap.datetimepicker\css\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\plugins\bootstrap.datetimepicker\js\bootstrap-datetimepicker.js" />
@@ -375,6 +389,7 @@
     <Content Include="Views\Cards\Member.cshtml" />
     <Content Include="Views\Wap\Active.cshtml" />
     <Content Include="Views\Layout-Wap.cshtml" />
+    <Content Include="Views\Document.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
@@ -475,7 +490,6 @@
     <Content Include="Views\Pager.Last.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\wap\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\Layout\" />
     <Folder Include="Views\Shared\" />
