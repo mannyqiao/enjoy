@@ -1,0 +1,18 @@
+<view class='container'>
+  <view>
+    <image src="https://www.yourc.club/media/test/u5BrmkP3WY6PlIYH4lLzc8NC7sLKNF06yM8SKDCac3qfgqJNl1mROCmaol58Wl9j.jpg" class="img">
+    </image>
+  </view>
+</view>
+<!-- <view class="view-groupComponent">
+  <view class="view-component">
+    <view class="view-componentL">
+      <view class="view-mixtureImg">
+        <image src="https://www.yourc.club/media/test/u5BrmkP3WY6PlIYH4lLzc8NC7sLKNF06yM8SKDCac3qfgqJNl1mROCmaol58Wl9j.jpg" class="img-wrapRect"></image>
+      </view>
+      <view>
+        <text class="text-ellipsiStyle">青春梦想队</text>
+      </view>
+    </view>
+  </view>
+</view> -->

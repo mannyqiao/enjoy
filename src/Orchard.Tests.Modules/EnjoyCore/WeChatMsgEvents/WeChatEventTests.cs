@@ -55,6 +55,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
         private IVerifyCodeGenerator _verifyCodeGenerator;
         private IEnjoyAuthService _enjoyAuthService;
         private IWeChatMsgHandler _weChatMsgHandler;
+        private IWeChatApi _weChatApi;
         private long _merchantid;
         private string _cardid = Guid.NewGuid().ToString();
         protected override IEnumerable<Type> DatabaseTypes
@@ -126,6 +127,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
             builder.RegisterType<WeChatMsgHandler>().As<IWeChatMsgHandler>();
             builder.RegisterType<CardCouponService>().As<ICardCouponService>();
             builder.RegisterType<WxUserService>().As<IWxUserService>();
+            
             builder.RegisterTypes(new System.Type[] {
                 typeof(AuditNotPassWeChatMsgBehavior),
                 typeof(AuditPassWeChatMsgBehavior),
@@ -155,6 +157,7 @@ namespace Orchard.Tests.Modules.EnjoyCore
             _enjoyAuthService = _container.Resolve<IEnjoyAuthService>();
             _weChatMsgHandler = _container.Resolve<IWeChatMsgHandler>();
             _cardCouponService = _container.Resolve<ICardCouponService>();
+            _weChatApi = _container.Resolve<IWeChatApi>();
             CreatingEnjoyUserAndMerchant();
             //CreatingCardCoupon();
         }
@@ -260,6 +263,13 @@ namespace Orchard.Tests.Modules.EnjoyCore
         public void CreatingCardCoupon()
         {
             
+        }
+        [Test]
+        public void DeleteCardCounpon()
+        {
+            var xx = this._weChatApi.DeleteCardCoupon("p8ntH0tE0q1cxqEaSfYozr7y9VJM");
+            xx = this._weChatApi.DeleteCardCoupon("p8ntH0mpXejoeR6-88if5PDyxaMI");
+            xx = this._weChatApi.DeleteCardCoupon("p8ntH0rxFgrclfLMkROeMUkx7m1k");
         }
     }
 

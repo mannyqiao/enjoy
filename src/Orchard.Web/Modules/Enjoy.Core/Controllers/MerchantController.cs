@@ -41,6 +41,12 @@ namespace Enjoy.Core.Controllers
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
 
+            var cc = this.WeChat.QueryCardCouponOnWechat();
+            foreach (var card in cc.CardIdList)
+            {
+                var result = this.WeChat.DeleteCardCoupon(card);
+            }
+
             return View();
 
         }
@@ -140,12 +146,7 @@ namespace Enjoy.Core.Controllers
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
-            var merchant = merchantid == null
-                ? this.Merchant.GetDefaultMerchant()
-                : this.Merchant.GetDefaultMerchant(merchantid.Value);
-
-            if (merchant == null)
-                return this.RedirectLocal("/merchant/create");
+            var merchant = this.Merchant.GetDefaultMerchant(merchantid ?? 0);
             return View(merchant);
         }
         [HttpPost]
@@ -158,12 +159,17 @@ namespace Enjoy.Core.Controllers
             {
                 foreach (var key in filter.Fixation.Keys)
                 {
-                    filter.Columns.Add(new QueryColumnFilter()
+                    var column = new QueryColumnFilter()
                     {
                         Data = key,
                         Searchable = true,
                         Search = new SearchColumnFilter() { Regex = false, Value = filter.Fixation[key] }
-                    });
+                    };
+                    if (key.Equals("Merchant.Id", StringComparison.OrdinalIgnoreCase))
+                    {
+                        column.DbType = System.Data.DbType.Int64;
+                    }
+                    filter.Columns.Add(column);
                 }
             }
 
@@ -207,11 +213,11 @@ namespace Enjoy.Core.Controllers
                 };
             }
         }
-        public ActionResult EditShop(int? id = null)
+        public ActionResult EditShop(long merchantid, int? id = null)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign");
-            var merchant = this.Merchant.GetDefaultMerchant();
+            var merchant = this.Merchant.GetDefaultMerchant(merchantid);
 
             var viewModel = id == null
                 ? new ShopViewModel(new ShopModel(merchant))
@@ -223,13 +229,12 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public ActionResult EditShopPost(ShopViewModel viewModel, string returnUrl)
         {
-            //var merchant = this.Merchant.GetDefaultMerchant();
             var model = new ShopModel(viewModel);
             this.Shop.SaveOrUpdate(model);
-            return this.RedirectLocal(returnUrl);
+            return this.RedirectLocal(string.Format("/merchat/myshops?merchantid={0}", model.Merchant.Id));
         }
         [HttpPost]
-        public JsonNetResult Delete(int? id = null, string returnUrl = "/merchant/myshops")
+        public JsonNetResult DelShop(int? id = null, string returnUrl = "/merchant/myshops")
         {
 
             if (id == null) return new JsonNetResult() { Data = new { result = "fail" } };

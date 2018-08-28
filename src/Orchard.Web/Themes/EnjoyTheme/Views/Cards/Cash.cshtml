@@ -86,7 +86,8 @@
                                        new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"expiry_"+ Html.NameOf(o=>o.Cash.BaseInfo.Dateinfo.Type),"固定时间",ExpiryDateTypes.DATE_TYPE_FIX_TIME_RANGE.ToString(),"group_date_type_fix_time_range"),
                                        new RadioUIElement.RadioItem("expiry_"+ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"expiry_"+ Html.NameOf(o=>o.Cash.BaseInfo.Dateinfo.Type),"指定时间",ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString(),"group_date_type_fix_term")
                                     }))
-                            <fieldset id="group_date_type_fix_time_range">
+                            <fieldset id="group_date_type_fix_time_range">                           
+
                                 <div class="row">
                                     <div class="col-lg-6">
                                         @Html.Partial("Component/_DatePickerPartial",

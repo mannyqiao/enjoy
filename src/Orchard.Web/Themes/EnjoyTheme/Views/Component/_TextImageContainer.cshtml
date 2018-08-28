@@ -28,7 +28,8 @@
                                             <input type="file" class="hidden" id="text_image_@index" name="text_image_@index" />
                                             <img id="image_@index" class="img-thumbnail-enjoy pointer"
                                                  src="@(string.IsNullOrEmpty(item.ImageUrl)?"/themes/enjoytheme/content/images/default.jpg":item.ImageUrl)" data-target="@index" />
-                                            <input name="@string.Concat(Model.Name,string.Format("[{0}].",index),"ImageUrl")" type="hidden" />
+                                            <input name="@string.Concat(Model.Name,string.Format("[{0}].",index),"ImageUrl")" 
+                                            value="@(string.IsNullOrEmpty(item.ImageUrl)?"/themes/enjoytheme/content/images/default.jpg":item.ImageUrl)"       type="hidden" />
                                         </div>
                                     </fieldset>
                                 </div>

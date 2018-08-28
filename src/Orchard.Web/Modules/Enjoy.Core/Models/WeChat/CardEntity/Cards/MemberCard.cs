@@ -3,6 +3,7 @@
     using Newtonsoft.Json;
     using Enjoy.Core;
     using System;
+    [Serializable]
     public class MemberCard : StandardCardCoupon
     {
         [JsonProperty("background_pic_url")]
@@ -15,8 +16,11 @@
         [JsonProperty("supply_bonus")]
         public bool SupplyBonus { get; set; }
 
+
         [JsonProperty("supply_balance")]
         public bool SupplyBanlance { get; set; }
+
+
 
         [JsonProperty("prerogative")]
         public string Prerogative { get; set; }
@@ -24,20 +28,21 @@
         [JsonProperty("auto_activate")]
         public bool AutoActivate { get; set; }
 
-        [JsonProperty("custom_field1")]
+   
+  
+
+        [JsonProperty("custom_field1",NullValueHandling = NullValueHandling.Ignore)]
         public CustomField CustomField1 { get; set; }
 
-        [JsonProperty("activate_url")]
+        [JsonProperty("activate_url",NullValueHandling = NullValueHandling.Ignore)]
         public string ActivateUrl { get; set; }
 
-        [JsonProperty("custom_cell1")]
+        [JsonProperty("custom_cell1",NullValueHandling = NullValueHandling.Ignore)]
         public CustomCell CustomCell { get; set; }
         private int discount;
-        //[JsonProperty("bonus_rule")]
-        //public BonusRule BonusRule
-        //{
-        //    get; set;
-        //}
+
+        [JsonProperty("wx_activate",NullValueHandling = NullValueHandling.Ignore)]
+        public bool? WxActivate { get; set; }
         /// <summary>
         /// 	折扣，该会员卡享受的折扣优惠,填10就是九折。
         /// </summary>
@@ -46,16 +51,20 @@
         {
             get
             {
-                return this.discount / 100;
+                return this.discount / 10;
 
             }
             set
             {
-                this.discount = value * 100;
+                this.discount = value * 10;
 
             }
         }
+        [Newtonsoft.Json.JsonProperty("activate_app_brand_user_name")]
+        public string ActivateAppBrandUserName { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("activate_app_brand_pass")]
+        public string ActivateAppBrandPass { get; set; }
         //"supply_bonus": true,
         //  "supply_balance": false,
         //  "prerogative": "test_prerogative",

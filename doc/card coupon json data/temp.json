@@ -1,0 +1,81 @@
+{
+	"card_id": "p8ntH0tCgLU7XuWyKvdt7Axcr7cw",
+	"member_card": {
+		"background_pic_url": "http://mmbiz.qpic.cn/mmbiz_jpg/KgtAOAMaiaQCG66NiciaC2Nz0I1HTM4ZJFbja9tyRnDGE5gibpYSZrMNXAnH6eh4wk4sRkJIYiaBsPS5SQeKXI5aIOA/0",
+		"bonus_rule": {
+			"cost_money_unit": 1,
+			"increase_bonus": 1,
+			"max_increase_bonus": 100,
+			"init_increase_bonus": 10,
+			"cost_bonus_unit": 10,
+			"reduce_money": 1,
+			"least_money_to_use_bonus": 20,
+			"max_reduce_bonus": 50
+		},
+		"supply_bonus": false,
+		"supply_balance": false,
+		"prerogative": "会员享受九折优惠",
+		"auto_activate": false,
+		"activate_url": "https://www.yourc.com/m/active",
+		"wx_activate": false,
+		"discount": 10,
+		"activate_app_brand_user_name": "gh_e1543e2be86d@app",
+		"activate_app_brand_pass": "pages/store/index",
+		"base_info": {
+			"logo_url": "http://mmbiz.qpic.cn/mmbiz_jpg/KgtAOAMaiaQB6MN8v6EJ2PuSRUYYX2icZf0FMsh40eEDRZQsWCbS278YryG218PP5MohialOAUr6TFHej488Sj7TQ/0",
+			"code_type": "CODE_TYPE_ONLY_QRCODE",
+			"title": "铂金卡",
+			"color": "Color050",
+			"notice": "消费时向店员出示卡/券二维码",
+			"service_phone": "13880518898",
+			"description": "可与他人共享",
+			--"date_info": {
+				"type": "DATE_TYPE_PERMANENT"
+			},
+			"sku": {
+				"quantity": 10
+			},
+			"location_id_list": null,
+			"get_limit": 50,
+			"use_custom_code": false,
+			"bind_openid": false,
+			"can_share": false,
+			"can_give_friend": true,
+			"center_title": "立即使用",
+			"center_sub_title": "",
+			"center_app_brand_user_name": "gh_e1543e2be86d@app",
+			"center_app_brand_pass": "pages/store/index",
+			"need_push_on_view": false,
+			"custom_url_name": "分享",
+			"custom_app_brand_user_name": "gh_e1543e2be86d@app",
+			"custom_app_brand_pass": "pages/store/index",
+			"custom_url_sub_title": "分享赚积分",
+			"promotion_url_name": "更多优惠",
+			"promotion_app_brand_user_name": "gh_e1543e2be86d@app",
+			"promotion_app_brand_pass": "pages/store/index",
+			"source": null
+		},
+		"advanced_info": {
+			"use_condition": {
+				"least_cost": 0,
+				"can_use_with_other_discount": false
+			},
+			"abstract": {
+				"abstract": "会员卡",
+				"icon_url_list": ["http://mmbiz.qpic.cn/mmbiz_jpg/KgtAOAMaiaQCG66NiciaC2Nz0I1HTM4ZJFb1wxtELNqMGLDsEkgzugF9F9HZDf7rnIEDo1PkDR75eJ47MP83Wv9tg/0"]
+			},
+			"text_image_list": [{
+				"image_url": "http://mmbiz.qpic.cn/mmbiz_jpg/KgtAOAMaiaQC3WxOZ7vibpZHLoHGRa5CMmEbLXaLE8xvEfyNf5ccqJwWNNE0B7s0GudjCEyJia4HpBicMf6YY0mibmw/0",
+				"text": "xxx"
+			}, {
+				"image_url": "http://mmbiz.qpic.cn/mmbiz_jpg/KgtAOAMaiaQC3WxOZ7vibpZHLoHGRa5CMmkiaktwuOGp3bBe1lMbAnlrRQA7ovqVibD0cWibdy9YicgIgNcEKwd8veibQ/0",
+				"text": "xxx"
+			}, {
+				"image_url": "http://mmbiz.qpic.cn/mmbiz_jpg/KgtAOAMaiaQC3WxOZ7vibpZHLoHGRa5CMmAJPGlN9EicsXMW8FHL4Jum2yZhFoNs21ibQPVd0HufaRHmEWVDGn5SxA/0",
+				"text": "xxx"
+			}],
+			"business_service": null
+		},
+		"card_id": "p8ntH0tCgLU7XuWyKvdt7Axcr7cw"
+	}
+}

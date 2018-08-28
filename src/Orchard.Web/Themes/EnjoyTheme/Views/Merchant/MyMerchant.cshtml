@@ -151,11 +151,11 @@
                         __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
                     },
                     success: function (result) {
-                        if (result.error_code == 0) {
+                        if (result.errcode == 0) {
                             table.ajax.reload();
                         }
                         else {
-                            alert(result.error_message);
+                            alert(result.errmsg);
                         }
                     },
                     error: function (msg) {
@@ -180,11 +180,11 @@
                         __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
                     },
                     success: function (result) {
-                        if (result.error_code == 0) {
+                        if (result.errcode == 0) {
                             table.ajax.reload();
                         }
                         else {
-                            alert(result.error_message);
+                            alert(result.errmsg);
                         }
                     },
                     error: function (msg) {

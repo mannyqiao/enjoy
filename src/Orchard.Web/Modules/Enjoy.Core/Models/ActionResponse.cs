@@ -29,9 +29,9 @@ namespace Enjoy.Core.EnjoyModels
             this.ErrorCode = error;
             this.ErrorMessage = Constants.ErrorrCodeDescriptor[error];
         }
-        [JsonProperty("error_code")]
+        [JsonProperty("errcode")]
         public virtual int ErrorCode { get; protected set; }
-        [JsonProperty("error_message")]
+        [JsonProperty("errmsg")]
         public virtual string ErrorMessage { get; protected set; }
         public bool HasError
         {

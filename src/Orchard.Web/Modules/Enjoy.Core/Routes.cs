@@ -42,26 +42,8 @@ namespace Enjoy.Core
                 CreateRouteDescriptor("Enjoy.Core","Cards","EditPost"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","Publish"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","ShowQR"),
-                CreateRouteDescriptor("Enjoy.Core","Cards","QueryCouponCard")
-                
-
-                //new RouteDescriptor {
-                //    Route = new Route(
-                //        "{controller}/{action}",
-                //        new RouteValueDictionary {
-                //            {"area", "Enjoy.Core"},
-                //            {"controller", "Dashboard"},
-                //            {"action", "Summary"}
-                //        },
-                //        new RouteValueDictionary {
-                //            {"area", "Enjoy.Core"},
-                //            {"controller", "Dashboard"},
-                //        },
-                //        new RouteValueDictionary {
-                //            {"area", "Enjoy.Core"}
-                //        },
-                //        new MvcRouteHandler())
-                //}
+                CreateRouteDescriptor("Enjoy.Core","Cards","QueryCouponCard"),
+                CreateRouteDescriptor("Enjoy.Core","WAP","Active")              
             };
         }
         static RouteDescriptor CreateRouteDescriptor(string area, string controller, string action)

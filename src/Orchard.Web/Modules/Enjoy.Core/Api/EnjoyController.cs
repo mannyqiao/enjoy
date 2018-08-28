@@ -26,12 +26,14 @@ namespace Enjoy.Core.Api
         private readonly IWeChatApi _weChat;
         private readonly IWeChatMsgHandler _handler;
         private readonly IWxUserService _wxUserService;
+        private readonly IShopService _shopservice;
         public EnjoyController(
             IOrchardServices os,
             IEnjoyAuthService auth,
             IWeChatApi wechat,
             IMerchantService merchant,
             IWxUserService wxUserService,
+            IShopService shop,
             IWeChatMsgHandler handler)
         {
             this._authService = auth;
@@ -41,6 +43,8 @@ namespace Enjoy.Core.Api
             this.Logger = NullLogger.Instance;
             this._handler = handler;
             this._wxUserService = wxUserService;
+            this._shopservice = shop;
+
         }
         public ILogger Logger { get; set; }
         [HttpGet]
@@ -167,15 +171,17 @@ namespace Enjoy.Core.Api
             {
                 Columns = new List<QueryColumnFilter>()
                 {
-                    new QueryColumnFilter(){
-                        Name ="Status",
-                        Searchable = true,
-                        Search = new SearchColumnFilter(){
-                             Value = AuditStatus.APPROVED
-                        },
-                        Orderable = true,
-                        Data = "Status"
-                    }
+                    ////TODO 正式版本中需要取消下面这段代码的注释
+                    //new QueryColumnFilter(){
+                    //    Name ="Status",
+                    //    Searchable = true,
+                    //     DbType = System.Data.DbType.String,
+                    //    Search = new SearchColumnFilter(){
+                    //         Value = AuditStatus.APPROVED
+                    //    },
+                    //    Orderable = true,
+                    //    Data = "Status"
+                    //}
                 },
                 Order = new List<QueryOrderFilter>()
                 {
@@ -199,11 +205,33 @@ namespace Enjoy.Core.Api
             }).ToList();
         }
 
+
         [Route("api/enjoy/sendverifycode")]
         [HttpPost]
         public ActionResponse<VerificationCodeViewModel> SendVerifyCode(Mobile mobile)
         {
             return this._authService.GetverificationCode(mobile.Value, VerifyTypes.BindWeChatUser);
+        }
+        [Route("api/enjoy/QueryShops")]
+        [HttpPost]
+        public List<ShopNearyby> QueryShops(Location location)
+        {
+            var paging = PagingCondition.GenerateByPageAndSize(1, 15);
+            return this._shopservice.QueryShops(null, paging)
+                .Items.Select((ctx) =>
+                {
+                    var lac = ctx.Coordinate.DeserializeToObject<Location>();
+                    return new ShopNearyby()
+                    {
+                        Lat = lac.Latitude,
+                        Lng = lac.Longitude,
+                        ShopActs = new ShopAct[] { },
+                        ShopAddress = ctx.Address,
+                        ShopId = ctx.Id,
+                        ShopLogo = ctx.Merchant.LogoUrl,
+                        ShopName = string.Format("{0}[{1}]", ctx.Merchant.BrandName, ctx.ShopName)
+                    };
+                }).ToList();
         }
     }
 }

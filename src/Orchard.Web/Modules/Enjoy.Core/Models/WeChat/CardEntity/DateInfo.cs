@@ -4,7 +4,8 @@ namespace Enjoy.Core.WeChatModels
 {
     using Newtonsoft.Json;
     using System;
-
+    
+    [Serializable]
     public class DateInfo
     {
         private ExpiryDateTypes dateType = ExpiryDateTypes.DATE_TYPE_FIX_TERM;

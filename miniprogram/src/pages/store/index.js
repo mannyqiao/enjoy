@@ -3,6 +3,7 @@ import ApiList from '../../config/api';
 import request from '../../utils/request';
 import promisify from '../../utils/promisify';
 import Map from '../../utils/map';
+
 let app = getApp();
 Page({
   data: {
@@ -16,7 +17,7 @@ Page({
       "linkTo": "1"
     },
     "shopList": [],
-    "page":1,
+    "page":0,
     "pageSize":10,
     "totalRow": 100,
     "deliveryAddress": '成都市',
@@ -27,24 +28,33 @@ Page({
   },
   onLoad() {
     const me = this;   
-    //设置banner    
-    wx.request({
-      url: ApiList.QueryMerchants,
-      data: {page: me.data.page+1 ,size:me.data.pageSize },
-      method:"POST",
-      success:function(res) {
-          me.setData({
-            bannerList: res.data
-          });
+    //查询商户 设置 Banner
+    request({
+      url: ApiList.queryMerchants,
+      data: { page: me.data.page + 1, size: me.data.pageSize },
+      success(res) {        
+        me.setData({ bannerList: res.data });
+        console.log("banner",res.data[0])        
       }
-    });  
-    //获取地址
-    Map.getRegeo().then(res => {
-      console.log(res);
-      me.setData({
-        deliveryAddress: res.street
-      })
     });
+
+    Map.getRegeo().then(res => {
+      me.setData({"deliveryAddress":res.city});
+      request({
+        url: ApiList.queryShops,
+        data: { "lat": res.lat, "lng":res.lng },
+        success(res) {
+          me.setData({
+            "shopList":res.data
+          });
+        }
+      });     
+    });
+    //查询附近门店
+  
+
+    //获取地址
+ 
 
     /*wx.request({
         method: 'post',

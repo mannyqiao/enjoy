@@ -4,25 +4,28 @@ namespace Enjoy.Core.WeChatModels
 {
     using Enjoy.Core.WeChatModels;
     using Newtonsoft.Json;
+    using System;
     public class CreatingWapper
     {
         [JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
-        public CashWapper Cash { get; set; }
+        public dynamic Card { get; set; }
+        //[JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
+        //public CashWapper Cash { get; set; }
 
-        [JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
-        public DiscountWapper Discount { get; set; }
+        //[JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
+        //public DiscountWapper Discount { get; set; }
 
-        [JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
-        public GrouponWapper Groupon { get; set; }
+        //[JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
+        //public GrouponWapper Groupon { get; set; }
 
-        [JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
-        public GeneralWapper General { get; set; }
+        //[JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
+        //public GeneralWapper General { get; set; }
 
-        [JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
-        public GiftWapper Gift { get; set; }
+        //[JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
+        //public GiftWapper Gift { get; set; }
 
-        [JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
-        public MemberCardWapper MemberCard { get; set; }
+        //[JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
+        //public MemberCardWapper MemberCard { get; set; }
 
     }
     public class UpgradeWapper

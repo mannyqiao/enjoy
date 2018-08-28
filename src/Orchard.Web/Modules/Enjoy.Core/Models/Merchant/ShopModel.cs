@@ -23,12 +23,14 @@ namespace Enjoy.Core.EnjoyModels
             this.Id = viewModel.ShopModel.Id;
             this.Leader = viewModel.ShopModel.Leader;
             this.Address = viewModel.AddressInfo;
+            
             this.Coordinate = string.IsNullOrEmpty(viewModel.ShopModel.Coordinate) ? "{}" : viewModel.ShopModel.Coordinate;
         }
         public ShopModel(MerchantModel merchant)
         {
             this.Merchant = merchant;
         }
+        public ShopModel() { }
         public long Id { get; set; }
         public MerchantModel Merchant { get; set; }
         public string ShopName { get; set; }

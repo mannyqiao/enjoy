@@ -14,12 +14,13 @@ namespace Enjoy.Core.ViewModels
             this.ShopModel = model;
             this.Address = new AddressViewModel(model.Address);
         }
+        public ShopViewModel() { }
         public ShopModel ShopModel { get; set; }       
         public string AddressInfo
         {
             get
             {
-                return this.ShopModel.Address == null
+                return this.Address == null
                     ? string.Empty
                     : string.Join("/", new string[] {
                         this.Address.Province,

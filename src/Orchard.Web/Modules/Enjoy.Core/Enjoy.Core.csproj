@@ -154,6 +154,7 @@
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Controllers\WAPController.cs" />
     <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Handlers\StaticFileHandler.cs" />
     <Compile Include="Migrations.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Models\Enums\RegistryTypes.cs" />
     <Compile Include="Models\Enums\SMSNotifyTypes.cs" />
     <Compile Include="Models\Enums\VerifyTypes.cs" />
+    <Compile Include="Models\Location\Location.cs" />
     <Compile Include="Models\Merchant\CardCounponModel.cs" />
     <Compile Include="Models\Merchant\MerchantModel.cs" />
     <Compile Include="Models\Notification\NotificationModel.cs" />
@@ -224,6 +226,7 @@
     <Compile Include="Models\WeChat\CardEntity\CustomField.cs" />
     <Compile Include="Models\WeChat\CardEntity\DateInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\Cards\Groupon.cs" />
+    <Compile Include="Models\WeChat\CardEntity\PayInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\Sku.cs" />
     <Compile Include="Models\WeChat\CardEntity\SubMerchantInfo.cs" />
     <Compile Include="Models\WeChat\CardEntity\TextImage.cs" />
@@ -248,6 +251,7 @@
     <Compile Include="Models\WeChat\Messages\WeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatMsgModel.cs" />
     <Compile Include="Models\WeChat\Miniprogram.cs" />
+    <Compile Include="Models\WeChat\Response\QueryCardCouponWxResponse.cs" />
     <Compile Include="Models\WeChat\Submerchant\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\CreateCouponWxResponse.cs" />
@@ -303,7 +307,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Cryptography.cs" />
-    <Compile Include="Utilities\EnjoyConstant.cs" />
+    <Compile Include="Utilities\Constant.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultHttpTransientFaultDetecter.cs" />
     <Compile Include="Utilities\TransientFaultHandler\DefaultTransientFaultHandler.cs" />
     <Compile Include="Utilities\TransientFaultHandler\ExceptionTransientFaultDetecter.cs" />
@@ -377,7 +381,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
-    <Folder Include="Views\UnitTest\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -3,7 +3,7 @@
     using Newtonsoft.Json;
     using Enjoy.Core;
     using System;
-
+    [Serializable]
     public class GeneralCoupon: StandardCardCoupon
     {
        

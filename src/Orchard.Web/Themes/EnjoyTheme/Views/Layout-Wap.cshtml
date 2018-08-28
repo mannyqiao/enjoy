@@ -1,0 +1,130 @@
+﻿@using Enjoy.Core.EnjoyModels;
+@using Enjoy.Core;
+
+@functions {
+    // To support the layout classifaction below. Implementing as a razor function because we can, could otherwise be a Func<string[], string, string> in the code block following.
+    string CalcuClassify(string[] zoneNames, string classNamePrefix)
+    {
+        var zoneCounter = 0;
+        var zoneNumsFilled = string.Join("", zoneNames.Select(zoneName => { ++zoneCounter; return Model[zoneName] != null ? zoneCounter.ToString() : ""; }).ToArray());
+        return HasText(zoneNumsFilled) ? classNamePrefix + zoneNumsFilled : "";
+    }
+
+}
+@{
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>weui.js</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            background-color: #f8f8f8;
+        }
+
+        body {
+            font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+        }
+
+        .item {
+            padding: 10px 0;
+        }
+
+        .item__title {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            color: #999;
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        .item__ctn {
+            padding: 0 15px;
+        }
+
+        .page_feedback {
+            padding: 15px;
+            overflow: auto;
+            background-color: #FFFFFF;
+        }
+
+        /*fix fastclick很难点中的bug*/
+        label > * {
+            pointer-events: none;
+        }
+
+        /* weui需要fix的 */
+        .weui-picker__item {
+            padding: 0;
+            height: 34px;
+            line-height: 34px;
+        }
+    </style>
+
+    @*<link href="/themes/enjoyTheme/content/plugs/jquery-html5Validate/common.css" rel="stylesheet" media="screen">*@
+
+    /* Some useful shortcuts or settings
+    ***************************************************************/
+
+    Func<dynamic, dynamic> Zone = x => Display(x); // Zone as an alias for Display to help make it obvious when we're displaying zones
+
+    /* Layout classification based on filled zones
+    ***************************************************************/
+
+    //Add classes to the wrapper div to toggle aside widget zones on and off
+    var asideClass = CalcuClassify(new[] { "AsideFirst", "AsideSecond" }, "aside-"); // for aside-1, aside-2 or aside-12 if any of the aside zones are filled
+    if (HasText(asideClass))
+    {
+        Model.Classes.Add(asideClass);
+    }
+
+    //Add classes to the wrapper div to toggle tripel widget zones on and off
+    var tripelClass = CalcuClassify(new[] { "TripelFirst", "TripelSecond", "TripelThird" }, "tripel-"); // for tripel-1, triple-2, etc. if any of the tripel zones are filled
+    if (HasText(tripelClass))
+    {
+        Model.Classes.Add(tripelClass);
+    }
+
+    //Add classes to the wrapper div to toggle quad widget zones on and off
+    var footerQuadClass = CalcuClassify(new[] { "FooterQuadFirst", "FooterQuadSecond", "FooterQuadThird", "FooterQuadFourth" }, "split-"); // for quad-1, quad-2, etc. if any of the quad zones are filled
+    if (HasText(footerQuadClass))
+    {
+        Model.Classes.Add(footerQuadClass);
+    }
+
+    /* Inserting some ad hoc shapes
+    ***************************************************************/
+
+    WorkContext.Layout.Header.Add(New.Branding(), "5"); // Site name and link to the home page
+    WorkContext.Layout.Footer.Add(New.BadgeOfHonor(), "5"); // Powered by Orchard
+    WorkContext.Layout.Footer.Add(New.User(), "10"); // Login and dashboard links
+
+    /* Last bit of code to prep the layout wrapper
+    ***************************************************************/
+
+    var current = WorkContext.GetState<IEnjoyUser>(Constants.EnjoyCurrentUser);
+    Model.Id = "layout-wrapper";
+    var tag = Tag(Model, "div"); // using Tag so the layout div gets the classes, id and other attributes added to the Model
+
+}
+@tag.StartElement
+
+@*布局页中显示 Weight时候 容器必须有id *@
+<div class="weui-tab" id="tab">
+    @if (Model.Content != null)
+    {
+        <div class="weui-tab__panel">
+            @Zone(Model.Content)
+        </div>
+    }
+</div>
+
+
+@tag.EndElement
+@using (Script.Foot())
+{
+
+
+}
+

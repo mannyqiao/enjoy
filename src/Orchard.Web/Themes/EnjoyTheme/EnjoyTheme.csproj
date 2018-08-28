@@ -373,6 +373,8 @@
     <Content Include="Views\Cards\Discount.cshtml" />
     <Content Include="Views\Cards\Gift.cshtml" />
     <Content Include="Views\Cards\Member.cshtml" />
+    <Content Include="Views\Wap\Active.cshtml" />
+    <Content Include="Views\Layout-Wap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
@@ -473,6 +475,7 @@
     <Content Include="Views\Pager.Last.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\wap\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\Layout\" />
     <Folder Include="Views\Shared\" />

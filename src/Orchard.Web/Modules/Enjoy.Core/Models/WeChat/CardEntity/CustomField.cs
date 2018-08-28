@@ -2,6 +2,8 @@
 {
     using Enjoy.Core;
     using Newtonsoft.Json;
+    using System;
+    [Serializable]
     public class CustomField
     {
         [JsonProperty("name_type")]

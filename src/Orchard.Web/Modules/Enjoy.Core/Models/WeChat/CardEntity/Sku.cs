@@ -2,9 +2,11 @@
 namespace Enjoy.Core.WeChatModels
 {
     using Newtonsoft.Json;
+    using System;
+    [Serializable]
     public class Sku
     {
         [JsonProperty("quantity")]
-        public decimal Quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

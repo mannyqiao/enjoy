@@ -1,6 +1,8 @@
 ﻿namespace Enjoy.Core.WeChatModels
 {
     using Newtonsoft.Json;
+    using System;
+    [Serializable]
     public class TimeLimit
     {
         [JsonProperty("type")]

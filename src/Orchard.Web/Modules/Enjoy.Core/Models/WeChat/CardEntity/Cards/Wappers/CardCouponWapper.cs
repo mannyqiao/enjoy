@@ -32,7 +32,7 @@ namespace Enjoy.Core.WeChatModels
         public string CardTypeName { get; set; }
 
 
-        [JsonProperty("card_id")]
+        [JsonProperty("card_id",NullValueHandling = NullValueHandling.Ignore)]
         public string CardId { get; set; }
 
         //public static implicit operator CardCoupon<TStandard>(CashWapper v)
