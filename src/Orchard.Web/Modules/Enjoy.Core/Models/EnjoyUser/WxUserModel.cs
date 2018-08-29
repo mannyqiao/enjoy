@@ -32,8 +32,8 @@ namespace Enjoy.Core.EnjoyModels
                 this.UnionId = user.UnionId;
                 this.City = user.City;
                 this.Country = user.Country;
-                this.CreatedTime = DateTime.Now.ToUnixStampDateTime();
-                this.LastActiveTime = DateTime.Now.ToUnixStampDateTime();
+                this.CreatedTime = DateTime.UtcNow.ToUnixStampDateTime();
+                this.LastActiveTime = DateTime.UtcNow.ToUnixStampDateTime();
                 this.NickName = user.NickName;
                 //this.OpenId = user.OpenId;
                 this.Province = user.Province;

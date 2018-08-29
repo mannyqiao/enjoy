@@ -13,5 +13,9 @@ namespace Enjoy.Core.Controllers
         {
             return View();
         }
+        public ActionResult Pay()
+        {
+            return View();
+        }
     }
 }

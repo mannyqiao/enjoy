@@ -74,8 +74,8 @@ namespace Enjoy.Core.Api
                 {
                     City = result.City,
                     Country = result.Country,
-                    CreatedTime = DateTime.Now.ToUnixStampDateTime(),
-                    LastActiveTime = DateTime.Now.ToUnixStampDateTime(),
+                    CreatedTime = DateTime.UtcNow.ToUnixStampDateTime(),
+                    LastActiveTime = DateTime.UtcNow.ToUnixStampDateTime(),
                     Mobile = string.Empty,
                     NickName = result.NickName,
                     Province = result.Province,

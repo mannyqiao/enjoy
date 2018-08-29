@@ -13,16 +13,16 @@ namespace Enjoy.Core.WeChatModels
     {
         public BaseInfo()
         {
-            
+
         }
 
-        [JsonProperty("sub_merchant_info",NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("sub_merchant_info", NullValueHandling = NullValueHandling.Ignore)]
         public SubMerchantInfo Merchant { get; set; }
 
         [Newtonsoft.Json.JsonProperty("logo_url")]
         public virtual string LogoUrl { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("brand_name",NullValueHandling =  NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("brand_name", NullValueHandling = NullValueHandling.Ignore)]
         public virtual string BrandName { get; set; }
 
         [Newtonsoft.Json.JsonProperty("code_type")]
@@ -48,14 +48,14 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("description")]
         public virtual string Description { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("date_info",NullValueHandling = NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("date_info", NullValueHandling = NullValueHandling.Ignore)]
         public virtual DateInfo Dateinfo { get; set; }
 
 
         [Newtonsoft.Json.JsonProperty("sku")]
         public virtual Sku Sku { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("pay_info",NullValueHandling = NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pay_info", NullValueHandling = NullValueHandling.Ignore)]
         public PayInfo PayInfo { get; set; }
 
 
@@ -135,5 +135,17 @@ namespace Enjoy.Core.WeChatModels
 
         [Newtonsoft.Json.JsonProperty("source")]
         public virtual string Source { get; set; }
+
+        /// <summary>
+        /// 使用动态码，应用于会员卡支付
+        /// </summary>
+        /// <remarks>
+        /// 1.动态码开头四位数字为1636的18位码，开发者使用自定义code时须避免该号段开头的code；
+        ///2.每个动态码有效期为5分钟，开发者扫码5分钟内须及时处理余额变动；
+        ///3.微信客户端6.3.23之后的客户端版本才可以支持动态码，在6.3.23之前的版本仍旧显示静态码;
+        ///4.若用户使用的是低版本微信，微信会员卡的二维码显示的仍旧是会员卡的卡号，开发者须对这部分码进行兼容。
+        /// </remarks>
+        [Newtonsoft.Json.JsonProperty("use_dynamic_code", NullValueHandling = NullValueHandling.Ignore)]
+        public virtual bool? UseDynamicCode { get; set; }
     }
 }

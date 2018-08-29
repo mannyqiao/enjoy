@@ -74,7 +74,7 @@ namespace Enjoy.Core.Services
                 http.CookieContainer = cookieContainer;
                 http.AllowAutoRedirect = true;
                 http.Method = "POST";
-                string boundary = System.DateTime.Now.Ticks.ToString("X"); // 随机分隔线
+                string boundary = System.DateTime.UtcNow.Ticks.ToString("X"); // 随机分隔线
                 http.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
                 byte[] itemBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
                 byte[] endBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
@@ -279,39 +279,62 @@ namespace Enjoy.Core.Services
         public void SetMemberCardFieldIfActiveByWx(string cardid)
         {
             var request = WeChatApiRequestBuilder.GenerateMemberActiveUserform(GetToken());
-            request.GetResponseForJson<NormalWxResponse>((http) =>
-            {
-                var data = new
-                {
-                    card_id = cardid,
-                    service_statement = new
-                    {
-                        name = "会员守则",
-                        url = "https=//www.qq.com"
-                    },
-                    bind_old_card = new
-                    {
-                        name = "老会员绑定",
-                        url = "https =//www.qq.com"
-                    },
-                    required_form = new
-                    {
-                        can_modify = false,
-                        common_field_id_list = new string[] { "USER_FORM_INFO_FLAG_MOBILE" }
-                    },
-                    optional_form = new
-                    {
-                        can_modify = false,
-                        common_field_id_list = new string[] {
+            var result = request.GetResponseForJson<NormalWxResponse>((http) =>
+              {
+                  var data = new
+                  {
+                      card_id = cardid,
+                      //service_statement = new
+                      //{
+                      //    name = "会员守则",
+                      //    url = "https://www.yourc.club/wap/statement"////TODO :需要完成 会员守则页面
+                      //},
+                      //bind_old_card = new
+                      //{
+                      //    name = "老会员绑定",
+                      //    url = "https =//www.qq.com"
+                      //},
+                      required_form = new
+                      {
+                          can_modify = false,
+                          common_field_id_list = new string[] { "USER_FORM_INFO_FLAG_MOBILE" }
+                      },
+                      optional_form = new
+                      {
+                          can_modify = false,
+                          common_field_id_list = new string[] {
                             "USER_FORM_INFO_FLAG_NAME",
-                            "USER_FORM_INFO_FLAG_LOCATION",
+                            "USER_FORM_INFO_FLAG_SEX",
                             "USER_FORM_INFO_FLAG_BIRTHDAY" }
-                    }
-                };
-                http.Method = "POST";
-                http.ContentType = "application/json; encoding=utf-8";
-                return http;
-            });
+                      }
+                  };
+                  http.Method = "POST";
+                  http.ContentType = "application/json; encoding=utf-8";
+                  
+                  using (var stream = http.GetRequestStream())
+                  {
+                      var body = data.ToJson();
+                      var buffers = UTF8Encoding.UTF8.GetBytes(body);
+                      stream.Write(buffers, 0, buffers.Length);
+                      stream.Flush();
+                  }
+                  return http;
+              });
+
+            /*
+             * 字段值	描述
+            USER_FORM_INFO_FLAG_MOBILE	手机号
+            USER_FORM_INFO_FLAG_SEX	性别
+            USER_FORM_INFO_FLAG_NAME	姓名
+            USER_FORM_INFO_FLAG_BIRTHDAY	生日
+            USER_FORM_INFO_FLAG_IDCARD	身份证
+            USER_FORM_INFO_FLAG_EMAIL	邮箱
+            USER_FORM_INFO_FLAG_LOCATION	详细地址
+            USER_FORM_INFO_FLAG_EDUCATION_BACKGRO	教育背景
+            USER_FORM_INFO_FLAG_INDUSTRY	行业
+            USER_FORM_INFO_FLAG_INCOME	收入
+            USER_FORM_INFO_FLAG_HABIT	兴趣爱好
+             */
         }
     }
 }

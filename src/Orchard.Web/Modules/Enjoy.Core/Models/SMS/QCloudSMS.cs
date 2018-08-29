@@ -12,7 +12,7 @@ namespace Enjoy.Core.EnjoyModels
         {
             this.Mobile = mobile;
             this.Parameters = parameters;
-            this.CreatedTime = DateTime.Now.ToUnixStampDateTime();
+            this.CreatedTime = DateTime.UtcNow.ToUnixStampDateTime();
             this.Type = type;
         }
         public string Mobile { get; private set; }

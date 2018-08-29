@@ -172,7 +172,7 @@ namespace Enjoy.Core.Services
             var httpContext = _httpContextAccessor.Current();
             var rFormsCookie = new HttpCookie(FormsAuthentication.FormsCookieName, "")
             {
-                Expires = DateTime.Now.AddYears(-1),
+                Expires = DateTime.UtcNow.AddYears(-1),
             };
 
             if (!String.IsNullOrEmpty(_settings.RequestUrlPrefix))
@@ -330,7 +330,7 @@ namespace Enjoy.Core.Services
                 return new ActionResponse<VerificationCodeViewModel>(Constants.MobileExists);
             }
             var result = GetVerificationCode(mobile, true);
-            var span = DateTime.Now.Subtract(result.CreatedAt);
+            var span = DateTime.UtcNow.Subtract(result.CreatedAt);
             if (span.TotalMinutes <= 2 && result.RequestCount > 1)
             {
                 return new ActionResponse<VerificationCodeViewModel>(Constants.FrequencyLimit);

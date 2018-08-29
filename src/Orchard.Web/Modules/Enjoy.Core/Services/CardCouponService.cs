@@ -90,7 +90,7 @@ namespace Enjoy.Core.Services
         public ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model)
         {
             //发布到微信
-            model.LastUpdateTime = DateTime.Now.ToUnixStampDateTime();
+            model.LastUpdateTime = DateTime.UtcNow.ToUnixStampDateTime();
 
             var result = this.SaveOrUpdate(model, Validate, RecordSetter);
             //var qrcode = CreateQRCode(model.WxNo);
@@ -124,10 +124,10 @@ namespace Enjoy.Core.Services
                 model.State = CardCouponStates.Approved;
                 model.WxNo = result.CardId;
                 model.CardCoupon.CardId = result.CardId;
-                //if(model.Type== CardTypes.MEMBER_CARD)
-                //{
-                //    this.WeChat.SetMemberCardFieldIfActiveByWx(model.WxNo);
-                //}
+                if (model.Type == CardTypes.MEMBER_CARD)
+                {
+                    this.WeChat.SetMemberCardFieldIfActiveByWx(model.WxNo);
+                }
                 this.SaveOrUpdate(model);
             }
             else
