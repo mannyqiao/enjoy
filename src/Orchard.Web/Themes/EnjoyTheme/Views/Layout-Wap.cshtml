@@ -14,53 +14,9 @@
 @{
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>weui.js</title>
-    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
-    <style>
-        html, body {
-            height: 100%;
-            background-color: #f8f8f8;
-        }
-
-        body {
-            font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
-        }
-
-        .item {
-            padding: 10px 0;
-        }
-
-        .item__title {
-            margin-bottom: 5px;
-            padding-left: 15px;
-            padding-right: 15px;
-            color: #999;
-            font-weight: normal;
-            font-size: 14px;
-        }
-
-        .item__ctn {
-            padding: 0 15px;
-        }
-
-        .page_feedback {
-            padding: 15px;
-            overflow: auto;
-            background-color: #FFFFFF;
-        }
-
-        /*fix fastclick很难点中的bug*/
-        label > * {
-            pointer-events: none;
-        }
-
-        /* weui需要fix的 */
-        .weui-picker__item {
-            padding: 0;
-            height: 34px;
-            line-height: 34px;
-        }
-    </style>
+    <link rel="stylesheet" href="/themes/enjoytheme/content/jqweui/lib/weui.min.css">
+    <link rel="stylesheet" href="/themes/enjoytheme/content/jqweui/css/jquery-weui.css">
+    <link rel="stylesheet" href="/themes/enjoytheme/content/jqweui/css/demos.css">
 
     @*<link href="/themes/enjoyTheme/content/plugs/jquery-html5Validate/common.css" rel="stylesheet" media="screen">*@
 
@@ -124,7 +80,13 @@
 @tag.EndElement
 @using (Script.Foot())
 {
-
-
+    <script src="/themes/enjoytheme/content/jqweui/lib/jquery-2.1.4.js"></script>    
+    <script src="/themes/enjoytheme/content/jqweui/lib/fastclick.js"></script>
+    <script >
+        $(function () {
+            FastClick.attach(document.body);
+        });
+    </script>
+    <script src="/themes/enjoytheme/content/jqweui/js/jquery-weui.js"></script>
 }
 

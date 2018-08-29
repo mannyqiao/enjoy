@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Media\app\card.PNG" />
     <Content Include="Media\app\guide-1.png" />
     <Content Include="Media\app\guide-2.png" />
     <Content Include="Media\app\guide-3.png" />
