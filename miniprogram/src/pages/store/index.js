@@ -16,9 +16,21 @@ Page({
       "linkType": 8,
       "linkTo": "1"
     },
-    "shopList": [],
-    "page":0,
-    "pageSize":10,
+    "shopList": [
+      {
+        "shopId": 1, "shopName": "一味现捞",
+        "logoUrl": "https://www.yourc.club/media/app/card.png",
+        "actTips": "满100送100", "shopAddr": "成都市冰河大大"
+      },
+      {
+        "shopId": 1, "shopName": "一味现捞",
+        "logoUrl": "https://www.yourc.club/media/app/card.png",
+        "actTips": "满100送100"
+      }
+    ],
+    "onsales": [],
+    "page": 0,
+    "pageSize": 10,
     "totalRow": 100,
     "deliveryAddress": '成都市',
     "actOffset": [
@@ -27,34 +39,34 @@ Page({
     ]
   },
   onLoad() {
-    const me = this;   
+    const me = this;
     //查询商户 设置 Banner
     request({
       url: ApiList.queryMerchants,
       data: { page: me.data.page + 1, size: me.data.pageSize },
-      success(res) {        
+      success(res) {
         me.setData({ bannerList: res.data });
-        console.log("banner",res.data[0])        
+        console.log("banner", res.data[0])
       }
     });
 
     Map.getRegeo().then(res => {
-      me.setData({"deliveryAddress":res.city});
+      me.setData({ "deliveryAddress": res.city });
       request({
         url: ApiList.queryShops,
-        data: { "lat": res.lat, "lng":res.lng },
+        data: { "lat": res.lat, "lng": res.lng },
         success(res) {
-          me.setData({
-            "shopList":res.data
-          });
+          // me.setData({
+          //   "shopList":res.data
+          // });
         }
-      });     
+      });
     });
     //查询附近门店
-  
+
 
     //获取地址
- 
+
 
     /*wx.request({
         method: 'post',

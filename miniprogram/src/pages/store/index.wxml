@@ -30,7 +30,7 @@
   <block wx:for="{{shopList}}" wx:for-index="shopIndex">
     <view>
       <navigator url="/pages/store-index/index?shopId={{item.shopId}}" class="cover flex-wrp">
-        <image class="banner" src="{{item.shopLogo}}" mode="widthFix"></image>
+        <image  src="{{item.logoUrl}}" mode="widthFix"></image>
         <!-- type: 标识该门店类型 1-热门店 2-购买过 3-关注店 4-附近店 -->
         <view class="label hot" wx:if="{{item.type==1}}">热门店</view>
         <view class="label visited" wx:elif="{{item.type==2}}">购买过</view>
@@ -41,7 +41,6 @@
           <text class="addr flex-item ellipsis">{{item.shopAddr}}</text>
           <text class="distance">500m</text>
         </view>
-
         <view class="act">
           <view class="flex-wrp act-item" wx:for="{{item.shopActList}}" wx:for-item="act" style="transform: translateY({{actOffset[shopIndex].offset}});">
             <text class="type" style="color:{{act.iconColor}};border:1px solid {{act.iconColor}};">{{act.iconName}}</text>
@@ -51,4 +50,5 @@
       </view>
     </view>
   </block>
+  <view class="clear mt10" bindtap="getMore">点击查看更多</view>
 </view>
