@@ -8,5 +8,7 @@ namespace Enjoy.Core
     {
         string AppId { get; }
         string AppSecrect { get; }
+        string MchId { get; set; }
+        string Key { get; set; }
     }
 }

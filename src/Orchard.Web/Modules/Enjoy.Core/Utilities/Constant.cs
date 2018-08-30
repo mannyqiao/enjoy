@@ -74,14 +74,16 @@ namespace Enjoy.Core
 #if DEBUG
         // UAT official  account "Enjoy.Vip@hotmail.com" 
         //var token = "EnjoyMini";
-        //var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
-        public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram(
+        //var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";   
+        public static readonly IMiniprogram Miniprogram = new WeChatModels.Miniprogram(
             IsDebug
             ? "wx0c644f8027d78c74"
             : "wxeb6c176a36bb7b69",
             IsDebug
             ? "f1681068dfcd75ef2d7dff14cb3b5fae"
-            : "5c8f7bacf759bfab19d0d1d821625c03");
+            : "5c8f7bacf759bfab19d0d1d821625c03",
+            "1508484331",
+            "EA62B75D5D3941C3A632B8F18C7B3575");
         //public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
 #else
         //Product official account         

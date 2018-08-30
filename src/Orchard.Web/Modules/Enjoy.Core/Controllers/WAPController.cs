@@ -8,11 +8,18 @@ namespace Enjoy.Core.Controllers
     [Themed]
     public class WAPController : Controller
     {
-        // GET: WAP
-        public ActionResult Active()
+        /// <summary>
+        /// 充值
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Topup()
         {
             return View();
         }
+        /// <summary>
+        /// 支付
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Pay()
         {
             return View();

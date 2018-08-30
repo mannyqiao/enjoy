@@ -43,7 +43,9 @@ namespace Enjoy.Core
                 CreateRouteDescriptor("Enjoy.Core","Cards","Publish"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","ShowQR"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","QueryCouponCard"),
-                CreateRouteDescriptor("Enjoy.Core","WAP","Active")              
+                CreateRouteDescriptor("Enjoy.Core","WAP","Topup"),
+                CreateRouteDescriptor("Enjoy.Core","WAP","Pay")
+
             };
         }
         static RouteDescriptor CreateRouteDescriptor(string area, string controller, string action)
