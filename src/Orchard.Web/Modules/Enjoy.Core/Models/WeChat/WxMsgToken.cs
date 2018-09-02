@@ -12,7 +12,7 @@ namespace Enjoy.Core.WeChatModels
             this.ReqMsg = reqmsg;
             this.BizMsgToken = Constants.WxBizMsgToken;
             this.EncodingAESKey = Constants.EncodingAESKey;
-            this.AppId = Constants.Miniprogram.AppId;
+            this.AppId = Constants.WxConfig.AppId;
         }
 
         public string Signature { get; private set; }

@@ -1,18 +1,19 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 namespace Enjoy.Core.WeChatModels
 {
     using System.Collections.Generic;
     using System.Linq;
     using System;
-    public class Miniprogram : IMiniprogram
+    public class EnjoyWeChatConfig : IWeChatConfig
     {
-        public Miniprogram(string appid, string appsecrect,string mchid,string key)
+        public EnjoyWeChatConfig(string appid, string appsecrect, string mchid, string key)
         {
             this.AppId = appid;
             this.AppSecrect = appsecrect;
             this.MchId = mchid;
             this.Key = key;
-            
+
         }
 
         public string AppId { get; private set; }
@@ -25,4 +26,3 @@ namespace Enjoy.Core.WeChatModels
         public string Key { get; set; }
     }
 }
-

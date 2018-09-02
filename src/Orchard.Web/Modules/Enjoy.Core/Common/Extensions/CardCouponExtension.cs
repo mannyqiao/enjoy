@@ -292,7 +292,7 @@ namespace Enjoy.Core
             info.Color = Constants.CouponBackgroundColors["Color010"];
             info.Notice = "消费时向店员出示卡/券二维码";
             info.ServicePhone = merchant.Mobile;
-            info.Description = "可与他人共享";
+            info.Description = "";
             info.Dateinfo = type == CardTypes.MEMBER_CARD
                 ? new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() }
                 : new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString() };
@@ -323,13 +323,12 @@ namespace Enjoy.Core
             info.LogoUrl = merchant.LogoUrl;
 
 
-            info.CenterSubTitle = string.Empty;
-            info.CenterAppBrandUserName = "gh_e1543e2be86d@app";
-            info.CenterAppBrandPass = "pages/store/index";
-            //info.Merchant = new SubMerchantInfo()
-            //{
-            //    MerchantId = merchant.MerchantId ?? 0
-            //};
+            //info.CenterAppBrandUserName = "gh_e1543e2be86d@app";
+            //info.CenterAppBrandPass = "pages/store/index";
+            info.Merchant = new SubMerchantInfo()
+            {
+                MerchantId = merchant.MerchantId ?? 0
+            };
 
             info.CustomAppBrandUserName = "gh_e1543e2be86d@app";
             info.CustomAppBrandPass = "pages/store/index";
@@ -346,6 +345,8 @@ namespace Enjoy.Core
 
             info.CodeType = CodeTypes.CODE_TYPE_ONLY_QRCODE.ToString();
             info.ServicePhone = merchant.Mobile;
+            info.CenterSubTitle = string.Empty;
+            info.CenterUrl = Constants.WxConfig.GenerateBasicAuthorizeUrl();
             if (type == CardTypes.MEMBER_CARD)
             {
                 info.CenterTitle = "立即买单";
@@ -356,6 +357,7 @@ namespace Enjoy.Core
             else
             {
                 info.CenterTitle = "立即使用";
+                
             }
             return info;
         }

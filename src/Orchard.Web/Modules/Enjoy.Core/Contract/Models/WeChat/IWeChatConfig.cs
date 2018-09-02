@@ -4,7 +4,7 @@ namespace Enjoy.Core
 {
     using System;
 
-    public interface IMiniprogram
+    public interface IWeChatConfig
     {
         string AppId { get; }
         string AppSecrect { get; }

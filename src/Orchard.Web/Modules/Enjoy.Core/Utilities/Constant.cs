@@ -2,6 +2,7 @@
 
 namespace Enjoy.Core
 {
+    using Enjoy.Core.WeChatModels;
     using System.Collections.Generic;
     public static class Constants
     {
@@ -70,12 +71,12 @@ namespace Enjoy.Core
             {"Color102","#5E6671"}
         };
         public const int DefaultPageSize = 10;
-        public const bool IsDebug = true;
+        public const bool IsDebug = false;
 #if DEBUG
         // UAT official  account "Enjoy.Vip@hotmail.com" 
         //var token = "EnjoyMini";
         //var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";   
-        public static readonly IMiniprogram Miniprogram = new WeChatModels.Miniprogram(
+        public static readonly IWeChatConfig WxConfig = new EnjoyWeChatConfig(
             IsDebug
             ? "wx0c644f8027d78c74"
             : "wxeb6c176a36bb7b69",

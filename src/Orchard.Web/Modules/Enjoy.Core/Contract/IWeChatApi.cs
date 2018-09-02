@@ -21,11 +21,11 @@ namespace Enjoy.Core
 
         WxResponseWapper<CreateSubmerchantResponse> CreateSubmerchant(WxRequestWapper<SubMerchant> submerchant);
 
-        WxSession CreateWxSession(IWxLoginUser loginUseer);
+        WxSession CreateWxSession(IWxAuthContext loginUseer);
 
-        IWxAuthorization GetWxAuth(IWxLoginUser loginUser);
+        IWxAuthorization GetWxAuth(IWxAuthContext loginUser);
 
-        string GetOpenId(IWxLoginUser loginUser);
+        string GetOpenId(IWxAuthContext loginUser);
 
         WeChatModels.WeChatUserInfo GetWxUser(string openid);
 
@@ -35,10 +35,19 @@ namespace Enjoy.Core
         WeChatUserInfo Decrypt(string encryptedData, string iv, string sessionKey);
         IWxAuthorization GetSessionKey(string code, string appid, string secret);
 
+        WxAccessToken GetAccessTokenByCode(string code);
+
         NormalWxResponse DeleteCardCoupon(string cardid);
 
         QueryCardCouponWxResponse QueryCardCouponOnWechat();
         void SetMemberCardFieldIfActiveByWx(string cardid);
+        /// <summary>
+        /// 创建统一下单相关参数
+        /// </summary>
+        /// <param name="jsApiPay"></param>
+        /// <returns></returns>
+        string JsPay(JsApiPay jsApiPay);
+        //WeChatUserH5Auth GetWeChatUserH5(string openid);
         /// <summary>
         /// 创建子商户门店
         /// </summary>

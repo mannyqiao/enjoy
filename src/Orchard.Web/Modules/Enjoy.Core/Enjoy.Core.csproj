@@ -121,11 +121,13 @@
     <Compile Include="Common\Extensions\DateTimeExtension.cs" />
     <Compile Include="Common\Extensions\DirectoryExtension.cs" />
     <Compile Include="Common\Extensions\ISessionExtension.cs" />
+    <Compile Include="Common\Extensions\IWeChatConfigExtension.cs" />
     <Compile Include="Common\Extensions\JsonExtension.cs" />
     <Compile Include="Common\Extensions\ICriteriaExtension.cs" />
     <Compile Include="Common\Extensions\StreamExtension.cs" />
     <Compile Include="Common\Extensions\WeChatEventArgsExtension.cs" />
     <Compile Include="Common\Extensions\StringExtension.cs" />
+    <Compile Include="Common\Extensions\WxPayDataExtension.cs" />
     <Compile Include="Contract\ICardCouponService.cs" />
     <Compile Include="Contract\IQueryService.cs" />
     <Compile Include="Contract\IEnjoyAuthService.cs" />
@@ -144,11 +146,12 @@
     <Compile Include="Contract\Models\IQueryResponseDescriptor.cs" />
     <Compile Include="Contract\Models\IResponse.cs" />
     <Compile Include="Contract\Models\IVerifyCode.cs" />
-    <Compile Include="Contract\Models\WeChat\IMiniprogram.cs" />
+    <Compile Include="Contract\Models\WeChat\IWeChatConfig.cs" />
+    <Compile Include="Contract\Models\WeChat\IWxLoginUser.cs" />
     <Compile Include="Contract\Models\WeChat\IWxMsgToken.cs" />
     <Compile Include="Contract\Models\WeChat\IWxAccessToken.cs" />
     <Compile Include="Contract\Models\WeChat\IWxCard.cs" />
-    <Compile Include="Contract\Models\WeChat\IWxLoginUser.cs" />
+    <Compile Include="Contract\Models\WeChat\IWxAuthContext.cs" />
     <Compile Include="Contract\Models\WeChat\IWxtAuthorization.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
@@ -253,7 +256,6 @@
     <Compile Include="Models\WeChat\Messages\ViewCardWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatMsgModel.cs" />
-    <Compile Include="Models\WeChat\Miniprogram.cs" />
     <Compile Include="Models\WeChat\Response\QueryCardCouponWxResponse.cs" />
     <Compile Include="Models\WeChat\Submerchant\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />
@@ -267,10 +269,15 @@
     <Compile Include="Models\WeChat\Submerchant\WxShop.cs" />
     <Compile Include="Models\WeChat\Submerchant\WxShopPhoto.cs" />
     <Compile Include="Models\WeChat\Wapper.cs" />
+    <Compile Include="Models\WeChat\EnjoyWeChatConfig.cs" />
+    <Compile Include="Models\WeChat\WeChatUserH5Auth.cs" />
     <Compile Include="Models\WeChat\WxAccessToken.cs" />
     <Compile Include="Models\WeChat\WxAuthorization.cs" />
+    <Compile Include="Models\WeChat\WxAuthContext.cs" />
     <Compile Include="Models\WeChat\WxLoginUser.cs" />
     <Compile Include="Models\WeChat\WxMsgToken.cs" />
+    <Compile Include="Models\WeChat\WxPayApi\JsApiPay.cs" />
+    <Compile Include="Models\WeChat\WxPayApi\WxPayData.cs" />
     <Compile Include="Models\WeChat\WxSession.cs" />
     <Compile Include="Models\WeChat\WeChatUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -300,6 +307,7 @@
     <Compile Include="Services\WeChat\MessageBehaviors\UserGiftingCardWeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\UserPayFromPayCellWeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\UserViewCardWeChatMsgBehavior.cs" />
+    <Compile Include="Services\WeChat\RandomGenerator.cs" />
     <Compile Include="Services\WeChat\WeChatApi.cs" />
     <Compile Include="Services\WeChat\MessageBehaviors\WeChatMsgBehavior.cs" />
     <Compile Include="Services\WeChat\WeChatMsgHandler.cs" />
@@ -384,6 +392,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
+    <Folder Include="Services\WxPayAPI\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>

@@ -40,7 +40,7 @@ namespace Enjoy.Core.Services
         }
         public string GetToken()
         {
-            return GetToken(Constants.Miniprogram.AppId, Constants.Miniprogram.AppSecrect);
+            return GetToken(Constants.WxConfig.AppId, Constants.WxConfig.AppSecrect);
         }
         public ApplyProtocolWxResponse GetApplyProtocol()
         {
@@ -134,12 +134,12 @@ namespace Enjoy.Core.Services
             });
         }
 
-        public WxSession CreateWxSession(IWxLoginUser loginUseer)
+        public WxSession CreateWxSession(IWxAuthContext loginUseer)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.Miniprogram.AppId, loginUseer.Code, Constants.Miniprogram.AppSecrect);
+            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.WxConfig.AppId, loginUseer.Code, Constants.WxConfig.AppSecrect);
             var auth = request.GetResponseForJson<WeChatAuthorization>();
             var wechatUser = Decrypt(loginUseer.Data, loginUseer.IV, auth.SessionKey);
-            return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.Miniprogram, WeCharUser = wechatUser, Authorization = auth };
+            return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.WxConfig, WeCharUser = wechatUser, Authorization = auth };
         }
         public IWxAuthorization GetSessionKey(string code, string appid, string secret)
         {
@@ -169,7 +169,7 @@ namespace Enjoy.Core.Services
             //比对，输出验证结果  
             return signature == result;
         }
-        public string GetOpenId(IWxLoginUser loginUser)
+        public string GetOpenId(IWxAuthContext loginUser)
         {
             return this.CreateWxSession(loginUser).WeCharUser.OpenId;
         }
@@ -202,7 +202,7 @@ namespace Enjoy.Core.Services
             return result.DeserializeToObject<WeChatUserInfo>();
         }
 
-        public IWxAuthorization GetWxAuth(IWxLoginUser loginUser)
+        public IWxAuthorization GetWxAuth(IWxAuthContext loginUser)
         {
             throw new NotImplementedException();
         }
@@ -216,7 +216,7 @@ namespace Enjoy.Core.Services
 
         public WeChatUserInfo GetWxUser(string openid)
         {
-            var request = WeChatApiRequestBuilder.GenreateQueryWxUserUrl(openid, GetToken());
+            var request = WeChatApiRequestBuilder.GenreateQueryWxLoginUserUrl(openid, GetToken());
             return request.GetResponseForJson<WeChatUserInfo>();
         }
 
@@ -310,7 +310,7 @@ namespace Enjoy.Core.Services
                   };
                   http.Method = "POST";
                   http.ContentType = "application/json; encoding=utf-8";
-                  
+
                   using (var stream = http.GetRequestStream())
                   {
                       var body = data.ToJson();
@@ -335,6 +335,38 @@ namespace Enjoy.Core.Services
             USER_FORM_INFO_FLAG_INCOME	收入
             USER_FORM_INFO_FLAG_HABIT	兴趣爱好
              */
+        }
+
+        public WxAccessToken GetAccessTokenByCode(string code)
+        {
+            var request = WeChatApiRequestBuilder.GenerateOAuth2ByCode(code);
+            var token = request.GetResponseForJson<WxAccessToken>();
+            //根据openid 换回 unionid以及其他用户信息
+            var queryLoginUser = WeChatApiRequestBuilder.GenreateQueryWxLoginUserUrl(token.OpenId, GetToken());
+            token.LoginUser = queryLoginUser.GetResponseForJson<WxLoginUser>();
+            return token;
+        }
+
+        public string JsPay(JsApiPay jsApiPay)
+        {
+            var input = jsApiPay.GenerateUnifiedWxPayData();
+            var request = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            input.WithRequired(out string errMsg);
+            input.Sign = input.MakeSign();
+            return request.GetUriContentDirectly((http) =>
+            {
+                http.Method = "POST";
+                http.ContentType = "application/json; encoding=utf-8";
+                using (var stream = http.GetRequestStream())
+                {
+                    var body = input.SerializeToXml();
+                    var buffers = UTF8Encoding.UTF8.GetBytes(body);
+                    stream.Write(buffers, 0, buffers.Length);
+                    stream.Flush();
+                }
+                return http;
+            });
+
         }
     }
 }

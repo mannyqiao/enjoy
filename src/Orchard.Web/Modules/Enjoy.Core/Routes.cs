@@ -43,8 +43,11 @@ namespace Enjoy.Core
                 CreateRouteDescriptor("Enjoy.Core","Cards","Publish"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","ShowQR"),
                 CreateRouteDescriptor("Enjoy.Core","Cards","QueryCouponCard"),
+
                 CreateRouteDescriptor("Enjoy.Core","WAP","Topup"),
-                CreateRouteDescriptor("Enjoy.Core","WAP","Pay")
+                CreateRouteDescriptor("Enjoy.Core","WAP","Pay"),
+                CreateRouteDescriptor("Enjoy.Core","WAP","PayPost"),
+                CreateRouteDescriptor("Enjoy.Core","WAP","Payr")//接收支付结果
 
             };
         }
