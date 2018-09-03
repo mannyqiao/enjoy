@@ -214,7 +214,7 @@ namespace Enjoy.Core
                 ctx.CardType = viewModel.CardType;
                 ctx.CardId = viewModel.WxNo;
             });
-            var json = model.CardCoupon.ToJson();
+            var json = model.CardCoupon.SerializeToJson();
             return model;
         }
 

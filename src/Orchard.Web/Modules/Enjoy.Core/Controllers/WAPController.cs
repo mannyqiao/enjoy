@@ -7,15 +7,19 @@ namespace Enjoy.Core.Controllers
     using Orchard.Mvc.Extensions;
     using Enjoy.Core.WeChatModels;
     using System.Web;
+    using Orchard.Logging;
+
     [Themed]
     public class WAPController : Controller
     {
         private readonly IWeChatApi _weChatApi;
         private readonly IOrchardServices _os;
+        public ILogger Logger;
         public WAPController(IWeChatApi weChatApi, IOrchardServices os)
         {
             this._weChatApi = weChatApi;
             this._os = os;
+            Logger = NullLogger.Instance;
         }
         /// <summary>
         /// 充值
@@ -30,7 +34,8 @@ namespace Enjoy.Core.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult Pay(string code, string state)
-        {
+        {            
+            
             var token = this._weChatApi.GetAccessTokenByCode(code);
             var jsApiData = new JsApiPay()
             {
@@ -44,17 +49,20 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public ActionResult PayPost(JsApiPay data)
         {
-            var text = this._weChatApi.JsPay(data);
-            return this.RedirectLocal(string.Format("/wap/payr?text={0}", HttpUtility.UrlEncode(text)));
+            Logger.Error(data.SerializeToJson());
+            var response = this._weChatApi.JsPay(data).DeserializeFromXml<WxXmlResponse>();
+
+            return this.RedirectLocal(string.Format("/wap/payr?error={0}", response.ReturnMsg.Value));
         }
         /// <summary>
         /// 接收支付结果
         /// </summary>
         /// <returns></returns>
-        public ActionResult Payr(string text)
+        public ActionResult Payr(string error)
         {
-            this._os.WorkContext.HttpContext.Response.Write(HttpUtility.UrlDecode(text));
-            return View();
+
+            var response = new NormalWxResponse() { ErrMsg = error };
+            return View(response);
         }
     }
 }

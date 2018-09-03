@@ -128,6 +128,7 @@
     <Compile Include="Common\Extensions\WeChatEventArgsExtension.cs" />
     <Compile Include="Common\Extensions\StringExtension.cs" />
     <Compile Include="Common\Extensions\WxPayDataExtension.cs" />
+    <Compile Include="Common\Extensions\XmlExtensions.cs" />
     <Compile Include="Contract\ICardCouponService.cs" />
     <Compile Include="Contract\IQueryService.cs" />
     <Compile Include="Contract\IEnjoyAuthService.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Models\WeChat\Messages\ViewCardWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatMsgModel.cs" />
+    <Compile Include="Models\WeChat\Response\WxXmlResponse.cs" />
     <Compile Include="Models\WeChat\Response\QueryCardCouponWxResponse.cs" />
     <Compile Include="Models\WeChat\Submerchant\SubMerchant.cs" />
     <Compile Include="Models\WeChat\Response\ApplyProtocolWxResponse.cs" />

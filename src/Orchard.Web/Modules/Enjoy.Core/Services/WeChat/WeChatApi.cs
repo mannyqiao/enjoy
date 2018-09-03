@@ -125,7 +125,7 @@ namespace Enjoy.Core.Services
                 http.ContentType = "application/json; encoding=utf-8";
                 using (var stream = http.GetRequestStream())
                 {
-                    var body = submerchant.ToJson();
+                    var body = submerchant.SerializeToJson();
                     var buffers = UTF8Encoding.UTF8.GetBytes(body);
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
@@ -236,7 +236,7 @@ namespace Enjoy.Core.Services
                 http.ContentType = "application/json; encoding=utf-8";
                 using (var stream = http.GetRequestStream())
                 {
-                    var body = data.ToJson();
+                    var body = data.SerializeToJson();
                     var buffers = UTF8Encoding.UTF8.GetBytes(body);
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
@@ -268,7 +268,7 @@ namespace Enjoy.Core.Services
                  http.ContentType = "application/json; encoding=utf-8";
                  using (var stream = http.GetRequestStream())
                  {
-                     var body = data.ToJson();
+                     var body = data.SerializeToJson();
                      var buffers = UTF8Encoding.UTF8.GetBytes(body);
                      stream.Write(buffers, 0, buffers.Length);
                      stream.Flush();
@@ -313,7 +313,7 @@ namespace Enjoy.Core.Services
 
                   using (var stream = http.GetRequestStream())
                   {
-                      var body = data.ToJson();
+                      var body = data.SerializeToJson();
                       var buffers = UTF8Encoding.UTF8.GetBytes(body);
                       stream.Write(buffers, 0, buffers.Length);
                       stream.Flush();

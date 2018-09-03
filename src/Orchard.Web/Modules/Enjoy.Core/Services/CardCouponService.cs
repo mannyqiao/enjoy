@@ -54,7 +54,7 @@ namespace Enjoy.Core.Services
                 };
                 using (var stream = http.GetRequestStream())
                 {
-                    var buffers = UTF8Encoding.UTF8.GetBytes(data.ToJson());
+                    var buffers = UTF8Encoding.UTF8.GetBytes(data.SerializeToJson());
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
                 }
@@ -110,8 +110,8 @@ namespace Enjoy.Core.Services
                 using (var stream = http.GetRequestStream())
                 {
                     var json = string.IsNullOrEmpty(model.WxNo)
-                        ? model.CardCoupon.GenreateCreatingWapper().ToJson()
-                        : model.CardCoupon.GenreateUpgradeWpper().ToJson();
+                        ? model.CardCoupon.GenreateCreatingWapper().SerializeToJson()
+                        : model.CardCoupon.GenreateUpgradeWpper().SerializeToJson();
 
                     var buffers = UTF8Encoding.UTF8.GetBytes(json);
                     stream.Write(buffers, 0, buffers.Length);
@@ -162,7 +162,7 @@ namespace Enjoy.Core.Services
             record.WxNo = model.WxNo;
             record.Type = model.Type;
             record.Status = model.State;
-            record.JsonMetadata = model.CardCoupon.ToJson();
+            record.JsonMetadata = model.CardCoupon.SerializeToJson();
             record.ErrMsg = model.ErrMsg;
         }
 

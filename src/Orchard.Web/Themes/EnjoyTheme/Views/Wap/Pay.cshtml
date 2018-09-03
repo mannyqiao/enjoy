@@ -1,5 +1,5 @@
 ﻿@model Enjoy.Core.WeChatModels.JsApiPay
-@using (Html.BeginFormAntiForgeryPost(Url.Action("PayPost", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+@using (Html.BeginFormAntiForgeryPost(Url.Action("PayPost")))
 {
 <div class="weui-cells weui-cells_form">
     @Html.HiddenFor(o => o.OpenId)
@@ -9,7 +9,7 @@
             <label class="weui-label">支付金额</label>
         </div>
         <div class="weui-cell__bd">
-            @Html.TextBoxFor(o => o.TotalFee)
+            @Html.TextBoxFor(o => o.TotalFee,new {@class= "weui-input" })
             @*<input class="weui-input" type="text" placeholder="">*@
         </div>
     </div>

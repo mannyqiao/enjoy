@@ -7,7 +7,7 @@ namespace Enjoy.Core
     using System.Linq;
     public static class JsonExtension
     {
-        public static string ToJson(this object input)
+        public static string SerializeToJson(this object input)
         {
             return JsonConvert.SerializeObject(input);
         }
