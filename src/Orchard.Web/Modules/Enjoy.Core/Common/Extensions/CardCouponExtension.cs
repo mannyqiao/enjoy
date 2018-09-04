@@ -123,7 +123,7 @@ namespace Enjoy.Core
         {
             var model = new CardCounponModel();
             model.Merchant = merchant;
-            model.CreatedTime = DateTime.Now.ToUnixStampDateTime();
+            model.CreatedTime = DateTime.UtcNow.ToUnixStampDateTime();
             model.Type = type;
             switch (type)
             {
@@ -145,7 +145,7 @@ namespace Enjoy.Core
                 case CardTypes.MEMBER_CARD:
                     model.CardCoupon = new MemberCard()
                     {
-                        SupplyBonus = false,                        
+                        SupplyBonus = false,
                         AutoActivate = false,
                         BonusRule = new BonusRule(),
                         CustomCell = new CustomCell(),
@@ -195,7 +195,7 @@ namespace Enjoy.Core
             {
                 BrandName = viewModel.Choose<ICardCoupon>().BaseInfo.Title,
                 CreatedTime = viewModel.CreatedTime,
-                LastUpdateTime = DateTime.Now.ToUnixStampDateTime(),
+                LastUpdateTime = DateTime.UtcNow.ToUnixStampDateTime(),
                 ErrMsg = string.Empty,
                 Id = viewModel.Id,
                 Merchant = merchant,
@@ -214,7 +214,7 @@ namespace Enjoy.Core
                 ctx.CardType = viewModel.CardType;
                 ctx.CardId = viewModel.WxNo;
             });
-            var json = model.CardCoupon.ToJson();
+            var json = model.CardCoupon.SerializeToJson();
             return model;
         }
 
@@ -243,7 +243,14 @@ namespace Enjoy.Core
         {
             switch (viewModel.CardType)
             {
-                case CardTypes.MEMBER_CARD:                   
+                case CardTypes.MEMBER_CARD:
+                    viewModel.MerberCard.CustomField1 = new CustomField()
+                    {
+                        Url = "https://www.yourc.club/wap/level",
+                        NameType = "FIELD_NAME_TYPE_LEVEL",
+                        Name = "等级"
+
+                    };                 
                     break;
             }
             return viewModel;
@@ -285,7 +292,7 @@ namespace Enjoy.Core
             info.Color = Constants.CouponBackgroundColors["Color010"];
             info.Notice = "消费时向店员出示卡/券二维码";
             info.ServicePhone = merchant.Mobile;
-            info.Description = "可与他人共享";
+            info.Description = "";
             info.Dateinfo = type == CardTypes.MEMBER_CARD
                 ? new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() }
                 : new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_FIX_TERM.ToString() };
@@ -316,9 +323,8 @@ namespace Enjoy.Core
             info.LogoUrl = merchant.LogoUrl;
 
 
-            info.CenterSubTitle = string.Empty;
-            info.CenterAppBrandUserName = "gh_e1543e2be86d@app";
-            info.CenterAppBrandPass = "pages/store/index";
+            //info.CenterAppBrandUserName = "gh_e1543e2be86d@app";
+            //info.CenterAppBrandPass = "pages/store/index";
             info.Merchant = new SubMerchantInfo()
             {
                 MerchantId = merchant.MerchantId ?? 0
@@ -333,21 +339,25 @@ namespace Enjoy.Core
             info.PromotionAppBrandUserName = "gh_e1543e2be86d@app";
             info.PromotionAppBrandPass = "pages/store/index";
             info.CanGivefriend = true;
-            info.CanShare = false;
+            info.CanShare = true;
             info.BindOpenid = false;
             info.UseCustomCode = false;
 
             info.CodeType = CodeTypes.CODE_TYPE_ONLY_QRCODE.ToString();
             info.ServicePhone = merchant.Mobile;
+            info.CenterSubTitle = string.Empty;
+            info.CenterUrl = Constants.WxConfig.GenerateBasicAuthorizeUrl();
             if (type == CardTypes.MEMBER_CARD)
             {
                 info.CenterTitle = "立即买单";
                 info.Dateinfo = new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() };
                 info.PayInfo = new PayInfo() { SwipeCard = new SwipeCard() { IsSwipeCard = true } };
+                info.UseDynamicCode = true;
             }
             else
             {
                 info.CenterTitle = "立即使用";
+                
             }
             return info;
         }

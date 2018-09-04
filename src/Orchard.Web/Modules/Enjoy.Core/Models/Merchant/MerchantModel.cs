@@ -10,8 +10,8 @@ namespace Enjoy.Core.EnjoyModels
     {
         public MerchantModel()
         {
-            this.BeginTime = DateTime.Now.ToUnixStampDateTime();
-            this.EndTime = DateTime.Now.AddYears(1).ToUnixStampDateTime();
+            this.BeginTime = DateTime.UtcNow.ToUnixStampDateTime();
+            this.EndTime = DateTime.UtcNow.AddYears(1).ToUnixStampDateTime();
         }
         
         public MerchantModel(Records.Merchant record)

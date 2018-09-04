@@ -6,7 +6,7 @@
 
 .nav image{width: 100%}
 
-.list .cover{position: relative;overflow: hidden}
+.list .cover{position: relative;overflow: hidden;height: 100px;}
 .list .cover .name{position: absolute;}
 .list .label{position: absolute;top:6px;right: -42px;padding: 3px 40px;transform: rotate(50deg);color: #fff;font-size:11px;}
 .list .label.hot{background-color: #FF0000;}
@@ -30,3 +30,16 @@
 #dialog_addr .item-list{padding: 0 10px 20px 10px;}
 #dialog_addr .item {padding: 10px 0}
 #dialog_addr .u-radio {margin-right: 6px;}
+
+
+.mt10 {
+  margin: 0 auto;
+  text-align: center;
+  height: 70rpx;
+  width: 450rpx;
+  line-height: 70rpx;
+  border-radius: 10rpx;
+  border: 1px solid #999;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+}

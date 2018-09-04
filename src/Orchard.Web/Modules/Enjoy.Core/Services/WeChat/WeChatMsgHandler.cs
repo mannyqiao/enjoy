@@ -84,7 +84,7 @@ namespace Enjoy.Core
                 LastActivityTime = model.CreateTime,
                 FromUser = model.FromUserName,
                 MsgType = model.MsgType,
-                Metadata = model.ToJson(),
+                Metadata = model.SerializeToJson(),
                 ToUser = model.ToUserName
             };
             this.OS.TransactionManager.GetSession().SaveOrUpdate(msg);

@@ -112,7 +112,7 @@ namespace Enjoy.Core.Controllers
             var merchant = this.Merchant.GetDefaultMerchant(viewModel.MerchantId);
             viewModel.State = CardCouponStates.Editing;
             var result = this.CardCoupon.SaveOrUpdate(viewModel.Convert(merchant));
-            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
+            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.UtcNow.ToUnixStampDateTime());
         }
         [HttpPost]
         public JsonNetResult Publish(long id)
@@ -142,22 +142,21 @@ namespace Enjoy.Core.Controllers
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return this.RedirectLocal("/access/sign?signin=true");
-            viewModel.MerberCard.ActivateUrl = "https://www.yourc.club/wap/active";
-
+            //viewModel.MerberCard.ActivateUrl = "https://www.yourc.club/wap/active";
             //viewModel.MerberCard.ActivateAppBrandPass = "pages/store/index";
             //viewModel.MerberCard.ActivateAppBrandUserName = "gh_e1543e2be86d@app";
             //viewModel.MerberCard.ActivateUrl = "https://www.yourc.com/m/active";            
-
+            viewModel.MerberCard.WxActivate = true;
             viewModel.State = CardCouponStates.Editing;
             var merchant = this.Merchant.GetDefaultMerchant(viewModel.MerchantId);            
             var result = this.CardCoupon.SaveOrUpdate(viewModel.WithFixedSettings().Convert(merchant));          
             
-            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
+            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.UtcNow.ToUnixStampDateTime());
         }
         public ActionResult Query(int id)
         {
             var model = this.CardCoupon.GetCardCounpon(id);
-            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.Now.ToUnixStampDateTime());
+            return this.RedirectLocal("/cards/coupon?datetime=" + DateTime.UtcNow.ToUnixStampDateTime());
         }
     }
 }

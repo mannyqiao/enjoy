@@ -189,17 +189,17 @@
                             var merchantid = $("#MerchantId").val();
                             var innerHtml = "";
                             console.log(row.State);
-                            if (row.State == 1 ) {
+                            if (row.State == 1 || row.State == 4 || row.State==7) {//编辑中、被拒绝、发布错误、7
+
                                 innerHtml = "<button id='btn_publish' class='btn btn-outline btn-primary btn-xs ' data-data='" + data + "'>发布</button>";
+                                innerHtml += "<a class='btn btn-outline  btn-default    btn-xs' href='/cards/edit?merchantid=" + merchantid + "&id=" + data + "&type=" + row.CardType + "&timestamp=" + new Date() + "'>编辑</a>";
 
-                            }
-
-                            if (row.State == 3) {
-                                innerHtml += "<a  class='btn btn-outline btn-success btn-xs ' href='/cards/showqr?id=" + data + "'>投放</a>";
-                            }
-                            innerHtml += "<a class='btn btn-outline  btn-default    btn-xs' href='/cards/edit?merchantid=" + merchantid + "&id=" + data + "&type=" + row.CardType + "&timestamp=" + new Date() + "'>编辑</a>";
-                            if (row.State == 1 || row.State == 3) {
                                 innerHtml += "<button id='btn_del' class='btn btn-outline btn-default btn-xs ' data-data='" + data + "'>删除</button>";
+
+                            }
+
+                            if (row.State == 3) {//已发布
+                                innerHtml += "<a  class='btn btn-outline btn-success btn-xs ' href='/cards/showqr?id=" + data + "'>投放</a>";
                             }
                             return innerHtml;
                         }

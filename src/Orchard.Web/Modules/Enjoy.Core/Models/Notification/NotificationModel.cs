@@ -18,7 +18,7 @@ namespace Enjoy.Core.EnjoyModels
         }
         public NotificationModel()
         {
-            this.CreatedTime = DateTime.Now.ToUnixStampDateTime();
+            this.CreatedTime = DateTime.UtcNow.ToUnixStampDateTime();
         }
         public long Id { get; set; }
         public string Title { get; set; }

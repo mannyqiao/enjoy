@@ -67,7 +67,7 @@ namespace Enjoy.Core.Services
             record.City = model.City;
             record.Country = model.Country;
             record.CreatedTime = model.CreatedTime;
-            record.LastActivityTime = model.LastActiveTime ?? DateTime.Now.ToUnixStampDateTime();
+            record.LastActivityTime = model.LastActiveTime ?? DateTime.UtcNow.ToUnixStampDateTime();
             record.Mobile = model.Mobile;
             record.NickName = model.NickName;
             //record.OpenId = model.OpenId;

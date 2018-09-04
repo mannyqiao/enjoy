@@ -20,7 +20,7 @@
         [JsonProperty("supply_balance")]
         public bool SupplyBanlance { get; set; }
 
-
+     
 
         [JsonProperty("prerogative")]
         public string Prerogative { get; set; }

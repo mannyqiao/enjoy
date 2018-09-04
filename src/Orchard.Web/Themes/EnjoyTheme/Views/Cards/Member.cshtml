@@ -44,10 +44,10 @@
                         @Html.Partial("Component/_PalettePartial", new PaletteUIElement(Html.NameOf(o => o.MerberCard.BaseInfo.Color),
                        "卡面颜色", Model.MerberCard.BaseInfo.Color))
 
-                        @Html.Partial("Component/_ImgageUploadUIelement",
+                        @*@Html.Partial("Component/_ImgageUploadUIelement",
                         new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl),
                         "封面图片", MediaUploadTypes.Material, Model.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl,
-                        true, Model.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl))
+                        true, Model.MerberCard.AdvancedInfo.Abstract.DefaultIcoUrl))*@
 
                         @Html.Partial("Component/_ImgageUploadUIelement",
                          new ImageUploadUIElement(Html.NameOf(o => o.MerberCard.BackgroundPicUrl),

@@ -16,7 +16,7 @@ namespace Enjoy.Core
                 ? null
                 : new WxUserModel() { Id = gotfrom.Value },
                 IsGiveByFriend = arg.IsGiveByFriend,
-                LastActivityTime = DateTime.Now.ToUnixStampDateTime(),
+                LastActivityTime = DateTime.UtcNow.ToUnixStampDateTime(),
                 Merchant = model.Merchant,
                 IsGiftingToFriend = gifting,
                 OldUserCardCode = arg.OldUserCardCode,

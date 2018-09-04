@@ -7,7 +7,7 @@ namespace Enjoy.Core.WeChatModels
     public class WxAccessToken : IWxAccessToken
     {
         public WxAccessToken() { }
-        public WxAccessToken(string token, int expriesin)
+        public WxAccessToken(string token, string state, int expriesin)
         {
             this.Token = token;
             this.Expiresin = expriesin;
@@ -16,5 +16,17 @@ namespace Enjoy.Core.WeChatModels
         public string Token { get; set; }
         [Newtonsoft.Json.JsonProperty("expires_in")]
         public int Expiresin { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("openid")]
+        public string OpenId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("refesh_token")]
+        public string RefreshToken { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("scope")]
+        public string Scope { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("login_user")]
+        public IWxLoginUser LoginUser { get; set; }
     }
 }

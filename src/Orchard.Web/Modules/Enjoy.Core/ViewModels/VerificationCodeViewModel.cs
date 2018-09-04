@@ -13,7 +13,7 @@ namespace Enjoy.Core.ViewModels
         {
             this.Mobile = mobile;
             this.Code = code;
-            this.CreatedAt = DateTime.Now;
+            this.CreatedAt = DateTime.UtcNow;
             this.RequestCount = 0;
         }
         [JsonProperty("mobile")]

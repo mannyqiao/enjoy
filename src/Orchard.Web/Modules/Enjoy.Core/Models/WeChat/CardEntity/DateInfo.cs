@@ -64,7 +64,7 @@ namespace Enjoy.Core.WeChatModels
         {
             get
             {
-                return (this.BeginTimestamp ?? DateTime.Now.ToUnixStampDateTime()).ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
+                return (this.BeginTimestamp ?? DateTime.UtcNow.ToUnixStampDateTime()).ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
             }
             set
             {
@@ -92,7 +92,7 @@ namespace Enjoy.Core.WeChatModels
         {
             get
             {
-                return (this.EndTimestamp ?? DateTime.Now.AddDays(30).ToUnixStampDateTime()).ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
+                return (this.EndTimestamp ?? DateTime.UtcNow.AddDays(30).ToUnixStampDateTime()).ToDateTimeFromUnixStamp().ToString("yyyy-MM-dd");
             }
             set
             {

@@ -11,6 +11,9 @@
 
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
         //"name_type": "FIELD_NAME_TYPE_LEVEL",
           //      "url": "http://www.qq.com"
     }

@@ -11,12 +11,12 @@ namespace Enjoy.Core.Services
         /// 生成 登陆授权 Url
         /// </summary>
         /// <param name="appid"></param>
-        
+
         /// <param name="secret"></param>
         /// <returns></returns>
         public static string GenerateWxAuthRequestUrl(string appid, string js_code, string secret)
         {
-            
+
             return string.Format("https://api.weixin.qq.com/sns/jscode2session?appid={0}&js_code={1}&secret={2}&grant_type=authorization_code",
                 appid, js_code, secret);
         }
@@ -124,12 +124,12 @@ namespace Enjoy.Core.Services
             }
         }
 
-       
+
         public static string GenerateWxQueryGetCardList(string token)
         {
             return string.Format("https://api.weixin.qq.com/card/user/getcardlist?access_token={0}", token);
         }
-        public static string GenreateQueryWxUserUrl(string openid, string token)
+        public static string GenreateQueryWxLoginUserUrl(string openid, string token)
         {
             return string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN", token, openid);
         }
@@ -153,7 +153,7 @@ namespace Enjoy.Core.Services
         /// <returns></returns>
         public static string UploadAgentQualification(string token)
         {
-            return string.Format("http://api.weixin.qq.com/cgi-bin/component/upload_card_agent_qualification?access_token={0}",token);
+            return string.Format("http://api.weixin.qq.com/cgi-bin/component/upload_card_agent_qualification?access_token={0}", token);
         }
         public static string GenerateImageUrlByMediaId(string mediaId)
         {
@@ -176,7 +176,7 @@ namespace Enjoy.Core.Services
         /// <returns></returns>
         public static string GenerateActiveUrl(string token)
         {
-             //https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token=TOKEN
+            //https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token=TOKEN
             return string.Format("https://api.weixin.qq.com/card/membercard/activate?access_token={0}", token);
         }
         public static string GenerateQueryCardUrl(string token)
@@ -186,6 +186,28 @@ namespace Enjoy.Core.Services
         public static string GenerateMemberActiveUserform(string token)
         {
             return string.Format("https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token={0}", token);
+        }
+        public static string GenerateOAuth2ByCode(string code)
+        {
+            var @params = new string[] {
+                string.Format("appid={0}",Constants.WxConfig.AppId),
+                string.Format("secret={0}",Constants.WxConfig.AppSecrect),
+                string.Format("code={0}",code),
+                string.Format("grant_type={0}","authorization_code")
+            };
+            return string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?{0}",
+                string.Join("&", @params));
+        }
+        /// <summary>
+        /// 生成根据openid 获取 微信用户信息的url
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static string GenerateUrlForGetUserinfoByOpenId(string openid, string token)
+        {
+            return string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang={2}"
+                , token, openid, "zh_CN");
         }
     }
 }

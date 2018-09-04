@@ -387,9 +387,11 @@
     <Content Include="Views\Cards\Discount.cshtml" />
     <Content Include="Views\Cards\Gift.cshtml" />
     <Content Include="Views\Cards\Member.cshtml" />
-    <Content Include="Views\Wap\Active.cshtml" />
+    <Content Include="Views\Wap\Topup.cshtml" />
     <Content Include="Views\Layout-Wap.cshtml" />
     <Content Include="Views\Document.cshtml" />
+    <Content Include="Views\Wap\Pay.cshtml" />
+    <Content Include="Views\Wap\Payr.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

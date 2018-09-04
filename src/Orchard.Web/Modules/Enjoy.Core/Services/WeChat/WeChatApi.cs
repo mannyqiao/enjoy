@@ -12,6 +12,9 @@ namespace Enjoy.Core.Services
     using Orchard;
     using Orchard.Logging;
     using Enjoy.Core.WeChatModels;
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Net.Security;
 
     public class WeChatApi : IWeChatApi
     {
@@ -40,7 +43,7 @@ namespace Enjoy.Core.Services
         }
         public string GetToken()
         {
-            return GetToken(Constants.Miniprogram.AppId, Constants.Miniprogram.AppSecrect);
+            return GetToken(Constants.WxConfig.AppId, Constants.WxConfig.AppSecrect);
         }
         public ApplyProtocolWxResponse GetApplyProtocol()
         {
@@ -74,7 +77,7 @@ namespace Enjoy.Core.Services
                 http.CookieContainer = cookieContainer;
                 http.AllowAutoRedirect = true;
                 http.Method = "POST";
-                string boundary = System.DateTime.Now.Ticks.ToString("X"); // 随机分隔线
+                string boundary = System.DateTime.UtcNow.Ticks.ToString("X"); // 随机分隔线
                 http.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
                 byte[] itemBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
                 byte[] endBoundaryBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
@@ -125,7 +128,7 @@ namespace Enjoy.Core.Services
                 http.ContentType = "application/json; encoding=utf-8";
                 using (var stream = http.GetRequestStream())
                 {
-                    var body = submerchant.ToJson();
+                    var body = submerchant.SerializeToJson();
                     var buffers = UTF8Encoding.UTF8.GetBytes(body);
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
@@ -134,12 +137,12 @@ namespace Enjoy.Core.Services
             });
         }
 
-        public WxSession CreateWxSession(IWxLoginUser loginUseer)
+        public WxSession CreateWxSession(IWxAuthContext loginUseer)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.Miniprogram.AppId, loginUseer.Code, Constants.Miniprogram.AppSecrect);
+            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.WxConfig.AppId, loginUseer.Code, Constants.WxConfig.AppSecrect);
             var auth = request.GetResponseForJson<WeChatAuthorization>();
             var wechatUser = Decrypt(loginUseer.Data, loginUseer.IV, auth.SessionKey);
-            return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.Miniprogram, WeCharUser = wechatUser, Authorization = auth };
+            return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.WxConfig, WeCharUser = wechatUser, Authorization = auth };
         }
         public IWxAuthorization GetSessionKey(string code, string appid, string secret)
         {
@@ -169,7 +172,7 @@ namespace Enjoy.Core.Services
             //比对，输出验证结果  
             return signature == result;
         }
-        public string GetOpenId(IWxLoginUser loginUser)
+        public string GetOpenId(IWxAuthContext loginUser)
         {
             return this.CreateWxSession(loginUser).WeCharUser.OpenId;
         }
@@ -202,7 +205,7 @@ namespace Enjoy.Core.Services
             return result.DeserializeToObject<WeChatUserInfo>();
         }
 
-        public IWxAuthorization GetWxAuth(IWxLoginUser loginUser)
+        public IWxAuthorization GetWxAuth(IWxAuthContext loginUser)
         {
             throw new NotImplementedException();
         }
@@ -216,7 +219,7 @@ namespace Enjoy.Core.Services
 
         public WeChatUserInfo GetWxUser(string openid)
         {
-            var request = WeChatApiRequestBuilder.GenreateQueryWxUserUrl(openid, GetToken());
+            var request = WeChatApiRequestBuilder.GenreateQueryWxLoginUserUrl(openid, GetToken());
             return request.GetResponseForJson<WeChatUserInfo>();
         }
 
@@ -236,7 +239,7 @@ namespace Enjoy.Core.Services
                 http.ContentType = "application/json; encoding=utf-8";
                 using (var stream = http.GetRequestStream())
                 {
-                    var body = data.ToJson();
+                    var body = data.SerializeToJson();
                     var buffers = UTF8Encoding.UTF8.GetBytes(body);
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
@@ -268,7 +271,7 @@ namespace Enjoy.Core.Services
                  http.ContentType = "application/json; encoding=utf-8";
                  using (var stream = http.GetRequestStream())
                  {
-                     var body = data.ToJson();
+                     var body = data.SerializeToJson();
                      var buffers = UTF8Encoding.UTF8.GetBytes(body);
                      stream.Write(buffers, 0, buffers.Length);
                      stream.Flush();
@@ -279,39 +282,107 @@ namespace Enjoy.Core.Services
         public void SetMemberCardFieldIfActiveByWx(string cardid)
         {
             var request = WeChatApiRequestBuilder.GenerateMemberActiveUserform(GetToken());
-            request.GetResponseForJson<NormalWxResponse>((http) =>
-            {
-                var data = new
-                {
-                    card_id = cardid,
-                    service_statement = new
-                    {
-                        name = "会员守则",
-                        url = "https=//www.qq.com"
-                    },
-                    bind_old_card = new
-                    {
-                        name = "老会员绑定",
-                        url = "https =//www.qq.com"
-                    },
-                    required_form = new
-                    {
-                        can_modify = false,
-                        common_field_id_list = new string[] { "USER_FORM_INFO_FLAG_MOBILE" }
-                    },
-                    optional_form = new
-                    {
-                        can_modify = false,
-                        common_field_id_list = new string[] {
+            var result = request.GetResponseForJson<NormalWxResponse>((http) =>
+              {
+                  var data = new
+                  {
+                      card_id = cardid,
+                      //service_statement = new
+                      //{
+                      //    name = "会员守则",
+                      //    url = "https://www.yourc.club/wap/statement"////TODO :需要完成 会员守则页面
+                      //},
+                      //bind_old_card = new
+                      //{
+                      //    name = "老会员绑定",
+                      //    url = "https =//www.qq.com"
+                      //},
+                      required_form = new
+                      {
+                          can_modify = false,
+                          common_field_id_list = new string[] { "USER_FORM_INFO_FLAG_MOBILE" }
+                      },
+                      optional_form = new
+                      {
+                          can_modify = false,
+                          common_field_id_list = new string[] {
                             "USER_FORM_INFO_FLAG_NAME",
-                            "USER_FORM_INFO_FLAG_LOCATION",
+                            "USER_FORM_INFO_FLAG_SEX",
                             "USER_FORM_INFO_FLAG_BIRTHDAY" }
-                    }
-                };
+                      }
+                  };
+                  http.Method = "POST";
+                  http.ContentType = "application/json; encoding=utf-8";
+
+                  using (var stream = http.GetRequestStream())
+                  {
+                      var body = data.SerializeToJson();
+                      var buffers = UTF8Encoding.UTF8.GetBytes(body);
+                      stream.Write(buffers, 0, buffers.Length);
+                      stream.Flush();
+                  }
+                  return http;
+              });
+
+            /*
+             * 字段值	描述
+            USER_FORM_INFO_FLAG_MOBILE	手机号
+            USER_FORM_INFO_FLAG_SEX	性别
+            USER_FORM_INFO_FLAG_NAME	姓名
+            USER_FORM_INFO_FLAG_BIRTHDAY	生日
+            USER_FORM_INFO_FLAG_IDCARD	身份证
+            USER_FORM_INFO_FLAG_EMAIL	邮箱
+            USER_FORM_INFO_FLAG_LOCATION	详细地址
+            USER_FORM_INFO_FLAG_EDUCATION_BACKGRO	教育背景
+            USER_FORM_INFO_FLAG_INDUSTRY	行业
+            USER_FORM_INFO_FLAG_INCOME	收入
+            USER_FORM_INFO_FLAG_HABIT	兴趣爱好
+             */
+        }
+
+        public WxAccessToken GetAccessTokenByCode(string code)
+        {
+            var request = WeChatApiRequestBuilder.GenerateOAuth2ByCode(code);
+            var token = request.GetResponseForJson<WxAccessToken>();
+            //根据openid 换回 unionid以及其他用户信息
+            var queryLoginUser = WeChatApiRequestBuilder.GenreateQueryWxLoginUserUrl(token.OpenId, GetToken());
+            token.LoginUser = queryLoginUser.GetResponseForJson<WxLoginUser>();
+            return token;
+        }
+
+        public WxPayParameter Unifiedorder(JsApiPay jsApiPay)
+        {
+            var input = jsApiPay.GenerateUnifiedWxPayData();
+            var request = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            var order = request.GetUriContentDirectly((http) =>
+            {
+                if (request.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                {
+                    ServicePointManager.ServerCertificateValidationCallback =
+                            new RemoteCertificateValidationCallback(CheckValidationResult);
+                }
+                http.Timeout = 30 * 1000;
+                ServicePointManager.DefaultConnectionLimit = 200;
+                http.UserAgent = string.Format("WXPaySDK/{3} ({0}) .net/{1} {2}", 
+                    Environment.OSVersion, Environment.Version, Constants.WxConfig.MchId, 
+                    typeof(WxPayParameter).Assembly.GetName().Version);
                 http.Method = "POST";
-                http.ContentType = "application/json; encoding=utf-8";
+                http.ContentType = "text/xml";
+                using (var stream = http.GetRequestStream())
+                {
+                    var body = input.SerializeToXml();
+                    var buffers = UTF8Encoding.UTF8.GetBytes(body);
+                    stream.Write(buffers, 0, buffers.Length);
+                    stream.Flush();
+                }
                 return http;
-            });
+            }).DeserializeFromXml<WxUnifiedorderResponse>();
+            return new WxPayParameter(order);
+        }
+        public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            //直接确认，否则打不开    
+            return true;
         }
     }
 }

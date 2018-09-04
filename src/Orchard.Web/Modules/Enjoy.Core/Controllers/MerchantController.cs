@@ -77,14 +77,14 @@ namespace Enjoy.Core.Controllers
 
             model.Merchant.EnjoyUser = this.Auth.GetAuthenticatedUser() as EnjoyUserModel;
             model.Merchant.Address = string.Join("/", new string[] { model.Province, model.City, model.Area });
-            model.Merchant.BeginTime = DateTime.Now.ToUnixStampDateTime(); //model.StartTimeString.ToDateTime().ToUnixStampDateTime();
+            model.Merchant.BeginTime = DateTime.UtcNow.ToUnixStampDateTime(); //model.StartTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.EndTime = model.EndTimeString.ToDateTime().ToUnixStampDateTime();
             model.Merchant.Status = AuditStatus.UnCommitted;
             if (model.Merchant.Id.Equals(0))
-                model.Merchant.CreateTime = DateTime.Now.ToUnixStampDateTime();
-            model.Merchant.UpdateTime = DateTime.Now.ToUnixStampDateTime();
+                model.Merchant.CreateTime = DateTime.UtcNow.ToUnixStampDateTime();
+            model.Merchant.UpdateTime = DateTime.UtcNow.ToUnixStampDateTime();
             this.Merchant.SaveOrUpdate(model.Merchant);
-            return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.Now.ToUnixStampDateTime());
+            return this.RedirectLocal("/merchant/mymerchant?datetime=" + DateTime.UtcNow.ToUnixStampDateTime());
         }
         [HttpPost]
         public JsonNetResult Audit(long id)

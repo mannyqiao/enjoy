@@ -4,9 +4,9 @@ namespace Enjoy.Core.WeChatModels
    
     public class WxSession
     {
-        public IMiniprogram Miniprogram { get; set; }
+        public IWeChatConfig Miniprogram { get; set; }
         public IWxAuthorization Authorization { get; set; }
-        public IWxLoginUser LoginUser { get; set; }
+        public IWxAuthContext LoginUser { get; set; }
 
         public WeChatUserInfo WeCharUser { get; set; }
     }

@@ -73,3 +73,4 @@
 .icon-edit{background-image :url("/images/ic_edit_dark.png");}
 .icon-trash{background-image :url("/images/ic_bin@2x.png");}
 .icon-sight{width:30rpx;height:30rpx;background-image :url("/images/ic_sight_dark@2x.png");}
+.clear{  clear: both;}

@@ -86,7 +86,7 @@ namespace Enjoy.Core
             string[] arr = codeSerial.Split(',');
             string code = "";
             int randValue = -1;
-            Random rand = new Random(unchecked((int)DateTime.Now.Ticks));
+            Random rand = new Random(unchecked((int)DateTime.UtcNow.Ticks));
             for (int i = 0; i < codeLen; i++)
             {
                 randValue = rand.Next(0, arr.Length - 1);
