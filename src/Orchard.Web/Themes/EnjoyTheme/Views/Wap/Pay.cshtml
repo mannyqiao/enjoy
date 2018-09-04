@@ -1,38 +1,38 @@
 ﻿@model Enjoy.Core.WeChatModels.JsApiPay
 @using (Html.BeginFormAntiForgeryPost(Url.Action("PayPost")))
 {
-<div class="weui-cells weui-cells_form">
-    @Html.HiddenFor(o => o.OpenId)
-    @Html.HiddenFor(o => o.UnionId)
-    <div class="weui-cell">
-        <div class="weui-cell__hd">
-            <label class="weui-label">支付金额</label>
+    <div class="weui-cells weui-cells_form">
+        @Html.HiddenFor(o => o.OpenId)
+        @Html.HiddenFor(o => o.UnionId)
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">支付金额</label>
+            </div>
+            <div class="weui-cell__bd">
+                @Html.TextBoxFor(o => o.TotalFee, new { @class = "weui-input" })
+                @*<input class="weui-input" type="text" placeholder="">*@
+            </div>
         </div>
-        <div class="weui-cell__bd">
-            @Html.TextBoxFor(o => o.TotalFee,new {@class= "weui-input" })
-            @*<input class="weui-input" type="text" placeholder="">*@
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">支付金额</label>
+            </div>
+            <div class="weui-cell__bd">
+                <textarea id="test"></textarea>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <button class="weui-btn weui-btn_primary">立即支付</button>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">方泽卡券</a>
+                </p>
+                <p class="weui-footer__text">Copyright © 2018-2030 方泽卡券</p>
+            </div>
         </div>
     </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd">
-            <label class="weui-label">支付金额</label>
-        </div>
-        <div class="weui-cell__bd">
-            <textarea id="test"></textarea>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <button class="weui-btn weui-btn_primary" type="submit">立即支付</button>
-    </div>
-    <div class="weui-msg__extra-area">
-        <div class="weui-footer">
-            <p class="weui-footer__links">
-                <a href="javascript:void(0);" class="weui-footer__link">方泽卡券</a>
-            </p>
-            <p class="weui-footer__text">Copyright © 2018-2030 方泽卡券</p>
-        </div>
-    </div>
-</div>
 }
 
 @using (Script.Foot())
@@ -41,12 +41,20 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("form").html5Validate(function () {
-                this.submit();
+                $("form").ajaxSubmit({
+                    url: '/wap/paypost',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (data) {
+                        $("textarea").val(JSON.stringify(data));
+                    }
+                });
+                //this.submit();
             },
-            {
+                {
                     // novalidate: false
 
-            });
+                });
         });
     </script>
 }

@@ -46,7 +46,7 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="jsApiPay"></param>
         /// <returns></returns>
-        string JsPay(JsApiPay jsApiPay);
+        WxPayParameter Unifiedorder(JsApiPay jsApiPay);
         //WeChatUserH5Auth GetWeChatUserH5(string openid);
         /// <summary>
         /// 创建子商户门店

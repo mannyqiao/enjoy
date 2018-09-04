@@ -22,80 +22,83 @@ namespace Enjoy.Core
             var result = true;
             if (data == null)
             {
-                errMsg = "WxPayData 不能为空";
+                errMsg += "WxPayData 不能为空;";
                 return false;
             }
             if (string.IsNullOrEmpty(data.AppId))
             {
-                errMsg = "AppId 不能为空";
+                errMsg += "AppId 不能为空;";
                 result = false;
             }
             if (string.IsNullOrEmpty(data.MchId))
             {
-                errMsg = "MchId 不能为空";
+                errMsg += "MchId 不能为空;";
                 result = false;
             }
             if (string.IsNullOrEmpty(data.NonceStr))
             {
-                errMsg = "nonce_str 不能为空";
+                errMsg += "nonce_str 不能为空;";
                 result = false;
             }
             if (string.IsNullOrEmpty(data.Sign))
             {
-                errMsg = "sign 不能为空";
+                errMsg += "sign 不能为空;";
                 result = false;
             }
             if (string.IsNullOrEmpty(data.Body))
             {
-                errMsg = "Body 不能为空";
+                errMsg += "Body 不能为空;";
                 result = false;
             }
             if (string.IsNullOrEmpty(data.OutTradeNo))
             {
-                errMsg = "out_trade_no 不能为空";
+                errMsg += "out_trade_no 不能为空;";
                 result = false;
             }
             if ((data.Totalfee ?? 0).Equals(0))
             {
-                errMsg = "Totalfee 不能为 0";
+                errMsg += "Totalfee 不能为 0;";
                 result = false;
             }
             if ((data.Totalfee ?? 0).Equals(0))
             {
-                errMsg = "Totalfee 不能为 0";
+                errMsg += "Totalfee 不能为 0;";
                 result = false;
             }
             if (string.IsNullOrEmpty(data.SpbillCreateIp))
             {
-                errMsg = "spbill_create_ip 不能为 空";
+                errMsg += "spbill_create_ip 不能为 空;";
                 result = false;
             }
             if (string.IsNullOrEmpty(data.TradeType))
             {
-                errMsg = "trade_type 不能为 空";
+                errMsg += "trade_type 不能为 空;";
                 result = false;
             }
             if (data.TradeType.Equals("JSAPI"))
             {
                 if (string.IsNullOrEmpty(data.OpenId))
                 {
-                    errMsg = "trade_type 不能为 jsapi时 openid不能为空";
+                    errMsg += "trade_type 不能为 jsapi时 openid不能为空;";
                     result = false;
-                }
+                }                
+            }
+            if (data.TradeType.Equals("NATIVE"))
+            {
                 if (string.IsNullOrEmpty(data.ProductId))
                 {
-                    errMsg = "trade_type 不能为 jsapi时 product_id 不能为空";
+                    errMsg += "trade_type 不能为 NATIVE时 product_id 不能为空;";
                     result = false;
                 }
             }
-            if (string.IsNullOrEmpty(data.SceneInfo))
-            {
-                errMsg = "scene_info 不能为空";
-                result = false;
-            }
+            //if (string.IsNullOrEmpty(data.SceneInfo))
+            //{
+            //    errMsg = "scene_info 不能为空";
+            //    result = false;
+            //}
             if (string.IsNullOrEmpty(data.NotifyUrl))
             {
-                errMsg = "notify_url 不能为空";
+                errMsg += "notify_url 不能为空;";
                 result = false;
             }
             return result;
@@ -160,27 +163,38 @@ namespace Enjoy.Core
             data.MchId = Constants.WxConfig.MchId;
             data.Totalfee = jsApiPay.TotalFee;
             data.NotifyUrl = "https://www.yourc.club/wap/payr";
-            data.SpbillCreateIp = "127.0.0.1";
+            data.SpbillCreateIp = "118.24.139.228";
             data.NonceStr = randomGenerator.GetRandomUInt().ToString();
             data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
             data.Sign = data.MakeSign();
-            //生成签名
+            //data.ProductId = "12235413214070356458058";
+            //data.SceneInfo = "";
+            if (data.WithRequired(out string errMsg)==false)
+            {
+                throw new WxPayException(errMsg);
+            }
+            
+            
             return data;
         }
 
         public static string TransformUrlParams(this WxPayData data)
         {
-            var properties = data.GetType().GetProperties(BindingFlags.Public);
+            var properties = data.GetType().GetProperties();
             var @params = new List<string>();
             foreach (var property in properties)
             {
-                var name = property.Name.TrimStart("get_".ToCharArray());
-                var value = property.GetValue(data);
-
-                if (!object.Equals(null, value) && !name.Equals("Sign", StringComparison.OrdinalIgnoreCase))
+                var elm = property.GetCustomAttributes<XmlElementAttribute>().FirstOrDefault();
+                if (elm != null)
                 {
-                    @params.Add(string.Format("{0}={1}", name, value));
+
+                    var value = property.GetValue(data);
+                    if (!object.Equals(null, value) && !elm.ElementName.Equals("sign", StringComparison.OrdinalIgnoreCase))
+                    {
+                        @params.Add(string.Format("{0}={1}", elm.ElementName, value));
+                    }
                 }
+                
             }
             return string.Join("&", @params);
         }

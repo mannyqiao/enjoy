@@ -12,6 +12,9 @@ namespace Enjoy.Core.Services
     using Orchard;
     using Orchard.Logging;
     using Enjoy.Core.WeChatModels;
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Net.Security;
 
     public class WeChatApi : IWeChatApi
     {
@@ -347,16 +350,24 @@ namespace Enjoy.Core.Services
             return token;
         }
 
-        public string JsPay(JsApiPay jsApiPay)
+        public WxPayParameter Unifiedorder(JsApiPay jsApiPay)
         {
             var input = jsApiPay.GenerateUnifiedWxPayData();
             var request = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-            input.WithRequired(out string errMsg);
-            input.Sign = input.MakeSign();
-            return request.GetUriContentDirectly((http) =>
+            var order = request.GetUriContentDirectly((http) =>
             {
+                if (request.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                {
+                    ServicePointManager.ServerCertificateValidationCallback =
+                            new RemoteCertificateValidationCallback(CheckValidationResult);
+                }
+                http.Timeout = 30 * 1000;
+                ServicePointManager.DefaultConnectionLimit = 200;
+                http.UserAgent = string.Format("WXPaySDK/{3} ({0}) .net/{1} {2}", 
+                    Environment.OSVersion, Environment.Version, Constants.WxConfig.MchId, 
+                    typeof(WxPayParameter).Assembly.GetName().Version);
                 http.Method = "POST";
-                http.ContentType = "application/json; encoding=utf-8";
+                http.ContentType = "text/xml";
                 using (var stream = http.GetRequestStream())
                 {
                     var body = input.SerializeToXml();
@@ -365,8 +376,13 @@ namespace Enjoy.Core.Services
                     stream.Flush();
                 }
                 return http;
-            });
-
+            }).DeserializeFromXml<WxUnifiedorderResponse>();
+            return new WxPayParameter(order);
+        }
+        public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            //直接确认，否则打不开    
+            return true;
         }
     }
 }

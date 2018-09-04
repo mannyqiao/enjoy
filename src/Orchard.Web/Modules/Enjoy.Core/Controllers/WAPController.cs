@@ -34,8 +34,8 @@ namespace Enjoy.Core.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult Pay(string code, string state)
-        {            
-            
+        {
+
             var token = this._weChatApi.GetAccessTokenByCode(code);
             var jsApiData = new JsApiPay()
             {
@@ -47,12 +47,12 @@ namespace Enjoy.Core.Controllers
             return View(jsApiData);
         }
         [HttpPost]
-        public ActionResult PayPost(JsApiPay data)
-        {
-            Logger.Error(data.SerializeToJson());
-            var response = this._weChatApi.JsPay(data).DeserializeFromXml<WxXmlResponse>();
-
-            return this.RedirectLocal(string.Format("/wap/payr?error={0}", response.ReturnMsg.Value));
+        public JsonNetResult PayPost(JsApiPay data)
+        {            
+            return new JsonNetResult()
+            {
+                Data = this._weChatApi.Unifiedorder(data)
+            };            
         }
         /// <summary>
         /// 接收支付结果
