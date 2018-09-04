@@ -81,7 +81,7 @@ namespace Enjoy.Core
                 {
                     errMsg += "trade_type 不能为 jsapi时 openid不能为空;";
                     result = false;
-                }                
+                }
             }
             if (data.TradeType.Equals("NATIVE"))
             {
@@ -162,41 +162,40 @@ namespace Enjoy.Core
             data.GoodsTag = "test";
             data.MchId = Constants.WxConfig.MchId;
             data.Totalfee = jsApiPay.TotalFee;
-            data.NotifyUrl = "https://www.yourc.club/wap/payr";
+            data.NotifyUrl = HttpUtility.UrlEncode("https://www.yourc.club/wap/payr");
             data.SpbillCreateIp = "118.24.139.228";
             data.NonceStr = randomGenerator.GetRandomUInt().ToString();
             data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
             data.Sign = data.MakeSign();
             //data.ProductId = "12235413214070356458058";
             //data.SceneInfo = "";
-            if (data.WithRequired(out string errMsg)==false)
+            if (data.WithRequired(out string errMsg) == false)
             {
                 throw new WxPayException(errMsg);
             }
-            
-            
+
+
             return data;
         }
 
         public static string TransformUrlParams(this WxPayData data)
         {
-            var properties = data.GetType().GetProperties();
-            var @params = new List<string>();
-            foreach (var property in properties)
+            var @params = data.GetType().GetProperties().Select((ctx) =>
             {
-                var elm = property.GetCustomAttributes<XmlElementAttribute>().FirstOrDefault();
-                if (elm != null)
-                {
+                var elm = ctx.GetCustomAttributes<XmlElementAttribute>().FirstOrDefault();
+                if (elm == null || elm.ElementName.Equals("sign")) return null;
 
-                    var value = property.GetValue(data);
-                    if (!object.Equals(null, value) && !elm.ElementName.Equals("sign", StringComparison.OrdinalIgnoreCase))
-                    {
-                        @params.Add(string.Format("{0}={1}", elm.ElementName, value));
-                    }
-                }
-                
-            }
-            return string.Join("&", @params);
+                var v = ctx.GetValue(data);
+                if (v == null) return null;
+                return new
+                {
+                    name = elm.ElementName,
+                    value = v
+                };
+            })
+            .Where(o => o != null)
+            .OrderBy(o => o.name);//必须对参数排序否则签名不正确
+            return string.Join("&", @params.Select(o => string.Format("{0}={1}", o.name, o.value)));
         }
         public static string MakeSign(this WxPayData data)
         {
