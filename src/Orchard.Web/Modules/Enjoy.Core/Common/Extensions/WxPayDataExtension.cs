@@ -202,7 +202,7 @@ namespace Enjoy.Core
             return data;
         }
 
-        public static string TransformUrlParams(this WxPayData data)
+        public static string PrepareSign(this WxPayData data)
         {
             var @params = data.GetType().GetProperties().Select((ctx) =>
             {
@@ -221,17 +221,49 @@ namespace Enjoy.Core
             .OrderBy(o => o.name);//必须对参数排序否则签名不正确
             return string.Join("&", @params.Select(o => string.Format("{0}={1}", o.name, o.value)));
         }
+        public static string PrepareSign(this WxPayParameter data)
+        {
+            RandomGenerator randomGenerator = new RandomGenerator();
+            data.NonceStr = randomGenerator.GetRandomUInt().ToString();
+            var ignoreProperties = new string[] { "sign", "return_code", "return_msg" };
+            var @params = data.GetType().GetProperties().Select((ctx) =>
+            {
+                var elm = ctx.GetCustomAttributes<Newtonsoft.Json.JsonPropertyAttribute>().FirstOrDefault();
+                if (elm == null || ignoreProperties.Any(o => o.Equals(elm.PropertyName, StringComparison.OrdinalIgnoreCase))) return null;
+
+                var v = ctx.GetValue(data);
+                if (v == null) return null;
+                return new
+                {
+                    name = elm.PropertyName,
+                    value = v
+                };
+            })
+            .Where(o => o != null)
+            .OrderBy(o => o.name);//必须对参数排序否则签名不正确
+            return string.Join("&", @params.Select(o => string.Format("{0}={1}", o.name, o.value)));
+        }
         public static string MakeSign(this WxPayData data)
         {
             //转url格式
-            string str = data.TransformUrlParams();
+            string str = data.PrepareSign();
             //在string后加入API KEY
             str += "&key=" + Constants.WxConfig.Key;
             // return CalcHMACSHA256Hash(str, Constants.WxConfig.Key).MakeMd5();
-            if (data.SignType == WxPayData.SIGN_TYPE_MD5)
+            return MakeSign(str, data.SignType);
+        }
+        public static string MakeSign(this WxPayParameter data)
+        {
+            var str = data.PrepareSign();
+            str += "&key=" + Constants.WxConfig.Key;
+            return MakeSign(str, WxPayData.SIGN_TYPE_HMAC_SHA256);
+        }
+        public static string MakeSign(this string plaintext, string signType)
+        {
+            if (signType == WxPayData.SIGN_TYPE_MD5)
             {
                 var md5 = MD5.Create();
-                var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+                var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(plaintext));
                 var sb = new StringBuilder();
                 foreach (byte b in bs)
                 {
@@ -240,9 +272,9 @@ namespace Enjoy.Core
                 //所有字符转为大写
                 return sb.ToString().ToUpper();
             }
-            else if (data.SignType == WxPayData.SIGN_TYPE_HMAC_SHA256)
+            else if (signType == WxPayData.SIGN_TYPE_HMAC_SHA256)
             {
-                return CalcHMACSHA256Hash(str, Constants.WxConfig.Key);
+                return CalcHMACSHA256Hash(plaintext, Constants.WxConfig.Key);
             }
             else
             {

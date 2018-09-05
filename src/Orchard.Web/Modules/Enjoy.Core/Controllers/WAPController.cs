@@ -47,12 +47,19 @@ namespace Enjoy.Core.Controllers
             return View(jsApiData);
         }
         [HttpPost]
-        public JsonNetResult PayPost(JsApiPay data)
-        {            
-            return new JsonNetResult()
-            {
-                Data = this._weChatApi.Unifiedorder(data)
-            };            
+        public ActionResult PayPost(JsApiPay data)
+        {
+            var wxPayParameter = this._weChatApi.Unifiedorder(data);
+            
+            var url = string.Format("/wap/pullwxpay?appid={0}&timestamp={1}&noncestr={2}&prepayid={3}&tradetype={4}&sign={5}&ReturnMsg={6}"
+                , wxPayParameter.AppId
+                , wxPayParameter.TimeStamp
+                , wxPayParameter.NonceStr
+                , wxPayParameter.PrepayId
+                , wxPayParameter.TradeType
+                , wxPayParameter.Sign
+                ,wxPayParameter.ReturnMsg);
+            return this.RedirectLocal(url);
         }
         /// <summary>
         /// 接收支付结果
@@ -60,9 +67,17 @@ namespace Enjoy.Core.Controllers
         /// <returns></returns>
         public ActionResult Payr(string error)
         {
-
             var response = new NormalWxResponse() { ErrMsg = error };
             return View(response);
+        }
+        /// <summary>
+        /// 拉起微信支付
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PullWxPay(WxPayParameter parameter)
+        {            
+            parameter.Sign = parameter.MakeSign();
+            return View(parameter);
         }
     }
 }

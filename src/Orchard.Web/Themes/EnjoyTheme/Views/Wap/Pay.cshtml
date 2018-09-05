@@ -40,21 +40,13 @@
     <script src="/Themes/EnjoyTheme/Content/home/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("form").html5Validate(function () {
-                $("form").ajaxSubmit({
-                    url: '/wap/paypost',
-                    type: 'POST',
-                    data: form.serialize(),
-                    success: function (data) {
-                        $("textarea").val(JSON.stringify(data));
-                    }
-                });
-                //this.submit();
+            $("form").html5Validate(function () {                
+                this.submit();
             },
-                {
+            {
                     // novalidate: false
 
-                });
+            });
         });
     </script>
 }
