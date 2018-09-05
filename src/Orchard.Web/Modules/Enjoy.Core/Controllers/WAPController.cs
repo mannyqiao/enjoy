@@ -51,11 +51,11 @@ namespace Enjoy.Core.Controllers
         {
             var wxPayParameter = this._weChatApi.Unifiedorder(data);
             
-            var url = string.Format("/wap/pullwxpay?appid={0}&timestamp={1}&noncestr={2}&prepayid={3}&tradetype={4}&sign={5}&ReturnMsg={6}"
+            var url = string.Format("/wap/pullwxpay?appid={0}&timestamp={1}&noncestr={2}&package={3}&tradetype={4}&sign={5}&ReturnMsg={6}"
                 , wxPayParameter.AppId
                 , wxPayParameter.TimeStamp
                 , wxPayParameter.NonceStr
-                , wxPayParameter.PrepayId
+                , wxPayParameter.Package
                 , wxPayParameter.TradeType
                 , wxPayParameter.Sign
                 ,wxPayParameter.ReturnMsg);

@@ -5,6 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.WeChatModels
 {
+    using Enjoy.Core.Services;
     using Newtonsoft.Json;
     public class WxPayParameter
     {
@@ -13,13 +14,15 @@ namespace Enjoy.Core.WeChatModels
         {
             this.ReturnCode = response.ReturnCode.Value;
             this.ReturnMsg = response.ReturnMsg.Value;
-            this.MchId = response.MchId.Value;
+            //this.MchId = response.MchId.Value;
             this.NonceStr = response.NonceStr.Value;
-            this.PrepayId = response.PrepayId.Value;
+            this.Package =string.Format("prepay_id={0}", response.PrepayId.Value) ;
             this.AppId = response.AppId.Value;
-            this.Sign = response.Sign.Value;
+            RandomGenerator randomGenerator = new RandomGenerator();
+            this.NonceStr = randomGenerator.GetRandomUInt().ToString();
             this.TradeType = response.TradeType.Value;
             this.TimeStamp = DateTime.Now.ToUnixStampDateTime();
+            
         }
         
 
@@ -68,8 +71,8 @@ namespace Enjoy.Core.WeChatModels
         }
         
 
-        [JsonProperty("prepay_id")]
-        public string PrepayId
+        [JsonProperty("package")]
+        public string Package
         {
             get; set;
         }

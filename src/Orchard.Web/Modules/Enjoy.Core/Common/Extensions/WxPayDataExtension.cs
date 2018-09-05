@@ -223,8 +223,7 @@ namespace Enjoy.Core
         }
         public static string PrepareSign(this WxPayParameter data)
         {
-            RandomGenerator randomGenerator = new RandomGenerator();
-            data.NonceStr = randomGenerator.GetRandomUInt().ToString();
+          
             var ignoreProperties = new string[] { "sign", "return_code", "return_msg" };
             var @params = data.GetType().GetProperties().Select((ctx) =>
             {
@@ -256,7 +255,7 @@ namespace Enjoy.Core
         {
             var str = data.PrepareSign();
             str += "&key=" + Constants.WxConfig.Key;
-            return MakeSign(str, WxPayData.SIGN_TYPE_HMAC_SHA256);
+            return MakeSign(str, WxPayData.SIGN_TYPE_MD5);
         }
         public static string MakeSign(this string plaintext, string signType)
         {

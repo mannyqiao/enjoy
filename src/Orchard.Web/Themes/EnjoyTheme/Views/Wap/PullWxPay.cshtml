@@ -12,7 +12,7 @@
                     "appId": "@Model.AppId",     //公众号名称，由商户传入     
                     "timeStamp": "@Model.TimeStamp",         //时间戳，自1970年以来的秒数     
                     "nonceStr": "@Model.NonceStr", //"e61463f8efa94090b1f366cccfbbb444", //随机串     
-                    "package": "prepay_id=@Model.PrepayId",
+                    "package": "@Model.Package",
                     "signType":  "@Model.TradeType",         //微信签名方式：     
                     "paySign": "@Model.Sign" //微信签名 
                 },
