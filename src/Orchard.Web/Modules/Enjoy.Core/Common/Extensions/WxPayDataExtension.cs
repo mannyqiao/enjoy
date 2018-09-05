@@ -117,6 +117,30 @@ namespace Enjoy.Core
             }
             return outString;
         }
+        //public static string SerializeToXml(this WxPayData data)
+        //{
+        //    var strBld = new StringBuilder();
+        //    strBld.AppendLine("<xml>\r\n");
+        //    foreach (var elm in data.GetType().GetProperties().Select((ctx) =>
+        //    {
+        //        var elm = ctx.GetCustomAttributes<XmlElementAttribute>().FirstOrDefault();
+        //        var v = ctx.GetValue(data);
+        //        if (v == null) return null;
+        //        return new
+        //        {
+        //            name = elm.ElementName,
+        //            value = v
+        //        };
+        //    })
+        //    .Where(o => o != null)
+        //    .OrderBy(o => o.name)
+        //    .Select(o => o))
+        //    {
+        //        strBld.AppendLine(string.Format("<{0}>{1}</{0}>", elm.name, elm.value));
+        //    }
+        //    strBld.AppendLine("</xml>");
+        //    return strBld.ToString();
+        //}
         /// <summary>
         /// 生成基础授权URL 只能获取 openid
         /// </summary>
@@ -150,21 +174,21 @@ namespace Enjoy.Core
             var data = new WxPayData();
             RandomGenerator randomGenerator = new RandomGenerator();
             var ran = new Random();
-            data.Body = "测试";
-            data.Attach = "测试";
-            data.OutTradeNo = string.Format("{0}{1}{2}", Constants.WxConfig.MchId, DateTime.Now.ToString("yyyyMMddHHmmss"), ran.Next(999));
-            data.TimeStart = DateTime.Now.ToString("yyyyMMddHHmmss");
+            data.Body = "test";
+            data.Attach = "test";
+            data.OutTradeNo = string.Format("{0}{1}{2}", Constants.WxConfig.MchId, DateTime.Now.ToString("yyyyMMddHHmmss"), ran.Next(999));// "150848433120180905090411634"; //
+            data.TimeStart = DateTime.Now.ToString("yyyyMMddHHmmss");// "20180905090412";// "20180905091412"; //
 
-            data.TimeExpire = DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss");
+            data.TimeExpire = DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"); //"20180905091412"; //
             data.AppId = Constants.WxConfig.AppId;
             data.OpenId = jsApiPay.OpenId;
             data.TradeType = "JSAPI";
             data.GoodsTag = "test";
             data.MchId = Constants.WxConfig.MchId;
             data.Totalfee = jsApiPay.TotalFee;
-            data.NotifyUrl = HttpUtility.UrlEncode("https://www.yourc.club/wap/payr");
+            data.NotifyUrl = "https://www.yourc.club/wap/payr";
             data.SpbillCreateIp = "118.24.139.228";
-            data.NonceStr = randomGenerator.GetRandomUInt().ToString();
+            data.NonceStr = randomGenerator.GetRandomUInt().ToString();// "1489556328";// 
             data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
             data.Sign = data.MakeSign();
             //data.ProductId = "12235413214070356458058";
@@ -203,6 +227,7 @@ namespace Enjoy.Core
             string str = data.TransformUrlParams();
             //在string后加入API KEY
             str += "&key=" + Constants.WxConfig.Key;
+            // return CalcHMACSHA256Hash(str, Constants.WxConfig.Key).MakeMd5();
             if (data.SignType == WxPayData.SIGN_TYPE_MD5)
             {
                 var md5 = MD5.Create();
@@ -224,10 +249,22 @@ namespace Enjoy.Core
                 throw new ArgumentException("sign_type 不合法");
             }
         }
+        public static string MakeMd5(this string text)
+        {
+            var md5 = MD5.Create();
+            var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sb = new StringBuilder();
+            foreach (byte b in bs)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+            //所有字符转为大写
+            return sb.ToString().ToUpper();
+        }
         private static string CalcHMACSHA256Hash(string plaintext, string salt)
         {
             string result = "";
-            var enc = Encoding.Default;
+            var enc = Encoding.UTF8;
             byte[] baText2BeHashed = enc.GetBytes(plaintext),
             baSalt = enc.GetBytes(salt);
             System.Security.Cryptography.HMACSHA256 hasher = new HMACSHA256(baSalt);

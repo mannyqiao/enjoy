@@ -9,6 +9,7 @@ namespace Enjoy.Core.WeChatModels
      */
     using System.Xml.Serialization;
     [XmlRoot("xml")]
+
     public class WxPayData
     {
         public const string SIGN_TYPE_MD5 = "MD5";
@@ -18,6 +19,9 @@ namespace Enjoy.Core.WeChatModels
         /// </summary>
         [XmlElement("appid")]
         public string AppId { get; set; }
+
+        [XmlElement("attach")]
+        public string Attach { get; set; }
         /// <summary>
         /// 商户号
         /// </summary>
@@ -56,8 +60,6 @@ namespace Enjoy.Core.WeChatModels
         [XmlElement("detail")]
         public string Detail { get; set; }
 
-        [XmlElement("attach")]
-        public string Attach { get; set; }
 
         [XmlElement("out_trade_no")]
         public string OutTradeNo { get; set; }
