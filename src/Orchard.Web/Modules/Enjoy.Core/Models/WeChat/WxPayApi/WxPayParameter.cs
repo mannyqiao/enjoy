@@ -18,22 +18,21 @@ namespace Enjoy.Core.WeChatModels
             this.NonceStr = response.NonceStr.Value;
             this.Package = string.Format("prepay_id={0}", response.PrepayId.Value);
             this.AppId = response.AppId.Value;
-            RandomGenerator randomGenerator = new RandomGenerator();
-            this.NonceStr = randomGenerator.GetRandomUInt().ToString();
-            this.SignType = WxPayData.SIGN_TYPE_MD5;
+            this.NonceStr = RandomGenerator.Instance.Genernate();
+            this.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
             this.TimeStamp = DateTime.Now.ToUnixStampDateTime();
 
         }
 
 
-        [JsonProperty("return_code")]
+        //[JsonProperty("return_code")]
         public string ReturnCode
         {
             get; set;
         }
 
 
-        [JsonProperty("return_msg")]
+        //[JsonProperty("return_msg")]
         public string ReturnMsg
         {
             get; set;

@@ -172,7 +172,7 @@ namespace Enjoy.Core
         public static WxPayData GenerateUnifiedWxPayData(this JsApiPay jsApiPay)
         {
             var data = new WxPayData();
-            RandomGenerator randomGenerator = new RandomGenerator();
+            
             var ran = new Random();
             data.Body = "test";
             data.Attach = "test";
@@ -188,7 +188,7 @@ namespace Enjoy.Core
             data.Totalfee = jsApiPay.TotalFee;
             data.NotifyUrl = "https://www.yourc.club/wap/payr";
             data.SpbillCreateIp = "118.24.139.228";
-            data.NonceStr = randomGenerator.GetRandomUInt().ToString();// "1489556328";// 
+            data.NonceStr = RandomGenerator.Instance.Genernate();
             data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
             data.Sign = data.MakeSign();
             //data.ProductId = "12235413214070356458058";
@@ -197,8 +197,6 @@ namespace Enjoy.Core
             {
                 throw new WxPayException(errMsg);
             }
-
-
             return data;
         }
 
@@ -255,7 +253,7 @@ namespace Enjoy.Core
         {
             var str = data.PrepareSign();
             str += "&key=" + Constants.WxConfig.Key;
-            return MakeSign(str, WxPayData.SIGN_TYPE_MD5);
+            return MakeSign(str, data.SignType);
         }
         public static string MakeSign(this string plaintext, string signType)
         {
@@ -303,5 +301,6 @@ namespace Enjoy.Core
             result = string.Join("", baHashedText.ToList().Select(b => b.ToString("x2")).ToArray());
             return result;
         }
+       
     }
 }
