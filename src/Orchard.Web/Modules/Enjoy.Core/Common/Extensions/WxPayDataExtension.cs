@@ -224,7 +224,7 @@ namespace Enjoy.Core
         public static string PrepareSign(this WxPayParameter data)
         {
           
-            var ignoreProperties = new string[] { "sign", "return_code", "return_msg" };
+            var ignoreProperties = new string[] { "paySign", "return_code", "return_msg" };
             var @params = data.GetType().GetProperties().Select((ctx) =>
             {
                 var elm = ctx.GetCustomAttributes<Newtonsoft.Json.JsonPropertyAttribute>().FirstOrDefault();

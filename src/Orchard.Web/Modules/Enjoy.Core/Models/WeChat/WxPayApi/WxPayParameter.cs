@@ -16,60 +16,52 @@ namespace Enjoy.Core.WeChatModels
             this.ReturnMsg = response.ReturnMsg.Value;
             //this.MchId = response.MchId.Value;
             this.NonceStr = response.NonceStr.Value;
-            this.Package =string.Format("prepay_id={0}", response.PrepayId.Value) ;
+            this.Package = string.Format("prepay_id={0}", response.PrepayId.Value);
             this.AppId = response.AppId.Value;
             RandomGenerator randomGenerator = new RandomGenerator();
             this.NonceStr = randomGenerator.GetRandomUInt().ToString();
-            this.TradeType = response.TradeType.Value;
+            this.SignType = WxPayData.SIGN_TYPE_MD5;
             this.TimeStamp = DateTime.Now.ToUnixStampDateTime();
-            
+
         }
-        
+
 
         [JsonProperty("return_code")]
         public string ReturnCode
         {
             get; set;
         }
-        
+
 
         [JsonProperty("return_msg")]
         public string ReturnMsg
         {
             get; set;
         }
-        
 
-        [JsonProperty("appid")]
+
+        [JsonProperty("appId")]
         public string AppId
         {
             get; set;
         }
 
-        
 
-        [JsonProperty("mch_id")]
-        public string MchId
-        {
-            get; set;
-        }
 
-        
-
-        [JsonProperty("nonce_str")]
+        [JsonProperty("nonceStr")]
         public string NonceStr
         {
             get; set;
         }
 
-        
 
-        [JsonProperty("sign")]
-        public string Sign
+
+        [JsonProperty("paySign")]
+        public string PaySign
         {
             get; set;
         }
-        
+
 
         [JsonProperty("package")]
         public string Package
@@ -77,14 +69,14 @@ namespace Enjoy.Core.WeChatModels
             get; set;
         }
 
-        
-
-        [JsonProperty("trade_type")]
-        public string TradeType
+        [JsonProperty("signType")]
+        public string SignType
         {
             get; set;
         }
-        [JsonProperty("timestamp")]
+
+
+        [JsonProperty("timeStamp")]
         public long TimeStamp { get; set; }
         //        <xml>
         //   <return_code><![CDATA[SUCCESS]]></return_code>
