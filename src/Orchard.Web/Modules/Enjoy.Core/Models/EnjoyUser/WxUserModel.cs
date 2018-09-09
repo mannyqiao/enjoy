@@ -22,6 +22,7 @@ namespace Enjoy.Core.EnjoyModels
                 this.Province = user.Province;
                 this.UnionId = user.UnionId;
                 this.RegistryType = user.RegistryType;
+                this.AvatarUrl = user.AvatarUrl;
             }
 
         }
@@ -46,6 +47,10 @@ namespace Enjoy.Core.EnjoyModels
         //public string OpenId { get; set; }
         public string Mobile { get; set; }
         public string NickName { get; set; }
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string AvatarUrl { get; set; }
         public string Country { get; set; }
         public string Province { get; set; }
         public string City { get; set; }

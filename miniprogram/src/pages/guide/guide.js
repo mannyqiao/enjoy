@@ -6,9 +6,10 @@ let app = getApp()
 Page({
   data: {
     imgs: [
-      "https://www.yourc.club/media/app/guide-1.png",
-      "https://www.yourc.club/media/app/guide-2.png",
-      "https://www.yourc.club/media/app/guide-3.png",
+      // "https://www.yourc.club/media/app/guide-1.png",
+      // "https://www.yourc.club/media/app/guide-2.png",
+      // "https://www.yourc.club/media/app/guide-3.png",
+      // "https://www.yourc.club/media/app/guide-4.png"
       "https://www.yourc.club/media/app/guide-4.png"
     ],
     img: "https://www.yourc.club/media/app/guide.jpg",
@@ -22,8 +23,8 @@ Page({
       });     
     });    
 
-    wx.switchTab({
-      url: '/pages/store/index'
-    });
+    wx.navigateTo({
+      url: '../../pages/member/index'
+    })
   } 
 })

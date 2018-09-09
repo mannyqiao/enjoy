@@ -21,7 +21,7 @@ namespace Enjoy.Core.Services
         private readonly ICacheManager Cache;
         private readonly IClock Clock;
         private readonly IOrchardServices OS;
-        public const string CacheKey_Token = "Enjoy_WeChat_Token";
+        //public const string CacheKey_Token = "Enjoy_WeChat_Token";
         public const string CacheKey_ApplyProtocol = "Enjoy_WeChat_ApplyProtocol";
         public ILogger Logger;
         public WeChatApi(ICacheManager cache, IClock clock, IOrchardServices os)
@@ -33,7 +33,7 @@ namespace Enjoy.Core.Services
         }
         public string GetToken(string appid, string appsecret)
         {
-            return this.Cache.Get(CacheKey_Token, ctx =>
+            return this.Cache.Get(appid, ctx =>
             {
                 var token = WeChatApiRequestBuilder.GenerateWxTokenRequestUrl(appid, appsecret).GetResponseForJson<AccessTokenWxResponse>();
                 ctx.Monitor(this.Clock.When(TimeSpan.FromSeconds(token.Expiresin)));//默认过期时间为 7200秒
@@ -147,8 +147,8 @@ namespace Enjoy.Core.Services
         public IWxAuthorization GetSessionKey(string code, string appid, string secret)
         {
             var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(appid, code, secret);
-            //var text = request.GetUriContentDirectly();
-            var auth = request.GetResponseForJson<WeChatAuthorization>();
+            var text = request.GetUriContentDirectly();
+            var auth = text.DeserializeToObject<WeChatAuthorization>(); // request.GetResponseForJson<WeChatAuthorization>();
             return auth;
         }
 
@@ -220,9 +220,18 @@ namespace Enjoy.Core.Services
         public WeChatUserInfo GetWxUser(string openid)
         {
             var request = WeChatApiRequestBuilder.GenreateQueryWxLoginUserUrl(openid, GetToken());
-            return request.GetResponseForJson<WeChatUserInfo>();
+            var text = request.GetUriContentDirectly();
+            var result = request.GetResponseForJson<WeChatUserInfo>();
+            return result;
         }
+        public WeChatUserInfo GetWxUser(string openid, string appid, string secret)
+        {
+            var request = WeChatApiRequestBuilder.GenreateQueryWxLoginUserUrl(openid, GetToken(appid, secret));
+            var text = request.GetUriContentDirectly();
+            var result = request.GetResponseForJson<WeChatUserInfo>();
 
+            return result;
+        }
         public void CheckCardAgentQulification()
         {
             var request = WeChatApiRequestBuilder.GenerateCheckCardAgentRequest(GetToken());
@@ -363,8 +372,8 @@ namespace Enjoy.Core.Services
                 }
                 http.Timeout = 30 * 1000;
                 ServicePointManager.DefaultConnectionLimit = 200;
-                http.UserAgent = string.Format("WXPaySDK/{3} ({0}) .net/{1} {2}", 
-                    Environment.OSVersion, Environment.Version, Constants.WxConfig.MchId, 
+                http.UserAgent = string.Format("WXPaySDK/{3} ({0}) .net/{1} {2}",
+                    Environment.OSVersion, Environment.Version, Constants.WxConfig.MchId,
                     typeof(WxPayParameter).Assembly.GetName().Version);
                 http.Method = "POST";
                 http.ContentType = "text/xml";

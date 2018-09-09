@@ -115,6 +115,8 @@
     <Compile Include="Api\Models\ShopNearyby.cs" />
     <Compile Include="Api\Models\Tokens\DecryptContext.cs" />
     <Compile Include="Api\Models\Tokens\JSCodeContext.cs" />
+    <Compile Include="Api\Models\Tokens\RegWxUserContext.cs" />
+    <Compile Include="Api\Models\Tokens\VerifyCodeContext.cs" />
     <Compile Include="Api\Models\UserState.cs" />
     <Compile Include="Common\Exceptions\WxPayException.cs" />
     <Compile Include="Common\Extensions\AuditStatusExtension.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
     <Compile Include="Models\Enums\MsgTypes.cs" />
+    <Compile Include="Models\Enums\RedirectTypes.cs" />
     <Compile Include="Models\Enums\RegistryTypes.cs" />
     <Compile Include="Models\Enums\SMSNotifyTypes.cs" />
     <Compile Include="Models\Enums\VerifyTypes.cs" />

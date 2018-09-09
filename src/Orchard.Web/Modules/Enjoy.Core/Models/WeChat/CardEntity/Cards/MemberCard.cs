@@ -34,6 +34,10 @@
         [JsonProperty("custom_field1",NullValueHandling = NullValueHandling.Ignore)]
         public CustomField CustomField1 { get; set; }
 
+        [JsonProperty("custom_field2", NullValueHandling = NullValueHandling.Ignore)]
+        public CustomField CustomField2 { get; set; }
+
+
         [JsonProperty("activate_url",NullValueHandling = NullValueHandling.Ignore)]
         public string ActivateUrl { get; set; }
 

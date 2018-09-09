@@ -15,8 +15,8 @@
 .u-btn.ban{ border-color: #DCDCDC; background-color: #DCDCDC; color: #FFF;}
 .u-btn.success.ban{ border-color: #CCC; background-color: #CCC; color: #FFF;}
 /* 独占一行 */
-.u-btn.alone{ display: block; font-size :32rpx;padding:0}
-.u-btn.block{ display: block; font-size :36rpx;border-radius: 0;padding: 12px 22px;}
+.u-btn.alone{ display: block; font-size :42rpx;padding:0}
+.u-btn.block{ display: block; font-size :42rpx;border-radius: 0;padding: 12px 22px;}
 /* 小号按钮 */
 .u-btn.mini{ font-size: 28rpx; padding: 5px 15px; border-radius: 3px;}
 /* 大号按钮 */

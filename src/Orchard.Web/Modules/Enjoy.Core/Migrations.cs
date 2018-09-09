@@ -125,9 +125,10 @@ namespace Enjoy.Core
                 .Column("NickName", DbType.String, column => column.WithLength(32))
                 .Column("Country", DbType.String, column => column.WithLength(32))
                 .Column("Province", DbType.String, column => column.WithLength(32))
-                .Column("City", DbType.String, column => column.WithLength(32))
+                .Column("City", DbType.String, column => column.WithLength(32))               
                 .Column("CreatedTime", DbType.Int64)
                 .Column("LastActivityTime", DbType.Int64)
+                .Column("AvatarUrl", DbType.String, column => column.WithLength(200))
             );
 
 

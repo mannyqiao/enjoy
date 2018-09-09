@@ -29,6 +29,9 @@ const AppConfig = {
     localKey: {
         user: "_user_info",                     // 用户信息
         qcRpt: "_qc_report",                    // 质检报告
+        session:"_session",
+        withCredentials:"_withCredentials",
+        
     },
 };
 

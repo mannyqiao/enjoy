@@ -80,7 +80,8 @@ namespace Enjoy.Core.Api
                     NickName = result.NickName,
                     Province = result.Province,
                     RegistryType = RegistryTypes.Miniprogram,
-                    UnionId = result.UnionId
+                    UnionId = result.UnionId,
+                    AvatarUrl = context.WxChatUser == null ? "" : context.WxChatUser.AvatarUrl
                 };
                 result.State = new UserState() { HasMobile = false, Signup = true };
                 this._wxUserService.Register(wxuser);
@@ -93,6 +94,19 @@ namespace Enjoy.Core.Api
             return result;
         }
 
+        /// <summary>
+        /// 检查验证码是否正确
+        /// </summary>
+        /// <param name="mobile"></param>
+        /// <param name="verifyCode"></param>
+        /// <returns></returns>
+        [Route("api/enjoy/CheckVerifyCode")]
+        [HttpPost]
+        public bool CheckVerifyCode(VerifyCodeContext context)
+        {
+            return this._authService.IsEquals(context.Mobile, context.VerifyCode);
+        }
+        
         //[Route("api/enjoy/signature")]
         //[HttpGet]
         //public WxSession DecodeUserinfo(
@@ -233,6 +247,8 @@ namespace Enjoy.Core.Api
                     };
                 }).ToList();
         }
+
+        
     }
 }
 

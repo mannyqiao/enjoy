@@ -28,7 +28,7 @@ namespace Enjoy.Core
         string GetOpenId(IWxAuthContext loginUser);
 
         WeChatModels.WeChatUserInfo GetWxUser(string openid);
-
+        WeChatModels.WeChatUserInfo GetWxUser(string openid,string appid,string secret);
         IWxAccessToken GetWxAccessToken(string appid, string secret);
 
         void CheckCardAgentQulification();

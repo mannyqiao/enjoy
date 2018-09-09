@@ -1,5 +1,5 @@
 /**app.wxss**/
-page{color: #333;font: 30rpx/1.5 "Heiti SC","Microsoft YaHei";background-color: #F6F6F6;}
+page{color: #333;font: 42rpx/1.5 "Heiti SC","Microsoft YaHei";background-color: #F6F6F6;}
 
 view,
 swiper,

@@ -1,0 +1,68 @@
+<view wx:if="{{logined}}">
+  <view class="profile">
+    <view class="avatar">
+      <image src="{{avatar}}" bindtap="toast"></image>
+    </view>
+    <view class="baseinfo">
+      {{name}}
+    </view>
+  </view>
+  <view class="panel">
+    <view class="tab no-border">
+      <navigator class="tab-item" url="">
+        <text class="h5 f3">余额</text>
+        <text class="txt-red h5">100.00</text>
+      </navigator>
+      <navigator class="tab-item" url="">
+        <text class="h5">积分</text>
+        <text class="txt-green h5">20</text>
+      </navigator>
+    </view>
+  </view>
+  <view class="ul ul-user">
+    <navigator class="li u-arrow right" url="">
+      <view class="li-hd">
+        <icon class="u-icon icon-mbean"></icon>
+      </view>
+      <view class="li-bd">
+        <view class="li-bd">储值</view>
+      </view>
+      <view class="li-ft txt-gray">{{mbeanCount}}</view>
+    </navigator>
+    <navigator class="li u-arrow right" url="">
+      <view class="li-hd">
+        <icon class="u-icon icon-mbean"></icon>
+      </view>
+      <view class="li-bd">
+        <view class="li-bd">自助买单</view>
+      </view>
+      <view class="li-ft txt-gray">{{mbeanCount}}</view>
+    </navigator>
+    <navigator class="li u-arrow right" url="">
+      <view class="li-hd">
+        <icon class="u-icon icon-coupon"></icon>
+      </view>
+      <view class="li-bd">优惠券</view>
+      <view class="tip-fly">你有优惠券即将过期</view>
+      <view class="li-ft">
+        <text class="txt-gray">{{couponCount}}</text>
+      </view>
+    </navigator>
+    <navigator class="li u-arrow right" url="">
+      <view class="li-hd">
+        <icon class="u-icon icon-address"></icon>
+      </view>
+      <view class="li-bd">可用门店</view>
+    </navigator>
+    <navigator class="li u-arrow right" url="">
+      <view class="li-hd">
+        <icon class="u-icon icon-service"></icon>
+      </view>
+      <view class="li-bd">会员特权</view>
+    </navigator>
+  </view>
+</view>
+<view wx:if="{{logined===false}}">
+  <button class="button-img" open-type='getUserInfo' bindtap="start" >立即体验</button>
+  <button class="button-img"  bindtap="" >立即体验</button>
+</view>

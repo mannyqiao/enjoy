@@ -32,13 +32,13 @@ Page({
         url: '../../pages/guide/guide'
       })
     }
-    else {
-      // wx.navigateTo({
-      //   url: '/pages/active/index'
-      // })
-      wx.switchTab({
-        url: '../../pages/store/index'
-      });
+    else {     
+      wx.navigateTo({
+        url: '../../pages/member/index'
+      })
+      // wx.switchTab({
+      //   url: '../../pages/user/index'
+      // });
     }
   },
 

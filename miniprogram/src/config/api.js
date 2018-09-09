@@ -1,14 +1,15 @@
 /**
  * api list
  */
-const host = "https://www.yourc.club/";
-//const host = "http://localhost/";
+//const host = "https://www.yourc.club/";
+const host = "http://localhost/";
 export default {
-    "getAuth":              `${host}api/enjoy/GetSessionKey`,                           //获取微信用户openid 以及 sessionkey
+    "getSession":           `${host}api/enjoy/GetSessionKey`,                                        //获取微信用户信息
     "decryptUserInfo":      `${host}api/enjoy/DecryptUserInfo`,                           //解密微信用户信息
     "queryMerchants":       `${host}api/enjoy/QueryMerchants`,                          //查询商信息
     "queryShops":           `${host}api/enjoy/QueryShops`,                          //查询附近门店
     "vcode":                `${host}api/enjoy/SendVerifyCode`,                           //绑定获取验证码
+    "checkVerifyCode":      `${host}api/enjoy/CheckVerifyCode`,                  
     "bind":                 `${host}V1/basic/bind.htm`,                                     //绑定
     "getCenterInfo":        `${host}V1/basic/memberInfo.htm`,                               //个人中心
 

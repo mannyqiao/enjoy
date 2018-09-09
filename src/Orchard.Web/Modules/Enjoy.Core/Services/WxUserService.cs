@@ -74,6 +74,7 @@ namespace Enjoy.Core.Services
             record.Province = model.Province;
             record.RegistryType = model.RegistryType;
             record.UnionId = model.UnionId;
+            record.AvatarUrl = model.AvatarUrl;
 
         }
     }

@@ -244,13 +244,18 @@ namespace Enjoy.Core
             switch (viewModel.CardType)
             {
                 case CardTypes.MEMBER_CARD:
-                    viewModel.MerberCard.CustomField1 = new CustomField()
-                    {
-                        Url = "https://www.yourc.club/wap/level",
-                        NameType = "FIELD_NAME_TYPE_LEVEL",
-                        Name = "等级"
-
-                    };                 
+                    //viewModel.MerberCard.CustomField1 = new CustomField()
+                    //{
+                    //    Url = "https://www.yourc.club/wap/level",
+                    //    NameType = "FIELD_NAME_TYPE_LEVEL",
+                    //    Name = "等级"
+                    //};
+                    //viewModel.MerberCard.CustomField2 = new CustomField()
+                    //{
+                    //    Url = "https://www.yourc.club/wap/balance",
+                    //    NameType = "FIELD_NAME_TYPE_LEVEL",
+                    //    Name = "余额"
+                    //};
                     break;
             }
             return viewModel;
@@ -330,14 +335,14 @@ namespace Enjoy.Core
                 MerchantId = merchant.MerchantId ?? 0
             };
 
-            info.CustomAppBrandUserName = "gh_e1543e2be86d@app";
-            info.CustomAppBrandPass = "pages/store/index";
-            info.CustomUrlSubTitle = "分享赚积分";
-            info.CustomUrlName = "分享";
+            //info.CustomAppBrandUserName = "gh_e1543e2be86d@app";
+            //info.CustomAppBrandPass = "pages/store/index";
+            //info.CustomUrlSubTitle = "分享赚积分";
+            //info.CustomUrlName = "分享";
 
-            info.PromotionUrlName = "更多优惠";
-            info.PromotionAppBrandUserName = "gh_e1543e2be86d@app";
-            info.PromotionAppBrandPass = "pages/store/index";
+            //info.PromotionUrlName = "更多优惠";
+            //info.PromotionAppBrandUserName = "gh_e1543e2be86d@app";
+            //info.PromotionAppBrandPass = "pages/store/index";
             info.CanGivefriend = true;
             info.CanShare = true;
             info.BindOpenid = false;
@@ -349,7 +354,7 @@ namespace Enjoy.Core
             info.CenterUrl = Constants.WxConfig.GenerateBasicAuthorizeUrl();
             if (type == CardTypes.MEMBER_CARD)
             {
-                info.CenterTitle = "立即买单";
+                info.CenterTitle = "会员中心";
                 info.Dateinfo = new DateInfo() { Type = ExpiryDateTypes.DATE_TYPE_PERMANENT.ToString() };
                 info.PayInfo = new PayInfo() { SwipeCard = new SwipeCard() { IsSwipeCard = true } };
                 info.UseDynamicCode = true;
@@ -357,7 +362,6 @@ namespace Enjoy.Core
             else
             {
                 info.CenterTitle = "立即使用";
-                
             }
             return info;
         }

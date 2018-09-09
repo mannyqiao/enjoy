@@ -1,6 +1,7 @@
 {
   "pages": [
-    "pages/welcome/index",
+    "pages/login/index",
+    "pages/member/index",    
     "pages/store/index",
     "pages/store-index/index",
     "pages/category/index",
@@ -10,6 +11,7 @@
     "pages/cart/index",
     "pages/user/index",
     "pages/guide/guide"
+    
   ],
   "window": {
     "backgroundTextStyle": "white",
@@ -46,7 +48,7 @@
         "pagePath": "pages/user/index",
         "iconPath": "images/tabbar/mmhtab_icon_me_n@2x.png",
         "selectedIconPath": "images/tabbar/mmhtab_icon_me_s@2x.png",
-        "text": "我"
+        "text": "我的卡券"
       }
     ]
   },

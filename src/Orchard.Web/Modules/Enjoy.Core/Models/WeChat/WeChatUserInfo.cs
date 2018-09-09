@@ -24,7 +24,7 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("country")]
         public string Country { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("headimgurl")]
+        [Newtonsoft.Json.JsonProperty("avatarUrl")]
         public string AvatarUrl { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unionId")]

@@ -79,5 +79,17 @@ namespace Enjoy.Core.Controllers
             parameter.PaySign = parameter.MakeSign();
             return View(parameter);
         }
+        /// <summary>
+        /// 查看余额
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Balance(string code)
+        {
+            return View();
+        }
+        public ActionResult WxDirect(string direct)
+        {
+            return View();
+        }
     }
 }
