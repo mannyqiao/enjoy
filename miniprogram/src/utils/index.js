@@ -31,12 +31,11 @@ const getUserInfo = co.wrap(function* (session) {
     wx: null,
     enjoy: null,
     openid:null,
-    unionid:null
-  }; 
-  
-  const user = yield promisify(wx.getUserInfo)({ withCredentials: true })  ;  
-  console.log("user",user);
+    unionId:null
+  };
+  const user = yield promisify(wx.getUserInfo)({ withCredentials: true })  ;    
   userInfo.wx = user.userInfo;  
+  
   //获取加密数据
   if(session){
     const decodeInfo = yield request({
@@ -49,9 +48,13 @@ const getUserInfo = co.wrap(function* (session) {
         sessionKey: session.session_key
       }
     });
-    console.log(decodeInfo);
+    console.log("decodeinfo",decodeInfo.data);
+    if(decodeInfo){ //得到加密信息以后将信息存储到本地
+      userInfo.enjoy = decodeInfo.data;
+      userInfo.unionId = decodeInfo.data.unionId;
+      userInfo.openid = decodeInfo.data.openid;
+    }
   }
-
   wx.setStorageSync(cfg.localKey.user, userInfo)
   return userInfo;
 });

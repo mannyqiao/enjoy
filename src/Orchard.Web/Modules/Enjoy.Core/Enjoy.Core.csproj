@@ -113,6 +113,7 @@
     <Compile Include="Api\Models\PagingX.cs" />
     <Compile Include="Api\Models\ShopAct.cs" />
     <Compile Include="Api\Models\ShopNearyby.cs" />
+    <Compile Include="Api\Models\Tokens\BindMobileContext.cs" />
     <Compile Include="Api\Models\Tokens\DecryptContext.cs" />
     <Compile Include="Api\Models\Tokens\JSCodeContext.cs" />
     <Compile Include="Api\Models\Tokens\RegWxUserContext.cs" />

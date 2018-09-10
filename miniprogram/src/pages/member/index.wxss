@@ -17,7 +17,7 @@
 .txt-red{color:red;}
 text.del{ text-decoration: line-through;  }
 
-.block,.panel,.ul,.entry,.info-box{background-color:#fff;font-size :36rpx;}
+.block,.panel,.ul,.entry,.info-box{background-color:#fff;font-size :30rpx;}
 /* 块 */
 .block{padding:60rpx 20rpx;}
 .block.center{text-align :center;}

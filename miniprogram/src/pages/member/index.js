@@ -16,23 +16,24 @@ Page({
     },
     name: '',     // 用户昵称
     avatar: '',   // 用户头像    
-    logined: false //是否已登陆
+    logined: false,
   },
   onLoad() {
-    const me = this;  
+    const me = this;
     wx.setNavigationBarTitle({
       title: '会员中心',
     })
-    let userInfo = wx.getStorageSync(cfg.localKey.user);//从本地缓存中获取 user        
-    if(userInfo){ //如果userInfo ！= null !=undefined       
-      me.setData({ logined: true });
-      let { nickName: name, avatarUrl: avatar } = userInfo.wx;
-      me.setData({ name, avatar });  
-    }   
+    app.getUserInfo(app.globalData.session).then(res => {      
+      me.setData({ logined: true, name: res.wx.nickName, avatar: res.wx.avatarUrl });
+    })
+    .catch(error => {
+        wx.navigateTo({ url: '../../pages/login/index' });
+    });
+
   },
   onReady() {
   },
   start() {
-   
+
   }
 });

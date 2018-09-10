@@ -2,6 +2,7 @@
 
 namespace Enjoy.Core
 {
+    using Enjoy.Core.EnjoyModels;
     using Orchard;
     using EnjoyModels = Enjoy.Core.EnjoyModels;
     using WeChatModels = Enjoy.Core.WeChatModels;
@@ -18,7 +19,7 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns></returns>
-        long Register(WeChatModels::WeChatUserInfo userModel);
+        EnjoyModels::WxUserModel Register(WeChatModels::WeChatUserInfo userModel);
         /// <summary>
         /// 
         /// </summary>

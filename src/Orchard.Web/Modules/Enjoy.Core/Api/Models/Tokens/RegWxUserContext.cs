@@ -1,4 +1,5 @@
 ﻿using Enjoy.Core.EnjoyModels;
+using Enjoy.Core.WeChatModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Enjoy.Core.ApiModels
     public class RegWxUserContext
     {
         [JsonProperty("wx")]
-        public WxUserModel WxUser { get; set; }
+        public WeChatUserInfo WxUser { get; set; }
 
         [JsonProperty("openid")]
         public string OpenId { get; set; }

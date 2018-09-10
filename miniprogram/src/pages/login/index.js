@@ -15,8 +15,7 @@ Page({
     showAuth: true,
     clickedAuth: false,
     mobile: null,
-    verifyCode:null,//正确的验证码
-    session:null
+    verifyCode:null,//正确的验证码    
   },
   onLoad() {
     const me = this;
@@ -25,7 +24,8 @@ Page({
       success: (res) => {
         if (res.authSetting["scope.userInfo"]) {//已授权               
           me.setData({ showAuth: false });
-          app.getUserInfo(me.data.session).then(res => {                        
+          
+          app.getUserInfo(app.globalData.session).then(res => {                        
             me.setData({
               userInfo: res
             });
@@ -36,17 +36,7 @@ Page({
           console.log("未授权");
         }
       }
-    });
-
-    // this.setData({ showAuth: app.globalData.withCredentials});
-    // co(function* () {
-    //   const userInfo = yield app.getUserInfo();
-    //   console.log("xx", userInfo);
-    //   me.setData({
-    //     userInfo: userInfo.wx
-    //   });
-    // });
-    // me.setData({ showAuth: this.data.userInfo == null });
+    });    
   },
   getVcode() {
     const me = this;
@@ -98,8 +88,7 @@ Page({
     const me = this;
     const mytoast = new app.WeToast();
     if (/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(strMobile)) {
-      me.setData({ mobile: e.detail.value });
-      console.log("true", strMobile);
+      me.setData({ mobile: e.detail.value });      
     }
     else{
       me.setData({ mobile: null });
@@ -131,11 +120,17 @@ Page({
       success: (res) => {
         if (res.authSetting["scope.userInfo"]) {
           me.setData({ showAuth: false });
-          app.getUserInfo().then(res => {
-            console.log("xx", res);
-            me.setData({
-              userInfo: userInfo.wx
-            });
+          console.log("app.globalData.session",app.globalData.session);
+          app.getUserInfo(app.globalData.session).then(res => {            
+            me.setData({ userInfo: res});           
+            if(res.enjoy.state.hasMobile){
+              wx.navigateTo({
+                url: '../../pages/member/index',
+              });
+            }
+          })
+          .catch(err=>{
+            console.log(err);
           });
         }
         else {
@@ -164,17 +159,43 @@ Page({
           data: { mobile: me.data.mobile, verifyCode: me.data.verifyCode },
           success:function(res){
             if(res.data){//验证码正确,开始绑定用户
-              
-
-
+              submitBindMobile(
+                { id: me.data.userInfo.enjoy.id, 
+                  mobile:me.data.mobile,
+                  verifyCode:me.data.verifyCode
+              });
             }else{
               mytoast.toast({
                 icon: 'fail',
                 title: '验证码不正确'
               });             
+              me.submitBindMobile(
+                {
+                  id: me.data.userInfo.enjoy.id,
+                  mobile: me.data.mobile,
+                  verifyCode: me.data.verifyCode
+                });
             }
           }
       })     
     }
+  },
+  submitBindMobile(option){
+    let mytoast = new app.WeToast();
+    request(
+      {
+        url: ApiList.bindMobile,
+        data: option,
+        success: function (res) {
+          if (res.data) {//验证码正确,开始绑定用户
+            mytoast.toast({icon: 'success',title: '绑定成功'});  
+            wx.navigateTo({
+              url: '../../pages/member/index',
+            });
+          } else {
+            mytoast.toast({ icon: 'fail', title: '绑定失败' });  
+          }
+        }
+      })
   }
 });

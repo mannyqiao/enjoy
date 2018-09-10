@@ -68,7 +68,7 @@ namespace Enjoy.Core.Api
             var result = this._weChat.Decrypt(context.Data, context.IV, context.SessionKey);
             //检查用户状态
             var wxuser = this._wxUserService.GetWxUser(result.UnionId);
-            if (wxuser == null)
+            if (wxuser == null)//如果用户不存在则注册微信用户
             {
                 wxuser = new WxUserModel()
                 {
@@ -106,25 +106,24 @@ namespace Enjoy.Core.Api
         {
             return this._authService.IsEquals(context.Mobile, context.VerifyCode);
         }
-        
-        //[Route("api/enjoy/signature")]
-        //[HttpGet]
-        //public WxSession DecodeUserinfo(
-        //    string appid,
-        //    string secret,
-        //    string code,
-        //    string grant_type)
-        //{
-        //    return this.WeChat.CreateWxSession(new WxLoginUser(code, iv, encryptedData, signature));
-        //}
-
-        //[Route("api/enjoy/test")]
-        //[HttpGet]
-        //public IMiniprogram Test()
-        //{
-        //    Logger.Error("Tesxxx");
-        //    return EnjoyConstant.Miniprogram;
-        //}
+      
+      
+        [Route("api/enjoy/BindMobile")]
+        [HttpPost]
+        public bool BindMobile(BindMobileContext context)
+        {            
+            if (this._authService.IsEquals(context.Mobile, context.VerifyCode)
+                ||context.VerifyCode.Equals("AAAAAA")//Z888888 是为了方便测试加入的，正式版本应该删除这个代码
+                )///验证码不正确
+            {
+                var model = this._wxUserService.GetWxUser(context.Id);
+                model.Mobile = context.Mobile;
+                this._wxUserService.Register(model);
+                return true;
+            }
+            return false;
+        }
+      
         /// <summary>
         /// 
         /// </summary>
@@ -219,7 +218,6 @@ namespace Enjoy.Core.Api
             }).ToList();
         }
 
-
         [Route("api/enjoy/sendverifycode")]
         [HttpPost]
         public ActionResponse<VerificationCodeViewModel> SendVerifyCode(Mobile mobile)
@@ -247,7 +245,6 @@ namespace Enjoy.Core.Api
                     };
                 }).ToList();
         }
-
         
     }
 }

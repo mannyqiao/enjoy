@@ -1,7 +1,7 @@
 {
-  "pages": [
+  "pages": [    
+    "pages/member/index",
     "pages/login/index",
-    "pages/member/index",    
     "pages/store/index",
     "pages/store-index/index",
     "pages/category/index",
@@ -10,8 +10,8 @@
     "pages/goods-qc-report/index",
     "pages/cart/index",
     "pages/user/index",
-    "pages/guide/guide"
-    
+    "pages/guide/guide",
+    "pages/topup/index"
   ],
   "window": {
     "backgroundTextStyle": "white",

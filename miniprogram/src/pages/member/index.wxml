@@ -20,7 +20,7 @@
     </view>
   </view>
   <view class="ul ul-user">
-    <navigator class="li u-arrow right" url="">
+    <navigator class="li u-arrow right" url="../../pages/topup/index">
       <view class="li-hd">
         <icon class="u-icon icon-mbean"></icon>
       </view>
@@ -61,8 +61,4 @@
       <view class="li-bd">会员特权</view>
     </navigator>
   </view>
-</view>
-<view wx:if="{{logined===false}}">
-  <button class="button-img" open-type='getUserInfo' bindtap="start" >立即体验</button>
-  <button class="button-img"  bindtap="" >立即体验</button>
 </view>

@@ -3,7 +3,7 @@
 namespace Enjoy.Core.EnjoyModels
 {
     using System;
-
+    using Newtonsoft.Json;
     public class WxUserModel : IModelKey<long>
     {
         public WxUserModel() { }
@@ -42,6 +42,7 @@ namespace Enjoy.Core.EnjoyModels
                 this.RegistryType = RegistryTypes.Miniprogram;
             }
         }
+        
         public long Id { get; set; }
         public string UnionId { get; set; }
         //public string OpenId { get; set; }

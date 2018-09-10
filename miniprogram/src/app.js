@@ -11,17 +11,24 @@ App({
   getUserInfo,
   getUserSession,
   globalData:{    
-    withCredentials:false
+    withCredentials:false,
+    session:null
   },
   onLaunch() {
     const me = this;     
   
     wx.checkSession({
       　success: function (res) {
-       
+           let user = wx.getStorageSync(cfg.localKey.user);
+           if(user&&user.enjoy&&user.enjoy.state.hasMobile){
+              wx.navigateTo({
+                url: '/pages/member/index',
+              })
+           }
       　},
       　fail: function (res) {   
-         me.getUserSession().then(res => {            
+         me.getUserSession().then(res => {          
+           me.globalData.session = res;                    
          });         
       　}
     });

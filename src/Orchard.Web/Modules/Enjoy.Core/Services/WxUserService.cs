@@ -42,26 +42,22 @@ namespace Enjoy.Core.Services
         public long Register(WxUserModel userModel)
         {
             var model = this.GetWxUser(userModel.UnionId);
-            if (model == null)
-            {
-                model = userModel;
-            }
-            else
-            {
-                userModel.Id = model.Id;
-            }
+            if (model == null) model = userModel;
+            else userModel.Id = model.Id;
+
             this.SaveOrUpdate(userModel,
                 (wx) => { return new BaseResponse(Constants.Success); },
                 RecordSetter);
             return userModel.Id;
         }
 
-        public long Register(WeChatModels.WeChatUserInfo userModel)
+        public WxUserModel Register(WeChatModels.WeChatUserInfo userModel)
         {
             var model = new WxUserModel(userModel);
             this.Register(model);
-            return model.Id;
+            return model;
         }
+
         protected override void RecordSetter(WxUser record, WxUserModel model)
         {
             record.City = model.City;
