@@ -1,24 +1,17 @@
-var app = getApp()
 Page({
   data: {
-    images: 'https://www.yourc.club/media/',
-    items: []
+    moneyBlocks: [
+    { "text": "50元", "money": 50 },
+    { "text": "100元", "money": 100 },
+    { "text": "200元", "money": 200 },
+    { "text": "300元", "money": 300 }],
+    "money":50
   },
-  onLoad: function () {
-    // wx.request({
-    //   url: 'http://www.easy-mock.com/mock/5906811e7a878d73716e32c9/viplist/itemlist',
-    //   method: 'GET',
-    //   data: {},
-    //   header: {
-    //     'Accept': 'application/json'
-    //   },
-    //   success: (res) => {
-    //     console.log(res);
-    //     this.setData({
-    //       images: res.data.image,
-    //       items: res.data.item
-    //     });
-    //   }
-    // })
+  clickMoneyBlock: function (event) {
+    const me = this;
+    console.log(event.target.dataset["money"]);
+    if(event.target.dataset["money"]){
+      me.setData({ money: event.target.dataset["money"]});
+    }
   }
-})
+});

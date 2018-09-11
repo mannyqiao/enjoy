@@ -23,12 +23,12 @@ Page({
     wx.setNavigationBarTitle({
       title: '会员中心',
     })
-    app.getUserInfo(app.globalData.session).then(res => {      
+    app.getUserInfo(app.globalData.session).then(res => {
       me.setData({ logined: true, name: res.wx.nickName, avatar: res.wx.avatarUrl });
     })
-    .catch(error => {
+      .catch(error => {
         wx.navigateTo({ url: '../../pages/login/index' });
-    });
+      });
 
   },
   onReady() {

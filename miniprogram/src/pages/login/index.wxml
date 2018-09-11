@@ -1,41 +1,57 @@
-<import src="../../components/wetoast/index.wxml" />
-<template is="wetoast" data="{{...__wetoast__}}" />
-
-<view wx:if="{{!showAuth}}">
-  <view class="header">
-    <image class="avatar" src="{{userInfo.wx.avatarUrl}}"></image>
-    <view class="title">{{userInfo.wx.nickName}}</view>
-    <view class="subtitle" >为了您的账号安全请及时绑定手机号</view>    
+<view class="page" wx:if="{{!showAuth}}" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="weui-panel__bd">
+    <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+        <image class="weui-media-box__thumb" src="{{userInfo.wx.avatarUrl}}" />
+      </view>
+      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title">{{userInfo.wx.nickName}}</view>
+        <view class="weui-media-box__desc">
+        账户余额: ￥22.00 元   积分:  100
+        </view>    
+      </view>
+    </navigator>
   </view>
-  <form bindsubmit="bindAccount">
-    <view class="section">
-      <input type="number" name="mobile" maxlength="11" 
-      placeholder="请输入手机号码" placeholder-class="placeholder" bindinput="bindMobile" />
+  <view class="page__bd">
+    <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
+    <view class="weui-cells__title">为了你的账户安全请及时绑定手机号码</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">手机号</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="输入手机号码" />
+        </view>
+         <view class="weui-cell__ft">
+          <view class="weui-vcode-btn">获取</view>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">验证码</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入验证码" />
+        </view>
+       
+      </view>      
     </view>
-    <view class="section flex-wrp">
-      <input class="flex-item" type="number" name="vcode"  bindinput='bindVerifyCode'
-      maxlength="6" placeholder="请输入验证码" placeholder-class="placeholder" />
-      <button class="u-btn btn-vcode" bindtap="getVcode" disabled="{{vcodeBtn.disabled}}">{{vcodeBtn.text}}</button>
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" bindtap="showTopTips">登陆并绑定</button>
     </view>
-    <view class="section submit">
-      <button class="u-btn success max alone " open-type='submit'  bindtap="submit" >登录并绑定</button>
-    </view>
-  </form>
-  <!-- <view class="section">
-    <navigator url="/pages/member/index" open-type='redirect' class="u-btn success max alone ban">跳过</navigator>
-  </view> -->
+  </view>
 </view>
-<view wx:if="{{showAuth}}">
+ 
+<view class="page" wx:else="{{showAut}}">
   <view class="header">
     <!-- <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
     <view class="title">{{userInfo.nickName}}</view> -->
-    <view class="subtitle" >小程序需要你的授权，点击授权继续</view>    
+    
   </view>
-  <view class="section ">
-      <button class="u-btn success max alone " wx:if="{{!clickedAuth}}" open-type='getUserInfo'  bindtap="auth" >授权</button>
-      <button class="u-btn success max alone " wx:if="{{clickedAuth}}" open-type='getUserInfo'  bindtap="start" >继续</button>       
+ <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" wx:if="{{!clickedAuth}}" open-type='getUserInfo'  bindtap="auth" >授权</button>
+      <button class="weui-btn" type="primary" wx:if="{{clickedAuth}}" open-type='getUserInfo'  bindtap="start" >继续</button>    
+      
     </view>
-  <!-- <view class="section">
-    <navigator url="/pages/member/index" open-type='redirect' class="u-btn success max alone ban">跳过</navigator>
-  </view> -->
 </view>

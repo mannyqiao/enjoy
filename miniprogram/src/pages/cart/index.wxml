@@ -1,8 +1,0 @@
-<view >
-   <view class="header">   
-    <view class="subtitle">小程序需要你的授权</view>
-  </view>
-  <view class="section">
-    <button open-type='getUserInfo' bindgetuserinfo='bindGetUserInfo'>开始授权</button>
-  </view>
-</view>

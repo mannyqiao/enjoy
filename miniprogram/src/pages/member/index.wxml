@@ -1,64 +1,43 @@
-<view wx:if="{{logined}}">
-  <view class="profile">
-    <view class="avatar">
-      <image src="{{avatar}}" bindtap="toast"></image>
-    </view>
-    <view class="baseinfo">
-      {{name}}
-    </view>
-  </view>
-  <view class="panel">
-    <view class="tab no-border">
-      <navigator class="tab-item" url="">
-        <text class="h5 f3">余额</text>
-        <text class="txt-red h5">100.00</text>
-      </navigator>
-      <navigator class="tab-item" url="">
-        <text class="h5">积分</text>
-        <text class="txt-green h5">20</text>
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+    <view class="weui-panel__bd">
+      <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+          <image class="weui-media-box__thumb" src="{{avatar}}" />
+        </view>
+        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{name}}</view>
+          <view class="weui-media-box__desc">
+            余额: ￥22.00 元
+          </view>    
+          <view class="weui-media-box__desc">
+            积分:  100 分
+          </view>                       
+        </view>
       </navigator>
     </view>
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <navigator url="../../pages/pay/index" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">快速买单</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            </navigator>
+            <navigator url="../../pages/topup/index" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">充值</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">充100送100</view>
+            </navigator>
+            <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">推广裂变</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">分享赚鼓励金</view>                
+            </navigator>
+             <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">优惠券</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">10</view>
+            </navigator>
+              <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">交易记录</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">10</view>
+            </navigator>
+        </view>
+    </view>
   </view>
-  <view class="ul ul-user">
-    <navigator class="li u-arrow right" url="../../pages/topup/index">
-      <view class="li-hd">
-        <icon class="u-icon icon-mbean"></icon>
-      </view>
-      <view class="li-bd">
-        <view class="li-bd">储值</view>
-      </view>
-      <view class="li-ft txt-gray">{{mbeanCount}}</view>
-    </navigator>
-    <navigator class="li u-arrow right" url="">
-      <view class="li-hd">
-        <icon class="u-icon icon-mbean"></icon>
-      </view>
-      <view class="li-bd">
-        <view class="li-bd">自助买单</view>
-      </view>
-      <view class="li-ft txt-gray">{{mbeanCount}}</view>
-    </navigator>
-    <navigator class="li u-arrow right" url="">
-      <view class="li-hd">
-        <icon class="u-icon icon-coupon"></icon>
-      </view>
-      <view class="li-bd">优惠券</view>
-      <view class="tip-fly">你有优惠券即将过期</view>
-      <view class="li-ft">
-        <text class="txt-gray">{{couponCount}}</text>
-      </view>
-    </navigator>
-    <navigator class="li u-arrow right" url="">
-      <view class="li-hd">
-        <icon class="u-icon icon-address"></icon>
-      </view>
-      <view class="li-bd">可用门店</view>
-    </navigator>
-    <navigator class="li u-arrow right" url="">
-      <view class="li-hd">
-        <icon class="u-icon icon-service"></icon>
-      </view>
-      <view class="li-bd">会员特权</view>
-    </navigator>
-  </view>
-</view>
+  
