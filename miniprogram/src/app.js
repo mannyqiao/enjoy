@@ -18,8 +18,7 @@ App({
     const me = this;    
     wx.checkSession({
       success: function (res) {                
-        let user = wx.getStorageSync(cfg.localKey.user);
-        console.log("user",user);
+        let user = wx.getStorageSync(cfg.localKey.user);        
         if (user && user.enjoy && user.enjoy.state.hasMobile) {          
           wx.navigateTo({
             url: '/pages/member/index',

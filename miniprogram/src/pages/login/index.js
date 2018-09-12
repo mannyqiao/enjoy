@@ -67,8 +67,7 @@ Page({
       text: '获取验证码',
       disabled: false
     },
-    showAuth: true,
-    clickedAuth: false,
+    showAuth: true,    
     mobile: null,
     verifyCode: null,//正确的验证码    
   },
@@ -155,17 +154,21 @@ Page({
   },
   auth() {
     const me = this;
-    me.setData({ clickedAuth: true });
+    
     wx.getSetting({
-      success: (res) => {
+      success: (res) => {        
         if (res.authSetting["scope.userInfo"]) {
-          me.setData({
-            showAuth: false
+          me.setData({showAuth: false});
+          app.getUserInfo(app.globalData.session, me.getUserInfoCallback).then(res=>{
+             console.log("auth and get userinfo ",res) ;
+          })
+          .catch(error=>{
+
           });
         }
       },
       fail: (error) => {
-        console.log(error);
+        console.log("error",error);
       }
     });
   },
@@ -173,20 +176,13 @@ Page({
     const me = this;
     wx.getSetting({
       success: (res) => {
-        if (res.authSetting["scope.userInfo"]) {
-          me.setData({ showAuth: false });
+        if (res.authSetting["scope.userInfo"]) {          
           console.log("app.globalData.session", app.globalData.session);
-          app.getUserInfo(app.globalData.session).then(res => {
-            me.setData({ userInfo: res });
-            if (res.enjoy.state.hasMobile) {
-              wx.navigateTo({
-                url: '../../pages/member/index',
-              });
-            }
+          app.getUserInfo(app.globalData.session, me.getUserInfoCallback).then(res => {
           })
-            .catch(err => {
+          .catch(err => {
               console.log(err);
-            });
+          });
         }
         else {
           me.setData({ showAuth: true });
@@ -196,6 +192,23 @@ Page({
         console.log(error);
       }
     });
+  },
+  getUserInfoCallback(info){
+    console.log("callback",info);
+    const me = this;
+    me.setData({ userInfo: info });
+    console.log(info);
+    if (info.enjoy.state.hasMobile) {
+      wx.navigateTo({
+        url: '../../pages/member/index',
+      });
+      me.setData({ showAuth: false });
+      console.log("set showAuth false")
+    }
+    else{
+      console.log("set showAuth true");
+      me.setData({ showAuth: true });
+    }
   },
   submit() {
     const me = this;

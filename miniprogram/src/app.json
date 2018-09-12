@@ -2,8 +2,9 @@
   "pages": [
     "pages/member/index",
     "pages/pay/index",
-    "pages/topup/index",    
-    "pages/login/index"
+    "pages/topup/index",
+    "pages/login/index",
+    "pages/make-order/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",

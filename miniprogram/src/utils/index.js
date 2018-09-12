@@ -26,16 +26,16 @@ import request from 'request';
  *   console.info('userInfo', res)
  * })
  * */
-const getUserInfo = co.wrap(function* (session) {  
+const getUserInfo = co.wrap(function* (callback) {  
   const userInfo = {
     wx: null,
     enjoy: null,
     openid:null,
     unionId:null
   };
+  let session = yield getUserSession();  
   const user = yield promisify(wx.getUserInfo)({ withCredentials: true })  ;    
-  userInfo.wx = user.userInfo;  
-  
+  userInfo.wx = user.userInfo;    
   //获取加密数据
   if(session){
     const decodeInfo = yield request({
@@ -53,6 +53,9 @@ const getUserInfo = co.wrap(function* (session) {
       userInfo.enjoy = decodeInfo.data;
       userInfo.unionId = decodeInfo.data.unionId;
       userInfo.openid = decodeInfo.data.openid;
+      if (callback){
+        callback(userInfo);
+      }
     }
   }
   wx.setStorageSync(cfg.localKey.user, userInfo)
@@ -60,7 +63,7 @@ const getUserInfo = co.wrap(function* (session) {
 });
 
 const getUserSession = co.wrap(function* () {
-  
+  console.log("call getusersesion");
   let localStoreSession = wx.getStorageSync(cfg.localKey.session);
   let withCredentials = wx.getStorageSync(cfg.localKey.withCredentials);
   

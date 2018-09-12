@@ -43,15 +43,13 @@
   </view>
 </view>
  
-<view class="page" wx:else="{{showAut}}">
+<view class="page" wx:else="{{showAuth}}">
   <view class="header">
     <!-- <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
     <view class="title">{{userInfo.nickName}}</view> -->
     
   </view>
  <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" wx:if="{{!clickedAuth}}" open-type='getUserInfo'  bindtap="auth" >授权</button>
-      <button class="weui-btn" type="primary" wx:if="{{clickedAuth}}" open-type='getUserInfo'  bindtap="start" >继续</button>    
-      
+      <button class="weui-btn" type="primary"  open-type='getUserInfo'  bindtap="auth" >立即体验</button>      
     </view>
 </view>
