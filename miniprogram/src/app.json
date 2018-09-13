@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/auth/index",
     "pages/member/index",
     "pages/pay/index",
     "pages/topup/index",
