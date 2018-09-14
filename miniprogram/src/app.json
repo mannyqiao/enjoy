@@ -1,23 +1,59 @@
 {
   "pages": [
+    "pages/store/index",
     "pages/auth/index",
     "pages/member/index",
     "pages/pay/index",
     "pages/topup/index",
     "pages/login/index",
-    "pages/make-order/index"
+    "pages/make-order/index",    
+    "pages/card/index",
+    "pages/coupon/index"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
+    "backgroundTextStyle": "white",
+    "navigationBarBackgroundColor": "#FAFAFA",
     "navigationBarTitleText": "方泽卡券",
-    "navigationBarBackgroundColor": "#f8f8f8",
-    "backgroundColor": "#f8f8f8"
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F2f2f2"
   },
   "networkTimeout": {
     "request": 10000,
     "connectSocket": 10000,
     "uploadFile": 10000,
     "downloadFile": 10000
+  },
+  "tabBar": {
+    "color": "#777",
+    "selectedColor": "#FF4D61",
+    "borderStyle": "black",
+    "backgroundColor": "#FAFAFA",
+    "list": [
+      {
+        "pagePath": "pages/store/index",
+        "iconPath": "images/tabbar/mmhtab_icon_mmh_n@2x.png",
+        "selectedIconPath": "images/tabbar/mmhtab_icon_mmh_s@2x.png",
+        "text": "商户"
+      },
+      {
+        "pagePath": "pages/card/index",
+        "iconPath": "images/tabbar/mmhtab_icon_fl_n@2x.png",
+        "selectedIconPath": "images/tabbar/mmhtab_icon_fl_s@2x.png",
+        "text": "会员卡"
+      },
+      {
+        "pagePath": "pages/coupon/index",
+        "iconPath": "images/tabbar/mmhtab_icon_gwc_n@2x.png",
+        "selectedIconPath": "images/tabbar/mmhtab_icon_gwc_s@2x.png",
+        "text": "优惠券"
+      },
+      {
+        "pagePath": "pages/member/index",
+        "iconPath": "images/tabbar/mmhtab_icon_me_n@2x.png",
+        "selectedIconPath": "images/tabbar/mmhtab_icon_me_s@2x.png",
+        "text": "我"
+      }
+    ]
   },
   "debug": true
 }

@@ -8,7 +8,6 @@ import {
   getUserSession
 } from 'utils/index';
 var app = getApp();
-
 //app.js
 App({
   WeToast,

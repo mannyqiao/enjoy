@@ -43,7 +43,16 @@ Page({
     const me = this;
     if (event.detail.userInfo) { //用户点了接受按钮     
       app.getUserInfo().then(res => {
-
+          if(res.enjoy.state.hasMobile){
+            wx.navigateTo({
+              url: '../../pages/member/index',
+            })
+          }
+          else{
+            wx.navigateTo({
+              url: '../../pages/login/index',
+            })
+          }
       })
       .catch(error => {});
     } else {

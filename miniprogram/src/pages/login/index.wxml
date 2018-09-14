@@ -26,7 +26,7 @@
           <input class="weui-input" placeholder="" bindinput='bindMobile'/>
         </view>      
             <view class="weui-cell__ft">
-          <view class="weui-vcode-btn" catchtap='getVcode'>获取</view>
+          <view class="weui-vcode-btn" catchtap='getVcode'>获取验证码</view>
         </view>
       </view>
       <view class="weui-cell weui-cell_input weui-cell_vcode">
@@ -34,13 +34,12 @@
           <view class="weui-label">验证码</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="" />
-        </view>
-    
+          <input class="weui-input" placeholder="" bindinput='bindVerifyCode' />
+        </view>    
       </view>
     </view>
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" bindtap="submitBindMobile">绑定</button>
+      <button class="weui-btn" type="primary" bindtap="submit">绑定</button>
     </view>
   </view>
 </view>
