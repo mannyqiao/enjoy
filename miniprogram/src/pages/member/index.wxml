@@ -16,24 +16,24 @@
       </navigator>
     </view>
     <view class="page__bd">
-        <view class="weui-cells weui-cells_after-title">
-            <navigator url="../../pages/pay/index" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">快速买单</view>
-                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-            </navigator>
-            <navigator url="../../pages/topup/index" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">充值</view>
-                <view class="weui-cell__ft weui-cell__ft_in-access">充100送100</view>
-            </navigator>
+        <view class="weui-cells weui-cells_after-title">      
             <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">推广裂变</view>
-                <view class="weui-cell__ft weui-cell__ft_in-access">分享赚鼓励金</view>                
+                <view class="weui-cell__bd">手机号码</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">13961576298</view>                
             </navigator>
              <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">优惠券</view>
+                <view class="weui-cell__bd">已经有会员卡</view>
                 <view class="weui-cell__ft weui-cell__ft_in-access">10</view>
             </navigator>
               <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">可用优惠券</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">10</view>
+            </navigator>
+            <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">过期的券</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">10</view>
+            </navigator>
+            <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">交易记录</view>
                 <view class="weui-cell__ft weui-cell__ft_in-access">10</view>
             </navigator>

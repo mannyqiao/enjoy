@@ -9,7 +9,7 @@
       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title">{{userInfo.wx.nickName}}</view>
         <view class="weui-media-box__desc">
-          账户余额: ￥22.00 元 积分: 100
+          手机号码: 
         </view>
       </view>
     </navigator>

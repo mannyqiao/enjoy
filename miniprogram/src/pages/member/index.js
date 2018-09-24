@@ -21,13 +21,15 @@ Page({
   onLoad() {
     const me = this;
     wx.setNavigationBarTitle({
-      title: '会员中心',
+      title: '个人中心',
     })
     app.getUserInfo(app.globalData.session).then(res => {
+      app.readlyUserInfoCallback(res);
       me.setData({ logined: true, name: res.wx.nickName, avatar: res.wx.avatarUrl });
     })
       .catch(error => {
-        wx.navigateTo({ url: '../../pages/login/index' });
+        console.log(error);
+        //wx.navigateTo({ url: '../../pages/login/index' });
       });
 
   },

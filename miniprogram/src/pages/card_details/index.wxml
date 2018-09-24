@@ -1,0 +1,47 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+
+<view class="weui-panel__bd ">
+    <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000" indicator-color="rgba(0,0,0,.1)" indicator-active-color="#ff4d61">
+      <block wx:for="{{bannerList}}">
+        <swiper-item>
+          <navigator url="{{item.linkTo}}">
+            <!-- <text class="title">{{item.linkName}}</text> -->
+            <image src="{{item.pic}}" class="slide-image" mode="widthFix" />
+          </navigator>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  
+  <view class="page__bd">
+    <view class="weui-form-preview">
+      <view class="weui-form-preview__hd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">商户名称</view>
+          <view class="weui-form-preview__value_in-hd">一味现捞</view>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">类型</view>
+          <view class="weui-form-preview__value">铂金卡</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">会员特权</view>
+          <view class="weui-form-preview__value">会员享有8折优惠,充100送100</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">状态</view>
+          <view class="weui-form-preview__value" style='color:red'>已拥有</view>
+        </view>      
+        
+      </view>
+      
+      <view class="weui-form-preview__ft float-bottom">
+        <navigator class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">放入卡包</navigator>
+        <navigator class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">立即使用</navigator>
+      </view>
+    </view>
+  </view>
+</view>

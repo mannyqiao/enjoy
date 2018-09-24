@@ -101,8 +101,37 @@ const resetUserSession = co.wrap(function* (){
   wx.setStorageSync(cfg.localKey.session, userSession);  
   return userSession;
 });
+
+const getUserGranted = co.wrap(function* (){
+  const scope ={
+    canUseUserInfo: false,
+    canUseMobile: false,
+    canUseLocation: false
+  };
+  const settings = yield promisify(wx.getSetting)();  
+  if (settings.authSetting["scope.userInfo"]){
+    scope.canUseUserInfo = true;
+  }
+  else{
+    scope.canUseUserInfo = false;
+  }
+  if (settings.authSetting["scope.userLocation"]) {
+    scope.canUseLocation = true;
+  }
+  else {
+    scope.canUseLocation = false;
+  }
+  if (settings.authSetting["scope.phoneNumber"]) {
+    scope.canUseMobile = true;
+  }
+  else {
+    scope.canUseMobile = false;
+  }
+  return scope;
+});
 export {
   getUserInfo,
   getUserSession,
-  resetUserSession
+  resetUserSession,
+  getUserGranted
 };

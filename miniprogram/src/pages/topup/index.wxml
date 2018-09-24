@@ -29,6 +29,6 @@
     <view class="weui-cells__title">充100送100</view>
   </view>
   <view class="weui-btn-area">
-    <button class="weui-btn" type="primary" bindtap="showTopTips">充值</button>
+    <button class="weui-btn" type="primary" bindtap="showTopTips">立即支付</button>
   </view>
 </view>

@@ -1,14 +1,16 @@
 {
   "pages": [
+    "pages/card/index",
+    "pages/card_details/index",
     "pages/store/index",
-    "pages/auth/index",
     "pages/member/index",
+    "pages/auth/index",
     "pages/pay/index",
     "pages/topup/index",
     "pages/login/index",
-    "pages/make-order/index",    
-    "pages/card/index",
+    "pages/make-order/index",
     "pages/coupon/index"
+    
   ],
   "window": {
     "backgroundTextStyle": "white",
@@ -29,12 +31,7 @@
     "borderStyle": "black",
     "backgroundColor": "#FAFAFA",
     "list": [
-      {
-        "pagePath": "pages/store/index",
-        "iconPath": "images/tabbar/mmhtab_icon_mmh_n@2x.png",
-        "selectedIconPath": "images/tabbar/mmhtab_icon_mmh_s@2x.png",
-        "text": "商户"
-      },
+      
       {
         "pagePath": "pages/card/index",
         "iconPath": "images/tabbar/mmhtab_icon_fl_n@2x.png",
@@ -51,9 +48,9 @@
         "pagePath": "pages/member/index",
         "iconPath": "images/tabbar/mmhtab_icon_me_n@2x.png",
         "selectedIconPath": "images/tabbar/mmhtab_icon_me_s@2x.png",
-        "text": "我"
+        "text": "个人中心"
       }
     ]
   },
-  "debug": true
+  "debug": false
 }

@@ -1,7 +1,6 @@
 // pages/blank/index.js
 let app = getApp();
 Page({
-
   /**
    * Page initial data
    */

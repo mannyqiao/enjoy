@@ -27,7 +27,7 @@ const request = co.wrap(function *(opt) {
     if (opt.location) {
         const location = yield Map.getRegeo();
         const {lat, lng, areaId} = location;
-        Object.assign(option.data, {lat, lng, areaId});
+        Object.assign(option.data, {lat, lng, areaId});//复制对象
     }
 
     return yield complete(wx.request)(option);

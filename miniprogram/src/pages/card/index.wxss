@@ -1,0 +1,4 @@
+.mini-btn{
+    font-size: 25px;
+    height: 18px;
+}

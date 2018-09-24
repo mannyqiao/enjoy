@@ -1,8 +1,8 @@
 /**
  * api list
  */
-//const host = "https://www.yourc.club/";
-const host = "http://localhost/";
+const host = "https://www.yourc.club/";
+//const host = "http://localhost/";
 export default {
     "getSession":           `${host}api/enjoy/GetSessionKey`,                                        //获取微信用户信息
     "decryptUserInfo":      `${host}api/enjoy/DecryptUserInfo`,                           //解密微信用户信息
