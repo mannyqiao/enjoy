@@ -54,21 +54,7 @@ namespace Enjoy.Core.Services
 
         public PagingData<ShopModel> QueryShops(QueryFilter filter, PagingCondition condition)
         {
-            return Query(filter, condition, null, r => new ShopModel(r));
-            //return base.Query(condition, builder =>
-            //{
-            //    foreach (var criteria in this.Criterias(filter))
-            //    {
-            //        builder.Add(criteria);
-            //    }
-
-            //    foreach (var order in this.Orders(filter))
-            //    {
-            //        builder.AddOrder(order);
-            //    }
-
-            //},
-            //record => new ShopModel(record));
+            return Query(filter, condition, null, r => new ShopModel(r));            
         }
 
 
@@ -83,7 +69,8 @@ namespace Enjoy.Core.Services
             record.ShopName = model.ShopName;
             record.Merchant = new Records.Merchant() { Id = model.Merchant.Id };
             record.Leader = model.Leader;
-            record.Coordinate = model.Coordinate;
+            record.Latitude = model.Latitude;
+            record.Longitude = model.Longitude;
         }
 
         public IResponse Validate(ShopModel model)

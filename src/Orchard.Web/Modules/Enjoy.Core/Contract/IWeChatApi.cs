@@ -32,7 +32,9 @@ namespace Enjoy.Core
         IWxAccessToken GetWxAccessToken(string appid, string secret);
 
         void CheckCardAgentQulification();
-        WeChatUserInfo Decrypt(string encryptedData, string iv, string sessionKey);
+        T Decrypt<T>(string encryptedData, string iv, string sessionKey) where T : class;
+
+
         IWxAuthorization GetSessionKey(string code, string appid, string secret);
 
         WxAccessToken GetAccessTokenByCode(string code);

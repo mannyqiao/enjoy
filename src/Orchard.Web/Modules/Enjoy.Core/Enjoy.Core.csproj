@@ -109,6 +109,7 @@
     <Compile Include="ApiRoutes.cs" />
     <Compile Include="Api\EnjoyController.cs" />
     <Compile Include="Api\Models\Banner.cs" />
+    <Compile Include="Api\Models\CardNearyBy.cs" />
     <Compile Include="Api\Models\Mobile.cs" />
     <Compile Include="Api\Models\PagingX.cs" />
     <Compile Include="Api\Models\ShopAct.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Api\Models\Tokens\BindMobileContext.cs" />
     <Compile Include="Api\Models\Tokens\DecryptContext.cs" />
     <Compile Include="Api\Models\Tokens\JSCodeContext.cs" />
+    <Compile Include="Api\Models\Tokens\QueryCardNearbyContext.cs" />
     <Compile Include="Api\Models\Tokens\RegWxUserContext.cs" />
     <Compile Include="Api\Models\Tokens\VerifyCodeContext.cs" />
     <Compile Include="Api\Models\UserState.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="Models\PagingCondition.cs" />
     <Compile Include="Models\PagingData.cs" />
     <Compile Include="Models\Records\CardCoupon.cs" />
+    <Compile Include="Models\Records\CardCouponNearby.cs" />
     <Compile Include="Models\Records\Category.cs" />
     <Compile Include="Models\Records\EnjoyUser.cs" />
     <Compile Include="Models\Records\Merchant.cs" />
@@ -262,6 +265,7 @@
     <Compile Include="Models\WeChat\Messages\ViewCardWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatMsgModel.cs" />
+    <Compile Include="Models\WeChat\Response\PhoneNumberWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\WxUnifiedorderResponse.cs" />
     <Compile Include="Models\WeChat\Response\QueryCardCouponWxResponse.cs" />
     <Compile Include="Models\WeChat\Submerchant\SubMerchant.cs" />

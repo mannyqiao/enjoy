@@ -33,18 +33,17 @@ namespace Enjoy.Core.WeChatModels
         [Newtonsoft.Json.JsonProperty("state")]
         public UserState State { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("mobile",NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Mobile { get; set; }
         [Newtonsoft.Json.JsonProperty("watermark")]
-        public Watermark watermark { get; set; }
+        public Watermark watermark { get; set; }     
+    }
+    public class Watermark
+    {
+        [Newtonsoft.Json.JsonProperty("appid")]
+        public string AppId { get; set; }
 
-        
-        
-        public class Watermark
-        {
-            [Newtonsoft.Json.JsonProperty("appid")]
-            public string AppId { get; set; }
-
-            [Newtonsoft.Json.JsonProperty("timestamp")]            
-            public string TimeStamp { get; set; }
-        }
+        [Newtonsoft.Json.JsonProperty("timestamp")]
+        public string TimeStamp { get; set; }
     }
 }

@@ -5,6 +5,12 @@ namespace Enjoy.Core.EnjoyModels
     using Newtonsoft.Json;
     public class Location
     {
+        public Location() { }
+        public Location(float latitude,float longitude)
+        {
+            this.Latitude = latitude;
+            this.Longitude = longitude;
+        }
         //Latitude and longitude
         /// <summary>
         /// 经纬

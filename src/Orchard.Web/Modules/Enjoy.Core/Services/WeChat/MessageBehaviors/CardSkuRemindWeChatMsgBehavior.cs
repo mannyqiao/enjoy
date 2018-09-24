@@ -14,12 +14,12 @@ namespace Enjoy.Core.Services
     public class CardSkuRemindWeChatMsgBehavior : WeChatMsgBehavior<SkuRemindWeChatEventArgs>
     {
         private readonly ICardCouponService CardCoupon;
-        private readonly IOrchardServices OS;
+        
         public CardSkuRemindWeChatMsgBehavior(
             IOrchardServices os,
             ICardCouponService cardCoupon) : base(os)
         {
-            this.OS = os;
+        
             this.CardCoupon = cardCoupon;
         }
 

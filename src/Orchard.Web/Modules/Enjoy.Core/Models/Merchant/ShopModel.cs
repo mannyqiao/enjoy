@@ -14,7 +14,8 @@ namespace Enjoy.Core.EnjoyModels
             this.Id = shop.Id;
             this.Leader = shop.Leader;
             this.Address = shop.Address;
-            this.Coordinate = shop.Coordinate;
+            this.Latitude = shop.Latitude;
+            this.Longitude = shop.Longitude;
         }
         public ShopModel(ShopViewModel viewModel)
         {
@@ -23,8 +24,8 @@ namespace Enjoy.Core.EnjoyModels
             this.Id = viewModel.ShopModel.Id;
             this.Leader = viewModel.ShopModel.Leader;
             this.Address = viewModel.AddressInfo;
-            
-            this.Coordinate = string.IsNullOrEmpty(viewModel.ShopModel.Coordinate) ? "{}" : viewModel.ShopModel.Coordinate;
+            this.Latitude = viewModel.ShopModel.Latitude;
+            this.Longitude = viewModel.ShopModel.Longitude;
         }
         public ShopModel(MerchantModel merchant)
         {
@@ -36,8 +37,15 @@ namespace Enjoy.Core.EnjoyModels
         public string ShopName { get; set; }
         public string Leader { get; set; }
         public string Address { get; set; }
-        public string Coordinate { get; set; }
-
+        
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public  float Longitude { get; set; }
+        /// <summary>
+        /// 纬度
+        /// </summary>
+        public  float Latitude { get; set; }
 
     }
 }

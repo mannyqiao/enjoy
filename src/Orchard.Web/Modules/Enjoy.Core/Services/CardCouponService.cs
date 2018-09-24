@@ -240,7 +240,46 @@ namespace Enjoy.Core.Services
             record.Type = model.Type;
             this.OS.TransactionManager.GetSession().SaveOrUpdate(record);
         }
-
-
+        readonly string QueryString_CardCouponNeryBy = @"SELECT 
+    [card].[Id],
+    [card].[WxNo],
+    [merchant].[BrandName] AS [Merchant],
+    [card].[BrandName] AS [BrandName],
+    '' AS Privilege,
+    [merchant].[LogoUrl] AS [LogoUrl],
+    [shop].[Latitude],
+    [shop].[Longitude]
+    FROM [Enjoy_Core_Shop] [shop]
+    LEFT JOIN [Enjoy_Core_Merchant] [merchant]
+        ON [shop].[Merchant_Id] = [merchant].[Id]
+    LEFT JOIN [Enjoy_Core_CardCoupon] [card]
+        ON [shop].[Merchant_Id] = [card].[Merchant_Id]
+WHERE SQRT(
+    (
+        ((:Longitude - [shop].[Longitude]) * PI() * 12656 * COS(((:Latitude + [shop].[Latitude]) / 2) * PI() / 180) /180) * ((:Longitude - [shop].[Longitude]) *
+        PI() * 12656 * COS(((:Latitude + [shop].[Latitude]) /
+            2) * PI() / 180) /
+        180)) + (((:Latitude - [shop].[Latitude]) *
+        PI() * 12656 / 180) * (
+        (:Latitude - [shop].[Latitude]) * PI() *
+        12656 / 180)
+        )
+    )  < :Distance
+";
+        public PagingData<CardCouponNearby> QueryCardCoupon(Location location, PagingCondition condition, float distance)
+        {
+            var session = this.OS.TransactionManager.GetSession();
+            var results = session.CreateSQLQuery(QueryString_CardCouponNeryBy)
+                .AddEntity(typeof(CardCouponNearby))
+                 .SetSingle("Latitude", location.Latitude)
+                 .SetSingle("Longitude", location.Longitude)
+                 .SetSingle("Distance", distance)
+                 .SetMaxResults(condition.Size)
+                 .List<CardCouponNearby>();
+            return new PagingData<CardCouponNearby>(results)
+            {
+                Paging = new Paging(condition.Page, condition.Size)
+            };
+        }
     }
 }

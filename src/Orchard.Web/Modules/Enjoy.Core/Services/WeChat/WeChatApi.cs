@@ -141,7 +141,7 @@ namespace Enjoy.Core.Services
         {
             var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.WxConfig.AppId, loginUseer.Code, Constants.WxConfig.AppSecrect);
             var auth = request.GetResponseForJson<WeChatAuthorization>();
-            var wechatUser = Decrypt(loginUseer.Data, loginUseer.IV, auth.SessionKey);
+            var wechatUser = Decrypt<WeChatUserInfo>(loginUseer.Data, loginUseer.IV, auth.SessionKey);
             return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.WxConfig, WeCharUser = wechatUser, Authorization = auth };
         }
         public IWxAuthorization GetSessionKey(string code, string appid, string secret)
@@ -176,7 +176,7 @@ namespace Enjoy.Core.Services
         {
             return this.CreateWxSession(loginUser).WeCharUser.OpenId;
         }
-        public WeChatUserInfo Decrypt(string encryptedData, string iv, string sessionKey)
+        public T Decrypt<T>(string encryptedData, string iv, string sessionKey) where T : class
         {
 #pragma warning disable IDE0017 // Simplify object initialization
             AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
@@ -202,8 +202,9 @@ namespace Enjoy.Core.Services
             string result = Encoding.UTF8.GetString(final);
 
             //反序列化结果，生成用户信息实例  
-            return result.DeserializeToObject<WeChatUserInfo>();
+            return result.DeserializeToObject<T>();
         }
+
 
         public IWxAuthorization GetWxAuth(IWxAuthContext loginUser)
         {
@@ -393,5 +394,7 @@ namespace Enjoy.Core.Services
             //直接确认，否则打不开    
             return true;
         }
+
+     
     }
 }

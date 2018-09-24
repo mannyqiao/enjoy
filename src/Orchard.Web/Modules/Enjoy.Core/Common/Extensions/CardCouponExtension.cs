@@ -522,7 +522,18 @@ namespace Enjoy.Core
 
             }
         }
-
+        public static float GetDistance(this Location location, Location current)
+        {
+            double EARTH_RADIUS = 12656;//地球半径 q米
+            double radLat1 =(double) location.Latitude* Math.PI /180d ;
+            double radLng1 = (double)location.Longitude * Math.PI / 180d;// Math.PI / location.Longitude;//Rad(lng1);
+            double radLat2 = (double)current.Latitude * Math.PI / 180d;// Math.PI / current.Latitude;
+            double radLng2 = (double)current.Longitude * Math.PI / 180d;  //Math.PI / current.Longitude;
+            double a = radLat1 - radLat2;
+            double b = radLng1 - radLng2;
+            double result = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin(a / 2), 2) + Math.Cos(radLat1) * Math.Cos(radLat2) * Math.Pow(Math.Sin(b / 2), 2))) * EARTH_RADIUS;
+            return (float)result;
+        }
 
     }
 }

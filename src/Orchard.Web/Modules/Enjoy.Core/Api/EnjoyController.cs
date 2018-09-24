@@ -27,6 +27,7 @@ namespace Enjoy.Core.Api
         private readonly IWeChatMsgHandler _handler;
         private readonly IWxUserService _wxUserService;
         private readonly IShopService _shopservice;
+        private readonly ICardCouponService _cardCouponService;
         public EnjoyController(
             IOrchardServices os,
             IEnjoyAuthService auth,
@@ -34,6 +35,7 @@ namespace Enjoy.Core.Api
             IMerchantService merchant,
             IWxUserService wxUserService,
             IShopService shop,
+            ICardCouponService cardCoupon,
             IWeChatMsgHandler handler)
         {
             this._authService = auth;
@@ -44,6 +46,7 @@ namespace Enjoy.Core.Api
             this._handler = handler;
             this._wxUserService = wxUserService;
             this._shopservice = shop;
+            this._cardCouponService = cardCoupon;
 
         }
         public ILogger Logger { get; set; }
@@ -65,7 +68,7 @@ namespace Enjoy.Core.Api
         [HttpPost]
         public WeChatUserInfo DecryptUserInfo(DecryptContext context)
         {
-            var result = this._weChat.Decrypt(context.Data, context.IV, context.SessionKey);
+            var result = this._weChat.Decrypt<WeChatUserInfo>(context.Data, context.IV, context.SessionKey);
             //检查用户状态
             var wxuser = this._wxUserService.GetWxUser(result.UnionId);
             if (wxuser == null)//如果用户不存在则注册微信用户
@@ -91,6 +94,7 @@ namespace Enjoy.Core.Api
                 result.State = new UserState() { HasMobile = !string.IsNullOrEmpty(wxuser.Mobile), Signup = true };
             }
             result.Id = wxuser.Id;
+            result.Mobile = wxuser.Mobile;
             return result;
         }
 
@@ -106,24 +110,26 @@ namespace Enjoy.Core.Api
         {
             return this._authService.IsEquals(context.Mobile, context.VerifyCode);
         }
-      
-      
+
+
         [Route("api/enjoy/BindMobile")]
         [HttpPost]
-        public bool BindMobile(BindMobileContext context)
-        {            
-            if (this._authService.IsEquals(context.Mobile, context.VerifyCode)
-                ||context.VerifyCode.Equals("AAAAAA")//Z888888 是为了方便测试加入的，正式版本应该删除这个代码
-                )///验证码不正确
+        public dynamic BindMobile(DecryptContext context)
+        {
+            var result = this._weChat.Decrypt<PhoneNumberWxResponse>(context.Data, context.IV, context.SessionKey);
+            var model = this._wxUserService.GetWxUser(context.WxChatUser.UnionId);
+            if (model != null)
             {
-                var model = this._wxUserService.GetWxUser(context.Id);
-                model.Mobile = context.Mobile;
+                model.Mobile = result.PhoneNumber;
                 this._wxUserService.Register(model);
-                return true;
             }
-            return false;
+            return new
+            {
+                state = new { hasMobile = true },
+                mobile = model.Mobile
+            };
         }
-      
+
         /// <summary>
         /// 
         /// </summary>
@@ -224,6 +230,7 @@ namespace Enjoy.Core.Api
         {
             return this._authService.GetverificationCode(mobile.Value, VerifyTypes.BindWeChatUser);
         }
+
         [Route("api/enjoy/QueryShops")]
         [HttpPost]
         public List<ShopNearyby> QueryShops(Location location)
@@ -232,11 +239,9 @@ namespace Enjoy.Core.Api
             return this._shopservice.QueryShops(null, paging)
                 .Items.Select((ctx) =>
                 {
-                    var lac = ctx.Coordinate.DeserializeToObject<Location>();
                     return new ShopNearyby()
                     {
-                        Lat = lac.Latitude,
-                        Lng = lac.Longitude,
+
                         ShopActs = new ShopAct[] { },
                         ShopAddress = ctx.Address,
                         ShopId = ctx.Id,
@@ -245,7 +250,26 @@ namespace Enjoy.Core.Api
                     };
                 }).ToList();
         }
-        
+        /// <summary>
+        /// 查询推荐的会员卡
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        [Route("api/enjoy/QueryCards")]
+        [HttpPost]
+        public List<CardNearyBy> QueryCards(QueryCardNearbyContext context)
+        {
+            var data = this._cardCouponService.QueryCardCoupon(context.Location, context.Condition, context.Distance);
+            return data.Items.Select(o => new CardNearyBy()
+            {
+                BrandName = o.BrandName,
+                Id = o.Id,
+                LogoUrl = o.LogoUrl,
+                MerchantName = o.Merchant,
+                Privilege = o.Privilege,
+                Distance = new Location(o.Latitude, o.Longitude).GetDistance(context.Location)
+            }).ToList();
+        }
     }
 }
 

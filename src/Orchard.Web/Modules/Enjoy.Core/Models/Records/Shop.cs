@@ -12,7 +12,15 @@ namespace Enjoy.Core.Records
         public virtual string ShopName { get; set; }
         public virtual string Leader { get; set; }
         public virtual string Address { get; set; }
-        public virtual string Coordinate { get; set; }
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public virtual float Longitude { get; set; }
+        /// <summary>
+        /// 纬度
+        /// </summary>
+        public virtual float Latitude { get; set; }
         public virtual long LastActivityTime { get; set; }
+      
     }
 }

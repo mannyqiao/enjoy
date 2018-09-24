@@ -100,7 +100,8 @@ namespace Enjoy.Core
                 .Column("Merchant_Id", DbType.Int64, column => column.Nullable())
                 .Column("ShopName", DbType.String, column => column.WithLength(120))
                 .Column("Leader", DbType.String, column => column.WithLength(50))
-                .Column("Coordinate", DbType.String, column => column.WithLength(50))
+                .Column("Longitude", DbType.Single)//经度
+                .Column("Latitude", DbType.Single)//纬度                
                 .Column("Address", DbType.String, column => column.WithLength(120))
                 .Column("LastActivityTime", DbType.Int64)
             );
