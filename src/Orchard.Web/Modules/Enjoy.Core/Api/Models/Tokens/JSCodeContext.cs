@@ -14,11 +14,11 @@ namespace Enjoy.Core.ApiModels
 
         [JsonProperty("grant_type")]
         public string GrantType { get; set; }
-//            {
-//	 "appid": "wx3ec55fbaa7dcefc7",
-//     "secret": "e1374e932b2eef3d4b0fa8f0e936496a",
-//     "code": "011AAiSm0aqr6s1fmoTm036bSm0AAiS2",
-//     "grant_type": "authorization_code"
-//}
-}
+        //            {
+        //	 "appid": "wx3ec55fbaa7dcefc7",
+        //     "secret": "e1374e932b2eef3d4b0fa8f0e936496a",
+        //     "code": "011AAiSm0aqr6s1fmoTm036bSm0AAiS2",
+        //     "grant_type": "authorization_code"
+        //}
+    }
 }

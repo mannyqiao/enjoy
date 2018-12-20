@@ -43,7 +43,7 @@
 
         [JsonProperty("custom_cell1",NullValueHandling = NullValueHandling.Ignore)]
         public CustomCell CustomCell { get; set; }
-        private int discount;
+        private float discount;
 
         [JsonProperty("wx_activate",NullValueHandling = NullValueHandling.Ignore)]
         public bool? WxActivate { get; set; }
@@ -51,16 +51,16 @@
         /// 	折扣，该会员卡享受的折扣优惠,填10就是九折。
         /// </summary>
         [JsonProperty("discount")]
-        public int Discount
+        public float Discount
         {
             get
             {
-                return this.discount / 10;
+                return this.discount ;
 
             }
             set
             {
-                this.discount = value * 10;
+                this.discount = value ;
 
             }
         }

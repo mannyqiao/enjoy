@@ -76,22 +76,27 @@ namespace Enjoy.Core
         // UAT official  account "Enjoy.Vip@hotmail.com" 
         //var token = "EnjoyMini";
         //var encodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";   
+        /* 使用 方泽 卡券*/
+        //public static readonly IWeChatConfig WxConfig = new EnjoyWeChatConfig(
+        //    IsDebug
+        //    ? "wx0c644f8027d78c74"
+        //    : "wxeb6c176a36bb7b69",
+        //    IsDebug
+        //    ? "f1681068dfcd75ef2d7dff14cb3b5fae"
+        //    : "5c8f7bacf759bfab19d0d1d821625c03",
+        //    "1508484331",
+        //    "EA62B75D5D3941C3A632B8F18C7B3575");
+        //使用 柠檬工坊
+        //74c4c300a46b8c6eb8c79b3689065673
         public static readonly IWeChatConfig WxConfig = new EnjoyWeChatConfig(
-            IsDebug
-            ? "wx0c644f8027d78c74"
-            : "wxeb6c176a36bb7b69",
-            IsDebug
-            ? "f1681068dfcd75ef2d7dff14cb3b5fae"
-            : "5c8f7bacf759bfab19d0d1d821625c03",
-            "1508484331",
-            "EA62B75D5D3941C3A632B8F18C7B3575");
-        //public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
+           "wx6a15c5888e292f99", "74c4c300a46b8c6eb8c79b3689065673", "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
+        //public static IWeChatConfig Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
 #else
         //Product official account         
-        public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
+        //public static IMiniprogram Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
 #endif
-        public const string WxBizMsgToken = "EnjoyMini";
-        public const string EncodingAESKey = "2f0utlUlEJCGJmpwGYDmX184OZpLGrHj7EXG2ynyThC";
+        public const string WxBizMsgToken = "81FF58BA46784314860B59E0834562B5";
+        public const string EncodingAESKey = "mkxeUAVtj2aaopbOsfLm8wJQ7SLnHMV6U41lmCQs95c";
         public const string Directory_Media_Protocol_ROOT = "~/media/protocols";
 
         //短信平台 appid 以及  appkey

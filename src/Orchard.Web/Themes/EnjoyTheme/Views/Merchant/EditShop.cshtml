@@ -10,11 +10,8 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <div class="row">
-        <div class="col-md-4 ">
-
-        </div>
-        <div class="col-md-4 ">
+    <div class="row">       
+        <div class="col-md-2">
             @using (Html.BeginFormAntiForgeryPost(Url.Action("EditShopPost", new { ReturnUrl = "/merchant/myshops" })))
             {
                 @Html.HiddenFor(m => m.ShopModel.Id)
@@ -30,22 +27,32 @@
                new TextUIElement(Html.NameOf(o => o.ShopModel.ShopName), "门店名称", Model.ShopModel.ShopName, 12, true, "12以内的中文字符"))
                 @Html.Partial("Component/_TextPartial", 
                new TextUIElement(Html.NameOf(o => o.ShopModel.Leader), "店长", Model.ShopModel.Leader, 12, true, "12以内的中文字符"))
-                <div class="form-group" id="address">
-                    <div class="form-group form-inline pull-left">
-                        <label class="control-label">商户地址</label>
+                <div class="form-group input-group" id="address">
+                    <label class="control-label">商户地址</label>
+                    <div class="form-group input-group">
+                        @*<span class="input-group-addon">省</span>*@
                         <select class="form-control province" id="@Html.IdFor(o=>o.Address.Province)" name="@Html.NameOf(m => m.Address.Province)" data-value="@Model.Address.Province"> </select>
-                        <select class="form-control city" name="@Html.NameOf(m => m.Address.City)" data-value="@Model.Address.City"></select>
-                        <select class="form-control area" name="@Html.NameOf(m => m.Address.Area)" data-value="@Model.Address.Area"></select>
                     </div>
+
+                    <div class="form-group input-group">
+                        @*<span class="input-group-addon">市</span>*@
+                        <select class="form-control city" name="@Html.NameOf(m => m.Address.City)" data-value="@Model.Address.City"></select>
+
+                    </div>
+                    <div class="form-group input-group">
+                        @*<span class="input-group-addon">县/区</span>*@
+                        <select class="form-control area" name="@Html.NameOf(m => m.Address.Area)" data-value="@Model.Address.Area"></select>
+                    </div>                    
                 </div>
                 <button type="submit" class="btn btn-lg btn-success btn-block">保存</button>
                 <button type="reset" class="btn btn-lg btn-default btn-block">重置</button>
             }
         </div>
-        <div class="col-md-4 ">
-
+        <div class="col-md-10 ">
+           @Html.Partial("Component/_AMap")
+         
         </div>
-    </div>
+    </div>  
 </div>
 
 @using (Script.Foot())

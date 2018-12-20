@@ -23,6 +23,9 @@ namespace Enjoy.Core.WeChatModels
         /// 支付商户号
         /// </summary>
         public string MchId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Key { get; set; }
     }
 }

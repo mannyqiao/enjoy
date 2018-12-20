@@ -393,6 +393,7 @@
     <Content Include="Views\Wap\Pay.cshtml" />
     <Content Include="Views\Wap\Payr.cshtml" />
     <Content Include="Views\Wap\PullWxPay.cshtml" />
+    <Content Include="Views\Component\_AMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">

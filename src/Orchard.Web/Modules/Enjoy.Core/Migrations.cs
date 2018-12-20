@@ -28,7 +28,6 @@ namespace Enjoy.Core
         }
         public int Create()
         {
-
             ContentDefinitionManager.AlterPartDefinition(typeof(MenuPart).Name,
                 cfg => cfg.WithField("FontAwesome", builder => builder.OfType("TextField").WithDisplayName("FontAwesome"))
                          .WithField("Display", builder => builder.OfType("BooleanField").WithDisplayName("Display"))
@@ -67,6 +66,7 @@ namespace Enjoy.Core
                 .Column("MerchantId", DbType.Int64)
                 .Column("EnjoyUser_Id", DbType.Int64)
                 .Column("AppId", DbType.String, column => column.WithLength(26))
+                .Column("Secrect", DbType.String, column => column.WithLength(26))
                 .Column("BrandName", DbType.String, column => column.WithLength(36))
                 .Column("LogoUrl", DbType.String, column => column.WithLength(128))
                 .Column("BeginTime", DbType.Int64)
@@ -74,7 +74,7 @@ namespace Enjoy.Core
                 .Column("Status", DbType.String, column => column.WithLength(36).WithDefault(AuditStatus.UnCommitted.ToString()))
                 .Column("Protocol", DbType.String, column => column.WithLength(128))
                 .Column("PrimaryCategoryId", DbType.Int32)
-                .Column("SecondaryCategoryId", DbType.Int32)
+                .Column("SecondaryCategoryId", DbType.Int32)                
                 .Column("AgreementMediaId", DbType.String, column => column.WithLength(128))
                 .Column("OperatorMediaId", DbType.String, column => column.WithLength(128))
                 .Column("Contact", DbType.String, column => column.WithLength(36).Nullable())

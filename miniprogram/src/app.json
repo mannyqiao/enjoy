@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/welcome/index",
     "pages/card/index",
     "pages/card_details/index",
     "pages/store/index",
@@ -15,7 +16,7 @@
   "window": {
     "backgroundTextStyle": "white",
     "navigationBarBackgroundColor": "#FAFAFA",
-    "navigationBarTitleText": "方泽卡券",
+    "navigationBarTitleText": "SharingV",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#F2f2f2"
   },
@@ -31,7 +32,6 @@
     "borderStyle": "black",
     "backgroundColor": "#FAFAFA",
     "list": [
-      
       {
         "pagePath": "pages/card/index",
         "iconPath": "images/tabbar/mmhtab_icon_fl_n@2x.png",
@@ -52,5 +52,5 @@
       }
     ]
   },
-  "debug": false
+  "debug": true
 }

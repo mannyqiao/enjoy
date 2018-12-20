@@ -52,7 +52,7 @@
             cardcoupon.BaseInfo.Merchant = null;
             cardcoupon.BaseInfo.BrandName = null;
             cardcoupon.BaseInfo.Dateinfo = null;
-            cardcoupon.BaseInfo.BindOpenid = null;
+            cardcoupon.BaseInfo.BindOpenid = null;            
             return cardcoupon;
         }
 

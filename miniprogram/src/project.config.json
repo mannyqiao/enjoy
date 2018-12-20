@@ -11,8 +11,8 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.98",
-	"appid": "wx3ec55fbaa7dcefc7",
+	"libVersion": "2.3.0",
+	"appid": "wx6a15c5888e292f99",
 	"projectname": "Enjoy",
 	"isGameTourist": false,
 	"condition": {
@@ -28,6 +28,7 @@
 			"currentL": -1,
 			"list": []
 		},
+		"debugOptions": {},
 		"miniprogram": {
 			"current": -1,
 			"list": []

@@ -1,5 +1,5 @@
 <view class="page">
-  <!--如果不需要授权 则显示个人昵称和头像 -->
+  
   <view class="weui-panel__bd" wx:if="{{grantedScope.canUseUserInfo}}">
     <view class="weui-media-box weui-media-box_appmsg">
       <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
@@ -8,89 +8,69 @@
       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title">{{name}}</view>
         <view wx:if="{{!hasMobile}}" class="weui-media-box__desc">
-          为了你的账号安全请尽快绑定手机号码.
-          <button class="weui-btn mini-btn" 
-          open-type='getPhoneNumber'
-          bindgetphonenumber='getPhoneNumber'
-          type="primary" size='mini' plain="true">绑定</button>
+          <button class="" open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber' type="primary" size='mini' plain="true">
+            为确保你的账号安全，请尽快绑定手机号码
+          </button>
         </view>
         <view wx:if="{{hasMobile}}" class="weui-media-box__desc">
           手机号码:{{mobile}}
         </view>
       </view>
     </view>
-  </view>
-  <view class="weui-panel__bd" wx:if="{{!grantedScope.canUseUserInfo}}">
-    <view>
-      <button open-type='getUserInfo' bindgetuserinfo='getUserInfo'>获取头像</button>
-    </view>
-  </view>
-  <view class="page__bd" wx:if="{{userCard}}">
-    <view class="weui-form-preview">
+  </view>  
+  <view class="page__bd">
+    <view class="weui-form-preview" wx:for="{{userCards}}" wx:for-index="index" wx:for-item="item">
       <view class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">商户名称</view>
-          <view class="weui-form-preview__value_in-hd">{{userCard.merchant}}</view>
+          <view class="weui-form-preview__label">名称</view>
+          <view class="weui-form-preview__value_in-hd">{{item.brandName}}</view>
         </view>
       </view>
-
       <view class="weui-form-preview__bd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">名称</view>
-          <view class="weui-form-preview__value">{{userCard.cardName}}</view>
-        </view>
-        <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">会员卡号</view>
-          <view class="weui-form-preview__value">{{userCard.cardid}}</view>
-        </view>
-        <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">余额</view>
-          <view class="weui-form-preview__value">￥{{userCard.balance}}元</view>
+          <view class="weui-form-preview__value">￥{{item.balance}}元</view>
         </view>
+
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">积分</view>
-          <view class="weui-form-preview__value">{{userCard.bonus}}</view>
+          <view class="weui-form-preview__label">地址</view>
+          <view class="weui-form-preview__value">{{address}}</view>
         </view>
-        <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">鼓励金</view>
-          <view class="weui-form-preview__value">￥{{userCard.bonus}}元</view>
+        <view class="weui-form-preview__item ">
+          <navigator url="" class="" hover-class="weui-cell_active">
+            <view class="weui-form-preview__label">鼓励金</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access weui-form-preview__value">￥{{item.balance}}元,赚取更多</view>
+          </navigator>
         </view>
       </view>
-
       <view class="weui-form-preview__ft">
         <navigator url="/pages/make-order/index?cardid={{userCard.id}}" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">快速买单</navigator>
         <navigator url="/pages/topup/index?cardid={{userCard.id}}" class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">充值</navigator>
       </view>
     </view>
   </view>
-  <view class="page__bd" wx:if="{{!userCard}}">
-    <view class="weui-form-preview">
-      <view class="weui-form-preview__hd">
-        <view class="weui-form-preview__item">
-          <!-- <view class="weui-form-preview__label">商户名称</view> -->
-          <view class="weui-media-box__desc">
-            你还没有会员卡，请现领取会员卡
-            <!--￥22.00 元-->
-          </view>
-        </view>
-      </view>
+
+  <!--用户无卡券 提示 -->
+  <view class="page__hd" wx:if="{{ userCards==null ||userCards.length==0 }}">
+    <view class="page__title">重要提示</view>
+    <view class="page__desc">
+      你还没有会员卡，请先领取会员卡。领取会员卡会将享受8折优惠，帮助商家推广产品可获得现金红包。
     </view>
   </view>
-
+  <!--用户无卡券 提示 -->
   <view class="page__bd">
     <view class="weui-panel weui-panel_access">
-      <view class="weui-cells__title">推荐会员卡</view>
-      <view class="weui-panel__bd">      
-        <navigator wx:for="{{cards}}" wx:for-index="index" wx:for-item="item"        url="/pages/card_details/index?id={{item.id}}" 
-        class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+      <view class="weui-cells__title">商户会员卡</view>
+      <view class="weui-panel__bd">
+        <navigator wx:for="{{cards}}" wx:for-index="index" wx:for-item="item" url="/pages/card_details/index?id={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-            <image class="weui-media-box__thumb" src="{{item.logoUrl}}"/>
-           </view>
+            <image class="weui-media-box__thumb" src="{{item.logoUrl}}" />
+          </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-            <view class="weui-media-box__title">【{{item.merchantName}}】{{item.brandName}}</view>
+            <view class="weui-media-box__title">【{{merchant}}】{{item.brandName}}</view>
             <view class="weui-media-box__desc">{{privilege}}</view>
           </view>
-        </navigator> 
+        </navigator>
       </view>
       <view class="weui-panel__ft">
         <view class="weui-cell weui-cell_access weui-cell_link">

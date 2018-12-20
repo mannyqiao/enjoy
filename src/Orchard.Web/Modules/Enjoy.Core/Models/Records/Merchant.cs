@@ -27,6 +27,10 @@ namespace Enjoy.Core.Records
 
         public virtual string AppId { get; set; }
         /// <summary>
+        /// 自商户App Secrect
+        /// </summary>
+        public virtual string Secrect { get; set; }
+        /// <summary>
         /// 兰州拉面 子商户名称（12个汉字内），该名称将在制券时填入并显示在卡券页面上
         /// </summary>
         public virtual string BrandName { get; set; }

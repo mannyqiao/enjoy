@@ -24,12 +24,17 @@ namespace Enjoy.Core.Services
         //public const string CacheKey_Token = "Enjoy_WeChat_Token";
         public const string CacheKey_ApplyProtocol = "Enjoy_WeChat_ApplyProtocol";
         public ILogger Logger;
-        public WeChatApi(ICacheManager cache, IClock clock, IOrchardServices os)
+        //private readonly IMerchantService MerchantService;
+        public WeChatApi(
+            ICacheManager cache,
+            IClock clock,
+            IOrchardServices os)
         {
             this.Cache = cache;
             this.Clock = clock;
             this.OS = os;
             this.Logger = NullLogger.Instance;
+           // this.MerchantService = merchant;
         }
         public string GetToken(string appid, string appsecret)
         {
@@ -43,6 +48,11 @@ namespace Enjoy.Core.Services
         }
         public string GetToken()
         {
+            //var merchant = this.MerchantService.GetDefaultMerchant();
+            //if (merchant == null) new NoDefaultMerchantExcpetion();
+            
+            //if (string.IsNullOrEmpty(merchant.AppId) || string.IsNullOrEmpty(merchant.Secrect)) throw new CheckMerchantException();
+
             return GetToken(Constants.WxConfig.AppId, Constants.WxConfig.AppSecrect);
         }
         public ApplyProtocolWxResponse GetApplyProtocol()
@@ -395,6 +405,6 @@ namespace Enjoy.Core.Services
             return true;
         }
 
-     
+
     }
 }

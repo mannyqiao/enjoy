@@ -328,18 +328,16 @@ namespace Enjoy.Core
             info.LogoUrl = merchant.LogoUrl;
 
 
-            //info.CenterAppBrandUserName = "gh_e1543e2be86d@app";
-            //info.CenterAppBrandPass = "pages/store/index";
-            info.Merchant = new SubMerchantInfo()
-            {
-                MerchantId = merchant.MerchantId ?? 0
-            };
-
+            info.CenterAppBrandUserName = "gh_db637ae33750@app";
+            info.CenterAppBrandPass = "pages/card/index";
+            //info.Merchant = new SubMerchantInfo()
+            //{
+            //    MerchantId = merchant.MerchantId ?? 0
+            //};
             //info.CustomAppBrandUserName = "gh_e1543e2be86d@app";
             //info.CustomAppBrandPass = "pages/store/index";
             //info.CustomUrlSubTitle = "分享赚积分";
             //info.CustomUrlName = "分享";
-
             //info.PromotionUrlName = "更多优惠";
             //info.PromotionAppBrandUserName = "gh_e1543e2be86d@app";
             //info.PromotionAppBrandPass = "pages/store/index";
@@ -352,6 +350,7 @@ namespace Enjoy.Core
             info.ServicePhone = merchant.Mobile;
             info.CenterSubTitle = string.Empty;
             info.CenterUrl = Constants.WxConfig.GenerateBasicAuthorizeUrl();
+            info.LocationIdList = new long[] { 491431822 };
             if (type == CardTypes.MEMBER_CARD)
             {
                 info.CenterTitle = "会员中心";
@@ -361,7 +360,7 @@ namespace Enjoy.Core
             }
             else
             {
-                info.CenterTitle = "立即使用";
+                info.CenterTitle = "充值";
             }
             return info;
         }
@@ -524,7 +523,7 @@ namespace Enjoy.Core
         }
         public static float GetDistance(this Location location, Location current)
         {
-            double EARTH_RADIUS = 12656;//地球半径 q米
+            double EARTH_RADIUS = 6378140;//地球半径 q米
             double radLat1 =(double) location.Latitude* Math.PI /180d ;
             double radLng1 = (double)location.Longitude * Math.PI / 180d;// Math.PI / location.Longitude;//Rad(lng1);
             double radLat2 = (double)current.Latitude * Math.PI / 180d;// Math.PI / current.Latitude;

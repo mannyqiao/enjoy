@@ -37,7 +37,8 @@ namespace Enjoy.Core.EnjoyModels
                 this.SecondaryCategoryId = record.SecondaryCategoryId;
                 this.UpdateTime = record.LastActivityTime;
                 this.Status = record.Status;
-                this.ErrMsg = record.ErrMsg;                
+                this.ErrMsg = record.ErrMsg;
+                this.Secrect = record.Secrect;
             }
 
 
@@ -56,6 +57,7 @@ namespace Enjoy.Core.EnjoyModels
         /// 兰州拉面 子商户名称（12个汉字内），该名称将在制券时填入并显示在卡券页面上
         /// </summary>
         public string BrandName { get; set; }
+        public string Secrect { get; set; }
         /// <summary>
         /// http://mmbiz.xxxx	子商户logo，可通过 上传图片接口 获取。该logo将在制券时填入并显示在卡券页面上
         /// </summary>

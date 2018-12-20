@@ -87,6 +87,7 @@ namespace Enjoy.Core.Services
             record.LastActivityTime = model.UpdateTime;
             record.Status = model.Status;
             record.ErrMsg = model.ErrMsg;
+            record.Secrect = model.Secrect;
         }
         public ActionResponse<MerchantModel> SaveAndPushToWeChat(
             MerchantModel model,

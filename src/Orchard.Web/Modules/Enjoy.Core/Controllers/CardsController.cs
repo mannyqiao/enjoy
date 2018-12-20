@@ -141,11 +141,7 @@ namespace Enjoy.Core.Controllers
         public ActionResult EditMemberCard(CardCounponViewModel viewModel, string ReturnUrl)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
-                return this.RedirectLocal("/access/sign?signin=true");
-            //viewModel.MerberCard.ActivateUrl = "https://www.yourc.club/wap/active";
-            //viewModel.MerberCard.ActivateAppBrandPass = "pages/store/index";
-            //viewModel.MerberCard.ActivateAppBrandUserName = "gh_e1543e2be86d@app";
-            //viewModel.MerberCard.ActivateUrl = "https://www.yourc.com/m/active";            
+                return this.RedirectLocal("/access/sign?signin=true");                      
             viewModel.MerberCard.WxActivate = true;
             viewModel.State = CardCouponStates.Editing;
             var merchant = this.Merchant.GetDefaultMerchant(viewModel.MerchantId);            

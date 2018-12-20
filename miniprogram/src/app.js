@@ -5,7 +5,8 @@ import {
   getUserInfo
 } from 'utils/index';
 import {
-  getUserSession, getUserGranted
+  getUserSession,
+  getUserGranted
 } from 'utils/index';
 var app = getApp();
 //app.js
@@ -17,33 +18,57 @@ App({
   globalData: {
     session: null,
     grantedScope: {
-      canUseUserInfo:false,
-      canUseMobile:false,
-      canUseLocation:false
+      canUseUserInfo: false,
+      canUseMobile: false,
+      canUseLocation: false
     },
-    cardid:null,
-    userInfo:null
+    cardid: null,
+    userInfo: null
   },
   onLaunch() {
-    const me = this;  
-    wx.checkSession({
-      success:function(res){        
-        getUserGranted().then(res=>{
-         //console.log("me.globalData.grantedScope", res);
-          me.globalData.grantedScope  = res;
-        });
-      },
-      fail:function(res){        
-        getUserSession(true).then(res => {//重置session并返回
-          console.log("load from local from server", res);
-        });
-      }
-    })
+   
+
+
   },
-  readlyUserInfoCallback:function(user){        
+  
+  readlyUserInfoCallback: function(user) {
     this.globalData.userInfo = user;
+   
   },
-  readlyGettUserGrantedCallback:function(scope){
+  readlyGettUserGrantedCallback: function(scope) {
     this.globalData.grantedScope = scope;
+  },
+  onReady(){
+   
+  },
+  onShow(){
+    const me = this;
+    let option = wx.getLaunchOptionsSync();
+    option.path = '/pages/card/index';
+    
+    if (me.globalData.grantedScope.canUseUserInfo) {
+      wx.navigateTo({
+        url: '/pages/card/index',
+      })
+    } else {
+      wx.checkSession({
+        success: function (res) {
+          getUserGranted().then(res => {
+            me.globalData.grantedScope = res;
+            if (!me.globalData.grantedScope.canUseUserInfo) {
+
+            } else {
+
+            }
+          });
+        },
+        fail: function (res) {
+          getUserSession(true).then(res => { //重置session并返回
+            console.log("load from local from server", res);
+          });
+        }
+      })
+    }
+ 
   }
 });

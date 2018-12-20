@@ -16,12 +16,12 @@
 
     $(document).ready(function () {
 
-        var linked = "@Html.Raw(Model.Linked.ToJson())";
+        var linked = "@Html.Raw(Model.Linked.SerializeToJson())";
 
         $("#@Model.Id > input[type='radio']").click(function () {
 
             var that = this;
-            var linked = @Html.Raw(Model.Linked.ToJson())
+            var linked = @Html.Raw(Model.Linked.SerializeToJson())
 
             $.each(linked, function (index, value) {
 

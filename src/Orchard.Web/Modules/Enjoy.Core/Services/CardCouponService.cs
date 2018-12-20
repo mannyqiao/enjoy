@@ -106,13 +106,12 @@ namespace Enjoy.Core.Services
             var result = request.GetResponseForJson<CreateCouponWxResponse>((http) =>
             {
                 http.Method = "POST";
-                http.ContentType = "application/json; encoding=utf-8";
+                http.ContentType = "application/json;encoding=utf-8";
                 using (var stream = http.GetRequestStream())
                 {
                     var json = string.IsNullOrEmpty(model.WxNo)
                         ? model.CardCoupon.GenreateCreatingWapper().SerializeToJson()
                         : model.CardCoupon.GenreateUpgradeWpper().SerializeToJson();
-
                     var buffers = UTF8Encoding.UTF8.GetBytes(json);
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
