@@ -10,7 +10,7 @@ namespace Enjoy.Core
         where TRecord : IEntityKey<long>
         where TModel : IModelKey<long>
     {
-        PagingData<TModel> Query(QueryFilter filter, PagingCondition condition, Action<ICriteria> builder, Func<TRecord, TModel> convert);
+        PagingData<TModel> Query(WebQueryFilter filter, PagingCondition condition, Action<ICriteria> builder, Func<TRecord, TModel> convert);
 
         PagingData<TModel> Query(PagingCondition condition, Action<ICriteria> builder, Func<TRecord, TModel> convert);
 
@@ -26,7 +26,7 @@ namespace Enjoy.Core
 
 
 
-        BaseResponse Delete(QueryFilter filter);
+        BaseResponse Delete(WebQueryFilter filter);
 
     }
 }

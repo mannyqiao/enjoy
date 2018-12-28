@@ -6,13 +6,15 @@ const host = "https://www.yourc.club/";
 export default {
     "getSession":           `${host}api/enjoy/GetSessionKey`,                                        //获取微信用户信息
     "decryptUserInfo":      `${host}api/enjoy/DecryptUserInfo`,                           //解密微信用户信息
+    "queryCardsByMid":      `${host}api/enjoy/QueryCards`,                           //根据商户id查询 卡券
     "queryMerchants":       `${host}api/enjoy/QueryMerchants`,                          //查询商信息
     "queryShops":           `${host}api/enjoy/QueryShops`,                          //查询附近门店
     "vcode":                `${host}api/enjoy/SendVerifyCode`,                           //绑定获取验证码
     "checkVerifyCode":      `${host}api/enjoy/CheckVerifyCode`,                  
     "bindMobile":           `${host}api/enjoy/BindMobile`,                                     //绑定手机号码
+    "getCardExtString":     `${host}api/enjoy/GenerateCardExtString`,                               // genrnate card extend string
     "getCenterInfo":        `${host}V1/basic/memberInfo.htm`,                               //个人中心
-
+    "topUp":                `${host}api/enjoy/GenerateUnifiedorderforTopup`,                                     //充值
 
     //门店相关
     "storeList":            `${host}V3/member/shop/queryMemberShopIndex.htm`,               //门店列表

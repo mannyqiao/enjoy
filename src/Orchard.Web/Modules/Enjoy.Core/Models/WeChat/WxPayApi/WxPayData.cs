@@ -3,10 +3,11 @@
 
 namespace Enjoy.Core.WeChatModels
 {
+    using System.ComponentModel;
     /*
-     * 微信支付文档
-     * https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_20&index=1
-     */
+* 微信支付文档
+* https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_20&index=1
+*/
     using System.Xml.Serialization;
     [XmlRoot("xml")]
 
@@ -64,6 +65,7 @@ namespace Enjoy.Core.WeChatModels
         [XmlElement("out_trade_no")]
         public string OutTradeNo { get; set; }
 
+        [DefaultValue("CNY")]
         [XmlElement("fee_type")]
         public string Fee_type { get; set; }
         /// <summary>

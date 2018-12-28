@@ -3,10 +3,15 @@
 namespace Enjoy.Core.ApiModels
 {
     using Newtonsoft.Json;
-    public class CardNearyBy
+    public class CardCoupon
     {
         [JsonProperty("id")]
-        public long Id { get; set; }        
+        public long Id { get; set; }
+
+        [JsonProperty("mid")]
+        public long Mid { get; set; }
+        [JsonProperty("wxno")]
+        public string WxNo { get; set; }
         /// <summary>
         /// 商户名称
         /// </summary>
@@ -26,11 +31,7 @@ namespace Enjoy.Core.ApiModels
         /// 会员卡 Logo
         /// </summary>
         [JsonProperty("logoUrl")]
-        public string LogoUrl { get; set; }
-        /// <summary>
-        /// 距离
-        /// </summary>
-        public float Distance { get; set; }
+        public string LogoUrl { get; set; }        
         
     }
 }

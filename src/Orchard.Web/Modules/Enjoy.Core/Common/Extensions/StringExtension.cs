@@ -2,9 +2,11 @@
 
 namespace Enjoy.Core
 {
-    using System;    
-    using System.Text;    
+    using System;
+    using System.Security.Cryptography;
+    using System.Text;
     using Orchard.Security;
+    using System.Linq;
     public static class StringExtension
     {
 
@@ -51,5 +53,15 @@ namespace Enjoy.Core
             //    return string.Concat(@"<?xml version=""1.0""?>\r\n", xmlMsg);
             //}
         }
+        public static string GetSHA1Crypto(this string text)
+        {
+            var bytes = SHA1.Create().ComputeHash(UTF8Encoding.Default.GetBytes(text));
+            return bytes.ToHexString();
+        }
+        public static string ToHexString(this byte[] bytes)
+        {
+            return string.Join(string.Empty, bytes.Select(o => o.ToString("X2").ToLower()));
+        }
+
     }
 }

@@ -58,7 +58,7 @@ namespace Enjoy.Core.Controllers
             });
         }
         [HttpPost]
-        public JsonNetResult QueryCouponCard(QueryFilter filter)
+        public JsonNetResult QueryCouponCard(WebQueryFilter filter)
         {
 
             if (this.Auth.GetAuthenticatedUser() == null)

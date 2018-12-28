@@ -9,7 +9,7 @@ namespace Enjoy.Core
     using System.Linq;
     public static class ICriteriaExtension
     {
-        public static ICriteria WithQueryFilter(this ICriteria criteria, QueryFilter filter)
+        public static ICriteria WithQueryFilter(this ICriteria criteria, WebQueryFilter filter)
         {
             if (criteria == null) throw new ArgumentNullException("criteria");
             if (filter == null) throw new ArgumentNullException("filter");
@@ -67,7 +67,7 @@ namespace Enjoy.Core
             }
             return criteria;
         }
-        public static ICriteria WithQueryOrder(this ICriteria criteria, QueryFilter filter)
+        public static ICriteria WithQueryOrder(this ICriteria criteria, WebQueryFilter filter)
         {
             if (criteria == null) throw new ArgumentNullException("criteria");
             if (filter == null) throw new ArgumentNullException("filter");

@@ -250,12 +250,12 @@ namespace Enjoy.Core
                     //    NameType = "FIELD_NAME_TYPE_LEVEL",
                     //    Name = "等级"
                     //};
-                    //viewModel.MerberCard.CustomField2 = new CustomField()
-                    //{
-                    //    Url = "https://www.yourc.club/wap/balance",
-                    //    NameType = "FIELD_NAME_TYPE_LEVEL",
-                    //    Name = "余额"
-                    //};
+                    viewModel.MerberCard.CustomField2 = new CustomField()
+                    {
+                        Url = "https://www.yourc.club/wap/balance",
+                        NameType = "FIELD_NAME_TYPE_LEVEL",
+                        Name = "余额"
+                    };
                     break;
             }
             return viewModel;
@@ -317,7 +317,9 @@ namespace Enjoy.Core
             info.UseCustomCode = false;
             info.BindOpenid = true;
             info.CanGivefriend = true;
-            info.LocationIdList = new long[] { };////TODO 需要搞清楚这些ID是怎么回事                  
+            info.LocationIdList = new long[] {
+                491431822
+            };////TODO 需要搞清楚这些ID是怎么回事                  
             info.Merchant = new SubMerchantInfo() { MerchantId = merchant.MerchantId ?? 0 };
 
             return info;

@@ -112,14 +112,18 @@
     <Compile Include="Api\Models\CardNearyBy.cs" />
     <Compile Include="Api\Models\Mobile.cs" />
     <Compile Include="Api\Models\PagingX.cs" />
+    <Compile Include="Api\Models\PullWxPayData.cs" />
     <Compile Include="Api\Models\ShopAct.cs" />
     <Compile Include="Api\Models\ShopNearyby.cs" />
     <Compile Include="Api\Models\Tokens\BindMobileContext.cs" />
+    <Compile Include="Api\Models\CardExtModel.cs" />
     <Compile Include="Api\Models\Tokens\DecryptContext.cs" />
     <Compile Include="Api\Models\Tokens\JSCodeContext.cs" />
-    <Compile Include="Api\Models\Tokens\QueryCardNearbyContext.cs" />
+    <Compile Include="Api\Models\Tokens\QueryCardsContext.cs" />
     <Compile Include="Api\Models\Tokens\RegWxUserContext.cs" />
+    <Compile Include="Api\Models\Tokens\SignatureContext.cs" />
     <Compile Include="Api\Models\Tokens\VerifyCodeContext.cs" />
+    <Compile Include="Api\Models\Tokens\TopupContext.cs" />
     <Compile Include="Api\Models\UserState.cs" />
     <Compile Include="Common\Exceptions\WxPayException.cs" />
     <Compile Include="Common\Extensions\AuditStatusExtension.cs" />
@@ -173,6 +177,8 @@
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ActionResponse.cs" />
     <Compile Include="Models\CardCoupon\WxUserCouponModel.cs" />
+    <Compile Include="Models\DataFilters\QueryFilter.cs" />
+    <Compile Include="Models\DataFilters\CardCouponQueryFilter.cs" />
     <Compile Include="Models\EnjoyUser\EnjoyUserModel.cs" />
     <Compile Include="Models\EnjoyUser\WxUserModel.cs" />
     <Compile Include="Models\Enums\CardCouponStates.cs" />
@@ -206,7 +212,6 @@
     <Compile Include="Models\PagingCondition.cs" />
     <Compile Include="Models\PagingData.cs" />
     <Compile Include="Models\Records\CardCoupon.cs" />
-    <Compile Include="Models\Records\CardCouponNearby.cs" />
     <Compile Include="Models\Records\Category.cs" />
     <Compile Include="Models\Records\EnjoyUser.cs" />
     <Compile Include="Models\Records\Merchant.cs" />
@@ -267,6 +272,7 @@
     <Compile Include="Models\WeChat\Messages\WeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\WeChatMsgModel.cs" />
     <Compile Include="Models\WeChat\Response\PhoneNumberWxResponse.cs" />
+    <Compile Include="Models\WeChat\Response\TicketWxResponse.cs" />
     <Compile Include="Models\WeChat\Response\WxUnifiedorderResponse.cs" />
     <Compile Include="Models\WeChat\Response\QueryCardCouponWxResponse.cs" />
     <Compile Include="Models\WeChat\Submerchant\SubMerchant.cs" />
@@ -345,7 +351,7 @@
     <Compile Include="ViewModels\CardCounponViewModel.cs" />
     <Compile Include="ViewModels\CardCouponWithoutWapperViewModel.cs" />
     <Compile Include="Models\DataFilters\QueryColumnFilter.cs" />
-    <Compile Include="Models\DataFilters\QueryFilter.cs" />
+    <Compile Include="Models\DataFilters\WebQueryFilter.cs" />
     <Compile Include="Models\DataFilters\QueryOrderFilter.cs" />
     <Compile Include="Models\DataFilters\SearchColumnFilter.cs" />
     <Compile Include="ViewModels\ChooseViewModel.cs" />

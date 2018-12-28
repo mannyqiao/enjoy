@@ -6,8 +6,11 @@ import {
 } from 'utils/index';
 import {
   getUserSession,
-  getUserGranted
+  getUserGranted,
+  relateSharingVUser
+
 } from 'utils/index';
+
 var app = getApp();
 //app.js
 App({
@@ -15,60 +18,60 @@ App({
   getUserInfo,
   getUserSession,
   getUserGranted,
-  globalData: {
-    session: null,
+  relateSharingVUser,
+
+  globalData: {   
     grantedScope: {
       canUseUserInfo: false,
       canUseMobile: false,
       canUseLocation: false
-    },
-    cardid: null,
-    userInfo: null
+    },     
+    merchant:{
+      id:1
+    }
   },
   onLaunch() {
-   
+    const me = this;     
+    wx.checkSession({
+      success() {
+        // session_key 未过期，并且在本生命周期一直有效       
+      },
+      fail() {
+        // session_key 已经失效，需要重新执行登录流程
+        wx.login() // 重新登录
+        me.getUserGranted().then(res => {
+          me.globalData.grantedScope = res;
+        })
+      }
+    })      
 
-
+    
+    
+  },  
+  readlyUserInfoCallback: function(data) {        
+    const me = this;
+    this.relateSharingVUser(data).then(ctx=>{
+      if(ctx==null){
+        this.readlyGettUserGrantedCallback(false);
+      }
+      else{      
+        me.readlyGettUserGrantedCallback(true);
+      }
+    });
+    
   },
-  
-  readlyUserInfoCallback: function(user) {
-    this.globalData.userInfo = user;
-   
-  },
-  readlyGettUserGrantedCallback: function(scope) {
-    this.globalData.grantedScope = scope;
+  readlyGettUserGrantedCallback: function(isReady) {    
+    this.globalData.grantedScope = {
+      canUseUserInfo: isReady,
+      canUseMobile: this.globalData.canUseMobile,
+      canUseLocation: this.globalData.canUseLocation
+    }
+    console.log(this.globalData.grantedScope);
   },
   onReady(){
    
   },
   onShow(){
-    const me = this;
-    let option = wx.getLaunchOptionsSync();
-    option.path = '/pages/card/index';
     
-    if (me.globalData.grantedScope.canUseUserInfo) {
-      wx.navigateTo({
-        url: '/pages/card/index',
-      })
-    } else {
-      wx.checkSession({
-        success: function (res) {
-          getUserGranted().then(res => {
-            me.globalData.grantedScope = res;
-            if (!me.globalData.grantedScope.canUseUserInfo) {
-
-            } else {
-
-            }
-          });
-        },
-        fail: function (res) {
-          getUserSession(true).then(res => { //重置session并返回
-            console.log("load from local from server", res);
-          });
-        }
-      })
-    }
- 
   }
 });

@@ -213,7 +213,7 @@ namespace Enjoy.Core.Services
         }
 
         public PagingData<MerchantModel> QueryMerchants(
-            QueryFilter filter,
+            WebQueryFilter filter,
             PagingCondition condition)
         {
             

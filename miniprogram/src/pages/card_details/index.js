@@ -1,6 +1,20 @@
-// pages/card_details/index.js
-Page({
+import cfg from '../../config/index.js';
+import ApiList from '../../config/api';
+import {
+  promisify,
+  complete
+} from '../../utils/promisify';
+import {
+  co,
+  Promise,
+  regeneratorRuntime
+} from '../../utils/co-loader';
+import request from '../../utils/request';
+import { queryCardsByMid } from "../../utils/endpoints";
 
+let app = getApp();
+Page({
+  
   /**
    * Page initial data
    */
@@ -9,33 +23,31 @@ Page({
       { linkTo: "", pic: "https://www.yourc.club/media/banners/banner-01.jpg" },
       { linkTo: "", pic: "https://www.yourc.club/media/banners/banner-01.jpg" },
       { linkTo: "", pic: "https://www.yourc.club/media/banners/banner-01.jpg" }
-    ],
-    tabs: ["商户介绍", "会员特权", "积分商城"],
+    ],  
     activeIndex: 1,
     sliderOffset: 0,
-    sliderLeft: 0
+    sliderLeft: 0,
+    details:{
+      id:"",
+      merchantName:"",
+      brandName:"",
+      privilege:"",
+      wxno:"",
+      fromOpenId:"",
+    },
+    openid:""
   },
 
   /**
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
-    console.log(options.id);
-    var that = this;
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-        });
-      }
-    });
-  },
-  tabClick: function (e) {
-    this.setData({
-      sliderOffset: e.currentTarget.offsetLeft,
-      activeIndex: e.currentTarget.id
-    });
+    const me = this;
+    let token = wx.getStorageSync(cfg.localKey.token);
+    me.setData({details:options,openid:token.token.openid});
+    
+
+    console.log(options);
   },
   /**
    * Lifecycle function--Called when page is initially rendered
@@ -78,11 +90,46 @@ Page({
   onReachBottom: function () {
 
   },
-
+  onTouchAddCardBag: function (event) {    
+    let details = event.target.dataset["details"];    
+    let token = wx.getStorageSync(cfg.localKey.token);
+    console.log(token);
+    request({
+      url: ApiList.getCardExtString + "?time=" + new Date(),
+      method: "POST",
+      data: {
+        appid: cfg.appid,
+        secret: cfg.secret,
+        cardid: details.wxno,
+        openid: token.token.openid
+      },
+      success: function (res) {        
+        var card = {
+          cardId: details.wxno,
+          cardExt: res.data
+        }    
+        wx.addCard({
+          cardList: [card],
+          success(res){
+            console.log(res);
+          }
+        })
+      }
+    });
+     //getCardExtString
+    
+  } ,
   /**
    * Called when user click on the top right corner to share
    */
-  onShareAppMessage: function () {
-
+  onShareAppMessage: function (event) {
+    console.log(event);
+  } , 
+  onSharingCard:function(event){
+    let details = event.target.dataset["details"];  
+    
+    
   }
 })
+
+

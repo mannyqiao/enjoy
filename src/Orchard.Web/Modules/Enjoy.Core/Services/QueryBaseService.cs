@@ -27,7 +27,7 @@ namespace Enjoy.Core.Services
         }
 
         public PagingData<M> Query(
-            QueryFilter filter,
+            WebQueryFilter filter,
             PagingCondition condition,
             Action<ICriteria> builder,
             Func<R, M> convert)
@@ -98,7 +98,7 @@ namespace Enjoy.Core.Services
 
 
 
-        public BaseResponse Delete(QueryFilter filter)
+        public BaseResponse Delete(WebQueryFilter filter)
         {
             var session = this.OS.TransactionManager.GetSession();
             var criteria = session.CreateCriteria(typeof(R));

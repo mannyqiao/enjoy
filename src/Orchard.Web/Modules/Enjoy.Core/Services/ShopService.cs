@@ -52,7 +52,7 @@ namespace Enjoy.Core.Services
             record => new ShopModel(record));
         }
 
-        public PagingData<ShopModel> QueryShops(QueryFilter filter, PagingCondition condition)
+        public PagingData<ShopModel> QueryShops(WebQueryFilter filter, PagingCondition condition)
         {
             return Query(filter, condition, null, r => new ShopModel(r));            
         }

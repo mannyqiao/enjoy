@@ -51,7 +51,7 @@ namespace Enjoy.Core
         /// <returns></returns>
         WxResponseWapper<AuditStatus> QueryMerchantStatus(long merchantid);
         BaseResponse Delete(long id);
-        PagingData<MerchantModel> QueryMerchants(QueryFilter filter, PagingCondition condition);
+        PagingData<MerchantModel> QueryMerchants(WebQueryFilter filter, PagingCondition condition);
 
         void UpdateMerchantStatus(long merchantId, AuditStatus status, string reson);
         

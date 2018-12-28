@@ -13,6 +13,7 @@ namespace Enjoy.Core
     using System.Security.Cryptography;
     using System.Text;
     using System.Linq;
+    using Enjoy.Core.ApiModels;
 
     public static class WxPayDataExtension
     {
@@ -172,7 +173,7 @@ namespace Enjoy.Core
         public static WxPayData GenerateUnifiedWxPayData(this JsApiPay jsApiPay)
         {
             var data = new WxPayData();
-            
+
             var ran = new Random();
             data.Body = "test";
             data.Attach = "test";
@@ -221,7 +222,7 @@ namespace Enjoy.Core
         }
         public static string PrepareSign(this WxPayParameter data)
         {
-          
+
             var ignoreProperties = new string[] { "paySign", "return_code", "return_msg" };
             var @params = data.GetType().GetProperties().Select((ctx) =>
             {
@@ -301,6 +302,34 @@ namespace Enjoy.Core
             result = string.Join("", baHashedText.ToList().Select(b => b.ToString("x2")).ToArray());
             return result;
         }
-       
+
+        public static WxPayData GenerateUnifiedWxPayData(this TopupContext context)
+        {
+            var data = new WxPayData();
+            data.Body = "会员卡充值";
+            data.Attach = "attach";
+            data.OutTradeNo = Guid.NewGuid().ToString().Replace("-",string.Empty);// "150848433120180905090411634"; //
+            data.TimeStart = DateTime.Now.ToString("yyyyMMddHHmmss");// "20180905090412";// "20180905091412"; //
+
+            data.TimeExpire = DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"); //"20180905091412"; //
+            data.AppId = context.AppId; //Constants.WxConfig.AppId;
+            data.OpenId = context.OpenId;
+            data.TradeType = "JSAPI";
+            data.GoodsTag = "会员卡充值";
+            data.MchId = Constants.WxConfig.MchId;
+            data.Totalfee = context.Money * 100;
+            data.NotifyUrl = "https://www.yourc.club/wap/payr";
+            data.SpbillCreateIp = "118.24.139.228";
+            data.NonceStr = RandomGenerator.Instance.Genernate();
+            data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
+            data.Sign = data.MakeSign();
+            //data.ProductId = "12235413214070356458058";
+            //data.SceneInfo = "";
+            if (data.WithRequired(out string errMsg) == false)
+            {
+                throw new WxPayException(errMsg);
+            }
+            return data;
+        }
     }
 }

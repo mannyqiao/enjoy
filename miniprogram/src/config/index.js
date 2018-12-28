@@ -1,8 +1,8 @@
 // 小程序通过配置信息;
 const AppConfig = {
-  appid: "wx3ec55fbaa7dcefc7",                //app id
-  secret: "e1374e932b2eef3d4b0fa8f0e936496a",           //app secret
-
+  appid: "wx6a15c5888e292f99",                //app id
+  secret: "74c4c300a46b8c6eb8c79b3689065673",           //app secret
+  mid:"",
     ak: "db185e5dba386e42aeea9723d4a1fc66",                // 高德地图key
     bk: "your baidu map key",           // 百度地址key
 
@@ -27,7 +27,7 @@ const AppConfig = {
 
     // 本地存储名称集合
     localKey: {
-        user: "_user_info",                     // 用户信息
+        token: "_user_info",                     // 用户信息
         qcRpt: "_qc_report",                    // 质检报告
         session:"_session",
         withCredentials:"_withCredentials",

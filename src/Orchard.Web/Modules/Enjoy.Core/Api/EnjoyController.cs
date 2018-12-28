@@ -13,10 +13,14 @@ namespace Enjoy.Core.Api
 
     using Enjoy.Core.WeChatModels;
     using System.Collections.Generic;
-    using Enjoy.Core.ApiModels;
+    using ApiModel = Enjoy.Core.ApiModels;
     using System.Linq;
     using Enjoy.Core.ViewModels;
     using System;
+    using Enjoy.Core.Services;
+
+
+
     //[Authorize]
     public class EnjoyController : ApiController
     {
@@ -58,7 +62,7 @@ namespace Enjoy.Core.Api
 
         [Route("api/enjoy/GetSessionKey")]
         [HttpPost]
-        public IWxAuthorization GetSessionKey(JSCodeContext signature)
+        public IWxAuthorization GetSessionKey(ApiModel::JSCodeContext signature)
         {
             //var text = this.OS.WorkContext.HttpContext.Request.InputStream.ReadStream();
             var result = this._weChat.GetSessionKey(signature.Code, signature.AppId, signature.Secret);
@@ -66,7 +70,7 @@ namespace Enjoy.Core.Api
         }
         [Route("api/enjoy/DecryptUserInfo")]
         [HttpPost]
-        public WeChatUserInfo DecryptUserInfo(DecryptContext context)
+        public WeChatUserInfo DecryptUserInfo(ApiModel::DecryptContext context)
         {
             var result = this._weChat.Decrypt<WeChatUserInfo>(context.Data, context.IV, context.SessionKey);
             //检查用户状态
@@ -86,12 +90,12 @@ namespace Enjoy.Core.Api
                     UnionId = result.UnionId,
                     AvatarUrl = context.WxChatUser == null ? "" : context.WxChatUser.AvatarUrl
                 };
-                result.State = new UserState() { HasMobile = false, Signup = true };
+                result.State = new ApiModel::UserState() { HasMobile = false, Signup = true };
                 this._wxUserService.Register(wxuser);
             }
             else
             {
-                result.State = new UserState() { HasMobile = !string.IsNullOrEmpty(wxuser.Mobile), Signup = true };
+                result.State = new ApiModel::UserState() { HasMobile = !string.IsNullOrEmpty(wxuser.Mobile), Signup = true };
             }
             result.Id = wxuser.Id;
             result.Mobile = wxuser.Mobile;
@@ -106,7 +110,7 @@ namespace Enjoy.Core.Api
         /// <returns></returns>
         [Route("api/enjoy/CheckVerifyCode")]
         [HttpPost]
-        public bool CheckVerifyCode(VerifyCodeContext context)
+        public bool CheckVerifyCode(ApiModel::VerifyCodeContext context)
         {
             return this._authService.IsEquals(context.Mobile, context.VerifyCode);
         }
@@ -114,7 +118,7 @@ namespace Enjoy.Core.Api
 
         [Route("api/enjoy/BindMobile")]
         [HttpPost]
-        public dynamic BindMobile(DecryptContext context)
+        public dynamic BindMobile(ApiModel::DecryptContext context)
         {
             var result = this._weChat.Decrypt<PhoneNumberWxResponse>(context.Data, context.IV, context.SessionKey);
             var model = this._wxUserService.GetWxUser(context.WxChatUser.UnionId);
@@ -180,13 +184,13 @@ namespace Enjoy.Core.Api
             this._handler.Handle(token);
 
         }
-
+        [Obsolete("This api has been deprecated")]
         [Route("api/enjoy/QueryMerchants")]
         [HttpPost]
-        public List<Banner> QueryMerchants(PagingX paging)
+        public List<ApiModel::Banner> QueryMerchants(ApiModel::PagingX paging)
         {
             var condition = PagingCondition.GenerateByPageAndSize(paging.Page, paging.PageSize);
-            return this._merchantService.QueryMerchants(new QueryFilter()
+            return this._merchantService.QueryMerchants(new WebQueryFilter()
             {
                 Columns = new List<QueryColumnFilter>()
                 {
@@ -214,7 +218,7 @@ namespace Enjoy.Core.Api
             .Items
             .Select((ctx) =>
             {
-                return new Banner()
+                return new ApiModel::Banner()
                 {
                     LinkName = ctx.BrandName,
                     LinkTo = string.Empty,
@@ -226,30 +230,12 @@ namespace Enjoy.Core.Api
 
         [Route("api/enjoy/sendverifycode")]
         [HttpPost]
-        public ActionResponse<VerificationCodeViewModel> SendVerifyCode(Mobile mobile)
+        public ActionResponse<VerificationCodeViewModel> SendVerifyCode(ApiModel::Mobile mobile)
         {
             return this._authService.GetverificationCode(mobile.Value, VerifyTypes.BindWeChatUser);
         }
 
-        [Route("api/enjoy/QueryShops")]
-        [HttpPost]
-        public List<ShopNearyby> QueryShops(Location location)
-        {
-            var paging = PagingCondition.GenerateByPageAndSize(1, 15);
-            return this._shopservice.QueryShops(null, paging)
-                .Items.Select((ctx) =>
-                {
-                    return new ShopNearyby()
-                    {
 
-                        ShopActs = new ShopAct[] { },
-                        ShopAddress = ctx.Address,
-                        ShopId = ctx.Id,
-                        ShopLogo = ctx.Merchant.LogoUrl,
-                        ShopName = string.Format("{0}[{1}]", ctx.Merchant.BrandName, ctx.ShopName)
-                    };
-                }).ToList();
-        }
         /// <summary>
         /// 查询推荐的会员卡
         /// </summary>
@@ -257,18 +243,58 @@ namespace Enjoy.Core.Api
         /// <returns></returns>
         [Route("api/enjoy/QueryCards")]
         [HttpPost]
-        public List<CardNearyBy> QueryCards(QueryCardNearbyContext context)
+        public List<ApiModel::CardCoupon> QueryCards(ApiModel::QueryCardsContext context)
         {
-            var data = this._cardCouponService.QueryCardCoupon(context.Location, context.Condition, context.Distance);
-            return data.Items.Select(o => new CardNearyBy()
+            var data = this._cardCouponService.QueryCardCoupon(
+                context.MerchantId, context.Types, new CardCouponStates[] { CardCouponStates.Approved });
+            return data.Select(o => new ApiModel::CardCoupon()
             {
                 BrandName = o.BrandName,
                 Id = o.Id,
-                LogoUrl = o.LogoUrl,
-                MerchantName = o.Merchant,
-                Privilege = o.Privilege,
-                Distance = new Location(o.Latitude, o.Longitude).GetDistance(context.Location)
+                Mid = o.Merchant.Id,
+                WxNo = o.WxNo,
+                LogoUrl = o.CardCoupon.BaseInfo.LogoUrl,
+                MerchantName = o.Merchant.BrandName,
+                Privilege = (o.CardCoupon as MemberCard).Prerogative,
             }).ToList();
+        }
+        public ApiModel::CardCoupon QueryCardById(long id)
+        {
+            return new ApiModel::CardCoupon();
+        }
+        [Route("api/enjoy/GenerateCardExtString")]
+        [HttpPost]
+        public string GenerateCardExtString(ApiModel::SignatureContext context)
+        {
+            var timestamp = DateTime.Now.ToUnixStampDateTime();
+            var nonce = Guid.NewGuid().ToString().Replace("-", string.Empty);
+            var result = new ApiModel::CardExtModel()
+            {
+                //OpenId = context.OpenId,
+                Signature = this._weChat.GenerateCardSignature(context.AppId, context.AppSecret, context.CardId, timestamp, nonce),
+                TimeStamp = timestamp.ToString(),
+                NonceStr = nonce,
+                OuterStr = "Miniprogram"
+            };
+            return result.SerializeToJson();
+        }
+
+        [Route("api/enjoy/GenerateUnifiedorderforTopup")]
+        [HttpPost]
+        public ApiModel::PullWxPayData GenerateUnifiedorderforTopup(ApiModel::TopupContext context)
+        {
+            var data = context.GenerateUnifiedWxPayData();
+            var parameter = this._weChat.Unifiedorder(data);
+            parameter.PaySign = parameter.MakeSign();
+            return new ApiModel::PullWxPayData()
+            {
+                nonceStr = parameter.NonceStr,
+                package = parameter.Package,
+                paySign = parameter.PaySign,
+                signType = WxPayData.SIGN_TYPE_HMAC_SHA256,
+                timeStamp = parameter.TimeStamp.ToString()
+            };
+
         }
     }
 }

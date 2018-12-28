@@ -62,28 +62,20 @@ const getUserInfo = co.wrap(function*() {
 });
 
 const getUserSession = co.wrap(function*(reset) {
-  if(reset){          
-    return yield resetUserSession();  
-  }
-  else{
-    let localUserSession =  wx.getStorageSync(cfg.localKey.session);        
-    if (localUserSession){      
-      return localUserSession;
-    }else{
-      return yield resetUserSession();
-    }
-  } 
+  console.log("reset", reset);
+  return yield resetUserSession();
 });
 //重置 user session
-const resetUserSession = co.wrap(function* (){
-  const basic =yield promisify(wx.login)();  
+const resetUserSession = co.wrap(function*() {
+  const basic = yield promisify(wx.login)();
+
   const userSession = {
     code: null,
     session_key: null,
     openid: null,
     expires_in: 0
   };
-  const session =yield request({
+  const session = yield request({
     url: ApiList.getSession + "?time=" + new Date(),
     method: "POST",
     data: {
@@ -93,45 +85,75 @@ const resetUserSession = co.wrap(function* (){
       grant_type: "authorization_code"
     }
   });
-  
+
   userSession.code = basic.code;
   userSession.session_key = session.data.session_key;
   userSession.openid = session.data.openid;
   userSession.expires_in = session.expires_in;
-  wx.setStorageSync(cfg.localKey.session, userSession);  
+  wx.setStorageSync(cfg.localKey.session, userSession);
   return userSession;
 });
 
-const getUserGranted = co.wrap(function* (){
-  const scope ={
+const getUserGranted = co.wrap(function*() {
+  const scope = {
     canUseUserInfo: false,
     canUseMobile: false,
     canUseLocation: false
   };
-  const settings = yield promisify(wx.getSetting)();  
-  if (settings.authSetting["scope.userInfo"]){
+  const settings = yield promisify(wx.getSetting)();
+  if (settings.authSetting["scope.userInfo"]) {
     scope.canUseUserInfo = true;
-  }
-  else{
+  } else {
     scope.canUseUserInfo = false;
   }
   if (settings.authSetting["scope.userLocation"]) {
     scope.canUseLocation = true;
-  }
-  else {
+  } else {
     scope.canUseLocation = false;
   }
   if (settings.authSetting["scope.phoneNumber"]) {
     scope.canUseMobile = true;
-  }
-  else {
+  } else {
     scope.canUseMobile = false;
   }
   return scope;
+});
+/**
+ * 关联平台用户如果不存在则创建并返回平台用户
+ */
+const relateSharingVUser = co.wrap(function*(wxUserInfo) {
+  console.log("wxUserInfo in relateSharingVUser", wxUserInfo);
+  let session = yield getUserSession();
+  const userInfo = {
+    wx: wxUserInfo,
+    sharingv: null,
+    token: session,
+    unionId: null
+  };
+
+  //获取 unionId
+  if (session) {
+    const result = yield request({
+      url: ApiList.decryptUserInfo,
+      method: "POST",
+      data: {
+        appId: cfg.appid,
+        data: wxUserInfo.encryptedData,
+        iv: wxUserInfo.iv,
+        sessionKey: session.session_key
+      }
+    });
+    userInfo.sharingv = result.data;
+    userInfo.unionId = result.data.unionId;
+    wx.setStorageSync(cfg.localKey.token, userInfo);
+    return userInfo;
+  }
+  return null;
 });
 export {
   getUserInfo,
   getUserSession,
   resetUserSession,
-  getUserGranted
+  getUserGranted,
+  relateSharingVUser
 };

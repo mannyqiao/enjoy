@@ -49,11 +49,14 @@ namespace Enjoy.Core
         /// <param name="jsApiPay"></param>
         /// <returns></returns>
         WxPayParameter Unifiedorder(JsApiPay jsApiPay);
+
+        WxPayParameter Unifiedorder(WxPayData data);
         //WeChatUserH5Auth GetWeChatUserH5(string openid);
         /// <summary>
-        /// 创建子商户门店
+        /// 创建卡券签名
         /// </summary>
         /// <param name="model"></param>
         //void CreateMerchantShop(ShopModel model);        
+        string GenerateCardSignature(string appid, string screct, string cardid, long timestamp, string nonce_str);
     }
 }

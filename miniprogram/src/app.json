@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/welcome/index",
-    "pages/card/index",
+    "pages/card/index",    
     "pages/card_details/index",
     "pages/store/index",
     "pages/member/index",
@@ -16,7 +16,7 @@
   "window": {
     "backgroundTextStyle": "white",
     "navigationBarBackgroundColor": "#FAFAFA",
-    "navigationBarTitleText": "SharingV",
+    "navigationBarTitleText": "柠檬工坊",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#F2f2f2"
   },
@@ -53,4 +53,5 @@
     ]
   },
   "debug": true
+
 }

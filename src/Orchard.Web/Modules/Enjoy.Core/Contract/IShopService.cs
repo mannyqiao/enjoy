@@ -12,7 +12,7 @@ namespace Enjoy.Core
 
         ShopModel GetDefaultShop(long shopid);
 
-        PagingData<ShopModel> QueryShops(QueryFilter filter, PagingCondition paging);
+        PagingData<ShopModel> QueryShops(WebQueryFilter filter, PagingCondition paging);
 
         void SaveOrUpdate(ShopModel model);
 

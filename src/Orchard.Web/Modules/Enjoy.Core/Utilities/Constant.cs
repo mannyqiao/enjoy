@@ -88,8 +88,15 @@ namespace Enjoy.Core
         //    "EA62B75D5D3941C3A632B8F18C7B3575");
         //使用 柠檬工坊
         //74c4c300a46b8c6eb8c79b3689065673
+        //柠檬工坊 小程序
+        //public static readonly IWeChatConfig WxConfig = new EnjoyWeChatConfig(
+        //   "wx6a15c5888e292f99", "74c4c300a46b8c6eb8c79b3689065673", "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
+
+        //柠檬工坊服务号
         public static readonly IWeChatConfig WxConfig = new EnjoyWeChatConfig(
-           "wx6a15c5888e292f99", "74c4c300a46b8c6eb8c79b3689065673", "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
+           "wx20da9548445a2ca7", "8fd877e51aa338a2c660e35d1f876e70", "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
+
+        
         //public static IWeChatConfig Miniprogram = new WeChatModels.Miniprogram("wxeb6c176a36bb7b69", "5c8f7bacf759bfab19d0d1d821625c03");
 #else
         //Product official account         

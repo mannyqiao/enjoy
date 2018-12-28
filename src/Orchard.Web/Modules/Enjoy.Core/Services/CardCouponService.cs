@@ -2,7 +2,7 @@
 
 namespace Enjoy.Core.Services
 {
-    using Enjoy.Core.Records;
+    using Record = Enjoy.Core.Records;
     using Enjoy.Core.EnjoyModels;
     using System;
     using Enjoy.Core.WeChatModels;
@@ -12,7 +12,7 @@ namespace Enjoy.Core.Services
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CardCouponService : QueryBaseService<CardCoupon, CardCounponModel>, ICardCouponService
+    public class CardCouponService : QueryBaseService<Record::CardCoupon, CardCounponModel>, ICardCouponService
     {
         private readonly IWeChatApi WeChat;
         public CardCouponService(IOrchardServices os, IWeChatApi wechat)
@@ -86,7 +86,20 @@ namespace Enjoy.Core.Services
                 return new CardCounponModel(record);
             });
         }
+        public IList<CardCounponModel> QueryCardCoupon(long merchantId, CardTypes[] types, CardCouponStates[] states)
+        {
+            var session = this.OS.TransactionManager.GetSession();
+            var criteria = session.CreateCriteria<Record::CardCoupon>();
+            criteria.Add(Expression.Eq("Merchant.Id", merchantId));
+            criteria.Add(Expression.In("Type", types));
+            if(states!=null&& states.Count() > 0) {
+                criteria.Add(Expression.In("Status", states));
+            }
+            return criteria.List<Record::CardCoupon>()
+                .Select(record => new CardCounponModel(record))
+                .ToList();
 
+        }
         public ActionResponse<CardCounponModel> SaveOrUpdate(CardCounponModel model)
         {
             //发布到微信
@@ -152,11 +165,11 @@ namespace Enjoy.Core.Services
             });
         }
 
-        protected override void RecordSetter(CardCoupon record, CardCounponModel model)
+        protected override void RecordSetter(Record::CardCoupon record, CardCounponModel model)
         {
             record.CreatedTime = model.CreatedTime;
             record.BrandName = model.BrandName;
-            record.Merchant = this.OS.TransactionManager.GetSession().Get<Merchant>(model.Merchant.Id);
+            record.Merchant = this.OS.TransactionManager.GetSession().Get<Record::Merchant>(model.Merchant.Id);
             record.Quantity = model.Quantity;
             record.WxNo = model.WxNo;
             record.Type = model.Type;
@@ -172,7 +185,7 @@ namespace Enjoy.Core.Services
             return new BaseResponse(Constants.Success);
         }
 
-        public PagingData<CardCounponModel> QueryCardCoupon(QueryFilter filter, PagingCondition condition)
+        public PagingData<CardCounponModel> QueryCardCoupon(WebQueryFilter filter, PagingCondition condition)
         {
             return base.Query(filter, condition, null, record => new CardCounponModel(record));
         }
@@ -198,9 +211,9 @@ namespace Enjoy.Core.Services
             record => new CardCounponModel(record));
         }
 
-        public WxUserCardCoupon QueryWxUserCardCoupon(string userCardCode)
+        public Record::WxUserCardCoupon QueryWxUserCardCoupon(string userCardCode)
         {
-            return base.QueryFirstOrDefault<WxUserCardCoupon>
+            return base.QueryFirstOrDefault<Record::WxUserCardCoupon>
             ((builder) =>
             {
                 builder.Add(Restrictions.Eq("UserCardCode", userCardCode));
@@ -222,7 +235,7 @@ namespace Enjoy.Core.Services
             var record = this.QueryWxUserCardCoupon(model.UserCardCode);
             if (record == null)
             {
-                record = new WxUserCardCoupon();
+                record = new Record::WxUserCardCoupon();
             };
             record.UserCardCode = model.UserCardCode;
             record.Merchant = new Records.Merchant() { Id = model.Merchant.Id };
@@ -265,20 +278,20 @@ WHERE SQRT(
         )
     )  < :Distance
 ";
-        public PagingData<CardCouponNearby> QueryCardCoupon(Location location, PagingCondition condition, float distance)
-        {
-            var session = this.OS.TransactionManager.GetSession();
-            var results = session.CreateSQLQuery(QueryString_CardCouponNeryBy)
-                .AddEntity(typeof(CardCouponNearby))
-                 .SetSingle("Latitude", location.Latitude)
-                 .SetSingle("Longitude", location.Longitude)
-                 .SetSingle("Distance", distance)
-                 .SetMaxResults(condition.Size)
-                 .List<CardCouponNearby>();
-            return new PagingData<CardCouponNearby>(results)
-            {
-                Paging = new Paging(condition.Page, condition.Size)
-            };
-        }
+        //public PagingData<CardCouponNearby> QueryCardCoupon(Location location, PagingCondition condition, float distance)
+        //{
+        //    var session = this.OS.TransactionManager.GetSession();
+        //    var results = session.CreateSQLQuery(QueryString_CardCouponNeryBy)
+        //        .AddEntity(typeof(CardCouponNearby))
+        //         .SetSingle("Latitude", location.Latitude)
+        //         .SetSingle("Longitude", location.Longitude)
+        //         .SetSingle("Distance", distance)
+        //         .SetMaxResults(condition.Size)
+        //         .List<CardCouponNearby>();
+        //    return new PagingData<CardCouponNearby>(results)
+        //    {
+        //        Paging = new Paging(condition.Page, condition.Size)
+        //    };
+        //}
     }
 }

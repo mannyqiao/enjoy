@@ -42,10 +42,14 @@ namespace Enjoy.Core.Controllers
                 return this.RedirectLocal("/access/sign?signin=true");
 
             var cc = this.WeChat.QueryCardCouponOnWechat();
-            foreach (var card in cc.CardIdList)
+            if (cc.HasError == false)
             {
-                var result = this.WeChat.DeleteCardCoupon(card);
+                foreach (var card in cc.CardIdList)
+                {
+                    var result = this.WeChat.DeleteCardCoupon(card);
+                }
             }
+            
 
             return View();
 
@@ -150,7 +154,7 @@ namespace Enjoy.Core.Controllers
             return View(merchant);
         }
         [HttpPost]
-        public JsonNetResult QueryMyShops(QueryFilter filter)
+        public JsonNetResult QueryMyShops(WebQueryFilter filter)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return new JsonNetResult() { Data = new { } };
@@ -179,7 +183,7 @@ namespace Enjoy.Core.Controllers
             return new JsonNetResult() { Data = model };
         }
         [HttpPost]
-        public JsonNetResult QueryMyMerchant(QueryFilter filter)
+        public JsonNetResult QueryMyMerchant(WebQueryFilter filter)
         {
             if (this.Auth.GetAuthenticatedUser() == null)
                 return new JsonNetResult() { Data = new { } };

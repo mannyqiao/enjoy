@@ -6,7 +6,7 @@
         <view class="weui-label">金额</view>
       </view>
       <view class="weui-cell__bd">
-        <input class="weui-input" value='{{money}}' placeholder="输入或者选择充值金额" />
+        <input class="weui-input" value='{{money}}' disabled='false' placeholder="输入或者选择充值金额" />
       </view>
         <view class="weui-cell__ft">
           <view class="weui-grid__label">元</view>
@@ -28,7 +28,7 @@
     </view>
     <view class="weui-cells__title">充100送100</view>
   </view>
-  <view class="weui-btn-area">
-    <button class="weui-btn" type="primary" bindtap="showTopTips">立即支付</button>
+  <view class="weui-btn-area">  
+    <button class="weui-btn" type="primary" bindtap="clickPayment">立即支付</button>
   </view>
 </view>

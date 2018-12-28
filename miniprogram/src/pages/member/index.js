@@ -23,8 +23,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '个人中心',
     })
-    app.getUserInfo(app.globalData.session).then(res => {
-      app.readlyUserInfoCallback(res);
+    app.getUserInfo(app.globalData.session).then(res => {      
       me.setData({ logined: true, name: res.wx.nickName, avatar: res.wx.avatarUrl });
     })
       .catch(error => {

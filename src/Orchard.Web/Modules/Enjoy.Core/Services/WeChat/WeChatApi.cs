@@ -15,6 +15,9 @@ namespace Enjoy.Core.Services
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     using System.Net.Security;
+    using System.Linq;
+    using System.Collections.Specialized;
+    using System.Collections.Generic;
 
     public class WeChatApi : IWeChatApi
     {
@@ -373,6 +376,11 @@ namespace Enjoy.Core.Services
         public WxPayParameter Unifiedorder(JsApiPay jsApiPay)
         {
             var input = jsApiPay.GenerateUnifiedWxPayData();
+            return this.Unifiedorder(input);
+           
+        }
+        public WxPayParameter Unifiedorder(WxPayData data)
+        {
             var request = "https://api.mch.weixin.qq.com/pay/unifiedorder";
             var order = request.GetUriContentDirectly((http) =>
             {
@@ -390,7 +398,7 @@ namespace Enjoy.Core.Services
                 http.ContentType = "text/xml";
                 using (var stream = http.GetRequestStream())
                 {
-                    var body = input.SerializeToXml();
+                    var body = data.SerializeToXml();
                     var buffers = UTF8Encoding.UTF8.GetBytes(body);
                     stream.Write(buffers, 0, buffers.Length);
                     stream.Flush();
@@ -404,7 +412,40 @@ namespace Enjoy.Core.Services
             //直接确认，否则打不开    
             return true;
         }
+        private string GetTicketforWxCard(string appid, string token)
+        {
+            var cacheKey = string.Format("{0}-ticket", appid);
+            return this.Cache.Get(cacheKey, ctx =>
+            {
+                var url = string.Format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=wx_card", token);
+                var result = url.GetResponseForJson<TicketWxResponse>();
+                if (!result.ErrCode.Equals(0))
+                {
+                    ctx.Monitor(this.Clock.When(TimeSpan.FromSeconds(1)));//默认过期时间为 7200秒    
+                }
+                else
+                {
+                    ctx.Monitor(this.Clock.When(TimeSpan.FromSeconds(result.Expiresin)));//默认过期时间为 7200秒    
+                }
+                return result.Ticket;
+                
+            });
+        }
 
+        public string GenerateCardSignature(string appid,string screct,string cardid, long timestamp,string nonce_str)
+        {
+            //https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign
+            var ticket = GetTicketforWxCard(appid, this.GetWxAccessToken(appid, screct).Token);            
+            var @params = new string[] {
+                nonce_str,
+                timestamp.ToString(),
+                cardid,
+                ticket
+            };
 
+            var perpare = string.Format("{0}{1}{2}{3}", ticket, timestamp, nonce_str, cardid);
+
+            return perpare.GetSHA1Crypto();            
+        }
     }
 }

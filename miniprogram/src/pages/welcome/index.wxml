@@ -4,7 +4,7 @@
       <image class="swiper-image" src="{{item}}"></image>
       <button class="button-img" 
       open-type='getUserInfo'
-      bindtap="getUserInfo" wx:if="{{index == images.length - 1}}">立即体验</button>
+      bindgetuserinfo="getUserInfoCallback" wx:if="{{index == images.length - 1}}">立即体验</button>
     </swiper-item>
   </block>
 </swiper>
