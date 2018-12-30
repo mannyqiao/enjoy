@@ -152,6 +152,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Sites\Default\Settings.txt" />
     <Content Include="Global.asax" />
     <Content Include="Media\app\card.PNG" />
     <Content Include="Media\app\guide-1.png" />
@@ -190,6 +191,7 @@
     <Content Include="Config\Sites.config" />
     <Content Include="packages.config" />
     <Content Include="Media\web.config" />
+    <Content Include="App_Data\Sites\Default\mappings.bin" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -244,7 +246,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Media\protocols\" />
   </ItemGroup>
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
