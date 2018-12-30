@@ -56,7 +56,7 @@ namespace Enjoy.Core.Services
             
             //if (string.IsNullOrEmpty(merchant.AppId) || string.IsNullOrEmpty(merchant.Secrect)) throw new CheckMerchantException();
 
-            return GetToken(Constants.WxConfig.AppId, Constants.WxConfig.AppSecrect);
+            return GetToken(Constants.WxConfig.AppId, Constants.WxConfig.AppSecret);
         }
         public ApplyProtocolWxResponse GetApplyProtocol()
         {
@@ -152,7 +152,7 @@ namespace Enjoy.Core.Services
 
         public WxSession CreateWxSession(IWxAuthContext loginUseer)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.WxConfig.AppId, loginUseer.Code, Constants.WxConfig.AppSecrect);
+            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.WxConfig.AppId, loginUseer.Code, Constants.WxConfig.AppSecret);
             var auth = request.GetResponseForJson<WeChatAuthorization>();
             var wechatUser = Decrypt<WeChatUserInfo>(loginUseer.Data, loginUseer.IV, auth.SessionKey);
             return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.WxConfig, WeCharUser = wechatUser, Authorization = auth };

@@ -19,26 +19,26 @@ namespace Enjoy.Core.EnjoyModels
             if (record != null)
             {
                 this.Address = record.Address;
-                this.AgreementMediaId = record.AgreementMediaId;
-                this.AppId = record.AppId;
-                this.BeginTime = record.BeginTime;
+              ///  this.AgreementMediaId = record.AgreementMediaId;
+               // this.AppId = record.AppId;
+               // this.BeginTime = record.BeginTime;
                 this.BrandName = record.BrandName;
                 this.Contact = record.Contact;
                 this.CreateTime = record.CreateTime;
-                this.EndTime = record.EndTime;
+              //  this.EndTime = record.EndTime;
                 this.EnjoyUser = new EnjoyUserModel(record.EnjoyUser);
                 this.Id = record.Id;
-                this.LogoUrl = record.LogoUrl;
-                this.MerchantId = record.MerchantId;
+               //this.LogoUrl = record.LogoUrl;
+               // this.MerchantId = record.MerchantId;
                 this.Mobile = record.Mobile;
-                this.OperatorMediaId = record.OperatorMediaId;
-                this.PrimaryCategoryId = record.PrimaryCategoryId;
-                this.Protocol = record.Protocol;
-                this.SecondaryCategoryId = record.SecondaryCategoryId;
+               // this.OperatorMediaId = record.OperatorMediaId;
+               // this.PrimaryCategoryId = record.PrimaryCategoryId;
+                //this.Protocol = record.Protocol;
+                //this.SecondaryCategoryId = record.SecondaryCategoryId;
                 this.UpdateTime = record.LastActivityTime;
-                this.Status = record.Status;
-                this.ErrMsg = record.ErrMsg;
-                this.Secrect = record.Secrect;
+              //  this.Status = record.Status;
+               // this.ErrMsg = record.ErrMsg;
+               // this.Secrect = record.Secrect;
             }
 
 

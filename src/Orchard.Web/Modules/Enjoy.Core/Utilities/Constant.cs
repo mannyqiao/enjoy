@@ -93,7 +93,7 @@ namespace Enjoy.Core
         //   "wx6a15c5888e292f99", "74c4c300a46b8c6eb8c79b3689065673", "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
 
         //柠檬工坊服务号
-        public static readonly IWeChatConfig WxConfig = new EnjoyWeChatConfig(
+        public static readonly IWeChatConfig WxConfig = new WeChatConfig(
            "wx20da9548445a2ca7", "8fd877e51aa338a2c660e35d1f876e70", "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
 
         

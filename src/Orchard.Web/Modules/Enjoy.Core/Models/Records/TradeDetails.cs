@@ -1,0 +1,59 @@
+﻿
+
+namespace Enjoy.Core.Records
+{
+    /// <summary>
+    /// 交易详情
+    /// </summary>
+    public class TradeDetails
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual long Id { get; set; }
+        /// <summary>
+        /// 微信支付商户订单号(本平台)
+        /// </summary>
+        public virtual string TradeId { get; set; }
+        /// <summary>
+        /// 微信支付单号
+        /// </summary>
+        public virtual string OrderId { get; set; }
+        /// <summary>
+        /// 交易类型
+        /// </summary>
+        public virtual TradeTypes Type { get; set; }
+        /// <summary>
+        /// 所属Appid
+        /// </summary>
+        public virtual string AppId { get; set; }
+        /// <summary>
+        /// 交易相关 用户 OpenId
+        /// </summary>
+        public virtual string OpenId { get; set; }
+        /// <summary>
+        /// 微信支付商户号
+        /// </summary>
+        public virtual string MchId { get; set; }
+        /// <summary>
+        /// 是否成功
+        /// </summary>
+        public virtual bool Success { get; set; }
+        /// <summary>
+        /// 交易金额 单位分
+        /// </summary>
+        public virtual int Money { get; set; }
+        /// <summary>
+        /// 交易创建时间
+        /// </summary>
+        public virtual long CreatedTime { get; set; }
+        /// <summary>
+        /// 交易确认时间
+        /// </summary>
+        public virtual long ConfirmTime { get; set; }
+        /// <summary>
+        /// 交易描述
+        /// </summary>
+        public virtual string Description { get; set; }
+    }
+}

@@ -17,14 +17,22 @@ namespace Enjoy.Core
     using Orchard.Fields.Fields;
     using Orchard.Widgets.Models;
     using System.Data;
+    using Enjoy.Core.Records;
+    using System;
+    using Orchard.Security;
+    using Enjoy.Core.WeChatModels;
+    using System.Collections.Generic;
+
     public class Migrations : DataMigrationImpl
     {
         private readonly IOrchardServices OrchardServices;
+        private readonly IEncryptionService EncryptionService;
         private readonly IMenuService MenuService;
-        public Migrations(IOrchardServices orcahrd, IMenuService ms)
+        public Migrations(IOrchardServices orcahrd, IMenuService ms, IEncryptionService encryptionService)
         {
             this.OrchardServices = orcahrd;
             this.MenuService = ms;
+            this.EncryptionService = encryptionService;
         }
         public int Create()
         {
@@ -60,31 +68,22 @@ namespace Enjoy.Core
                     .Column("LastActivityTime", DbType.Int64)
             );
 
-            //创建商户
+            //平台商户表
             SchemaBuilder.CreateTable("Merchant", table => table
                 .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
-                .Column("MerchantId", DbType.Int64)
+                .Column("Code", DbType.String, column => column.WithLength(24).NotNull().Unique())
+                .Column("BrandName", DbType.String, column => column.WithLength(24).NotNull())
                 .Column("EnjoyUser_Id", DbType.Int64)
-                .Column("AppId", DbType.String, column => column.WithLength(26))
-                .Column("Secrect", DbType.String, column => column.WithLength(26))
-                .Column("BrandName", DbType.String, column => column.WithLength(36))
-                .Column("LogoUrl", DbType.String, column => column.WithLength(128))
-                .Column("BeginTime", DbType.Int64)
-                .Column("EndTime", DbType.Int64)
-                .Column("Status", DbType.String, column => column.WithLength(36).WithDefault(AuditStatus.UnCommitted.ToString()))
-                .Column("Protocol", DbType.String, column => column.WithLength(128))
-                .Column("PrimaryCategoryId", DbType.Int32)
-                .Column("SecondaryCategoryId", DbType.Int32)                
-                .Column("AgreementMediaId", DbType.String, column => column.WithLength(128))
-                .Column("OperatorMediaId", DbType.String, column => column.WithLength(128))
                 .Column("Contact", DbType.String, column => column.WithLength(36).Nullable())
                 .Column("Mobile", DbType.String, column => column.WithLength(36).Nullable())
                 .Column("Address", DbType.String, column => column.WithLength(128).Nullable())
                 .Column("ErrMsg", DbType.String, column => column.WithLength(500).Nullable())
-                .Column("CreateTime", DbType.Int64)
-                .Column("LastActivityTime", DbType.Int64)
+                .Column("CreateTime", DbType.Int64, column => column.NotNull())
+                .Column("LastActivityTime", DbType.Int64, column => column.NotNull())
+                .Column("Miniprogarm", DbType.String, column => column.WithLength(500))
+                .Column("Official", DbType.String, column => column.WithLength(500))
+                .Column("Payment", DbType.String, column => column.WithLength(500))
             );
-
             //创建商户管理员
             SchemaBuilder.CreateTable("MerchantAdmin", table => table
               .Column("Merchant_Id", DbType.Int64)
@@ -92,12 +91,11 @@ namespace Enjoy.Core
             );
             SchemaBuilder.AlterTable("MerchantAdmin", table => table.AddUniqueConstraint("PK_MerchantAdmin", new string[] { "Merchant_Id", "EnjoyUser_Id" }));
 
-
-
             //创建门店表
             SchemaBuilder.CreateTable("Shop", table => table
                 .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
                 .Column("Merchant_Id", DbType.Int64, column => column.Nullable())
+                .Column("Pid", DbType.Int64, column => column.Nullable())
                 .Column("ShopName", DbType.String, column => column.WithLength(120))
                 .Column("Leader", DbType.String, column => column.WithLength(50))
                 .Column("Longitude", DbType.Single)//经度
@@ -114,9 +112,9 @@ namespace Enjoy.Core
                 .Column("Quantity", DbType.Int32, column => column.WithDefault(100))
                 .Column("Status", DbType.String, column => column.WithLength(100))
                 .Column("ErrMsg", DbType.String, column => column.WithLength(500).Nullable())
-                .Column("JsonMetadata", DbType.String, column => column.Unlimited())
                 .Column("CreatedTime", DbType.Int64)
                 .Column("LastActivityTime", DbType.Int64)
+                .Column("JsonMetadata", DbType.String, column => column.Unlimited())
             );
             SchemaBuilder.CreateTable("WxUser", table => table
                 .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
@@ -126,7 +124,7 @@ namespace Enjoy.Core
                 .Column("NickName", DbType.String, column => column.WithLength(32))
                 .Column("Country", DbType.String, column => column.WithLength(32))
                 .Column("Province", DbType.String, column => column.WithLength(32))
-                .Column("City", DbType.String, column => column.WithLength(32))               
+                .Column("City", DbType.String, column => column.WithLength(32))
                 .Column("CreatedTime", DbType.Int64)
                 .Column("LastActivityTime", DbType.Int64)
                 .Column("AvatarUrl", DbType.String, column => column.WithLength(200))
@@ -138,8 +136,8 @@ namespace Enjoy.Core
                     .Column("MsgType", DbType.String, column => column.WithLength(32))
                     .Column("FromUser", DbType.String, column => column.WithLength(32))
                     .Column("ToUser", DbType.String, column => column.WithLength(32))
-                    .Column("Metadata", DbType.String, column => column.Unlimited())
                     .Column("LastActivityTime", DbType.Int64)
+                    .Column("Metadata", DbType.String, column => column.Unlimited())
             );
 
             SchemaBuilder.CreateTable("Notification", table => table
@@ -148,9 +146,9 @@ namespace Enjoy.Core
                 .Column("Title", DbType.String, column => column.WithLength(32))
                 .Column("SendBySMS", DbType.Boolean, column => column.WithDefault(false))
                 .Column("Read", DbType.Boolean, column => column.WithDefault(false))
-                .Column("Body", DbType.String, column => column.Unlimited())
                 .Column("CreatedTime", DbType.Int64)
                 .Column("LastActivityTime", DbType.Int64)
+                .Column("Body", DbType.String, column => column.Unlimited())
             );
 
             SchemaBuilder.CreateTable("MerchantWxUser", table => table
@@ -182,9 +180,9 @@ namespace Enjoy.Core
                 .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
                 .Column("Name", DbType.String, column => column.WithLength(32).NotNull())
                 .Column("Merchant_Id", DbType.Int64, column => column.NotNull())
-                .Column("Settings", DbType.String, column => column.WithDefault("{}"))
+                .Column("Settings", DbType.String, column => column.WithLength(2000))
                 .Column("LastActivityTime", DbType.Int64)
-                
+
             );
 
             SchemaBuilder.CreateTable("Product", table => table
@@ -195,7 +193,34 @@ namespace Enjoy.Core
                 .Column("Trades", DbType.Int64, column => column.NotNull())
                 .Column("Price", DbType.Int64, column => column.NotNull())
                 .Column("LastActivityTime", DbType.Int64)
-                .Column("Settings", DbType.String, column => column.WithDefault("{}"))
+                .Column("Settings", DbType.String, column => column.Unlimited())
+            );
+
+
+
+            //用户分享记录
+            SchemaBuilder.CreateTable("SharingDetails", table => table
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("Merchant_Id", DbType.Int64, column => column.NotNull())
+                .Column("SharedBy", DbType.String, column => column.WithLength(32).NotNull())
+                .Column("AppId", DbType.String, column => column.WithLength(32).NotNull())
+                .Column("CardId", DbType.String, column => column.WithLength(32).NotNull())
+                .Column("CreatedTime", DbType.Int64, column => column.NotNull())
+            );
+            //交易详情
+            SchemaBuilder.CreateTable("TradeDetails", table => table
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("TradeId", DbType.String, column => column.WithLength(32).Unique())
+                .Column("OrderId", DbType.String, column => column.WithLength(32).Unique())
+                .Column("Type", DbType.String, column => column.WithLength(32))
+                .Column("AppId", DbType.String, column => column.WithLength(32))
+                .Column("OpenId", DbType.String, column => column.WithLength(32))
+                .Column("MchId", DbType.String, column => column.WithLength(32))
+                .Column("Success", DbType.Boolean)
+                .Column("Money", DbType.Int32)
+                .Column("CreatedTime", DbType.Int64)
+                .Column("ConfirmTime", DbType.Int64)
+                .Column("Description", DbType.String, colum => colum.Unlimited())
             );
 
         }
@@ -256,6 +281,56 @@ namespace Enjoy.Core
                         break;
                 }
             }
+        }
+        public int UpdateFrom2()
+        {
+            //导入柠檬工坊基础数据
+            var session = this.OrchardServices.TransactionManager.GetSession();
+            var enjoyUser = new EnjoyUser()
+            {
+                Mobile = "13961576298",
+                NickName = "稻草人",
+                WxUser = null,
+                Password = this.EncryptionService.Ciphertext("Window2008"),
+                LastPassword = this.EncryptionService.Ciphertext("Window2008"),
+                Profile = string.Empty,
+                CreatedTime = DateTime.Now.ToUnixStampDateTime(),
+                LastActivityTime = DateTime.Now.ToUnixStampDateTime()
+            };
+            session.SaveOrUpdate(enjoyUser);
+            var miniprogarm = new WeChatConfig("wx6a15c5888e292f99", "74c4c300a46b8c6eb8c79b3689065673",
+                "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
+            var official = new WeChatConfig("wx20da9548445a2ca7", "8fd877e51aa338a2c660e35d1f876e70",
+                "1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
+            var payment = new Dictionary<string, string>();
+            payment.Add("1520961881", "EA62B75D5D3941C3A632B8F18C7B3575");
+
+            var merchant = new Merchant()
+            {
+                Address = "四川省眉山市东坡区东坡里商业水街2号楼14号",
+                BrandName = "柠檬工坊",
+                Code = "92511402MA6941EG0R",
+                Contact = "刘丽群",
+                CreateTime = DateTime.Now.ToUnixStampDateTime(),
+                EnjoyUser = enjoyUser,
+                LastActivityTime = DateTime.Now.ToUnixStampDateTime(),
+                Miniprogarm = miniprogarm.SerializeToJson(),
+                Official = official.SerializeToJson(),
+                Payment = payment.SerializeToJson(),
+                Mobile = "13890397856"
+            };
+            session.SaveOrUpdate(merchant);
+            var shop = new Shop()
+            {
+                Address = merchant.Address,
+                Pid = 491431822,
+                LastActivityTime = DateTime.Now.ToUnixStampDateTime(),
+                Leader = "刘丽群",
+                Merchant = merchant,
+                ShopName = "柠檬工坊东坡店"
+            };
+            session.SaveOrUpdate(shop);
+            return 3;
         }
     }
 }

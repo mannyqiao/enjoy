@@ -5,20 +5,20 @@ namespace Enjoy.Core.WeChatModels
     using System.Collections.Generic;
     using System.Linq;
     using System;
-    public class EnjoyWeChatConfig : IWeChatConfig
+    public class WeChatConfig : IWeChatConfig
     {
-        public EnjoyWeChatConfig(string appid, string appsecrect, string mchid, string key)
+        public WeChatConfig(string appid, string appsecrect, string mchid, string key)
         {
             this.AppId = appid;
-            this.AppSecrect = appsecrect;
+            this.AppSecret = appsecrect;
             this.MchId = mchid;
-            this.Key = key;
+            this.PayKey = key;
 
         }
 
         public string AppId { get; private set; }
 
-        public string AppSecrect { get; private set; }
+        public string AppSecret { get; private set; }
         /// <summary>
         /// 支付商户号
         /// </summary>
@@ -26,6 +26,6 @@ namespace Enjoy.Core.WeChatModels
         /// <summary>
         /// 
         /// </summary>
-        public string Key { get; set; }
+        public string PayKey { get; set; }
     }
 }

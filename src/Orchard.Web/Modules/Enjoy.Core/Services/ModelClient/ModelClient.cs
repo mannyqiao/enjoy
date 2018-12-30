@@ -228,13 +228,13 @@ namespace Enjoy.Core
                 Info = new WeChatModels::SubMerchant()
                 {
                     BrandName = merchant.BrandName,
-                    EndTime = merchant.EndTime,
-                    OperatorMediaId = merchant.OperatorMediaId,
-                    AgreementMediaId = merchant.AgreementMediaId,
-                    Protocol = merchant.AgreementMediaId,//// TODO: Need change in product envirment.
-                    LogoUrl = merchant.LogoUrl,
-                    PrimaryCategoryId = merchant.PrimaryCategoryId,
-                    SecondaryCategoryId = merchant.SecondaryCategoryId
+                    //EndTime = merchant.EndTime,
+                   // OperatorMediaId = merchant.OperatorMediaId,
+                   // AgreementMediaId = merchant.AgreementMediaId,
+                   // Protocol = merchant.AgreementMediaId,//// TODO: Need change in product envirment.
+                   // LogoUrl = merchant.LogoUrl,
+                   // PrimaryCategoryId = merchant.PrimaryCategoryId,
+                  //  SecondaryCategoryId = merchant.SecondaryCategoryId
                 }
             };
         }

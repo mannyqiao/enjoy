@@ -246,14 +246,14 @@ namespace Enjoy.Core
             //转url格式
             string str = data.PrepareSign();
             //在string后加入API KEY
-            str += "&key=" + Constants.WxConfig.Key;
+            str += "&key=" + Constants.WxConfig.PayKey;
             // return CalcHMACSHA256Hash(str, Constants.WxConfig.Key).MakeMd5();
             return MakeSign(str, data.SignType);
         }
         public static string MakeSign(this WxPayParameter data)
         {
             var str = data.PrepareSign();
-            str += "&key=" + Constants.WxConfig.Key;
+            str += "&key=" + Constants.WxConfig.PayKey;
             return MakeSign(str, data.SignType);
         }
         public static string MakeSign(this string plaintext, string signType)
@@ -272,7 +272,7 @@ namespace Enjoy.Core
             }
             else if (signType == WxPayData.SIGN_TYPE_HMAC_SHA256)
             {
-                return CalcHMACSHA256Hash(plaintext, Constants.WxConfig.Key);
+                return CalcHMACSHA256Hash(plaintext, Constants.WxConfig.PayKey);
             }
             else
             {

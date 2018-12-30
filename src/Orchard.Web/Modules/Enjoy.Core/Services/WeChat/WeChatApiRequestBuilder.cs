@@ -191,7 +191,7 @@ namespace Enjoy.Core.Services
         {
             var @params = new string[] {
                 string.Format("appid={0}",Constants.WxConfig.AppId),
-                string.Format("secret={0}",Constants.WxConfig.AppSecrect),
+                string.Format("secret={0}",Constants.WxConfig.AppSecret),
                 string.Format("code={0}",code),
                 string.Format("grant_type={0}","authorization_code")
             };

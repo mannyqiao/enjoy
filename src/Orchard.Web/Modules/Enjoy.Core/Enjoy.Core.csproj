@@ -188,6 +188,7 @@
     <Compile Include="Models\Enums\RedirectTypes.cs" />
     <Compile Include="Models\Enums\RegistryTypes.cs" />
     <Compile Include="Models\Enums\SMSNotifyTypes.cs" />
+    <Compile Include="Models\Enums\TradeTypes.cs" />
     <Compile Include="Models\Enums\VerifyTypes.cs" />
     <Compile Include="Models\Exceptions\NoDefaultMerchantExcpetion.cs" />
     <Compile Include="Models\Location\Location.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Models\Merchant\ShopModel.cs" />
     <Compile Include="Models\PagingCondition.cs" />
     <Compile Include="Models\PagingData.cs" />
+    <Compile Include="Models\Records\CardAccount.cs" />
     <Compile Include="Models\Records\CardCoupon.cs" />
     <Compile Include="Models\Records\Category.cs" />
     <Compile Include="Models\Records\EnjoyUser.cs" />
@@ -219,6 +221,9 @@
     <Compile Include="Models\Records\MerchantWxUser.cs" />
     <Compile Include="Models\Records\Notification.cs" />
     <Compile Include="Models\Records\Product.cs" />
+    <Compile Include="Models\Records\Pyramid.cs" />
+    <Compile Include="Models\Records\TradeDetails.cs" />
+    <Compile Include="Models\Records\SharingDetails.cs" />
     <Compile Include="Models\Records\Shop.cs" />
     <Compile Include="Models\Records\WxUserCardCoupon.cs" />
     <Compile Include="Models\Records\WxMsg.cs" />
@@ -411,7 +416,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
-    <Folder Include="Services\WxPayAPI\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>

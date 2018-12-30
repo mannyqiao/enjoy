@@ -69,25 +69,25 @@ namespace Enjoy.Core.Services
         {
             if (model.EnjoyUser == null) throw new NullReferenceException("enjoye user is null");
             record.Address = model.Address;
-            record.AgreementMediaId = model.AgreementMediaId;
-            record.AppId = model.AppId;
-            record.BeginTime = model.BeginTime;
+           // record.AgreementMediaId = model.AgreementMediaId;
+            //record.AppId = model.AppId;
+           // record.BeginTime = model.BeginTime;
             record.BrandName = model.BrandName;
             record.Contact = model.Contact;
             record.CreateTime = model.CreateTime;
-            record.EndTime = model.EndTime;
+           // record.EndTime = model.EndTime;
             record.EnjoyUser = new Records.EnjoyUser { Id = model.EnjoyUser.Id };
-            record.LogoUrl = model.LogoUrl;
-            record.MerchantId = model.MerchantId;
+           // record.LogoUrl = model.LogoUrl;
+            //record.MerchantId = model.MerchantId;
             record.Mobile = model.Mobile;
-            record.OperatorMediaId = model.OperatorMediaId;
-            record.PrimaryCategoryId = model.PrimaryCategoryId;
-            record.Protocol = model.Protocol;
-            record.SecondaryCategoryId = model.SecondaryCategoryId;
+            //record.OperatorMediaId = model.OperatorMediaId;
+            //record.PrimaryCategoryId = model.PrimaryCategoryId;
+            //record.Protocol = model.Protocol;
+            //record.SecondaryCategoryId = model.SecondaryCategoryId;
             record.LastActivityTime = model.UpdateTime;
-            record.Status = model.Status;
-            record.ErrMsg = model.ErrMsg;
-            record.Secrect = model.Secrect;
+           // record.Status = model.Status;
+            //record.ErrMsg = model.ErrMsg;
+           // record.Secrect = model.Secrect;
         }
         public ActionResponse<MerchantModel> SaveAndPushToWeChat(
             MerchantModel model,
@@ -228,14 +228,14 @@ namespace Enjoy.Core.Services
         {
             var apply = this.WeChat.GetApplyProtocol();
             var model = new MerchantModel(record);
-            var primary = apply.Categories.FirstOrDefault(o => o.PrimaryCategoryId.Equals(record.PrimaryCategoryId));
-            var second = primary == null
-            ? new SecondaryCategory()
-            : primary.SecondaryCategories.FirstOrDefault(o => o.SecondaryCategoryId.Equals(record.SecondaryCategoryId));
-            model.CategoryName = string.Join("/", new string[] {
-                    primary==null ? "":primary.CategoryName,
-                    second==null?"":second.CategoryName
-                });
+            //var primary = apply.Categories.FirstOrDefault(o => o.PrimaryCategoryId.Equals(record.PrimaryCategoryId));
+            //var second = primary == null
+            //? new SecondaryCategory()
+            //: primary.SecondaryCategories.FirstOrDefault(o => o.SecondaryCategoryId.Equals(record.SecondaryCategoryId));
+            //model.CategoryName = string.Join("/", new string[] {
+            //        primary==null ? "":primary.CategoryName,
+            //        second==null?"":second.CategoryName
+            //    });
             return model;
         }
 
