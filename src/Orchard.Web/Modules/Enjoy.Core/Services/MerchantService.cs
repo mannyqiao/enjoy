@@ -69,15 +69,15 @@ namespace Enjoy.Core.Services
         {
             if (model.EnjoyUser == null) throw new NullReferenceException("enjoye user is null");
             record.Address = model.Address;
-           // record.AgreementMediaId = model.AgreementMediaId;
+            // record.AgreementMediaId = model.AgreementMediaId;
             //record.AppId = model.AppId;
-           // record.BeginTime = model.BeginTime;
+            // record.BeginTime = model.BeginTime;
             record.BrandName = model.BrandName;
             record.Contact = model.Contact;
             record.CreateTime = model.CreateTime;
-           // record.EndTime = model.EndTime;
+            // record.EndTime = model.EndTime;
             record.EnjoyUser = new Records.EnjoyUser { Id = model.EnjoyUser.Id };
-           // record.LogoUrl = model.LogoUrl;
+            // record.LogoUrl = model.LogoUrl;
             //record.MerchantId = model.MerchantId;
             record.Mobile = model.Mobile;
             //record.OperatorMediaId = model.OperatorMediaId;
@@ -85,9 +85,9 @@ namespace Enjoy.Core.Services
             //record.Protocol = model.Protocol;
             //record.SecondaryCategoryId = model.SecondaryCategoryId;
             record.LastActivityTime = model.UpdateTime;
-           // record.Status = model.Status;
+            // record.Status = model.Status;
             //record.ErrMsg = model.ErrMsg;
-           // record.Secrect = model.Secrect;
+            // record.Secrect = model.Secrect;
         }
         public ActionResponse<MerchantModel> SaveAndPushToWeChat(
             MerchantModel model,
@@ -216,7 +216,7 @@ namespace Enjoy.Core.Services
             WebQueryFilter filter,
             PagingCondition condition)
         {
-            
+
             return this.Query(condition, (builder) =>
             {
                 builder.WithQueryFilter(filter);
@@ -244,6 +244,12 @@ namespace Enjoy.Core.Services
             return base.Delete(id);
         }
 
-
+        public MerchantModel GetDefaultMerchant(string mcode)
+        {
+            return this.QueryFirstOrDefault((builder) =>
+            {
+                builder.Add(Expression.Eq("Code", mcode));
+            }, (record) => this.Convert(record));
+        }
     }
 }

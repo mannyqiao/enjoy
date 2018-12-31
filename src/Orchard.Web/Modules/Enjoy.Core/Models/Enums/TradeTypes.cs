@@ -18,5 +18,9 @@ namespace Enjoy.Core
         /// 消费
         /// </summary>
         Consume = 2,
+        /// <summary>
+        /// 用户红包
+        /// </summary>
+        Redbag = 3,
     }
 }

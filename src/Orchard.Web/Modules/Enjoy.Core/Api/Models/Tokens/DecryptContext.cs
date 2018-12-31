@@ -7,7 +7,7 @@ namespace Enjoy.Core.ApiModels
     public class DecryptContext
     {
 
-        [JsonProperty("appid")]
+        [JsonProperty("appId")]
         public string AppId { get; set; }
         [JsonProperty("data")]
         public string Data { get; set; }

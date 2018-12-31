@@ -4,7 +4,7 @@ namespace Enjoy.Core.ApiModels
     using Newtonsoft.Json;
     public class TopupContext
     {
-        [JsonProperty("appid")]
+        [JsonProperty("appId")]
         public string AppId { get; set; }
 
         [JsonProperty("money")]
@@ -18,10 +18,15 @@ namespace Enjoy.Core.ApiModels
 
         [JsonProperty("cardid")]
         public string CardId { get; set; }
-
+        /// <summary>
+        /// 会员卡用户code
+        /// </summary>
         [JsonProperty("code")]
         public string Code { get; set; }
-        
-        
+        /// <summary>
+        /// 商户代码
+        /// </summary>
+        [JsonProperty("mcode")]
+        public string MCode { get; set; }
     }
 }

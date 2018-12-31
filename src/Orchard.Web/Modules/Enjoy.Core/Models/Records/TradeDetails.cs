@@ -12,7 +12,7 @@ namespace Enjoy.Core.Records
         /// </summary>
         public virtual long Id { get; set; }
         /// <summary>
-        /// 微信支付商户订单号(本平台)
+        /// 交易单号（本平台）
         /// </summary>
         public virtual string TradeId { get; set; }
         /// <summary>
@@ -50,7 +50,7 @@ namespace Enjoy.Core.Records
         /// <summary>
         /// 交易确认时间
         /// </summary>
-        public virtual long ConfirmTime { get; set; }
+        public virtual long? ConfirmTime { get; set; }
         /// <summary>
         /// 交易描述
         /// </summary>

@@ -29,7 +29,7 @@ namespace Enjoy.Core.Records
         /// <summary>
         /// 小程序相关配置
         /// </summary>
-        public virtual string Miniprogarm { get; set; }
+        public virtual string Miniprogram { get; set; }
         /// <summary>
         /// 公众号相关配置
         /// </summary>

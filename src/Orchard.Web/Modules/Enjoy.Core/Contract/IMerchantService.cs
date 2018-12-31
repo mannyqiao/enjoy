@@ -18,6 +18,7 @@ namespace Enjoy.Core
         /// </summary>
         /// <returns></returns>
         MerchantModel GetDefaultMerchant();
+        MerchantModel GetDefaultMerchant(string mcode);
         /// <summary>
         /// 根据商户ID获取商户
         /// </summary>

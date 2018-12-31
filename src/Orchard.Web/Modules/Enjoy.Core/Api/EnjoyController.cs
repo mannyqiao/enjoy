@@ -18,8 +18,9 @@ namespace Enjoy.Core.Api
     using Enjoy.Core.ViewModels;
     using System;
     using Enjoy.Core.Services;
+    using Enjoy.Core.Records;
 
-
+    using System.Text;
 
     //[Authorize]
     public class EnjoyController : ApiController
@@ -235,7 +236,6 @@ namespace Enjoy.Core.Api
             return this._authService.GetverificationCode(mobile.Value, VerifyTypes.BindWeChatUser);
         }
 
-
         /// <summary>
         /// 查询推荐的会员卡
         /// </summary>
@@ -258,10 +258,15 @@ namespace Enjoy.Core.Api
                 Privilege = (o.CardCoupon as MemberCard).Prerogative,
             }).ToList();
         }
+
+        [Route("api/enjoy/QueryCardById")]
+        [HttpPost]
         public ApiModel::CardCoupon QueryCardById(long id)
         {
             return new ApiModel::CardCoupon();
         }
+
+
         [Route("api/enjoy/GenerateCardExtString")]
         [HttpPost]
         public string GenerateCardExtString(ApiModel::SignatureContext context)
@@ -278,14 +283,35 @@ namespace Enjoy.Core.Api
             };
             return result.SerializeToJson();
         }
-
+        /// <summary>
+        /// 充值统一下单
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         [Route("api/enjoy/GenerateUnifiedorderforTopup")]
         [HttpPost]
         public ApiModel::PullWxPayData GenerateUnifiedorderforTopup(ApiModel::TopupContext context)
         {
-            var data = context.GenerateUnifiedWxPayData();
+            var merchant = this._merchantService.GetDefaultMerchant(context.MCode);
+            var session = this._os.TransactionManager.GetSession();
+            //创建本地支付订单
+            var trade = new TradeDetails()
+            {
+                CreatedTime = DateTime.Now.ToUnixStampDateTime(),
+                AppId = context.AppId,
+                OpenId = context.OpenId,
+                MchId = merchant.Miniprogram.MchId,
+                OrderId = Guid.NewGuid().ToString().Replace("-", string.Empty),
+                Success = false,
+                Money = context.Money * 100,
+                Type = TradeTypes.Recharge
+            };
+            session.SaveOrUpdate(trade);
+            trade.TradeId = string.Format("T{0}{1}", DateTime.Now.ToString("yyyyMMddmmddss"), trade.Id.ToString("00000000"));
+            var data = context.GenerateUnifiedWxPayData(merchant.Miniprogram.MchId, trade.TradeId);
             var parameter = this._weChat.Unifiedorder(data);
             parameter.PaySign = parameter.MakeSign();
+            trade.OrderId = parameter.Package.Split('=')[0];
             return new ApiModel::PullWxPayData()
             {
                 nonceStr = parameter.NonceStr,
@@ -294,8 +320,40 @@ namespace Enjoy.Core.Api
                 signType = WxPayData.SIGN_TYPE_HMAC_SHA256,
                 timeStamp = parameter.TimeStamp.ToString()
             };
-
         }
+
+        /// <summary>
+        /// 创建分享日志
+        /// </summary>
+        /// <param name="context"></param>
+        [Route("api/enjoy/CreateShareLogging")]
+        [HttpPost]
+        public void CreateShareLogging(ApiModel::SharingContext context)
+        {
+            var merchant = this._merchantService.GetDefaultMerchant(context.MCode);
+            var session = this._os.TransactionManager.GetSession();
+            session.SaveOrUpdate(new SharingDetails()
+            {
+                AppId = context.AppId,
+                CardId = context.CardId,
+                CreatedTime = DateTime.Now.ToUnixStampDateTime(),
+                Merchant = new Merchant() { Id = merchant.Id },
+                SharedBy = context.SharedBy
+            });
+        }
+
+        [Route("api/enjoy/PayNotify")]
+        [HttpGet]
+        public void PayNotify()
+        {
+            var str = @"<xml>
+  <return_code><![CDATA[SUCCESS]]></return_code>
+  <return_msg><![CDATA[OK]]></return_msg>
+</xml>"; 
+            this._os.WorkContext.HttpContext.Response.Write(str);
+            this._os.WorkContext.HttpContext.Response.End();
+        }
+
     }
 }
 

@@ -5,6 +5,8 @@ namespace Enjoy.Core.EnjoyModels
     using Records = Enjoy.Core.Records;
     using Newtonsoft.Json;
     using System;
+    using Enjoy.Core.WeChatModels;
+    using System.Collections.Generic;
 
     public class MerchantModel : IModelKey<long>
     {
@@ -13,32 +15,35 @@ namespace Enjoy.Core.EnjoyModels
             this.BeginTime = DateTime.UtcNow.ToUnixStampDateTime();
             this.EndTime = DateTime.UtcNow.AddYears(1).ToUnixStampDateTime();
         }
-        
+
         public MerchantModel(Records.Merchant record)
         {
             if (record != null)
             {
                 this.Address = record.Address;
-              ///  this.AgreementMediaId = record.AgreementMediaId;
-               // this.AppId = record.AppId;
-               // this.BeginTime = record.BeginTime;
+                ///  this.AgreementMediaId = record.AgreementMediaId;
+                // this.AppId = record.AppId;
+                // this.BeginTime = record.BeginTime;
                 this.BrandName = record.BrandName;
                 this.Contact = record.Contact;
                 this.CreateTime = record.CreateTime;
-              //  this.EndTime = record.EndTime;
+                //  this.EndTime = record.EndTime;
                 this.EnjoyUser = new EnjoyUserModel(record.EnjoyUser);
                 this.Id = record.Id;
-               //this.LogoUrl = record.LogoUrl;
-               // this.MerchantId = record.MerchantId;
+                //this.LogoUrl = record.LogoUrl;
+                // this.MerchantId = record.MerchantId;
                 this.Mobile = record.Mobile;
-               // this.OperatorMediaId = record.OperatorMediaId;
-               // this.PrimaryCategoryId = record.PrimaryCategoryId;
+                // this.OperatorMediaId = record.OperatorMediaId;
+                // this.PrimaryCategoryId = record.PrimaryCategoryId;
                 //this.Protocol = record.Protocol;
                 //this.SecondaryCategoryId = record.SecondaryCategoryId;
                 this.UpdateTime = record.LastActivityTime;
-              //  this.Status = record.Status;
-               // this.ErrMsg = record.ErrMsg;
-               // this.Secrect = record.Secrect;
+                this.Official = record.Official.DeserializeToObject<WeChatConfig>();
+                this.Miniprogram = record.Miniprogram.DeserializeToObject<WeChatConfig>();
+                this.Payment = record.Miniprogram.DeserializeToObject<Dictionary<string, string>>();
+                //  this.Status = record.Status;
+                // this.ErrMsg = record.ErrMsg;
+                // this.Secrect = record.Secrect;
             }
 
 
@@ -102,7 +107,7 @@ namespace Enjoy.Core.EnjoyModels
 
 
         public AuditStatus Status { get; set; }
-        public string StatusName 
+        public string StatusName
         {
             get
             {
@@ -129,5 +134,9 @@ namespace Enjoy.Core.EnjoyModels
         public string Address { get; set; }
         public string CategoryName { get; set; }
         public string ErrMsg { get; set; }
+
+        public IWeChatConfig Miniprogram { get; set; }
+        public IWeChatConfig Official { get; set; }
+        public Dictionary<string, string> Payment { get; set; }
     }
 }

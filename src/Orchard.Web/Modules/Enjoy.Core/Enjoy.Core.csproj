@@ -121,6 +121,7 @@
     <Compile Include="Api\Models\Tokens\JSCodeContext.cs" />
     <Compile Include="Api\Models\Tokens\QueryCardsContext.cs" />
     <Compile Include="Api\Models\Tokens\RegWxUserContext.cs" />
+    <Compile Include="Api\Models\Tokens\SharingContext.cs" />
     <Compile Include="Api\Models\Tokens\SignatureContext.cs" />
     <Compile Include="Api\Models\Tokens\VerifyCodeContext.cs" />
     <Compile Include="Api\Models\Tokens\TopupContext.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Models\Enums\RegistryTypes.cs" />
     <Compile Include="Models\Enums\SMSNotifyTypes.cs" />
     <Compile Include="Models\Enums\TradeTypes.cs" />
+    <Compile Include="Models\Enums\VATypes.cs" />
     <Compile Include="Models\Enums\VerifyTypes.cs" />
     <Compile Include="Models\Exceptions\NoDefaultMerchantExcpetion.cs" />
     <Compile Include="Models\Location\Location.cs" />
@@ -212,7 +214,7 @@
     <Compile Include="Models\Merchant\ShopModel.cs" />
     <Compile Include="Models\PagingCondition.cs" />
     <Compile Include="Models\PagingData.cs" />
-    <Compile Include="Models\Records\CardAccount.cs" />
+    <Compile Include="Models\Records\VirtualAccount.cs" />
     <Compile Include="Models\Records\CardCoupon.cs" />
     <Compile Include="Models\Records\Category.cs" />
     <Compile Include="Models\Records\EnjoyUser.cs" />
@@ -268,6 +270,7 @@
     <Compile Include="Models\WeChat\Messages\MemberCardUserInfoWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\MerchantAuditWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\PayFromPayCellWeChatEventArgs.cs" />
+    <Compile Include="Models\WeChat\WxPayApi\PayNotification.cs" />
     <Compile Include="Models\WeChat\Messages\PayOrderWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\SkuRemindWeChatEventArgs.cs" />
     <Compile Include="Models\WeChat\Messages\SubmitMemberCardWeChatEventArgs.cs" />

@@ -80,7 +80,7 @@ namespace Enjoy.Core
                 .Column("ErrMsg", DbType.String, column => column.WithLength(500).Nullable())
                 .Column("CreateTime", DbType.Int64, column => column.NotNull())
                 .Column("LastActivityTime", DbType.Int64, column => column.NotNull())
-                .Column("Miniprogarm", DbType.String, column => column.WithLength(500))
+                .Column("Miniprogram", DbType.String, column => column.WithLength(500))
                 .Column("Official", DbType.String, column => column.WithLength(500))
                 .Column("Payment", DbType.String, column => column.WithLength(500))
             );
@@ -221,8 +221,23 @@ namespace Enjoy.Core
                 .Column("CreatedTime", DbType.Int64)
                 .Column("ConfirmTime", DbType.Int64)
                 .Column("Description", DbType.String, colum => colum.Unlimited())
-            );
+            );        
+        
 
+        SchemaBuilder.CreateTable("VirtualAccount", table => table
+                .Column("Id", DbType.Int64)
+                .Column("AppId",DbType.String,column=>column.WithLength(32).NotNull())
+                .Column("OpenId",DbType.String,column=>column.WithLength(32).NotNull())                
+                .Column("CardId",DbType.String,column=>column.WithLength(32).NotNull())
+                .Column("Code", DbType.String, column => column.WithLength(32).NotNull())
+                .Column("Type",DbType.String,column=>column.WithLength(32).NotNull())
+                .Column("State", DbType.String, column => column.WithLength(32).NotNull())
+                .Column("Money", DbType.Int32, column => column.NotNull())
+                .Column("TradeDetails_Id", DbType.Int64)
+                .Column("LastUpdatedTime", DbType.Int64)
+         );
+         SchemaBuilder.AlterTable("VirtualAccount", table => table.AddUniqueConstraint("UK_VirtualAccount", 
+             new string[] { "AppId", "OpenId", "CardId", "Code", "Type" }));
         }
         private void CreateLayer()
         {
@@ -314,7 +329,7 @@ namespace Enjoy.Core
                 CreateTime = DateTime.Now.ToUnixStampDateTime(),
                 EnjoyUser = enjoyUser,
                 LastActivityTime = DateTime.Now.ToUnixStampDateTime(),
-                Miniprogarm = miniprogarm.SerializeToJson(),
+                Miniprogram = miniprogarm.SerializeToJson(),
                 Official = official.SerializeToJson(),
                 Payment = payment.SerializeToJson(),
                 Mobile = "13890397856"

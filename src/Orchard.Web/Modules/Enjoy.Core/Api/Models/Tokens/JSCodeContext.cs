@@ -5,7 +5,7 @@ namespace Enjoy.Core.ApiModels
     using Newtonsoft.Json;
     public class JSCodeContext
     {
-        [JsonProperty("appid")]
+        [JsonProperty("appId")]
         public string AppId { get; set; }
         [JsonProperty("secret")]
         public string Secret { get; set; }

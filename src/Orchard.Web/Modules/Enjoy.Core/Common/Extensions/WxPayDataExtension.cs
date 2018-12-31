@@ -14,6 +14,7 @@ namespace Enjoy.Core
     using System.Text;
     using System.Linq;
     using Enjoy.Core.ApiModels;
+    using Enjoy.Core.EnjoyModels;
 
     public static class WxPayDataExtension
     {
@@ -187,7 +188,7 @@ namespace Enjoy.Core
             data.GoodsTag = "test";
             data.MchId = Constants.WxConfig.MchId;
             data.Totalfee = jsApiPay.TotalFee;
-            data.NotifyUrl = "https://www.yourc.club/wap/payr";
+            data.NotifyUrl = "https://www.yourc.club/api/";
             data.SpbillCreateIp = "118.24.139.228";
             data.NonceStr = RandomGenerator.Instance.Genernate();
             data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
@@ -303,20 +304,19 @@ namespace Enjoy.Core
             return result;
         }
 
-        public static WxPayData GenerateUnifiedWxPayData(this TopupContext context)
+        public static WxPayData GenerateUnifiedWxPayData(this TopupContext context, string mchid, string outTradeNo)
         {
             var data = new WxPayData();
             data.Body = "会员卡充值";
             data.Attach = "attach";
-            data.OutTradeNo = Guid.NewGuid().ToString().Replace("-",string.Empty);// "150848433120180905090411634"; //
-            data.TimeStart = DateTime.Now.ToString("yyyyMMddHHmmss");// "20180905090412";// "20180905091412"; //
-
+            data.OutTradeNo = outTradeNo;
+            data.TimeStart = DateTime.Now.ToString("yyyyMMddHHmmss");
             data.TimeExpire = DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"); //"20180905091412"; //
             data.AppId = context.AppId; //Constants.WxConfig.AppId;
             data.OpenId = context.OpenId;
             data.TradeType = "JSAPI";
             data.GoodsTag = "会员卡充值";
-            data.MchId = Constants.WxConfig.MchId;
+            data.MchId = mchid;
             data.Totalfee = context.Money * 100;
             data.NotifyUrl = "https://www.yourc.club/wap/payr";
             data.SpbillCreateIp = "118.24.139.228";
