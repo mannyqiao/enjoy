@@ -2,6 +2,7 @@
 const AppConfig = {
   appid: "wx6a15c5888e292f99",                //app id
   secret: "74c4c300a46b8c6eb8c79b3689065673",           //app secret
+  mcode:"92511402MA6941EG0R",
   mid:"",
     ak: "db185e5dba386e42aeea9723d4a1fc66",                // 高德地图key
     bk: "your baidu map key",           // 百度地址key

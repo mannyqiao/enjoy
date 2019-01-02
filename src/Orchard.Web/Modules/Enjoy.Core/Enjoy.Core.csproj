@@ -138,6 +138,7 @@
     <Compile Include="Common\Extensions\StreamExtension.cs" />
     <Compile Include="Common\Extensions\WeChatEventArgsExtension.cs" />
     <Compile Include="Common\Extensions\StringExtension.cs" />
+    <Compile Include="Common\Extensions\WeChatUserInfoExtension.cs" />
     <Compile Include="Common\Extensions\WxPayDataExtension.cs" />
     <Compile Include="Common\Extensions\XmlExtensions.cs" />
     <Compile Include="Contract\ICardCouponService.cs" />

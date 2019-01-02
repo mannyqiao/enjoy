@@ -49,17 +49,17 @@ namespace Enjoy.Core.Controllers
         [HttpPost]
         public ActionResult PayPost(JsApiPay data)
         {
-            var wxPayParameter = this._weChatApi.Unifiedorder(data);
+            //var wxPayParameter = this._weChatApi.Unifiedorder(data);
             
-            var url = string.Format("/wap/pullwxpay?appid={0}&timestamp={1}&noncestr={2}&package={3}&signType={4}&paySign={5}&ReturnMsg={6}"
-                , wxPayParameter.AppId
-                , wxPayParameter.TimeStamp
-                , wxPayParameter.NonceStr
-                , wxPayParameter.Package
-                , wxPayParameter.SignType
-                , wxPayParameter.PaySign
-                ,wxPayParameter.ReturnMsg);
-            return this.RedirectLocal(url);
+            //var url = string.Format("/wap/pullwxpay?appid={0}&timestamp={1}&noncestr={2}&package={3}&signType={4}&paySign={5}&ReturnMsg={6}"
+            //    , wxPayParameter.AppId
+            //    , wxPayParameter.TimeStamp
+            //    , wxPayParameter.NonceStr
+            //    , wxPayParameter.Package
+            //    , wxPayParameter.SignType
+            //    , wxPayParameter.PaySign
+            //    ,wxPayParameter.ReturnMsg);
+            return this.RedirectLocal("");
         }
         /// <summary>
         /// 接收支付结果

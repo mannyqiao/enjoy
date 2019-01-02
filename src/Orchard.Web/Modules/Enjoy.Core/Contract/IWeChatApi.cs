@@ -28,7 +28,7 @@ namespace Enjoy.Core
         string GetOpenId(IWxAuthContext loginUser);
 
         WeChatModels.WeChatUserInfo GetWxUser(string openid);
-        WeChatModels.WeChatUserInfo GetWxUser(string openid,string appid,string secret);
+        WeChatModels.WeChatUserInfo GetWxUser(string openid, string appid, string secret);
         IWxAccessToken GetWxAccessToken(string appid, string secret);
 
         void CheckCardAgentQulification();
@@ -48,7 +48,7 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="jsApiPay"></param>
         /// <returns></returns>
-        WxPayParameter Unifiedorder(JsApiPay jsApiPay);
+        WxPayParameter Unifiedorder(JsApiPay jsApiPay,string payKey);
 
         WxPayParameter Unifiedorder(WxPayData data);
         //WeChatUserH5Auth GetWeChatUserH5(string openid);

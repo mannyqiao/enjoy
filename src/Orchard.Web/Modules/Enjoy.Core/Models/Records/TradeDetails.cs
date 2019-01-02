@@ -38,7 +38,7 @@ namespace Enjoy.Core.Records
         /// <summary>
         /// 是否成功
         /// </summary>
-        public virtual bool Success { get; set; }
+        public virtual TradeStates State { get; set; }
         /// <summary>
         /// 交易金额 单位分
         /// </summary>

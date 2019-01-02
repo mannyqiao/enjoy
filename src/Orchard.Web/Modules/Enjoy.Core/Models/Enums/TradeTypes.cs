@@ -23,4 +23,12 @@ namespace Enjoy.Core
         /// </summary>
         Redbag = 3,
     }
+    public enum TradeStates
+    {
+        Waiting = 1,
+        Success = 2,
+        Timeout = 3,
+        Cancel = 4,
+
+    }
 }

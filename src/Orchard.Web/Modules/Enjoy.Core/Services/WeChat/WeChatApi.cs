@@ -37,7 +37,7 @@ namespace Enjoy.Core.Services
             this.Clock = clock;
             this.OS = os;
             this.Logger = NullLogger.Instance;
-           // this.MerchantService = merchant;
+            // this.MerchantService = merchant;
         }
         public string GetToken(string appid, string appsecret)
         {
@@ -53,7 +53,7 @@ namespace Enjoy.Core.Services
         {
             //var merchant = this.MerchantService.GetDefaultMerchant();
             //if (merchant == null) new NoDefaultMerchantExcpetion();
-            
+
             //if (string.IsNullOrEmpty(merchant.AppId) || string.IsNullOrEmpty(merchant.Secrect)) throw new CheckMerchantException();
 
             return GetToken(Constants.WxConfig.AppId, Constants.WxConfig.AppSecret);
@@ -150,12 +150,12 @@ namespace Enjoy.Core.Services
             });
         }
 
-        public WxSession CreateWxSession(IWxAuthContext loginUseer)
+        public WxSession CreateWxSession(IWxAuthContext context)
         {
-            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(Constants.WxConfig.AppId, loginUseer.Code, Constants.WxConfig.AppSecret);
+            var request = WeChatApiRequestBuilder.GenerateWxAuthRequestUrl(context.AppId, context.Code, Constants.WxConfig.AppSecret);
             var auth = request.GetResponseForJson<WeChatAuthorization>();
-            var wechatUser = Decrypt<WeChatUserInfo>(loginUseer.Data, loginUseer.IV, auth.SessionKey);
-            return new WxSession() { LoginUser = loginUseer, Miniprogram = Constants.WxConfig, WeCharUser = wechatUser, Authorization = auth };
+            var wechatUser = Decrypt<WeChatUserInfo>(context.Data, context.IV, auth.SessionKey);
+            return new WxSession() { LoginUser = context, Miniprogram = null, WeCharUser = wechatUser, Authorization = auth };
         }
         public IWxAuthorization GetSessionKey(string code, string appid, string secret)
         {
@@ -373,11 +373,11 @@ namespace Enjoy.Core.Services
             return token;
         }
 
-        public WxPayParameter Unifiedorder(JsApiPay jsApiPay)
+        public WxPayParameter Unifiedorder(JsApiPay jsApiPay,string payKey)
         {
-            var input = jsApiPay.GenerateUnifiedWxPayData();
+            var input = jsApiPay.GenerateUnifiedWxPayData(payKey);
             return this.Unifiedorder(input);
-           
+
         }
         public WxPayParameter Unifiedorder(WxPayData data)
         {
@@ -428,14 +428,14 @@ namespace Enjoy.Core.Services
                     ctx.Monitor(this.Clock.When(TimeSpan.FromSeconds(result.Expiresin)));//默认过期时间为 7200秒    
                 }
                 return result.Ticket;
-                
+
             });
         }
 
-        public string GenerateCardSignature(string appid,string screct,string cardid, long timestamp,string nonce_str)
+        public string GenerateCardSignature(string appid, string screct, string cardid, long timestamp, string nonce_str)
         {
             //https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=cardsign
-            var ticket = GetTicketforWxCard(appid, this.GetWxAccessToken(appid, screct).Token);            
+            var ticket = GetTicketforWxCard(appid, this.GetWxAccessToken(appid, screct).Token);
             var @params = new string[] {
                 nonce_str,
                 timestamp.ToString(),
@@ -445,7 +445,7 @@ namespace Enjoy.Core.Services
 
             var perpare = string.Format("{0}{1}{2}{3}", ticket, timestamp, nonce_str, cardid);
 
-            return perpare.GetSHA1Crypto();            
+            return perpare.GetSHA1Crypto();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Orchard.Tasks.Locking.Services {
         public void CreateSchema() {
             _schemaBuilder.CreateTable(TableName, table => table
                 .Column<int>("Id", column => column.PrimaryKey().Identity())
-                .Column<string>("Name", column => column.NotNull().WithLength(512).Unique())
+                .Column<string>("Name", column => column.NotNull().WithLength(120).Unique())//// fixed mysql issue 
                 .Column<string>("MachineName", column => column.WithLength(256))
                 .Column<DateTime>("CreatedUtc")
                 .Column<DateTime>("ValidUntilUtc", column => column.Nullable()));

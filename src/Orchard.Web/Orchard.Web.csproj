@@ -191,7 +191,6 @@
     <Content Include="Config\Sites.config" />
     <Content Include="packages.config" />
     <Content Include="Media\web.config" />
-    <Content Include="App_Data\Sites\Default\mappings.bin" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

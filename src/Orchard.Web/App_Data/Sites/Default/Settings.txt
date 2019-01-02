@@ -1,0 +1,13 @@
+State: Running
+Themes: 
+Modules: 
+Name: Default
+DataProvider: MySql
+DataConnectionString: Data Source=www.yourc.club;Database=sharingv-uat;User Id=sharing;Password=Window2008;CharSet=utf8;
+DataTablePrefix: null
+RequestUrlHost: null
+RequestUrlPrefix: null
+EncryptionAlgorithm: AES
+EncryptionKey: EFEDBC0F2CAD803D2967893844689A4465AC1900648DC26A1B8CB5BFFEF24D06
+HashAlgorithm: HMACSHA256
+HashKey: 1572206EFD72C88AA3F03F7C1AFC448C114DE6CCA76239108EE98B425A584C5474C0DEFDDE6DBBCC3106BF4062197993FC86B61FA76EDBAD6C91F53DEC04285E

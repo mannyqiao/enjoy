@@ -171,7 +171,7 @@ namespace Enjoy.Core
         /// <param name="totalfee"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static WxPayData GenerateUnifiedWxPayData(this JsApiPay jsApiPay)
+        public static WxPayData GenerateUnifiedWxPayData(this JsApiPay jsApiPay,string payKey)
         {
             var data = new WxPayData();
 
@@ -192,7 +192,7 @@ namespace Enjoy.Core
             data.SpbillCreateIp = "118.24.139.228";
             data.NonceStr = RandomGenerator.Instance.Genernate();
             data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
-            data.Sign = data.MakeSign();
+            data.Sign = data.MakeSign(payKey);
             //data.ProductId = "12235413214070356458058";
             //data.SceneInfo = "";
             if (data.WithRequired(out string errMsg) == false)
@@ -242,12 +242,12 @@ namespace Enjoy.Core
             .OrderBy(o => o.name);//必须对参数排序否则签名不正确
             return string.Join("&", @params.Select(o => string.Format("{0}={1}", o.name, o.value)));
         }
-        public static string MakeSign(this WxPayData data)
+        public static string MakeSign(this WxPayData data,string payKey)
         {
             //转url格式
             string str = data.PrepareSign();
             //在string后加入API KEY
-            str += "&key=" + Constants.WxConfig.PayKey;
+            str += "&key=" + payKey;
             // return CalcHMACSHA256Hash(str, Constants.WxConfig.Key).MakeMd5();
             return MakeSign(str, data.SignType);
         }
@@ -304,7 +304,7 @@ namespace Enjoy.Core
             return result;
         }
 
-        public static WxPayData GenerateUnifiedWxPayData(this TopupContext context, string mchid, string outTradeNo)
+        public static WxPayData GenerateUnifiedWxPayData(this TopupContext context, string mchid, string outTradeNo,string payKey)
         {
             var data = new WxPayData();
             data.Body = "会员卡充值";
@@ -318,11 +318,12 @@ namespace Enjoy.Core
             data.GoodsTag = "会员卡充值";
             data.MchId = mchid;
             data.Totalfee = context.Money * 100;
-            data.NotifyUrl = "https://www.yourc.club/wap/payr";
+            data.NotifyUrl = "https://www.yourc.club/api/enjoy/PayNotify";
             data.SpbillCreateIp = "118.24.139.228";
             data.NonceStr = RandomGenerator.Instance.Genernate();
             data.SignType = WxPayData.SIGN_TYPE_HMAC_SHA256;
-            data.Sign = data.MakeSign();
+            //data.SceneInfo = "";
+            data.Sign = data.MakeSign(payKey);
             //data.ProductId = "12235413214070356458058";
             //data.SceneInfo = "";
             if (data.WithRequired(out string errMsg) == false)

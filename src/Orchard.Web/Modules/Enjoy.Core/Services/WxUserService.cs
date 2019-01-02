@@ -39,6 +39,15 @@ namespace Enjoy.Core.Services
             }, record => new WxUserModel(record));
         }
 
+        public WxUser GetWxUser(string appid, string openid)
+        {
+            var session = this.OS.TransactionManager.GetSession();
+            var criteria = session.CreateCriteria<WxUser>();
+            criteria.Add(Expression.Eq("AppId", appid));
+            criteria.Add(Expression.Eq("OpenId", openid));
+            return criteria.UniqueResult<WxUser>();
+        }
+
         public long Register(WxUserModel userModel)
         {
             var model = this.GetWxUser(userModel.UnionId);

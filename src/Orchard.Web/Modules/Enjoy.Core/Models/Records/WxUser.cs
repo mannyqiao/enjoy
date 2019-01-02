@@ -7,9 +7,10 @@ namespace Enjoy.Core.Records
 {
     public class WxUser : IEntityKey<long>
     {
-        public virtual long Id { get; set; }
-        public virtual string AppId { get; set; }
+
+        public virtual long Id { get; set; }        
         public virtual string UnionId { get; set; }
+        public virtual string AppId { get; set; }
         public virtual string OpenId { get; set; }
         public virtual string Mobile { get; set; }
         public virtual RegistryTypes RegistryType { get; set; }

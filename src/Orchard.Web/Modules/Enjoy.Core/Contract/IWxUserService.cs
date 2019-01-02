@@ -6,6 +6,8 @@ namespace Enjoy.Core
     using Orchard;
     using EnjoyModels = Enjoy.Core.EnjoyModels;
     using WeChatModels = Enjoy.Core.WeChatModels;
+    using Records = Enjoy.Core.Records;
+    using System;
     public interface IWxUserService : IDependency
     {
         /// <summary>
@@ -31,6 +33,10 @@ namespace Enjoy.Core
         /// </summary>
         /// <param name="unionid"></param>
         /// <returns></returns>
+        
         EnjoyModels::WxUserModel GetWxUser(string unionid);
+
+        Records::WxUser GetWxUser(string appid, string openid);
+
     }
 }

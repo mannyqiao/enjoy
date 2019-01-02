@@ -21,6 +21,8 @@ namespace Enjoy.Core.Api
     using Enjoy.Core.Records;
 
     using System.Text;
+    using NHibernate.Linq;
+    using NHibernate.Criterion;
 
     //[Authorize]
     public class EnjoyController : ApiController
@@ -75,28 +77,17 @@ namespace Enjoy.Core.Api
         {
             var result = this._weChat.Decrypt<WeChatUserInfo>(context.Data, context.IV, context.SessionKey);
             //检查用户状态
-            var wxuser = this._wxUserService.GetWxUser(result.UnionId);
-            if (wxuser == null)//如果用户不存在则注册微信用户
+            var wxuser = this._wxUserService.GetWxUser(context.AppId, result.OpenId);
+            if (wxuser == null)
             {
-                wxuser = new WxUserModel()
-                {
-                    City = result.City,
-                    Country = result.Country,
-                    CreatedTime = DateTime.UtcNow.ToUnixStampDateTime(),
-                    LastActiveTime = DateTime.UtcNow.ToUnixStampDateTime(),
-                    Mobile = string.Empty,
-                    NickName = result.NickName,
-                    Province = result.Province,
-                    RegistryType = RegistryTypes.Miniprogram,
-                    UnionId = result.UnionId,
-                    AvatarUrl = context.WxChatUser == null ? "" : context.WxChatUser.AvatarUrl
-                };
-                result.State = new ApiModel::UserState() { HasMobile = false, Signup = true };
-                this._wxUserService.Register(wxuser);
+                wxuser = result.CreateWxUser(RegistryTypes.Miniprogram, context.AppId);
+                this._os.TransactionManager.GetSession().SaveOrUpdate(wxuser);
             }
             else
             {
                 result.State = new ApiModel::UserState() { HasMobile = !string.IsNullOrEmpty(wxuser.Mobile), Signup = true };
+                wxuser.LastActivityTime = DateTime.Now.ToUnixStampDateTime();
+                this._os.TransactionManager.GetSession().SaveOrUpdate(wxuser);
             }
             result.Id = wxuser.Id;
             result.Mobile = wxuser.Mobile;
@@ -293,6 +284,7 @@ namespace Enjoy.Core.Api
         public ApiModel::PullWxPayData GenerateUnifiedorderforTopup(ApiModel::TopupContext context)
         {
             var merchant = this._merchantService.GetDefaultMerchant(context.MCode);
+            if (merchant == null) { throw new NullReferenceException("mcode"); }
             var session = this._os.TransactionManager.GetSession();
             //创建本地支付订单
             var trade = new TradeDetails()
@@ -302,17 +294,16 @@ namespace Enjoy.Core.Api
                 OpenId = context.OpenId,
                 MchId = merchant.Miniprogram.MchId,
                 OrderId = Guid.NewGuid().ToString().Replace("-", string.Empty),
-                Success = false,
+                State = TradeStates.Waiting,
                 Money = context.Money * 100,
                 Type = TradeTypes.Recharge
             };
             session.SaveOrUpdate(trade);
             trade.TradeId = string.Format("T{0}{1}", DateTime.Now.ToString("yyyyMMddmmddss"), trade.Id.ToString("00000000"));
-            var data = context.GenerateUnifiedWxPayData(merchant.Miniprogram.MchId, trade.TradeId);
+            var data = context.GenerateUnifiedWxPayData(merchant.Miniprogram.MchId, trade.TradeId, merchant.Miniprogram.PayKey);
             var parameter = this._weChat.Unifiedorder(data);
             parameter.PaySign = parameter.MakeSign();
-            trade.OrderId = parameter.Package.Split('=')[0];
-            return new ApiModel::PullWxPayData()
+            var pullWxPayData = new ApiModel::PullWxPayData()
             {
                 nonceStr = parameter.NonceStr,
                 package = parameter.Package,
@@ -320,6 +311,7 @@ namespace Enjoy.Core.Api
                 signType = WxPayData.SIGN_TYPE_HMAC_SHA256,
                 timeStamp = parameter.TimeStamp.ToString()
             };
+            return pullWxPayData;
         }
 
         /// <summary>
@@ -344,14 +336,47 @@ namespace Enjoy.Core.Api
 
         [Route("api/enjoy/PayNotify")]
         [HttpGet]
+        [HttpPost]
         public void PayNotify()
         {
-            var str = @"<xml>
-  <return_code><![CDATA[SUCCESS]]></return_code>
-  <return_msg><![CDATA[OK]]></return_msg>
-</xml>"; 
-            this._os.WorkContext.HttpContext.Response.Write(str);
-            this._os.WorkContext.HttpContext.Response.End();
+            var xml = this.Request.Content.ReadAsStringAsync();
+            var notify = xml.Result.DeserializeFromXml<PayNotification>();
+            if (notify == null) throw new NullReferenceException("nofity");
+            var session = this._os.TransactionManager.GetSession();
+            var criteria = session.CreateCriteria<TradeDetails>();
+            criteria.Add(Expression.Eq("AppId", notify.AppId.Value));
+            criteria.Add(Expression.Eq("TradeId", notify.OutTradeNo.Value));
+            var trade = criteria.UniqueResult<TradeDetails>();
+            ////P1 需要加入签名验证防止数据篡改
+            if (notify.ReturnCode.Value.Equals("SUCCESS"))
+            {
+                trade.State = TradeStates.Success;
+                trade.OrderId = notify.TransactionId.Value;
+                trade.Description = notify.Attach.Value;
+                session.SaveOrUpdate(trade);
+                //更改账户金额
+
+
+                var str = @"<xml>
+                  <return_code><![CDATA[SUCCESS]]></return_code>
+                  <return_msg><![CDATA[OK]]></return_msg>
+                </xml>";
+                this._os.WorkContext.HttpContext.Response.Write(str);
+                this._os.WorkContext.HttpContext.Response.End();
+            }
+            else
+            {
+                trade.State = TradeStates.Cancel;
+                trade.OrderId = notify.TransactionId.Value;
+                trade.Description = string.Format("attach:{0};error:{1};", notify.Attach.Value, notify.ErrorDescription.Value);
+                session.SaveOrUpdate(trade);
+                var str = @"<xml>
+                  <return_code><![CDATA[Fail]]></return_code>
+                  <return_msg><![CDATA[NO]]></return_msg>
+                </xml>";
+                this._os.WorkContext.HttpContext.Response.Write(str);
+                this._os.WorkContext.HttpContext.Response.End();
+            }
         }
 
     }

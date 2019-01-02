@@ -12,7 +12,6 @@ namespace Enjoy.Core
     using Orchard.UI.Navigation;
     using Orchard.Core.Navigation.Services;
     using System.Linq;
-
     using Orchard.Core.Common.Fields;
     using Orchard.Fields.Fields;
     using Orchard.Widgets.Models;
@@ -116,9 +115,12 @@ namespace Enjoy.Core
                 .Column("LastActivityTime", DbType.Int64)
                 .Column("JsonMetadata", DbType.String, column => column.Unlimited())
             );
+
             SchemaBuilder.CreateTable("WxUser", table => table
-                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())                
                 .Column("UnionId", DbType.String, column => column.WithLength(32))
+                .Column("AppId", DbType.String, column => column.WithLength(32))
+                .Column("OpenId", DbType.String, column => column.WithLength(32))
                 .Column("Mobile", DbType.String, column => column.WithLength(11).Nullable())
                 .Column("RegistryType", DbType.String, column => column.WithLength(20))
                 .Column("NickName", DbType.String, column => column.WithLength(32))
@@ -129,6 +131,10 @@ namespace Enjoy.Core
                 .Column("LastActivityTime", DbType.Int64)
                 .Column("AvatarUrl", DbType.String, column => column.WithLength(200))
             );
+            SchemaBuilder.AlterTable("WxUser", table => table
+            .AddUniqueConstraint("UK_WxUser_AppIdOpenId", new string[] {
+                "AppId","OpenId"
+            }));
 
 
             SchemaBuilder.CreateTable("WxMsg", table => table
@@ -182,7 +188,6 @@ namespace Enjoy.Core
                 .Column("Merchant_Id", DbType.Int64, column => column.NotNull())
                 .Column("Settings", DbType.String, column => column.WithLength(2000))
                 .Column("LastActivityTime", DbType.Int64)
-
             );
 
             SchemaBuilder.CreateTable("Product", table => table
@@ -210,13 +215,13 @@ namespace Enjoy.Core
             //交易详情
             SchemaBuilder.CreateTable("TradeDetails", table => table
                 .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
-                .Column("TradeId", DbType.String, column => column.WithLength(32).Unique())
-                .Column("OrderId", DbType.String, column => column.WithLength(32).Unique())
+                .Column("TradeId", DbType.String, column => column.WithLength(64).Unique())
+                .Column("OrderId", DbType.String, column => column.WithLength(64).Unique())
                 .Column("Type", DbType.String, column => column.WithLength(32))
                 .Column("AppId", DbType.String, column => column.WithLength(32))
                 .Column("OpenId", DbType.String, column => column.WithLength(32))
                 .Column("MchId", DbType.String, column => column.WithLength(32))
-                .Column("Success", DbType.Boolean)
+                .Column("State", DbType.String,column=>column.WithLength(32).NotNull())
                 .Column("Money", DbType.Int32)
                 .Column("CreatedTime", DbType.Int64)
                 .Column("ConfirmTime", DbType.Int64)

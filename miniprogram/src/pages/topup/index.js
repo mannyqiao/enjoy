@@ -18,11 +18,12 @@ Page({
   topup,
   data: {
     moneyBlocks: [
+      { "text": "1元", "money": 1 },
       { "text": "50元", "money": 50 },
       { "text": "100元", "money": 100 },
       { "text": "200元", "money": 200 },
       { "text": "300元", "money": 300 }],
-    "money": 50,
+    "money": 1,
     topup: {
       appid: "",
       money: 0,
@@ -42,7 +43,8 @@ Page({
         openid: token.token.openid,
         unionid: token.unionId,
         cardid: "ddd",
-        code: "ddd"
+        code: "ddd",
+        mcode:cfg.mcode
       }
     });
     console.log(me.data.topup);
@@ -61,6 +63,7 @@ Page({
     const me = this;            
     let context = me.data.topup;
    me.topup(context).then((ctx)=>{
+     console.log(ctx.data);
      wx.requestPayment({
        timeStamp: ctx.data.timeStamp,
        nonceStr: ctx.data.nonceStr,

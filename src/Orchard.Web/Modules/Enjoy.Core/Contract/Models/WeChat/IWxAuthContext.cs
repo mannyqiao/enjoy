@@ -6,6 +6,7 @@ namespace Enjoy.Core
 
     public interface IWxAuthContext
     {
+        string AppId { get; set; }
         /// <summary>
         /// 登录Code
         /// </summary>
@@ -24,6 +25,6 @@ namespace Enjoy.Core
 
         string State { get; }
 
-        string OpenId { get;  }
+        string OpenId { get; }
     }
 }
