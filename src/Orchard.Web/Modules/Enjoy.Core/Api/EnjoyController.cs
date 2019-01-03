@@ -287,17 +287,7 @@ namespace Enjoy.Core.Api
             if (merchant == null) { throw new NullReferenceException("mcode"); }
             var session = this._os.TransactionManager.GetSession();
             //创建本地支付订单
-            var trade = new TradeDetails()
-            {
-                CreatedTime = DateTime.Now.ToUnixStampDateTime(),
-                AppId = context.AppId,
-                OpenId = context.OpenId,
-                MchId = merchant.Miniprogram.MchId,
-                OrderId = Guid.NewGuid().ToString().Replace("-", string.Empty),
-                State = TradeStates.Waiting,
-                Money = context.Money * 100,
-                Type = TradeTypes.Recharge
-            };
+            var trade = context.Generate(merchant.Miniprogram.MchId);
             session.SaveOrUpdate(trade);
             trade.TradeId = string.Format("T{0}{1}", DateTime.Now.ToString("yyyyMMddmmddss"), trade.Id.ToString("00000000"));
             var data = context.GenerateUnifiedWxPayData(merchant.Miniprogram.MchId, trade.TradeId, merchant.Miniprogram.PayKey);
@@ -347,6 +337,21 @@ namespace Enjoy.Core.Api
             criteria.Add(Expression.Eq("AppId", notify.AppId.Value));
             criteria.Add(Expression.Eq("TradeId", notify.OutTradeNo.Value));
             var trade = criteria.UniqueResult<TradeDetails>();
+            if (notify.TotalFee != trade.Money)
+                throw new ArgumentNullException("trade money not equal notify money");
+            if (trade.State != TradeStates.Waiting)
+            {
+                var str = @"<xml>
+                  <return_code><![CDATA[Fail]]></return_code>
+                  <return_msg><![CDATA[NO]]></return_msg>
+                </xml>";
+                this._os.WorkContext.HttpContext.Response.Write(str);
+                this._os.WorkContext.HttpContext.Response.End();
+                return;
+            }
+
+
+
             ////P1 需要加入签名验证防止数据篡改
             if (notify.ReturnCode.Value.Equals("SUCCESS"))
             {
@@ -354,9 +359,10 @@ namespace Enjoy.Core.Api
                 trade.OrderId = notify.TransactionId.Value;
                 trade.Description = notify.Attach.Value;
                 session.SaveOrUpdate(trade);
-                //更改账户金额
-
-
+                var va = this._authService.CreateVirtualAccountIfNotExists(trade);
+                va.Money += trade.RealMoeny;
+                va.LastTrading = trade;
+                session.SaveOrUpdate(va);
                 var str = @"<xml>
                   <return_code><![CDATA[SUCCESS]]></return_code>
                   <return_msg><![CDATA[OK]]></return_msg>
@@ -377,6 +383,9 @@ namespace Enjoy.Core.Api
                 this._os.WorkContext.HttpContext.Response.Write(str);
                 this._os.WorkContext.HttpContext.Response.End();
             }
+
+
+
         }
 
     }

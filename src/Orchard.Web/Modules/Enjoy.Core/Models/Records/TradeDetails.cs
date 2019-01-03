@@ -5,8 +5,9 @@ namespace Enjoy.Core.Records
     /// <summary>
     /// 交易详情
     /// </summary>
-    public class TradeDetails
+    public class TradeDetails: IWeChatCardKey
     {
+        
         /// <summary>
         /// 
         /// </summary>
@@ -32,6 +33,14 @@ namespace Enjoy.Core.Records
         /// </summary>
         public virtual string OpenId { get; set; }
         /// <summary>
+        /// 会员卡Id
+        /// </summary>
+        public virtual string CardId { get; set; }
+        /// <summary>
+        /// 会员卡用户 code
+        /// </summary>
+        public virtual string Code { get; set; }
+        /// <summary>
         /// 微信支付商户号
         /// </summary>
         public virtual string MchId { get; set; }
@@ -42,7 +51,11 @@ namespace Enjoy.Core.Records
         /// <summary>
         /// 交易金额 单位分
         /// </summary>
-        public virtual int Money { get; set; }
+        public virtual int Money { get; set; }  
+        /// <summary>
+        /// 实得金额
+        /// </summary>
+        public virtual int RealMoeny { get; set; }
         /// <summary>
         /// 交易创建时间
         /// </summary>

@@ -22,5 +22,6 @@ namespace Enjoy.Core
         ActionResponse<VerificationCodeViewModel> GetverificationCode(string mobile, VerifyTypes type);
 
         bool IsEquals(string mobile, string verifyCode);
+        VirtualAccount CreateVirtualAccountIfNotExists(IWeChatCardKey cardKey);
     }
 }

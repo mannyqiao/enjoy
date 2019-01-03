@@ -201,7 +201,7 @@ namespace Enjoy.Core.WeChatModels
                 sign = value.Value;
             }
         }
-        public string time_end;
+        private string time_end;
         [XmlElement("time_end")]
         public XmlCDataSection TimeEnd
         {
@@ -215,19 +215,20 @@ namespace Enjoy.Core.WeChatModels
                 time_end = value.Value;
             }
         }
-        private int total_fee;
+        //private int total_fee;
         [XmlElement("total_fee")]
-        public XmlCDataSection TotalFee
+        public int TotalFee
         {
-            get
-            {
-                XmlDocument doc = new XmlDocument();
-                return doc.CreateCDataSection(total_fee.ToString());
-            }
-            set
-            {
-                total_fee = int.Parse(value.Value);
-            }
+            get;set;
+            //get
+            //{
+            //    XmlDocument doc = new XmlDocument();
+            //    return doc.CreateCDataSection(total_fee.ToString());
+            //}
+            //set
+            //{
+            //    total_fee = int.Parse(value.Value);
+            //}
         }
         private string trade_type;
         [XmlElement("trade_type")]

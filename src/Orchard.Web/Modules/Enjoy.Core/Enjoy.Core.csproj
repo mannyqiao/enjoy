@@ -145,6 +145,7 @@
     <Compile Include="Contract\IQueryService.cs" />
     <Compile Include="Contract\IEnjoyAuthService.cs" />
     <Compile Include="Contract\IMerchantService.cs" />
+    <Compile Include="Contract\ISharingService.cs" />
     <Compile Include="Contract\IShopService.cs" />
     <Compile Include="Contract\ISMSHelper.cs" />
     <Compile Include="Contract\IVerifyCodeGenerator.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Contract\Models\IQueryResponseDescriptor.cs" />
     <Compile Include="Contract\Models\IResponse.cs" />
     <Compile Include="Contract\Models\IVerifyCode.cs" />
+    <Compile Include="Contract\Models\Keys\IWeChatCardKey.cs" />
     <Compile Include="Contract\Models\WeChat\IWeChatConfig.cs" />
     <Compile Include="Contract\Models\WeChat\IWxLoginUser.cs" />
     <Compile Include="Contract\Models\WeChat\IWxMsgToken.cs" />

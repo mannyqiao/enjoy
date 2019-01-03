@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Enjoy.Core.Records
 {
-    public class VirtualAccount
+    public class VirtualAccount : IWeChatCardKey
     {
         /// <summary>
         /// 序列号
@@ -23,10 +23,7 @@ namespace Enjoy.Core.Records
         /// 会员卡id
         /// </summary>
         public virtual string CardId { get; set; }
-        /// <summary>
-        /// 账户类型
-        /// </summary>
-        public virtual VATypes Type { get; set; }
+
         /// <summary>
         /// 账户状态
         /// </summary>

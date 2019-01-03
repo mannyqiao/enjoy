@@ -12,7 +12,7 @@ namespace Enjoy.Core
         /// </summary>
         BalanceOfMermberCard = 1,
         /// <summary>
-        /// 鼓励金余额
+        /// 
         /// </summary>
         BalanceOfRaward = 2,
     }

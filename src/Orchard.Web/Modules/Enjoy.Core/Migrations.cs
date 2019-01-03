@@ -220,25 +220,26 @@ namespace Enjoy.Core
                 .Column("Type", DbType.String, column => column.WithLength(32))
                 .Column("AppId", DbType.String, column => column.WithLength(32))
                 .Column("OpenId", DbType.String, column => column.WithLength(32))
+                .Column("CardId", DbType.String, column => column.WithLength(32))
+                .Column("Code", DbType.String, column => column.WithLength(32))
                 .Column("MchId", DbType.String, column => column.WithLength(32))
                 .Column("State", DbType.String,column=>column.WithLength(32).NotNull())
                 .Column("Money", DbType.Int32)
+                .Column("RealMoeny",DbType.Int32)
                 .Column("CreatedTime", DbType.Int64)
                 .Column("ConfirmTime", DbType.Int64)
                 .Column("Description", DbType.String, colum => colum.Unlimited())
-            );        
-        
+            );                
 
         SchemaBuilder.CreateTable("VirtualAccount", table => table
-                .Column("Id", DbType.Int64)
+                .Column("Id", DbType.Int64, column => column.PrimaryKey().Identity())
                 .Column("AppId",DbType.String,column=>column.WithLength(32).NotNull())
                 .Column("OpenId",DbType.String,column=>column.WithLength(32).NotNull())                
                 .Column("CardId",DbType.String,column=>column.WithLength(32).NotNull())
-                .Column("Code", DbType.String, column => column.WithLength(32).NotNull())
-                .Column("Type",DbType.String,column=>column.WithLength(32).NotNull())
+                .Column("Code", DbType.String, column => column.WithLength(32).NotNull())                
                 .Column("State", DbType.String, column => column.WithLength(32).NotNull())
                 .Column("Money", DbType.Int32, column => column.NotNull())
-                .Column("TradeDetails_Id", DbType.Int64)
+                .Column("LastTrading_id", DbType.Int64)
                 .Column("LastUpdatedTime", DbType.Int64)
          );
          SchemaBuilder.AlterTable("VirtualAccount", table => table.AddUniqueConstraint("UK_VirtualAccount", 

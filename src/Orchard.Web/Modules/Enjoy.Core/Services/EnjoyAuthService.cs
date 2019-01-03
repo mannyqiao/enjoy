@@ -24,6 +24,7 @@ namespace Enjoy.Core.Services
     using System.Web;
     using Orchard.Mvc.Extensions;
     using Orchard.UI.Notify;
+    using NHibernate.Criterion;
 
     public class EnjoyAuthService : IEnjoyAuthService
     {
@@ -93,10 +94,10 @@ namespace Enjoy.Core.Services
             }
             catch (NullReferenceException ex)
             {
-                return  new AuthQueryResponse(Constants.UserNotExits);
+                return new AuthQueryResponse(Constants.UserNotExits);
             }
-          
-            
+
+
 
         }
 
@@ -368,6 +369,32 @@ namespace Enjoy.Core.Services
                 return code;
             });
             return model.Request();
+        }
+
+        public VirtualAccount CreateVirtualAccountIfNotExists(IWeChatCardKey cardKey)
+        {
+            var session = this.OS.TransactionManager.GetSession();
+            var criteria = session.CreateCriteria<VirtualAccount>();
+            criteria.Add(Expression.Eq("AppId", cardKey.AppId));
+            criteria.Add(Expression.Eq("OpenId", cardKey.OpenId));
+            criteria.Add(Expression.Eq("CardId", cardKey.CardId));
+            criteria.Add(Expression.Eq("Code", cardKey.Code));
+            var va = criteria.UniqueResult<VirtualAccount>();
+            if (va == null)
+            {
+                va = new VirtualAccount()
+                {
+                    AppId = cardKey.AppId,
+                    OpenId = cardKey.OpenId,
+                    CardId = cardKey.CardId,
+                    LastUpdatedTime = DateTime.Now.ToUnixStampDateTime(),
+                    LastTrading = null,
+                    State = VAStates.Normal,
+                    Code = cardKey.Code,
+                    Money = 0,                     
+                };               
+            }
+            return va;
         }
 
 

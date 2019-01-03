@@ -11,6 +11,8 @@ namespace Enjoy.Core
     using System.Linq;
     using Enjoy.Core.ViewModels;
     using WeChatModels = Enjoy.Core.WeChatModels;
+    using Enjoy.Core.ApiModels;
+
     public static class CardCouponExtension
     {
         public static ICardCoupon DeserializeSpecificCardCoupon(this string json, CardTypes type)
@@ -526,7 +528,7 @@ namespace Enjoy.Core
         public static float GetDistance(this Location location, Location current)
         {
             double EARTH_RADIUS = 6378140;//地球半径 q米
-            double radLat1 =(double) location.Latitude* Math.PI /180d ;
+            double radLat1 = (double)location.Latitude * Math.PI / 180d;
             double radLng1 = (double)location.Longitude * Math.PI / 180d;// Math.PI / location.Longitude;//Rad(lng1);
             double radLat2 = (double)current.Latitude * Math.PI / 180d;// Math.PI / current.Latitude;
             double radLng2 = (double)current.Longitude * Math.PI / 180d;  //Math.PI / current.Longitude;
@@ -534,6 +536,23 @@ namespace Enjoy.Core
             double b = radLng1 - radLng2;
             double result = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin(a / 2), 2) + Math.Cos(radLat1) * Math.Cos(radLat2) * Math.Pow(Math.Sin(b / 2), 2))) * EARTH_RADIUS;
             return (float)result;
+        }
+        public static TradeDetails Generate(this TopupContext context, string mchid)
+        {
+            return new TradeDetails()
+            {
+                CreatedTime = DateTime.Now.ToUnixStampDateTime(),
+                AppId = context.AppId,
+                OpenId = context.OpenId,
+                CardId = context.CardId,
+                Code = context.Code,
+                MchId = mchid,
+                OrderId = Guid.NewGuid().ToString().Replace("-", string.Empty),
+                State = TradeStates.Waiting,
+                Money = context.Money * 100,
+                RealMoeny = context.Money * 100 + (int)(context.Money * 100 * 0.2),
+                Type = TradeTypes.Recharge
+            };
         }
 
     }
