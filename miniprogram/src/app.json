@@ -37,13 +37,7 @@
         "iconPath": "images/tabbar/mmhtab_icon_fl_n@2x.png",
         "selectedIconPath": "images/tabbar/mmhtab_icon_fl_s@2x.png",
         "text": "会员卡"
-      },
-      {
-        "pagePath": "pages/coupon/index",
-        "iconPath": "images/tabbar/mmhtab_icon_gwc_n@2x.png",
-        "selectedIconPath": "images/tabbar/mmhtab_icon_gwc_s@2x.png",
-        "text": "优惠券"
-      },
+      },      
       {
         "pagePath": "pages/member/index",
         "iconPath": "images/tabbar/mmhtab_icon_me_n@2x.png",

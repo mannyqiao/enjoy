@@ -12,13 +12,12 @@ import {
 import request from 'request';
 
 
-const queryCardsByMid = co.wrap(function* (mid,types) { 
+const queryCardsByMid = co.wrap(function* (mcode) { 
   const result = yield request({
-    url: ApiList.queryCardsByMid,
+    url: ApiList.queryCardsByMCode,
     method: "POST",
     data: {     
-      "MerchantId":mid,
-      "Types":types
+      "mocde": mcode
     }   
   }); 
   return result;
@@ -30,7 +29,38 @@ const topup=co.wrap(function*(context){
   });
   return result;
 })
+
+const queryMCardDetails=co.wrap(function* (data){
+  const result = yield request({
+    method: "POST",
+    url: ApiList.queryMCardDetails,
+    data: data
+  });
+  return result;
+});
+  
+const queryMyMCardDetails = co.wrap(function* (data) {
+  const result = yield request({
+    method: "POST",
+    url: ApiList.queryMyMCardDetails,
+    data: data
+  });
+  return result;
+});
+
+const upgradeSharedPyramid = co.wrap(function* (data) {
+  const result = yield request({
+    method: "POST",
+    url: ApiList.upgradeSharedPyramid,
+    data: data
+  });
+  return result;
+});
+
 export {
   queryCardsByMid,
-  topup
+  topup,
+  queryMCardDetails,
+  queryMyMCardDetails,
+  upgradeSharedPyramid
 };

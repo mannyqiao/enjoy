@@ -26,40 +26,42 @@ import request from 'request';
  *   console.info('userInfo', res)
  * })
  * */
-const getUserInfo = co.wrap(function*() {
-  const userInfo = {
-    wx: null,
-    enjoy: null,
-    openid: null,
-    unionId: null
-  };
-  let session = yield getUserSession();
-  const user = yield promisify(wx.getUserInfo)({
-    withCredentials: true
-  });
-  userInfo.wx = user.userInfo;
-  //获取加密数据
-  if (session) {
-    const decodeInfo = yield request({
-      url: ApiList.decryptUserInfo,
-      method: "POST",
-      data: {
-        appId: cfg.appid,
-        data: user.encryptedData,
-        iv: user.iv,
-        sessionKey: session.session_key
-      }
-    });
-    console.log("decodeinfo", decodeInfo.data);
-    if (decodeInfo) { //得到加密信息以后将信息存储到本地
-      userInfo.enjoy = decodeInfo.data;
-      userInfo.unionId = decodeInfo.data.unionId;
-      userInfo.openid = decodeInfo.data.openid;
-    }
-  }
-  wx.setStorageSync(cfg.localKey.user, userInfo)
-  return userInfo;
-});
+// const getUserInfo = co.wrap(function*() {
+//   const userInfo = {
+//     wx: null,
+//     enjoy: null,
+//     openid: null,
+//     unionId: null
+//   };
+//   let session = yield getUserSession();
+//   console.log("session",session);
+//   const user = yield promisify(wx.getUserInfo)({
+//     withCredentials: true
+//   });
+//   userInfo.wx = user.userInfo;
+//   //获取加密数据
+//   if (session) {
+//     const decodeInfo = yield request({
+//       url: ApiList.register,
+//       method: "POST",
+//       data: {
+//         appId: cfg.appid,
+//         data: user.encryptedData,
+//         iv: user.iv,
+//         sessionKey: session.session_key,
+//         wx: user.userInfo,       
+//       }
+//     });
+//     console.log("decodeinfo", decodeInfo.data);
+//     if (decodeInfo) { //得到加密信息以后将信息存储到本地
+//       userInfo.enjoy = decodeInfo.data;
+//       userInfo.unionId = decodeInfo.data.unionId;
+//       userInfo.openid = decodeInfo.data.openid;
+//     }
+//   }
+//   wx.setStorageSync(cfg.localKey.user, userInfo)
+//   return userInfo;
+// });
 
 const getUserSession = co.wrap(function*(reset) {
   console.log("reset", reset);
@@ -68,13 +70,14 @@ const getUserSession = co.wrap(function*(reset) {
 //重置 user session
 const resetUserSession = co.wrap(function*() {
   const basic = yield promisify(wx.login)();
-
+  
   const userSession = {
     code: null,
     session_key: null,
     openid: null,
     expires_in: 0
   };
+
   const session = yield request({
     url: ApiList.getSession + "?time=" + new Date(),
     method: "POST",
@@ -85,7 +88,7 @@ const resetUserSession = co.wrap(function*() {
       grant_type: "authorization_code"
     }
   });
-
+  console.log(session);
   userSession.code = basic.code;
   userSession.session_key = session.data.session_key;
   userSession.openid = session.data.openid;
@@ -126,32 +129,36 @@ const relateSharingVUser = co.wrap(function*(wxUserInfo) {
   let session = yield getUserSession();
   const userInfo = {
     wx: wxUserInfo,
-    sharingv: null,
+    sharing: null,
     token: session,
     unionId: null
   };
 
   //获取 unionId
   if (session) {
+    var postData = {
+      appid: cfg.appid,
+      data: wxUserInfo.encryptedData,
+      iv: wxUserInfo.iv,
+      sessionKey: session.session_key,
+      wx: wxUserInfo.userInfo
+    };
+    
+
     const result = yield request({
-      url: ApiList.decryptUserInfo,
+      url: ApiList.register,
       method: "POST",
-      data: {
-        appId: cfg.appid,
-        data: wxUserInfo.encryptedData,
-        iv: wxUserInfo.iv,
-        sessionKey: session.session_key
-      }
+      data: postData
     });
-    userInfo.sharingv = result.data;
+    
+    userInfo.sharing = result.data;
     userInfo.unionId = result.data.unionId;
     wx.setStorageSync(cfg.localKey.token, userInfo);
     return userInfo;
   }
   return null;
 });
-export {
-  getUserInfo,
+export {  
   getUserSession,
   resetUserSession,
   getUserGranted,

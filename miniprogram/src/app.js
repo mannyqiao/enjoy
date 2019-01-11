@@ -15,7 +15,7 @@ var app = getApp();
 //app.js
 App({
   WeToast,
-  getUserInfo,
+ 
   getUserSession,
   getUserGranted,
   relateSharingVUser,
@@ -34,7 +34,8 @@ App({
     const me = this;     
     wx.checkSession({
       success() {
-        // session_key 未过期，并且在本生命周期一直有效       
+        // session_key 未过期，并且在本生命周期一直有效   
+        console.log("session key 有效")    
       },
       fail() {
         // session_key 已经失效，需要重新执行登录流程

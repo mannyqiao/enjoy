@@ -25,7 +25,7 @@ Page({
     app.getUserGranted().then(res => {
       app.readlyGettUserGrantedCallback(res);
       let token = wx.getStorageSync(cfg.localKey.token);
-      if (res.canUseUserInfo && token.sharingv != undefined && token.token != undefined) {
+      if (res.canUseUserInfo && token.sharing != undefined && token.token != undefined) {
         wx.switchTab({
           url: '/pages/card/index',
         })

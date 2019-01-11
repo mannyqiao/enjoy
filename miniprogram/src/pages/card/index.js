@@ -11,41 +11,45 @@ import {
   regeneratorRuntime
 } from '../../utils/co-loader';
 import request from '../../utils/request';
-import { queryCardsByMid } from "../../utils/endpoints";
+import { queryCardsByMid, queryMyMCardDetails } from "../../utils/endpoints";
 let app = getApp();
 Page({
   /**
    * Page initial data
    */
   queryCardsByMid,
+  queryMyMCardDetails,
   data: {
     granted: false, //是否已授权获取用户信息
     hasMobile: false,
-    mobile: null,
-    merchant: "柠檬工坊",
-    address: "眉山市东坡区商业水街2号楼14号",
-    userCards: [{
-      brandName: "金卡", balance: 90, reward:5
-    }],
+    mobile: null,   
+    //个人会员卡
+    userCards: [],
     //商户会员卡
     cards: [],
-    token: null,
+    token: null,    
 
   },
   /**
    * Lifecycle function--Called when page load
    */
   onLoad: function(options) {
+      
+  },
+  onReady:function(options){
     let me = this;
     let token = wx.getStorageSync(cfg.localKey.token);
-    me.setData({token:token});
-    me.queryCardsByMid(1,[6]).then(res=>{      
-      me.setData({"cards":res.data});
-      console.log(res.data);
+    me.setData({ token: token });
+    me.queryCardsByMid(cfg.mcode).then(res => {
+      me.setData({ "cards": res.data });
     });
-    
+    me.queryMyMCardDetails({
+      appid: cfg.appid,
+      openid: token.token.openid
+    }).then(res => {
+      me.setData({ userCards: res.data });
+    });
   },
-  
   getPhoneNumber: function(event) {
     const me = this;
     console.log(event)

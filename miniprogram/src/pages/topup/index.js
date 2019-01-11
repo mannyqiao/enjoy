@@ -11,22 +11,38 @@ import {
 } from '../../utils/co-loader';
 import request from '../../utils/request';
 
-import {  topup} from "../../utils/endpoints";
+import {
+  topup
+} from "../../utils/endpoints";
 
 let app = getApp();
 Page({
   topup,
   data: {
-    moneyBlocks: [
-      { "text": "1元", "money": 1 },
-      { "text": "50元", "money": 50 },
-      { "text": "100元", "money": 100 },
-      { "text": "200元", "money": 200 },
-      { "text": "300元", "money": 300 }],
-    "money": 1,
-    topup: {
+    moneyBlocks: [{
+        "text": "20元",
+        "money": 20
+      },
+      {
+        "text": "50元",
+        "money": 50
+      },
+      {
+        "text": "100元",
+        "money": 100
+      },
+      {
+        "text": "200元",
+        "money": 200
+      },
+      {
+        "text": "300元",
+        "money": 300
+      }
+    ],
+    topupContext: {
       appid: "",
-      money: 0,
+      money: 20,
       openid: "",
       unionid: "",
       cardid: "",
@@ -35,52 +51,67 @@ Page({
   },
   onLoad() {
     const me = this;
-    let token = wx.getStorageSync(cfg.localKey.token);    
+    let token = wx.getStorageSync(cfg.localKey.token);
     me.setData({
-      topup:{
+      topupContext: {
         appid: cfg.appid,
-        money: me.data.money,
+        money: 20,
         openid: token.token.openid,
         unionid: token.unionId,
         cardid: "ddd",
         code: "ddd",
-        mcode:cfg.mcode
+        mcode: cfg.mcode
       }
     });
-    console.log(me.data.topup);
+    console.log(me.data.topupContext);
   },
-  clickMoneyBlock: function (event) {
+  clickMoneyBlock: function(event) {
     const me = this;
-    console.log(event.target.dataset["money"]);
+    let token = wx.getStorageSync(cfg.localKey.token);
     if (event.target.dataset["money"]) {
-      me.setData({ money: event.target.dataset["money"] });
+      me.setData({
+        topupContext: {
+          appid: cfg.appid,
+          money: event.target.dataset["money"],
+          openid: token.token.openid,
+          unionid: token.unionId,
+          cardid: "ddd",
+          code: "ddd",
+          mcode: cfg.mcode
+        }
+      });
     }
+    // console.log(me.data.topupContext)
   },
-  changeMoney:function(event){
-    console.log(event)
+  changeMoney: function(event) {
+    me.setData({
+      topup: {
+        money: event
+      }
+    });
   },
-  clickPayment: function (event) {
-    const me = this;            
-    let context = me.data.topup;
-   me.topup(context).then((ctx)=>{
-     console.log(ctx.data);
-     wx.requestPayment({
-       timeStamp: ctx.data.timeStamp,
-       nonceStr: ctx.data.nonceStr,
-       package: ctx.data.package,
-       signType: ctx.data.signType,
-       paySign: ctx.data.paySign,
-       'success': function (res) { 
-         console.log(res);
-       },
-       'fail': function (res) {
-         console.log(res);
+  clickPayment: function(event) {
+    const me = this;
+    let context = me.data.topupContext;
+    console.log("clientPayment", context);
+    me.topup(context).then((ctx) => {
+      wx.requestPayment({
+        timeStamp: ctx.data.timeStamp,
+        nonceStr: ctx.data.nonceStr,
+        package: ctx.data.package,
+        signType: ctx.data.signType,
+        paySign: ctx.data.paySign,
+        'success': function(res) {
+          console.log(res);
         },
-       'complete': function (res) { 
-         console.log(res);
-       }
-     })
-   });
+        'fail': function(res) {
+          console.log(res);
+        },
+        'complete': function(res) {
+          console.log(res);
+        }
+      })
+    });
   }
 
 });
